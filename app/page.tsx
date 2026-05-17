@@ -4,10 +4,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background text-foreground">
-      <div className="mx-auto flex min-h-screen max-w-6xl flex-col justify-center px-6 py-24 sm:px-8">
-        <div className="space-y-10">
-          <div className="max-w-3xl space-y-5">
+    <main className="relative min-h-screen bg-background/10 text-foreground py-16 sm:py-20">
+      <div className="glass mx-auto flex max-w-5xl flex-col justify-center gap-12 rounded-[2rem] border border-border/60 bg-white/90 dark:bg-slate-950/80 px-8 py-16 shadow-2xl shadow-slate-950/20 sm:px-10 lg:px-14">
+        <div className="space-y-12">
+          <div className="max-w-3xl space-y-6">
             <Badge>shadcn</Badge>
             <h1 className="text-5xl font-semibold tracking-tight text-white sm:text-6xl">
               Build with shadcn-style components.
