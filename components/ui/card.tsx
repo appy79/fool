@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 function Card({ className, ...props }: CardProps) {
-  return <div className={cn("rounded-3xl border border-border bg-card text-card-foreground shadow-sm", className)} {...props} />;
+  return <div className={cn("glass rounded-3xl border border-border text-card-foreground shadow-sm", className)} {...props} />;
 }
 
 function CardHeader({ className, ...props }: CardProps) {
