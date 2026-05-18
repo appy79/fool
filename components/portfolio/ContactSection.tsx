@@ -1,11 +1,15 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { resume } from "@/lib/resume";
+import type { ResolvedContactInfo } from "@/lib/resume";
 
-export default function ContactSection() {
+type ContactSectionProps = {
+  contact: ResolvedContactInfo;
+};
+
+export default function ContactSection({ contact }: ContactSectionProps) {
   const [formState, setFormState] = useState({ name: "", email: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
 
@@ -13,7 +17,7 @@ export default function ContactSection() {
     setFormState((current) => ({ ...current, [key]: value }));
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSubmitted(true);
     setFormState({ name: "", email: "", message: "" });
@@ -30,12 +34,19 @@ export default function ContactSection() {
 
         <div className="space-y-4 rounded-3xl border border-border/60 bg-background/70 p-6 shadow-sm shadow-slate-950/5 backdrop-blur">
           <p className="text-sm font-semibold text-foreground">Get in touch</p>
-          <p className="text-sm text-muted-foreground">{resume.contact.location}</p>
-          <a href={`mailto:${resume.contact.email}`} className="text-sm font-medium text-primary hover:underline">
-            {resume.contact.email}
-          </a>
+          <p className="text-sm text-muted-foreground">{contact.location}</p>
+          {contact.email && (
+            <a href={`mailto:${contact.email}`} className="block text-sm font-medium text-primary hover:underline">
+              {contact.email}
+            </a>
+          )}
+          {contact.phone && (
+            <a href={`tel:${contact.phone.replace(/\s+/g, "")}`} className="block text-sm font-medium text-primary hover:underline">
+              {contact.phone}
+            </a>
+          )}
           <div className="mt-4 flex flex-wrap gap-3">
-            {resume.contact.socials.map((social) => (
+            {contact.socials.map((social) => (
               <a
                 key={social.label}
                 href={social.href}

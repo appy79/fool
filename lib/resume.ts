@@ -27,10 +27,13 @@ export type EducationItem = {
 };
 
 export type ContactInfo = {
-  email: string;
-  phone: string;
   location: string;
   socials: { label: string; href: string }[];
+};
+
+export type ResolvedContactInfo = ContactInfo & {
+  email?: string;
+  phone?: string;
 };
 
 export const resume = {
@@ -126,8 +129,6 @@ export const resume = {
     },
   ] as ProjectItem[],
   contact: {
-    email: "CONTACT_EMAIL_REMOVED",
-    phone: "CONTACT_PHONE_REMOVED",
     location: "Remote / India",
     socials: [
       { label: "GitHub", href: "https://github.com/appy79" },
