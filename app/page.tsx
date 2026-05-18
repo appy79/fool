@@ -5,8 +5,15 @@ import ExperienceSection from "@/components/portfolio/ExperienceSection";
 import HeroSection from "@/components/portfolio/HeroSection";
 import ProjectsSection from "@/components/portfolio/ProjectsSection";
 import SkillsSection from "@/components/portfolio/SkillsSection";
+import { resume } from "@/lib/resume";
 
 export default function Home() {
+  const contact = {
+    ...resume.contact,
+    email: process.env.CONTACT_EMAIL,
+    phone: process.env.CONTACT_PHONE,
+  };
+
   return (
     <main className="relative min-h-screen bg-background/10 text-foreground py-16 sm:py-20">
       <div className="glass mx-auto flex max-w-6xl flex-col gap-16 rounded-[2rem] border border-border/60 bg-white/90 dark:bg-slate-950/80 px-8 py-16 shadow-2xl shadow-slate-950/20 sm:px-10 lg:px-14">
@@ -23,7 +30,7 @@ export default function Home() {
           <div className="h-px bg-border/30" />
           <ExperienceSection />
           <div className="h-px bg-border/30" />
-          <ContactSection />
+          <ContactSection contact={contact} />
         </div>
       </div>
     </main>
