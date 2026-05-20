@@ -22,7 +22,7 @@ export default function ProjectsSection() {
   );
 
   return (
-    <section id="work" className="space-y-8">
+    <section id="work" className="scroll-mt-24 space-y-8">
       <div className="space-y-3">
         <Badge>Work</Badge>
         <h2 className="text-3xl font-semibold text-slate-950 dark:text-white sm:text-4xl">Recent projects and product work.</h2>

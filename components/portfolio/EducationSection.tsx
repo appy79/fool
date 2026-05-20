@@ -3,7 +3,7 @@ import { resume } from "@/lib/resume";
 
 export default function EducationSection() {
   return (
-    <section id="education" className="space-y-8">
+    <section id="education" className="scroll-mt-24 space-y-8">
       <div className="space-y-3">
         <Badge>Education</Badge>
         <h2 className="text-3xl font-semibold text-slate-950 dark:text-white sm:text-4xl">Academic foundation in computing and application development.</h2>
