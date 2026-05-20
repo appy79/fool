@@ -21,8 +21,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </HeaderBrand>
             <HeaderNav>
               <nav className="hidden items-center gap-4 md:flex">
-                <a href="#work" className="text-sm text-muted-foreground transition hover:text-foreground">Work</a>
                 <a href="#skills" className="text-sm text-muted-foreground transition hover:text-foreground">Skills</a>
+                <a href="#work" className="text-sm text-muted-foreground transition hover:text-foreground">Work</a>
                 <a href="#experience" className="text-sm text-muted-foreground transition hover:text-foreground">Experience</a>
                 <a href="#contact" className="text-sm text-muted-foreground transition hover:text-foreground">Contact</a>
               </nav>
