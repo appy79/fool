@@ -1,46 +1,76 @@
 # fool
 
-A clean Next.js + TypeScript landing page starter using Tailwind CSS.
+A modern portfolio site for Amandeep Yadav, built with Next.js App Router, TypeScript, Tailwind CSS, and shadcn-style UI primitives.
 
-## Setup
+## Getting Started
 
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
-2. Run the development server:
-   ```bash
-   npm run dev
-   ```
+Install dependencies:
 
-## Notes
+```bash
+npm install
+```
 
-- `app/page.tsx` is a simple landing page.
-- `app/globals.css` contains the global Tailwind styling.
-- `package.json` only includes the minimal dependencies needed to run the site.
+Create local environment variables:
 
-A starter Next.js + TypeScript project with shadcn-inspired UI components.
+```bash
+cp .env.example .env.local
+```
 
-## Setup
+Fill in the contact and social fields in `.env.local`:
 
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
-2. Run development server:
-   ```bash
-   npm run dev
-   ```
+```bash
+NEXT_PUBLIC_SITE_URL=https://your-domain.com
+CONTACT_EMAIL=you@example.com
+CONTACT_PHONE="+91 00000 00000"
+SOCIAL_GITHUB=https://github.com/your-handle
+SOCIAL_LINKEDIN=https://www.linkedin.com/in/your-handle
+```
 
-## Project structure
+Run the development server:
 
-- `app/` - Next.js App Router pages and global styles
-- `components/ui/` - shadcn-style reusable components
-- `lib/utils.ts` - shared helper utilities
+```bash
+npm run dev
+```
 
-## Available scripts
+Open `http://localhost:3000` to view the site.
 
-- `npm run dev` - start local development server
-- `npm run build` - build production output
-- `npm run start` - start built app
-- `npm run lint` - run Next.js linting
+## Project Structure
+
+- `app/` contains the Next.js App Router entrypoints, metadata, providers, and global styles.
+- `app/robots.ts` and `app/sitemap.ts` generate SEO crawler metadata.
+- `components/portfolio/` contains the page sections: hero, skills, education, projects, experience, and contact.
+- `components/ui/` contains reusable shadcn-style UI primitives.
+- `lib/resume.ts` is the single source of truth for resume content, featured work, education, and contact configuration.
+- `public/` contains static assets used by metadata and browsers.
+
+## Editing Content
+
+Most portfolio copy and structured content lives in `lib/resume.ts`. Update that file first when changing:
+
+- Name, title, intro, and highlights
+- Skills and education
+- Experience history and project descriptions
+- Featured project cards
+- Contact environment variable keys
+
+Section-level marketing copy lives in the matching component under `components/portfolio/`.
+
+## Available Scripts
+
+- `npm run dev` starts the local development server.
+- `npm run build` creates a production build.
+- `npm run start` starts the built app.
+- `npm run lint` runs ESLint.
+
+## Validation
+
+Before publishing changes, run:
+
+```bash
+npm run lint
+npm run build
+```
+
+## Deployment
+
+This project is ready for a standard Vercel deployment. Configure the same environment variables from `.env.example` in the hosting provider before publishing.

@@ -4,13 +4,13 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
-interface HeaderProps extends React.HTMLAttributes<HTMLElement> {}
+type HeaderProps = React.HTMLAttributes<HTMLElement>;
 
 function Header({ className, ...props }: HeaderProps) {
   return (
     <header
       className={cn(
-        "glass sticky top-0 z-40 w-full border-border border-b bg-background/70 px-6 py-4 backdrop-blur-xl shadow-sm shadow-slate-950/10 flex items-center",
+        "glass sticky top-0 z-40 flex w-full items-center border-b border-border/70 bg-card/75 px-6 py-4 shadow-sm shadow-slate-900/5 backdrop-blur-xl dark:bg-background/60 dark:shadow-slate-950/10",
         className
       )}
       {...props}
@@ -65,15 +65,15 @@ function HeaderNav({ className, children, ...props }: HeaderProps) {
       </div>
 
       {open && (
-        <div className="absolute right-0 top-full z-50 mt-3 w-screen max-w-xs rounded-3xl border border-border bg-background/95 p-4 shadow-2xl shadow-slate-950/10 backdrop-blur-xl md:hidden">
+        <div className="absolute right-0 top-full z-50 mt-3 w-screen max-w-xs rounded-3xl border border-border/70 bg-card/95 p-4 shadow-2xl shadow-slate-900/10 backdrop-blur-xl dark:bg-background/95 dark:shadow-slate-950/10 md:hidden">
           <nav className="flex flex-col gap-2">
             {mobileLinks.map((child, index) =>
-              React.isValidElement(child) ? (
-                React.cloneElement(child as React.ReactElement<any>, {
+              React.isValidElement<React.AnchorHTMLAttributes<HTMLAnchorElement>>(child) ? (
+                React.cloneElement(child, {
                   key: child.key ?? index,
                   className: cn(
                     "block rounded-3xl px-4 py-3 text-sm text-muted-foreground transition hover:bg-muted hover:text-foreground",
-                    (child as React.ReactElement<any>).props.className
+                    child.props.className
                   ),
                   onClick: () => setOpen(false),
                 })

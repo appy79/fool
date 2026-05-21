@@ -6,17 +6,17 @@ export default function SkillsSection() {
     <section id="skills" className="scroll-mt-24 space-y-8">
       <div className="space-y-3">
         <Badge>Skills</Badge>
-        <h2 className="text-3xl font-semibold text-slate-950 dark:text-white sm:text-4xl">Tools, technologies, and design systems I work with.</h2>
-        <p className="max-w-2xl text-base leading-7 text-muted-foreground">From interface architecture to developer tooling, I work across the full frontend stack to create reliable product experiences.</p>
+        <h2 className="text-3xl font-semibold text-foreground sm:text-4xl">Tools, platforms, and systems I work with.</h2>
+        <p className="max-w-2xl text-base leading-7 text-muted-foreground">From microservices and distributed data flows to product-facing interfaces, I work across the stack to ship reliable software.</p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">
         {resume.skills.map((section) => (
-          <div key={section.title} className="rounded-3xl border border-border/60 bg-background/80 p-6 shadow-sm shadow-slate-950/5 backdrop-blur">
+          <div key={section.title} className="rounded-3xl border border-border/70 bg-card/70 p-6 shadow-sm shadow-slate-900/5 backdrop-blur dark:bg-background/60 dark:shadow-slate-950/10">
             <h3 className="text-lg font-semibold text-foreground">{section.title}</h3>
             <div className="mt-4 flex flex-wrap gap-2">
               {section.items.map((item) => (
-                <span key={item} className="rounded-full border border-border/60 bg-white/80 px-3 py-1 text-sm text-foreground shadow-sm dark:bg-slate-950/70">
+                <span key={item} className="rounded-full border border-border/70 bg-secondary/80 px-3 py-1 text-sm text-foreground shadow-sm shadow-slate-900/5 dark:bg-secondary/60 dark:shadow-slate-950/10">
                   {item}
                 </span>
               ))}
