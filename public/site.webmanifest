@@ -1,0 +1,17 @@
+{
+  "name": "Amandeep Yadav Portfolio",
+  "short_name": "Amandeep",
+  "description": "Software developer portfolio focused on backend services, platform tooling, and distributed systems.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "64x64",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

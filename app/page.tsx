@@ -19,8 +19,8 @@ export default function Home() {
   };
 
   return (
-    <main className="relative min-h-screen bg-background/10 text-foreground py-16 sm:py-20">
-      <div className="glass mx-auto flex max-w-6xl flex-col gap-16 rounded-[2rem] border border-border/60 bg-white/90 dark:bg-slate-950/80 px-8 py-16 shadow-2xl shadow-slate-950/20 sm:px-10 lg:px-14">
+    <main className="relative min-h-screen py-16 text-foreground sm:py-20">
+      <div className="glass mx-auto flex max-w-6xl flex-col gap-16 rounded-[2rem] border border-border/70 bg-card/85 px-8 py-16 shadow-2xl shadow-slate-900/10 dark:bg-background/80 dark:shadow-slate-950/20 sm:px-10 lg:px-14">
         <HeroSection />
 
         <div className="space-y-16">

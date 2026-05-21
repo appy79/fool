@@ -25,8 +25,8 @@ export default function ProjectsSection() {
     <section id="work" className="scroll-mt-24 space-y-8">
       <div className="space-y-3">
         <Badge>Work</Badge>
-        <h2 className="text-3xl font-semibold text-slate-950 dark:text-white sm:text-4xl">Recent projects and product work.</h2>
-        <p className="max-w-2xl text-base leading-7 text-muted-foreground">Explore a selection of product launches, portfolio experiences, and reusable UI systems.</p>
+        <h2 className="text-3xl font-semibold text-foreground sm:text-4xl">Selected engineering work.</h2>
+        <p className="max-w-2xl text-base leading-7 text-muted-foreground">A focused look at internal tooling, telecom-scale microservices, and platform integrations I have helped deliver.</p>
       </div>
 
       <div className="flex flex-wrap gap-3">
@@ -57,7 +57,7 @@ export default function ProjectsSection() {
               </div>
               <div className="mt-6 flex flex-col gap-3">
                 <Button asChild>
-                  <a href={project.link}>Discuss this project</a>
+                  <a href={project.link}>Discuss this work</a>
                 </Button>
               </div>
             </CardContent>
