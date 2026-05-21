@@ -2,67 +2,98 @@
 @import "shadcn/tailwind.css";
 
 :root {
-  color-scheme: light dark;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  color-scheme: light;
+  --background: oklch(0.985 0.006 255);
+  --foreground: oklch(0.18 0.025 260);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: oklch(0.18 0.025 260);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.32 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.18 0.025 260);
+  --primary: oklch(0.48 0.18 255);
+  --primary-foreground: oklch(0.99 0.006 255);
+  --secondary: oklch(0.94 0.014 255);
+  --secondary-foreground: oklch(0.24 0.035 260);
+  --muted: oklch(0.94 0.012 255);
+  --muted-foreground: oklch(0.42 0.03 260);
+  --accent: oklch(0.93 0.03 255);
+  --accent-foreground: oklch(0.24 0.04 260);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --border: oklch(0.84 0.018 255 / 0.65);
+  --input: oklch(0.92 0.014 255);
+  --ring: oklch(0.56 0.16 255);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar: oklch(0.98 0.008 255);
+  --sidebar-foreground: oklch(0.18 0.025 260);
+  --sidebar-primary: oklch(0.48 0.18 255);
+  --sidebar-primary-foreground: oklch(0.99 0.006 255);
+  --sidebar-accent: oklch(0.94 0.014 255);
+  --sidebar-accent-foreground: oklch(0.24 0.035 260);
+  --sidebar-border: oklch(0.84 0.018 255 / 0.65);
+  --sidebar-ring: oklch(0.56 0.16 255);
 }
 
 /* Glass tint variables (theme-aware) */
 :root {
-  --glass-bg: rgba(255,255,255,0.65);
-  --glass-border: rgba(0,0,0,0.08);
+  --glass-bg: rgba(255,255,255,0.76);
+  --glass-border: rgba(100,116,139,0.18);
+  --glass-shadow: 0 24px 70px -42px rgba(15,23,42,0.32);
+  --page-background-image:
+    radial-gradient(circle at 18% 18%, rgba(56,189,248,0.16), transparent 24%),
+    radial-gradient(circle at 82% 12%, rgba(129,140,248,0.12), transparent 20%),
+    radial-gradient(circle at 50% 88%, rgba(14,165,233,0.08), transparent 24%),
+    linear-gradient(180deg, oklch(0.99 0.008 255) 0%, oklch(0.955 0.016 255) 58%, var(--background) 100%);
+  --page-overlay-image:
+    radial-gradient(circle at 50% 8%, rgba(255,255,255,0.48), transparent 24%),
+    radial-gradient(circle at 20% 80%, rgba(59,130,246,0.035), transparent 18%),
+    radial-gradient(circle at 85% 70%, rgba(129,140,248,0.035), transparent 15%);
+  --page-overlay-opacity: 0.42;
 }
 
 /* Light theme overrides */
 .light {
-  --background: oklch(0.99 0 0);
-  --foreground: oklch(0.12 0 0);
-  --card: oklch(0.98 0 0);
-  --card-foreground: oklch(0.12 0 0);
-  --popover: oklch(0.97 0 0);
-  --popover-foreground: oklch(0.12 0 0);
-  --muted: oklch(0.92 0 0);
-  --muted-foreground: oklch(0.32 0 0);
-  --border: oklch(0.83 0 0 / 0.35);
-  --input: oklch(0.95 0 0 / 0.9);
-  --glass-bg: rgba(255,255,255,0.72);
-  --glass-border: rgba(148,163,184,0.15);
+  color-scheme: light;
+  --background: oklch(0.985 0.006 255);
+  --foreground: oklch(0.18 0.025 260);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0.025 260);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.025 260);
+  --primary: oklch(0.48 0.18 255);
+  --primary-foreground: oklch(0.99 0.006 255);
+  --secondary: oklch(0.94 0.014 255);
+  --secondary-foreground: oklch(0.24 0.035 260);
+  --muted: oklch(0.94 0.012 255);
+  --muted-foreground: oklch(0.42 0.03 260);
+  --accent: oklch(0.93 0.03 255);
+  --accent-foreground: oklch(0.24 0.04 260);
+  --border: oklch(0.84 0.018 255 / 0.65);
+  --input: oklch(0.92 0.014 255);
+  --ring: oklch(0.56 0.16 255);
+  --glass-bg: rgba(255,255,255,0.76);
+  --glass-border: rgba(100,116,139,0.18);
 }
 
 /* Dark theme glass tints */
 .dark {
+  color-scheme: dark;
   --glass-bg: rgba(15,23,42,0.36);
   --glass-border: rgba(255,255,255,0.06);
+  --glass-shadow: 0 20px 80px -40px rgba(15,23,42,0.35);
+  --page-background-image:
+    radial-gradient(circle at 20% 20%, rgba(56,189,248,0.24), transparent 24%),
+    radial-gradient(circle at 80% 10%, rgba(168,85,247,0.16), transparent 18%),
+    radial-gradient(circle at 50% 85%, rgba(59,130,246,0.14), transparent 20%),
+    linear-gradient(180deg, rgba(15,23,42,1) 0%, rgba(15,23,42,0.92) 50%, rgba(15,23,42,0.86) 100%);
+  --page-overlay-image:
+    radial-gradient(circle at 50% 10%, rgba(255,255,255,0.06), transparent 24%),
+    radial-gradient(circle at 20% 80%, rgba(59,130,246,0.05), transparent 18%),
+    radial-gradient(circle at 85% 70%, rgba(168,85,247,0.05), transparent 15%);
+  --page-overlay-opacity: 0.9;
 }
 
 html {
@@ -75,11 +106,7 @@ body {
   margin: 0;
   color: var(--foreground);
   background-color: var(--background);
-  background-image:
-    radial-gradient(circle at 20% 20%, rgba(56,189,248,0.24), transparent 24%),
-    radial-gradient(circle at 80% 10%, rgba(168,85,247,0.16), transparent 18%),
-    radial-gradient(circle at 50% 85%, rgba(59,130,246,0.14), transparent 20%),
-    linear-gradient(180deg, rgba(15,23,42,1) 0%, rgba(15,23,42,0.92) 50%, rgba(15,23,42,0.86) 100%);
+  background-image: var(--page-background-image);
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
@@ -90,11 +117,8 @@ body::before {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background-image:
-    radial-gradient(circle at 50% 10%, rgba(255,255,255,0.06), transparent 24%),
-    radial-gradient(circle at 20% 80%, rgba(59,130,246,0.05), transparent 18%),
-    radial-gradient(circle at 85% 70%, rgba(168,85,247,0.05), transparent 15%);
-  opacity: 0.9;
+  background-image: var(--page-overlay-image);
+  opacity: var(--page-overlay-opacity);
   z-index: -1;
 }
 
@@ -198,7 +222,7 @@ body::before {
     backdrop-filter: blur(12px) saturate(1.3);
     background-color: var(--glass-bg);
     border: 1px solid var(--glass-border);
-    box-shadow: 0 20px 80px -40px rgba(15,23,42,0.35);
+    box-shadow: var(--glass-shadow);
     color: var(--color-foreground);
   }
 }

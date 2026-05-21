@@ -10,7 +10,9 @@ export default function ThemeToggle({ className }: { className?: string }) {
   const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
-    setMounted(true);
+    const frame = requestAnimationFrame(() => setMounted(true));
+
+    return () => cancelAnimationFrame(frame);
   }, []);
 
   const value = theme ?? "system";

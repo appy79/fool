@@ -10,10 +10,10 @@ const buttonVariants = cva(
     variants: {
       variant: {
         glass:
-          "glass border border-border text-foreground hover:bg-white/20 dark:hover:bg-slate-900/40",
-        default: "bg-primary text-primary-foreground [a]:hover:bg-primary/80",
+          "glass border border-border/70 text-foreground hover:bg-accent/70 dark:hover:bg-muted/50",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
         outline:
-          "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
+          "border-border/70 bg-card/70 hover:bg-accent hover:text-accent-foreground aria-expanded:bg-accent aria-expanded:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80 aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
         ghost:
