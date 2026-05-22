@@ -1,5 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Providers } from "./providers";
 import { Header, HeaderBrand, HeaderNav } from "@/components/ui/header";
 import ThemeToggle from "@/components/ui/theme-toggle";
@@ -49,11 +50,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </HeaderBrand>
             <HeaderNav>
               <nav className="hidden items-center gap-4 md:flex">
-                <a href="#skills" className="text-sm text-muted-foreground transition hover:text-foreground">Skills</a>
-                <a href="#education" className="text-sm text-muted-foreground transition hover:text-foreground">Education</a>
-                <a href="#work" className="text-sm text-muted-foreground transition hover:text-foreground">Work</a>
-                <a href="#experience" className="text-sm text-muted-foreground transition hover:text-foreground">Experience</a>
-                <a href="#contact" className="text-sm text-muted-foreground transition hover:text-foreground">Contact</a>
+                <Link href="/#skills" className="text-sm text-muted-foreground transition hover:text-foreground">Skills</Link>
+                <Link href="/#education" className="text-sm text-muted-foreground transition hover:text-foreground">Education</Link>
+                <Link href="/#work" className="text-sm text-muted-foreground transition hover:text-foreground">Work</Link>
+                <Link href="/#experience" className="text-sm text-muted-foreground transition hover:text-foreground">Experience</Link>
+                <Link href="/labs" className="text-sm text-muted-foreground transition hover:text-foreground">Labs</Link>
+                <Link href="/#contact" className="text-sm text-muted-foreground transition hover:text-foreground">Contact</Link>
               </nav>
               <ThemeToggle />
             </HeaderNav>
