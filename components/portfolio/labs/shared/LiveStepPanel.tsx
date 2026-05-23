@@ -27,7 +27,7 @@ export default function LiveStepPanel({
   const activeStep = insight.steps[activeStepIndex] ?? insight.steps[0];
 
   return (
-    <div className="min-w-0 rounded-2xl border border-border/70 bg-background/70 p-4 text-foreground dark:bg-card/35">
+    <div className="min-w-0 border-y border-border/70 py-4 text-foreground">
       <div className="flex min-w-0 flex-wrap items-start justify-between gap-4">
         <button
           type="button"
@@ -42,7 +42,12 @@ export default function LiveStepPanel({
           </div>
         </button>
         <div className="flex shrink-0 flex-col items-end gap-2">
-          <Button type="button" size="sm" variant="secondary" onClick={() => setIsConceptsOpen(true)}>
+          <Button
+            type="button"
+            className="border-primary/25 bg-primary/10 text-primary hover:bg-primary/15 hover:text-primary"
+            size="sm"
+            onClick={() => setIsConceptsOpen(true)}
+          >
             Explain Concepts
           </Button>
           <button
@@ -57,7 +62,7 @@ export default function LiveStepPanel({
 
       {isDetailsOpen ? (
         <div className="mt-4 space-y-4">
-          <div className="min-w-0 rounded-2xl border border-border/70 bg-card/70 p-4 dark:bg-background/45">
+          <div className="min-w-0 border-l border-primary/35 pl-4">
             <p className="break-words font-mono text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
               Step {activeStepIndex + 1} of {insight.steps.length}
             </p>
@@ -65,12 +70,7 @@ export default function LiveStepPanel({
             <p className="mt-2 break-words text-sm leading-6 text-muted-foreground">{activeStep.description}</p>
           </div>
 
-          <Button
-            type="button"
-            size="sm"
-            variant="outline"
-            onClick={() => setIsStepListOpen((open) => !open)}
-          >
+          <Button type="button" size="sm" variant="ghost" onClick={() => setIsStepListOpen((open) => !open)}>
             {isStepListOpen ? "Hide All Steps" : "Show All Steps"}
           </Button>
 
@@ -84,10 +84,10 @@ export default function LiveStepPanel({
                     key={step.title}
                     type="button"
                     onClick={() => onStepSelect(index)}
-                    className={`min-w-0 rounded-2xl border p-3 text-left transition ${
+                    className={`min-w-0 border-l px-3 py-2 text-left transition ${
                       active
-                        ? "border-primary/50 bg-primary/10 text-foreground"
-                        : "border-border/70 bg-card/60 text-muted-foreground hover:border-primary/35 hover:text-foreground dark:bg-background/40"
+                        ? "border-primary text-foreground"
+                        : "border-border/70 text-muted-foreground hover:border-primary/35 hover:text-foreground"
                     }`}
                   >
                     <span className="break-words text-xs font-semibold uppercase tracking-[0.22em]">
@@ -110,7 +110,7 @@ export default function LiveStepPanel({
           aria-modal="true"
           aria-labelledby="lab-concepts-title"
         >
-          <div className="max-h-[85vh] min-w-0 w-full max-w-3xl overflow-y-auto rounded-[2rem] border border-border/70 bg-card p-6 text-foreground shadow-2xl shadow-slate-900/10 dark:shadow-slate-950/20">
+          <div className="max-h-[85vh] min-w-0 w-full max-w-3xl overflow-y-auto border border-border/70 bg-card p-6 text-foreground shadow-2xl shadow-slate-900/10 dark:shadow-slate-950/20">
             <div className="flex min-w-0 flex-wrap items-start justify-between gap-4">
               <div className="min-w-0">
                 <p className="break-words font-mono text-xs font-semibold uppercase tracking-[0.24em] text-primary">
@@ -127,7 +127,7 @@ export default function LiveStepPanel({
 
             <div className="mt-6 space-y-4">
               {insight.concepts.map((concept) => (
-                <section key={concept.title} className="min-w-0 rounded-3xl border border-border/70 bg-secondary/35 p-4">
+                <section key={concept.title} className="min-w-0 border-l border-primary/35 pl-4">
                   <h4 className="break-words text-lg font-semibold text-foreground">{concept.title}</h4>
                   <p className="mt-2 break-words text-sm leading-6 text-muted-foreground">{concept.description}</p>
                   <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-6 text-muted-foreground">

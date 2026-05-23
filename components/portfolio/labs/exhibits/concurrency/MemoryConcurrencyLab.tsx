@@ -5,8 +5,8 @@ import ConcurrencyScene from "./ConcurrencyScene";
 import useConcurrencyLab from "./useConcurrencyLab";
 import LabExhibitControls from "../../shared/LabExhibitControls";
 import LabExhibitLayout from "../../shared/LabExhibitLayout";
+import LabModuleSelector from "../../shared/LabModuleSelector";
 import LabProgressBar from "../../shared/LabProgressBar";
-import LabScenarioSelector from "../../shared/LabScenarioSelector";
 import LiveStepPanel from "../../shared/LiveStepPanel";
 
 export default function MemoryConcurrencyLab() {
@@ -16,13 +16,13 @@ export default function MemoryConcurrencyLab() {
     <LabExhibitLayout
       id="concurrency-lab"
       badge="OS / Concurrency Exhibit"
-      title="Memory and race visualizer."
-      description="Watch threads contend for a shared counter, then compare locks, atomics, semaphores, queues, deadlocks, and multiprocessing-style isolation."
-      selector={<LabScenarioSelector items={concurrencyModes} activeId={lab.mode.id} onSelect={lab.selectMode} />}
-      exhibitTitle={lab.mode.name}
-      exhibitDescription={lab.mode.summary}
+      programTitle="Memory and race visualizer."
+      programDescription="Watch threads contend for a shared counter, then compare locks, atomics, semaphores, queues, deadlocks, and multiprocessing-style isolation."
+      moduleSelector={<LabModuleSelector items={concurrencyModes} activeId={lab.mode.id} onSelect={lab.selectMode} />}
+      moduleTitle={lab.mode.name}
+      moduleDescription={lab.mode.summary}
       signals={lab.mode.metrics}
-      signalsDescription="Static characteristics of the selected concurrency mode."
+      moduleSignalsDescription="Static characteristics of the loaded concurrency module."
       proof="Performance work is also correctness work. Concurrency primitives change throughput, memory isolation, context switching, and whether the final state can be trusted."
       scene={<ConcurrencyScene {...lab.scene} />}
       controls={
