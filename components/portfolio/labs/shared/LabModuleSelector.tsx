@@ -25,18 +25,29 @@ export default function LabModuleSelector<TItem extends LabModuleSelectorItem>({
     <div className="min-w-0 font-mono">
       <button
         type="button"
-        className="flex w-full min-w-0 items-center justify-between gap-3 border-b border-primary/25 pb-2 text-left text-[0.68rem] uppercase tracking-[0.18em] transition hover:border-primary/55"
+        className="grid w-full min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border border-primary/35 bg-primary/5 px-3 py-2 text-left transition hover:border-primary/65 hover:bg-primary/10"
         aria-expanded={isOpen}
         onClick={() => setIsOpen((open) => !open)}
       >
-        <span className="min-w-0 break-words text-primary [overflow-wrap:anywhere]">
-          load module: {activeModule?.name}
+        <span className="min-w-0 text-[0.72rem] uppercase tracking-[0.16em]">
+          <span className="text-muted-foreground">module: </span>
+          <span className="break-words text-primary [overflow-wrap:anywhere]">
+            {activeModule?.name}
+          </span>
+          <span className="mt-1 block text-[0.62rem] uppercase tracking-[0.18em] text-muted-foreground">
+            {items.length} modules available
+          </span>
         </span>
-        <span className="shrink-0 text-muted-foreground">{isOpen ? "close" : "select"}</span>
+        <span className="shrink-0 text-lg text-primary" aria-hidden="true">
+          {isOpen ? "^" : "v"}
+        </span>
       </button>
 
       {isOpen ? (
-        <div className="min-w-0 divide-y divide-border/70 border-b border-border/70">
+        <div className="mt-2 min-w-0 divide-y divide-border/70 border-y border-border/70">
+          <p className="py-2 text-[0.62rem] uppercase tracking-[0.22em] text-muted-foreground">
+            modules.manifest
+          </p>
           {items.map((item, index) => {
             const active = item.id === activeId;
 

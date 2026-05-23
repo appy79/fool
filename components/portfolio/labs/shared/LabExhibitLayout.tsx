@@ -26,7 +26,6 @@ type LabExhibitLayoutProps = {
 
 export default function LabExhibitLayout({
   id,
-  badge,
   programTitle,
   programDescription,
   moduleSelector,
