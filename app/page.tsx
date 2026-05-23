@@ -21,35 +21,33 @@ export default function Home() {
   };
 
   return (
-    <main className="relative min-h-screen py-16 text-foreground sm:py-20">
-      <div className="glass mx-auto flex max-w-6xl flex-col gap-16 rounded-[2rem] border border-border/70 bg-card/85 px-8 py-16 shadow-2xl shadow-slate-900/10 dark:bg-background/80 dark:shadow-slate-950/20 sm:px-10 lg:px-14">
+    <main className="labs-theme min-h-screen px-3 py-4 text-foreground sm:px-5 sm:py-6 lg:px-8">
+      <div className="mx-auto flex max-w-[96rem] flex-col gap-5">
         <HeroSection />
 
-        <section className="rounded-[2rem] border border-primary/20 bg-primary/5 p-6 shadow-sm shadow-slate-900/5 sm:p-8">
-          <div className="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-center">
-            <div className="space-y-2">
-              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-primary">Interactive Systems Lab</p>
+        <section className="border-y border-primary/25 py-4">
+          <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+            <div className="min-w-0 space-y-2">
+              <p className="font-mono text-[0.7rem] uppercase tracking-[0.22em] text-primary">
+                &gt; route:/labs
+              </p>
               <h2 className="text-2xl font-semibold tracking-tight text-foreground">Explore the engineering exhibits.</h2>
               <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
                 Step through animated labs for telecom flows, distributed systems, performance, networking, complexity,
                 design patterns, concurrency, and Turing machines.
               </p>
             </div>
-            <Button asChild>
+            <Button asChild className="font-mono uppercase tracking-[0.16em]">
               <Link href="/labs">Open Labs</Link>
             </Button>
           </div>
         </section>
 
-        <div className="space-y-16">
+        <div className="space-y-10">
           <SkillsSection />
-          <div className="h-px bg-border/30" />
           <EducationSection />
-          <div className="h-px bg-border/30" />
           <ProjectsSection />
-          <div className="h-px bg-border/30" />
           <ExperienceSection />
-          <div className="h-px bg-border/30" />
           <ContactSection contact={contact} />
         </div>
       </div>
