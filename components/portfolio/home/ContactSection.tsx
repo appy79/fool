@@ -6,6 +6,8 @@ type ContactSectionProps = {
 };
 
 export default function ContactSection({ contact }: ContactSectionProps) {
+  const hasSocials = Boolean(contact.socials?.length);
+
   return (
     <section id="contact" className="scroll-mt-24 space-y-6">
       <div className="space-y-6">
@@ -23,20 +25,14 @@ export default function ContactSection({ contact }: ContactSectionProps) {
               {contact.email}
             </a>
           )}
-          {!contact.email && contact.emailFromEnv && (
-            <p className="block text-sm text-muted-foreground">Add CONTACT_EMAIL in your environment.</p>
-          )}
           {contact.phone && (
             <a href={`tel:${contact.phone.replace(/\s+/g, "")}`} className="block text-sm font-medium text-primary hover:underline">
               {contact.phone}
             </a>
           )}
-          {!contact.phone && contact.phoneFromEnv && (
-            <p className="block text-sm text-muted-foreground">Add CONTACT_PHONE in your environment.</p>
-          )}
-          <div className="mt-4 flex flex-wrap gap-3">
-            {contact.socials?.length ? (
-              contact.socials.map((social) => (
+          {hasSocials && (
+            <div className="mt-4 flex flex-wrap gap-3">
+              {contact.socials?.map((social) => (
                 <a
                   key={social.label}
                   href={social.href}
@@ -46,11 +42,9 @@ export default function ContactSection({ contact }: ContactSectionProps) {
                 >
                   {social.label}
                 </a>
-              ))
-            ) : contact.socialsFromEnv ? (
-              <p className="text-sm text-muted-foreground">Add social links in your environment.</p>
-            ) : null}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>
