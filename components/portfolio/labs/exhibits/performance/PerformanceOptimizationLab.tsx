@@ -5,7 +5,7 @@ import PerformanceScene from "./PerformanceScene";
 import usePerformanceLab from "./usePerformanceLab";
 import LabExhibitControls from "../../shared/LabExhibitControls";
 import LabExhibitLayout from "../../shared/LabExhibitLayout";
-import LabScenarioSelector from "../../shared/LabScenarioSelector";
+import LabModuleSelector from "../../shared/LabModuleSelector";
 import LiveStepPanel from "../../shared/LiveStepPanel";
 
 export default function PerformanceOptimizationLab() {
@@ -15,13 +15,13 @@ export default function PerformanceOptimizationLab() {
     <LabExhibitLayout
       id="performance-lab"
       badge="Performance Exhibit"
-      title="Optimization bench."
-      description="Animate the difference between brute force, indexes, parallel work, and cache fast paths."
-      selector={<LabScenarioSelector items={performanceProfiles} activeId={lab.profile.id} onSelect={lab.selectProfile} />}
-      exhibitTitle={lab.profile.name}
-      exhibitDescription={lab.profile.summary}
+      programTitle="Optimization bench."
+      programDescription="Animate the difference between brute force, indexes, parallel work, and cache fast paths."
+      moduleSelector={<LabModuleSelector items={performanceProfiles} activeId={lab.profile.id} onSelect={lab.selectProfile} />}
+      moduleTitle={lab.profile.name}
+      moduleDescription={lab.profile.summary}
       signals={lab.profile.metrics}
-      signalsDescription="Static tradeoffs for the selected optimization strategy."
+      moduleSignalsDescription="Static tradeoffs for the loaded optimization module."
       proof="Optimization is a tradeoff between asymptotic cost, memory pressure, contention, data locality, and operational complexity."
       scene={<PerformanceScene profile={lab.profile} activeStage={lab.activeStage} />}
       controls={

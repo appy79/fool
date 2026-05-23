@@ -5,8 +5,8 @@ import TelecomScene from "./TelecomScene";
 import useTelecomCoreLab from "./useTelecomCoreLab";
 import LabExhibitControls from "../../shared/LabExhibitControls";
 import LabExhibitLayout from "../../shared/LabExhibitLayout";
+import LabModuleSelector from "../../shared/LabModuleSelector";
 import LabProgressBar from "../../shared/LabProgressBar";
-import LabScenarioSelector from "../../shared/LabScenarioSelector";
 import LiveStepPanel from "../../shared/LiveStepPanel";
 
 export default function TelecomCoreExhibit() {
@@ -16,13 +16,13 @@ export default function TelecomCoreExhibit() {
     <LabExhibitLayout
       id="telecom-lab"
       badge="Foundations Exhibit"
-      title="3GPP Telecom Core Simulator."
-      description="Start a subscriber event and watch the packet move through access, core, policy, charging, event streaming, microservices, persistence, and billing without stepping through prompts."
-      selector={<LabScenarioSelector items={telecomScenarios} activeId={lab.scenario.id} onSelect={lab.selectScenario} />}
-      exhibitTitle={lab.scenario.name}
-      exhibitDescription={lab.scenario.summary}
+      programTitle="3GPP Telecom Core Simulator."
+      programDescription="Start a subscriber event and watch the packet move through access, core, policy, charging, event streaming, microservices, persistence, and billing without stepping through prompts."
+      moduleSelector={<LabModuleSelector items={telecomScenarios} activeId={lab.scenario.id} onSelect={lab.selectScenario} />}
+      moduleTitle={lab.scenario.name}
+      moduleDescription={lab.scenario.summary}
       signals={lab.scenario.signals}
-      signalsDescription="Static characteristics of the selected telecom flow."
+      moduleSignalsDescription="Static characteristics of the loaded telecom flow module."
       proof="Telecom flows are about explicit boundaries: access context, control-plane validation, charging, asynchronous delivery, persistence, and recovery behavior all need to line up."
       scene={
         <TelecomScene
