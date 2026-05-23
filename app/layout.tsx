@@ -45,17 +45,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Providers>
           <Header>
             <HeaderBrand>
-              <span className="text-sm font-semibold uppercase tracking-[0.24em] text-primary">Amandeep Yadav</span>
-              <span className="hidden text-sm text-muted-foreground sm:inline">Portfolio Experience</span>
+              <Link href="/" className="text-sm font-semibold uppercase tracking-[0.24em] text-primary transition hover:text-foreground">
+                Amandeep Yadav
+              </Link>
             </HeaderBrand>
             <HeaderNav>
               <nav className="hidden items-center gap-4 md:flex">
-                <Link href="/#skills" className="text-sm text-muted-foreground transition hover:text-foreground">Skills</Link>
-                <Link href="/#education" className="text-sm text-muted-foreground transition hover:text-foreground">Education</Link>
-                <Link href="/#work" className="text-sm text-muted-foreground transition hover:text-foreground">Work</Link>
-                <Link href="/#experience" className="text-sm text-muted-foreground transition hover:text-foreground">Experience</Link>
+                <Link href="/" className="text-sm text-muted-foreground transition hover:text-foreground">Resume</Link>
                 <Link href="/labs" className="text-sm text-muted-foreground transition hover:text-foreground">Labs</Link>
-                <Link href="/#contact" className="text-sm text-muted-foreground transition hover:text-foreground">Contact</Link>
               </nav>
               <ThemeToggle />
             </HeaderNav>
