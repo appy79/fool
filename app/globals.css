@@ -78,6 +78,19 @@
   --glass-border: rgba(100,116,139,0.18);
 }
 
+.dark .labs-theme {
+  --primary: #00ff00;
+  --primary-foreground: oklch(0.99 0.01 145);
+  --secondary: oklch(0.94 0.024 145);
+  --secondary-foreground: oklch(0.24 0.045 145);
+  --accent: oklch(0.92 0.04 145);
+  --accent-foreground: oklch(0.22 0.055 145);
+  --border: oklch(0.82 0.04 145 / 0.68);
+  --input: oklch(0.91 0.028 145);
+  --ring: #00ff00;
+  --glass-border: rgba(0,255,0,0.18);
+}
+
 /* Dark theme glass tints */
 .dark {
   color-scheme: dark;
@@ -224,5 +237,20 @@ body::before {
     border: 1px solid var(--glass-border);
     box-shadow: var(--glass-shadow);
     color: var(--color-foreground);
+  }
+
+  .lab-scene-stage {
+    display: grid;
+    gap: 1.5rem;
+    min-width: 0;
+  }
+
+  .lab-scene-visual,
+  .lab-scene-control-item {
+    min-width: 0;
+  }
+
+  .lab-scene-node {
+    min-width: 0;
   }
 }
