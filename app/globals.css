@@ -240,6 +240,8 @@ body::before {
   }
 
   .lab-scene-stage {
+    align-content: start;
+    align-items: start;
     display: grid;
     gap: 1.5rem;
     min-width: 0;
@@ -247,6 +249,7 @@ body::before {
 
   .lab-scene-visual,
   .lab-scene-control-item {
+    align-self: start;
     min-width: 0;
   }
 

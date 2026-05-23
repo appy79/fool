@@ -5,7 +5,7 @@ import { complexityScenarios } from "./data";
 import useComplexityLab from "./useComplexityLab";
 import LabExhibitControls from "../../shared/LabExhibitControls";
 import LabExhibitLayout from "../../shared/LabExhibitLayout";
-import LabScenarioSelector from "../../shared/LabScenarioSelector";
+import LabModuleSelector from "../../shared/LabModuleSelector";
 import LiveStepPanel from "../../shared/LiveStepPanel";
 
 export default function ComplexityPuzzleLab() {
@@ -15,13 +15,13 @@ export default function ComplexityPuzzleLab() {
     <LabExhibitLayout
       id="complexity-lab"
       badge="Complexity Exhibit"
-      title="P vs NP puzzle chamber."
-      description="Watch the difference between checking one candidate solution and searching through an exploding state space."
-      selector={<LabScenarioSelector items={complexityScenarios} activeId={lab.scenario.id} onSelect={lab.selectScenario} />}
-      exhibitTitle={lab.scenario.name}
-      exhibitDescription={lab.scenario.summary}
+      programTitle="P vs NP puzzle chamber."
+      programDescription="Watch the difference between checking one candidate solution and searching through an exploding state space."
+      moduleSelector={<LabModuleSelector items={complexityScenarios} activeId={lab.scenario.id} onSelect={lab.selectScenario} />}
+      moduleTitle={lab.scenario.name}
+      moduleDescription={lab.scenario.summary}
       signals={lab.scenario.metrics}
-      signalsDescription="Static computational limits for the selected puzzle."
+      moduleSignalsDescription="Static computational limits for the loaded puzzle module."
       proof="Good engineers do not only implement algorithms. They recognize when brute force is structurally doomed and when verification is easier than discovery."
       scene={<ComplexityScene isRouteSearch={lab.isRouteSearch} activeDepth={lab.activeDepth} />}
       controls={

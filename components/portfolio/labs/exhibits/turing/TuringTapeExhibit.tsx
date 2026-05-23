@@ -2,7 +2,7 @@
 
 import LabExhibitControls from "../../shared/LabExhibitControls";
 import LabExhibitLayout from "../../shared/LabExhibitLayout";
-import LabScenarioSelector from "../../shared/LabScenarioSelector";
+import LabModuleSelector from "../../shared/LabModuleSelector";
 import LiveStepPanel from "../../shared/LiveStepPanel";
 import { mergeLabInsight } from "../../utils/insight";
 import { labInsight, machinePresets } from "./data";
@@ -17,14 +17,14 @@ export default function TuringTapeExhibit() {
     <LabExhibitLayout
       id="turing-lab"
       badge="Flagship Exhibit"
-      title="Turing Tape Simulator."
-      description="Watch a fixed read/write head click and clack over an old-style tape while the machine mutates memory."
-      selector={<LabScenarioSelector items={machinePresets} activeId={machine.preset.id} onSelect={machine.selectPreset} />}
-      exhibitTitle={machine.preset.name}
-      exhibitDescription={machine.preset.goal}
+      programTitle="Turing Tape Simulator."
+      programDescription="Watch a fixed read/write head click and clack over an old-style tape while the machine mutates memory."
+      moduleSelector={<LabModuleSelector items={machinePresets} activeId={machine.preset.id} onSelect={machine.selectPreset} />}
+      moduleTitle={machine.preset.name}
+      moduleDescription={machine.preset.goal}
       gridClassName="xl:grid-cols-[1.45fr_0.85fr]"
       signals={machine.preset.metrics}
-      signalsDescription="Static characteristics of the selected machine."
+      moduleSignalsDescription="Static characteristics of the loaded machine module."
       proof={machine.preset.explanation}
       proofDetail={
         <div className="rounded-3xl border border-border/70 bg-card/60 p-4">
