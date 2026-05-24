@@ -158,12 +158,14 @@ export default function HeroSection({ contact }: HeroSectionProps) {
                     strokeDasharray="4 7"
                     className="text-primary/30"
                   />
-                  <circle r="4" fill="currentColor" className="text-primary">
+                  <circle r="4" fill="currentColor" className="text-primary motion-reduce:hidden">
                     <animateMotion dur="4s" repeatCount="indefinite" path="M38 72 C92 18 145 24 177 62 S244 113 286 50" />
                   </circle>
-                  <circle r="3" fill="currentColor" className="text-primary/80">
+                  <circle r="3" fill="currentColor" className="text-primary/80 motion-reduce:hidden">
                     <animateMotion dur="5.5s" repeatCount="indefinite" path="M38 72 C112 112 158 108 196 72 S252 32 286 50" />
                   </circle>
+                  <circle cx="177" cy="62" r="4" fill="currentColor" className="hidden text-primary motion-reduce:block" />
+                  <circle cx="196" cy="72" r="3" fill="currentColor" className="hidden text-primary/80 motion-reduce:block" />
                   {[
                     { x: 38, y: 72, label: "5GC" },
                     { x: 177, y: 62, label: "RAFT" },

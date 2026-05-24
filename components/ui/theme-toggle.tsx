@@ -2,11 +2,11 @@
 
 import * as React from "react";
 import { useTheme } from "next-themes";
-import { Sun, Moon, Monitor } from "lucide-react";
+import { Sun, Moon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function ThemeToggle({ className }: { className?: string }) {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
@@ -15,38 +15,38 @@ export default function ThemeToggle({ className }: { className?: string }) {
     return () => cancelAnimationFrame(frame);
   }, []);
 
-  const value = theme ?? "system";
-
-  const Icon = value === "light" ? Sun : value === "dark" ? Moon : Monitor;
+  const isDark = resolvedTheme === "dark";
+  const Icon = isDark ? Moon : Sun;
+  const nextTheme = isDark ? "light" : "dark";
 
   if (!mounted) {
     return (
-      <div className={cn("relative inline-flex items-center", className)}>
-        <div className="pointer-events-none absolute left-2 flex items-center">
-          <Monitor size={16} />
-        </div>
-        <select aria-label="Theme selector" disabled className="glass w-auto rounded-md border border-border pl-8 pr-3 py-2 text-sm text-foreground">
-          <option>System</option>
-        </select>
-      </div>
+      <button
+        type="button"
+        aria-label="Theme toggle"
+        disabled
+        className={cn(
+          "glass relative z-50 inline-flex size-9 items-center justify-center rounded-md border border-border text-muted-foreground",
+          className
+        )}
+      >
+        <Sun size={16} aria-hidden="true" />
+      </button>
     );
   }
 
   return (
-    <div className={cn("relative inline-flex items-center", className)}>
-      <div className="pointer-events-none absolute left-2 flex items-center">
-        <Icon size={16} />
-      </div>
-      <select
-        aria-label="Theme selector"
-        value={value}
-        onChange={(e) => setTheme(e.target.value)}
-        className="w-auto rounded-md glass pl-8 pr-3 py-2 text-sm"
-      >
-        <option value="light">Light</option>
-        <option value="dark">Dark</option>
-        <option value="system">System</option>
-      </select>
-    </div>
+    <button
+      type="button"
+      aria-label={`Switch to ${nextTheme} theme`}
+      title={`Switch to ${nextTheme} theme`}
+      className={cn(
+        "glass relative z-50 inline-flex size-9 items-center justify-center rounded-md border border-border text-foreground transition hover:border-primary/60 hover:bg-primary/10 hover:text-primary focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none",
+        className
+      )}
+      onClick={() => setTheme(nextTheme)}
+    >
+      <Icon size={16} aria-hidden="true" />
+    </button>
   );
 }
