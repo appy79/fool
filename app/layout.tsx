@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Providers } from "./providers";
 import { Header, HeaderBrand, HeaderNav } from "@/components/ui/header";
+import ResumeDownloadMenu from "@/components/ui/resume-download-menu";
 import ThemeToggle from "@/components/ui/theme-toggle";
 import { resume } from "@/lib/resume";
 
@@ -48,13 +49,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Providers>
           <Header>
             <HeaderBrand>
-              <Link href="/" className="text-sm font-semibold uppercase tracking-[0.24em] text-primary transition hover:text-foreground">
+              <Link href="/" className="block truncate text-sm font-semibold uppercase tracking-[0.24em] text-primary transition hover:text-foreground">
                 {resume.name}
               </Link>
             </HeaderBrand>
             <HeaderNav>
               <nav className="hidden items-center gap-4 md:flex">
-                <Link href="/" className="text-sm text-muted-foreground transition hover:text-foreground">Resume</Link>
+                <ResumeDownloadMenu />
                 <Link href="/labs" className="text-sm text-muted-foreground transition hover:text-foreground">Labs</Link>
               </nav>
               <ThemeToggle />
