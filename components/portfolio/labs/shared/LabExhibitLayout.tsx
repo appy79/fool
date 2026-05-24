@@ -80,25 +80,27 @@ export default function LabExhibitLayout({
 
           <aside className="min-w-0 space-y-5">
             <div className="min-w-0">{stepPanel}</div>
-
-            {sidebar ?? (
-              signals ? (
-                <section className="min-w-0 border-y border-border/70 py-4">
-                  <p className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-primary">module.signals</p>
-                  <p className="mt-2 text-sm leading-6 text-muted-foreground">{moduleSignalsDescription}</p>
-                  <div className="mt-4">
-                    <MetricGrid metrics={signals} />
-                  </div>
-                </section>
-              ) : null
-            )}
-
-            <section className="min-w-0 border-y border-border/70 py-4">
-              <p className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-primary">assertion.output</p>
-              <p className="mt-2 break-words text-sm leading-6 text-muted-foreground">{proof}</p>
-              {proofDetail ? <div className="mt-4 min-w-0 break-words">{proofDetail}</div> : null}
-            </section>
           </aside>
+        </div>
+
+        <div className="grid min-w-0 items-start gap-5 lg:grid-cols-2">
+          {sidebar ?? (
+            signals ? (
+              <section className="min-w-0 border-y border-border/70 py-4">
+                <p className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-primary">module.signals</p>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">{moduleSignalsDescription}</p>
+                <div className="mt-4">
+                  <MetricGrid metrics={signals} />
+                </div>
+              </section>
+            ) : null
+          )}
+
+          <section className="min-w-0 border-y border-border/70 py-4">
+            <p className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-primary">assertion.output</p>
+            <p className="mt-2 break-words text-sm leading-6 text-muted-foreground">{proof}</p>
+            {proofDetail ? <div className="mt-4 min-w-0 break-words">{proofDetail}</div> : null}
+          </section>
         </div>
       </div>
     </section>

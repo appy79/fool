@@ -15,7 +15,7 @@ const programOpcodes: Record<LabId, string> = {
   turing: "TM",
   telecom: "5GC",
   distributed: "RAFT",
-  performance: "P99",
+  database: "DB",
   concurrency: "LOCK",
   network: "EDGE",
   complexity: "NP",
