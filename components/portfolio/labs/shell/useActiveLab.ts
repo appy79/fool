@@ -28,7 +28,6 @@ export default function useActiveLab() {
 
   return {
     activeLab,
-    activeLabId,
     setActiveLabId,
   };
 }

@@ -3,6 +3,7 @@ import HeroSection from "@/components/portfolio/home/HeroSection";
 import ProjectsSection from "@/components/portfolio/home/ProjectsSection";
 import SkillsSection from "@/components/portfolio/home/SkillsSection";
 import { resume } from "@/lib/resume";
+import styles from "./page.module.css";
 
 export default function Home() {
   const contact = {
@@ -17,7 +18,7 @@ export default function Home() {
   };
 
   return (
-    <main className="labs-theme min-h-screen px-3 py-4 text-foreground sm:px-5 sm:py-6 lg:px-8">
+    <main className={`${styles.theme} min-h-screen px-3 py-4 text-foreground sm:px-5 sm:py-6 lg:px-8`}>
       <div className="mx-auto flex max-w-[96rem] flex-col gap-5">
         <HeroSection contact={contact} />
 

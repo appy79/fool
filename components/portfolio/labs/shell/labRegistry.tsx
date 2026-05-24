@@ -44,49 +44,41 @@ export const labExhibits = [
   {
     id: "turing",
     label: "Turing Tape Simulator",
-    summary: "Step through mechanical computation with state, tape, and transition rules.",
     component: TuringTapeExhibit,
   },
   {
     id: "telecom",
     label: "Telecom Core Simulator",
-    summary: "3GPP-style subscriber flows through policy, charging, orchestration, and events.",
     component: TelecomCoreLab,
   },
   {
     id: "distributed",
     label: "Distributed Consensus Lab",
-    summary: "Ordering, clocks, consensus, and fault tolerance across communicating nodes.",
     component: DistributedConsensusLab,
   },
   {
     id: "database",
     label: "Database Systems Lab",
-    summary: "Compare scans, indexes, parallel query execution, cache paths, and data-access tradeoffs.",
     component: DatabaseSystemsLab,
   },
   {
     id: "concurrency",
     label: "Concurrency Race Visualizer",
-    summary: "Shared memory, synchronization, lost updates, and deadlock behavior.",
     component: ConcurrencyRaceLab,
   },
   {
     id: "network",
     label: "Network Edge Lab",
-    summary: "DNS, edge routing, CDN behavior, origin fallback, and request paths.",
     component: NetworkEdgeLab,
   },
   {
     id: "complexity",
     label: "P vs NP Puzzle Chamber",
-    summary: "Search growth, witness verification, route costs, and constraint checks.",
     component: ComplexityPuzzleLab,
   },
   {
     id: "patterns",
     label: "Design Patterns Machine",
-    summary: "Strategy, adapter, observer, and breaker patterns as system machinery.",
     component: DesignPatternsMachineLab,
   },
 ] satisfies readonly LabExhibit<LabId>[];

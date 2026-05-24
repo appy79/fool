@@ -1,6 +1,6 @@
 import type { LabInsight, LabScenarioBase } from "../../types";
 
-export type DesignPatternScenario = LabScenarioBase & {
+type DesignPatternScenario = LabScenarioBase & {
   parts: readonly string[];
 };
 
@@ -128,8 +128,6 @@ export const designPatternScenarios = [
 ] as const satisfies readonly DesignPatternScenario[];
 
 export const labInsight = {
-  animation: "The machine moves an architectural request through the selected pattern, highlighting how callers, adapters, strategies, event buses, breakers, or dependencies reshape responsibility boundaries.",
-  knowledge: "This demonstrates design-pattern literacy as tradeoff-aware system design: using patterns to control change, isolate risk, stabilize contracts, and avoid accidental coupling.",
   steps: [
     {
       title: "Caller pressure enters the design",

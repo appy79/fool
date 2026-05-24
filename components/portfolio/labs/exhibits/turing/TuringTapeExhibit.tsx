@@ -16,7 +16,6 @@ export default function TuringTapeExhibit() {
   return (
     <LabExhibitLayout
       id="turing-lab"
-      badge="Flagship Exhibit"
       programTitle="Turing Tape Simulator."
       programDescription="Watch a fixed read/write head click and clack over an old-style tape while the machine mutates memory."
       moduleSelector={<LabModuleSelector items={machinePresets} activeId={machine.preset.id} onSelect={machine.selectPreset} />}

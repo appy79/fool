@@ -1,14 +1,14 @@
-export type SkillCategory = {
+type SkillCategory = {
   title: string;
   items: string[];
 };
 
-export type ExperienceProject = {
+type ExperienceProject = {
   title: string;
   description: string;
 };
 
-export type ExperienceItem = {
+type ExperienceItem = {
   role: string;
   company: string;
   period: string;
@@ -17,7 +17,7 @@ export type ExperienceItem = {
   projects: ExperienceProject[];
 };
 
-export type ProjectItem = {
+type ProjectItem = {
   title: string;
   source: string;
   impact: string;
@@ -33,20 +33,20 @@ type ProjectDefinition = Omit<ProjectItem, "description"> & {
   sourceTitle: string;
 };
 
-export type ProofPoint = {
+type ProofPoint = {
   label: string;
   value: string;
   detail: string;
 };
 
-export type EducationItem = {
+type EducationItem = {
   degree: string;
   school: string;
   period: string;
   location: string;
 };
 
-export type ContactInfo = {
+type ContactInfo = {
   location: string;
   locationHref?: string;
   socials?: { label: string; href: string }[];
@@ -238,7 +238,6 @@ const projects: ProjectItem[] = projectDefinitions.map(({ sourceTitle, ...projec
 export const resume = {
   name: "Amandeep Yadav",
   title: "Software Developer",
-  location: "Pune, MH, India / Remote",
   focus: "Backend, full-stack, and platform tooling for distributed systems",
   intro: "Software developer at Amdocs building backend services, platform tooling, and delivery workflows for high-scale telecom systems.",
   proofPoints: [

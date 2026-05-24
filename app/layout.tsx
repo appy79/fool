@@ -4,22 +4,25 @@ import Link from "next/link";
 import { Providers } from "./providers";
 import { Header, HeaderBrand, HeaderNav } from "@/components/ui/header";
 import ThemeToggle from "@/components/ui/theme-toggle";
+import { resume } from "@/lib/resume";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const siteTitle = `${resume.name} | ${resume.title}`;
+const siteDescription = `Portfolio of ${resume.name}: ${resume.focus}.`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Amandeep Yadav | Software Developer",
-  description: "Portfolio of Amandeep Yadav, a software developer focused on backend services, platform tooling, and distributed systems.",
+  title: siteTitle,
+  description: siteDescription,
   icons: {
     icon: "/icon.svg",
   },
   manifest: "/site.webmanifest",
   openGraph: {
-    title: "Amandeep Yadav | Software Developer",
-    description: "Backend services, platform tooling, and distributed systems portfolio.",
+    title: siteTitle,
+    description: siteDescription,
     url: siteUrl,
-    siteName: "Amandeep Yadav Portfolio",
+    siteName: `${resume.name} Portfolio`,
     images: [
       {
         url: "/og.svg",
@@ -32,8 +35,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Amandeep Yadav | Software Developer",
-    description: "Backend services, platform tooling, and distributed systems portfolio.",
+    title: siteTitle,
+    description: siteDescription,
     images: ["/og.svg"],
   },
 };
@@ -46,7 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Header>
             <HeaderBrand>
               <Link href="/" className="text-sm font-semibold uppercase tracking-[0.24em] text-primary transition hover:text-foreground">
-                Amandeep Yadav
+                {resume.name}
               </Link>
             </HeaderBrand>
             <HeaderNav>
