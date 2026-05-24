@@ -1,11 +1,7 @@
-import Link from "next/link";
-import ContactSection from "@/components/portfolio/home/ContactSection";
 import EducationSection from "@/components/portfolio/home/EducationSection";
-import ExperienceSection from "@/components/portfolio/home/ExperienceSection";
 import HeroSection from "@/components/portfolio/home/HeroSection";
 import ProjectsSection from "@/components/portfolio/home/ProjectsSection";
 import SkillsSection from "@/components/portfolio/home/SkillsSection";
-import { Button } from "@/components/ui/button";
 import { resume } from "@/lib/resume";
 
 export default function Home() {
@@ -23,33 +19,24 @@ export default function Home() {
   return (
     <main className="labs-theme min-h-screen px-3 py-4 text-foreground sm:px-5 sm:py-6 lg:px-8">
       <div className="mx-auto flex max-w-[96rem] flex-col gap-5">
-        <HeroSection />
-
-        <section className="border-y border-primary/25 py-4">
-          <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
-            <div className="min-w-0 space-y-2">
-              <p className="font-mono text-[0.7rem] uppercase tracking-[0.22em] text-primary">
-                &gt; route:/labs
-              </p>
-              <h2 className="text-2xl font-semibold tracking-tight text-foreground">Explore the engineering exhibits.</h2>
-              <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-                Step through animated labs for telecom flows, distributed systems, performance, networking, complexity,
-                design patterns, concurrency, and Turing machines.
-              </p>
-            </div>
-            <Button asChild className="font-mono uppercase tracking-[0.16em]">
-              <Link href="/labs">Open Labs</Link>
-            </Button>
-          </div>
-        </section>
+        <HeroSection contact={contact} />
 
         <div className="space-y-10">
+          <ProjectsSection />
           <SkillsSection />
           <EducationSection />
-          <ProjectsSection />
-          <ExperienceSection />
-          <ContactSection contact={contact} />
         </div>
+
+        <footer className="grid gap-3 border-t border-primary/25 pt-4 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground md:grid-cols-[auto_minmax(0,1fr)_auto] md:items-center">
+          <p className="text-primary">&gt; end.program</p>
+          <p className="min-w-0">Built with Next.js, React, and systems curiosity.</p>
+          <div className="flex flex-wrap gap-3">
+            <a href="/labs" className="transition hover:text-primary">
+              Labs
+            </a>
+            <span>© 2026 Amandeep Yadav</span>
+          </div>
+        </footer>
       </div>
     </main>
   );

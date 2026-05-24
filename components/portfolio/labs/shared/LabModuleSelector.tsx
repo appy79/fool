@@ -1,6 +1,7 @@
 "use client";
 
 import { type ReactNode, useState } from "react";
+import { useLabFirstLoadPulse } from "./LabProgramManifestContext";
 
 type LabModuleSelectorItem = {
   id: string;
@@ -19,13 +20,16 @@ export default function LabModuleSelector<TItem extends LabModuleSelectorItem>({
   onSelect,
 }: LabModuleSelectorProps<TItem>) {
   const [isOpen, setIsOpen] = useState(false);
+  const shouldPulseSelectors = useLabFirstLoadPulse();
   const activeModule = items.find((item) => item.id === activeId) ?? items[0];
 
   return (
     <div className="min-w-0 font-mono">
       <button
         type="button"
-        className="grid w-full min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border border-primary/35 bg-primary/5 px-3 py-2 text-left transition hover:border-primary/65 hover:bg-primary/10"
+        className={`grid w-full min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border border-primary/35 bg-primary/5 px-3 py-2 text-left transition hover:border-primary/65 hover:bg-primary/10 ${
+          shouldPulseSelectors ? "lab-first-load-pulse" : ""
+        }`}
         aria-expanded={isOpen}
         onClick={() => setIsOpen((open) => !open)}
       >

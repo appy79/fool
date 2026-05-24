@@ -8,11 +8,11 @@ export default function SkillsSection() {
         <div className="min-w-0 space-y-2">
           <p className="font-mono text-[0.7rem] uppercase tracking-[0.22em] text-primary">&gt; section:skills</p>
           <h2 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-            Tools, platforms, and systems I work with.
+            Core stack for backend and platform delivery.
           </h2>
         </div>
         <p className="min-w-0 border-t border-border/70 pt-3 text-sm leading-6 text-muted-foreground md:border-l md:border-t-0 md:pl-4 md:pt-0">
-          From microservices and distributed data flows to product-facing interfaces, I work across the stack to ship reliable software.
+          Focused around the tools I use most for Java services, distributed data flows, Kubernetes delivery, and internal developer tooling.
         </p>
       </header>
 
