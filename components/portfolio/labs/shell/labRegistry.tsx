@@ -7,7 +7,7 @@ export const labIds = [
   "turing",
   "telecom",
   "distributed",
-  "performance",
+  "database",
   "concurrency",
   "network",
   "complexity",
@@ -24,7 +24,7 @@ const TelecomCoreLab = dynamic(() => import("../exhibits/telecom/TelecomCoreExhi
 const DistributedConsensusLab = dynamic(() => import("../exhibits/distributed/DistributedSystemsLab"), {
   loading: LabLoadingState,
 });
-const PerformanceOptimizationLab = dynamic(() => import("../exhibits/performance/PerformanceOptimizationLab"), {
+const DatabaseSystemsLab = dynamic(() => import("../exhibits/database/DatabaseSystemsLab"), {
   loading: LabLoadingState,
 });
 const ConcurrencyRaceLab = dynamic(() => import("../exhibits/concurrency/MemoryConcurrencyLab"), {
@@ -60,10 +60,10 @@ export const labExhibits = [
     component: DistributedConsensusLab,
   },
   {
-    id: "performance",
-    label: "Performance Optimization Bench",
-    summary: "Compare indexing, parallelism, caching, and latency tradeoffs.",
-    component: PerformanceOptimizationLab,
+    id: "database",
+    label: "Database Systems Lab",
+    summary: "Compare scans, indexes, parallel query execution, cache paths, and data-access tradeoffs.",
+    component: DatabaseSystemsLab,
   },
   {
     id: "concurrency",

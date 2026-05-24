@@ -167,7 +167,7 @@ export default function HeroSection({ contact }: HeroSectionProps) {
                   {[
                     { x: 38, y: 72, label: "5GC" },
                     { x: 177, y: 62, label: "RAFT" },
-                    { x: 286, y: 50, label: "P99" },
+                    { x: 286, y: 50, label: "DB" },
                   ].map((node) => (
                     <g key={node.label}>
                       <circle cx={node.x} cy={node.y} r="18" fill="currentColor" className="text-primary/10" />
@@ -189,7 +189,7 @@ export default function HeroSection({ contact }: HeroSectionProps) {
                 </p>
               </div>
               <p className="text-sm leading-6 text-muted-foreground">
-                Explore interactive systems labs for telecom, distributed consensus, concurrency, performance, and networks.
+                Explore interactive systems labs for telecom, distributed consensus, database systems, concurrency, and networks.
               </p>
               <div className="flex flex-col gap-3">
                 <Button asChild className="font-mono uppercase tracking-[0.16em]">
