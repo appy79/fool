@@ -268,8 +268,6 @@ export const telecomStagePositions: Record<string, { x: number; y: number }> = {
 };
 
 export const labInsight = {
-  animation: "The flow highlights a subscriber event as it moves through access, core control, policy, charging, event streaming, services, persistence, and billing. Completed links show the production path already crossed, while the active node explains the current telecom function.",
-  knowledge: "This demonstrates practical understanding of 3GPP-inspired charging flows, event-driven microservices, persistence boundaries, and how subscriber usage becomes a reliable billing outcome.",
   steps: [
     {
       title: "Subscriber event enters the network",

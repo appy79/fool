@@ -3,7 +3,6 @@ import type { ComponentType } from "react";
 export type LabExhibit<TId extends string = string> = {
   id: TId;
   label: string;
-  summary: string;
   component: ComponentType;
 };
 
@@ -24,8 +23,6 @@ export type MachinePreset = {
   initialHead: number;
   initialState: string;
   haltStates: readonly string[];
-  acceptStates?: readonly string[];
-  rejectStates?: readonly string[];
   transitions: Record<string, Transition>;
   metrics: readonly LabMetric[];
   insightSteps: readonly LabInsightStep[];
@@ -64,7 +61,6 @@ export type TelecomScenario = {
     stageId: string;
     description: string;
   };
-  insight?: LabInsight;
   insightSteps?: readonly LabInsightStep[];
 };
 
@@ -74,8 +70,6 @@ export type LabMetric = {
 };
 
 export type LabInsight = {
-  animation: string;
-  knowledge: string;
   steps: readonly LabInsightStep[];
   concepts: readonly LabConcept[];
 };

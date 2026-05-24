@@ -15,7 +15,6 @@ export default function MemoryConcurrencyLab() {
   return (
     <LabExhibitLayout
       id="concurrency-lab"
-      badge="OS / Concurrency Exhibit"
       programTitle="Memory and race visualizer."
       programDescription="Watch threads contend for a shared counter, then compare locks, atomics, semaphores, queues, deadlocks, and multiprocessing-style isolation."
       moduleSelector={<LabModuleSelector items={concurrencyModes} activeId={lab.mode.id} onSelect={lab.selectMode} />}

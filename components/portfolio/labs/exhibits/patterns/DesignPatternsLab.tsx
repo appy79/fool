@@ -14,7 +14,6 @@ export default function DesignPatternsLab() {
   return (
     <LabExhibitLayout
       id="patterns-lab"
-      badge="Architecture Exhibit"
       programTitle="Design patterns machine."
       programDescription="Watch a software problem pass through a pattern and emerge with clearer boundaries, safer dependencies, or more flexible behavior."
       moduleSelector={<LabModuleSelector items={designPatternScenarios} activeId={lab.pattern.id} onSelect={lab.selectPattern} />}

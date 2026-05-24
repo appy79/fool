@@ -8,7 +8,7 @@ import useTimedPhase from "../../hooks/useTimedPhase";
 export default function useDatabaseSystemsLab() {
   const [moduleId, setModuleId] = useState<string>(databaseAccessModules[0].id);
   const [runs, setRuns] = useState(0);
-  const module = databaseAccessModules.find((item) => item.id === moduleId) ?? databaseAccessModules[0];
+  const accessModule = databaseAccessModules.find((item) => item.id === moduleId) ?? databaseAccessModules[0];
   const {
     isRunning,
     phaseIndex: activeStage,
@@ -16,12 +16,12 @@ export default function useDatabaseSystemsLab() {
     selectPhase,
     start,
   } = useTimedPhase({
-    phaseCount: module.stages.length,
+    phaseCount: accessModule.stages.length,
     intervalMs: 700,
     onComplete: () => setRuns((count) => count + 1),
   });
-  const activeInsight = mergeLabInsight(labInsight, module.insightSteps);
-  const insightStepIndex = mapPhaseToInsightStep(activeStage, module.stages.length, activeInsight.steps.length);
+  const activeInsight = mergeLabInsight(labInsight, accessModule.insightSteps);
+  const insightStepIndex = mapPhaseToInsightStep(activeStage, accessModule.stages.length, activeInsight.steps.length);
 
   const selectModule = (nextModuleId: string) => {
     setModuleId(nextModuleId);
@@ -34,17 +34,17 @@ export default function useDatabaseSystemsLab() {
   };
 
   const selectStep = (stepIndex: number) => {
-    const nextStage = mapInsightStepToPhase(stepIndex, activeInsight.steps.length, module.stages.length);
+    const nextStage = mapInsightStepToPhase(stepIndex, activeInsight.steps.length, accessModule.stages.length);
     selectPhase(nextStage);
   };
 
   return {
-    module,
+    accessModule,
     activeStage,
     activeInsight,
     insightStepIndex,
     isRunning,
-    liveTitle: `${module.stages[activeStage]} ${runs > 0 && !isRunning ? "completed." : "is active."}`,
+    liveTitle: `${accessModule.stages[activeStage]} ${runs > 0 && !isRunning ? "completed." : "is active."}`,
     reset,
     selectModule,
     selectStep,

@@ -1,6 +1,6 @@
 import type { LabInsight, LabScenarioBase } from "../../types";
 
-export type DistributedScenario = LabScenarioBase & {
+type DistributedScenario = LabScenarioBase & {
   phases: readonly string[];
 };
 
@@ -108,8 +108,6 @@ export const distributedNodePositions = [
 ] as const;
 
 export const labInsight = {
-  animation: "The cluster changes active links and node states to show the current protocol phase: leader sequencing, Lamport clock updates, local appends, acknowledgements, or Byzantine comparison. Pulsing nodes represent local state changes, not moving packets.",
-  knowledge: "This demonstrates fluency with ordering guarantees, causality, quorum thinking, and failure models, which are core to designing reliable distributed services and event platforms.",
   steps: [
     {
       title: "Proposal or local event begins",

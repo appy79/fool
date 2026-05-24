@@ -14,7 +14,6 @@ export default function ComplexityPuzzleLab() {
   return (
     <LabExhibitLayout
       id="complexity-lab"
-      badge="Complexity Exhibit"
       programTitle="P vs NP puzzle chamber."
       programDescription="Watch the difference between checking one candidate solution and searching through an exploding state space."
       moduleSelector={<LabModuleSelector items={complexityScenarios} activeId={lab.scenario.id} onSelect={lab.selectScenario} />}

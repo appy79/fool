@@ -103,8 +103,6 @@ export const machinePresets = [
     initialHead: 0,
     initialState: "even",
     haltStates: ["accept", "reject"],
-    acceptStates: ["accept"],
-    rejectStates: ["reject"],
     transitions: {
       [transitionKey("even", "0")]: {
         write: "0",
@@ -242,8 +240,6 @@ export const machinePresets = [
 ] satisfies readonly MachinePreset[];
 
 export const labInsight = {
-  animation: "The tape, head, state, and transition table show computation as explicit memory reads, writes, movement, and state changes. Stepping makes each transition visible before the machine halts or rejects.",
-  knowledge: "This demonstrates grounding in computation fundamentals: state machines, tape memory, deterministic transitions, halting behavior, and the cost model behind simple algorithms.",
   steps: [
     {
       title: "Read the active tape cell",
