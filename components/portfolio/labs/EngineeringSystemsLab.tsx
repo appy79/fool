@@ -5,6 +5,7 @@ import LabManifest from "./shell/LabManifest";
 import { labExhibits } from "./shell/labRegistry";
 import useActiveLab from "./shell/useActiveLab";
 import { LabProgramManifestProvider } from "./shared/LabProgramManifestContext";
+import styles from "./EngineeringSystemsLab.module.css";
 
 export default function EngineeringSystemsLab() {
   const { activeLab, setActiveLabId } = useActiveLab();
@@ -18,7 +19,7 @@ export default function EngineeringSystemsLab() {
   }, []);
 
   return (
-    <main className="labs-theme min-h-screen px-3 py-4 text-foreground sm:px-5 sm:py-6 lg:px-8">
+    <main className={`${styles.theme} min-h-screen px-3 py-4 text-foreground sm:px-5 sm:py-6 lg:px-8`}>
       <div className="mx-auto flex max-w-[96rem] flex-col gap-5">
         <div key={activeLab.id} className="min-w-0">
           <LabProgramManifestProvider

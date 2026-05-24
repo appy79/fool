@@ -1,6 +1,6 @@
 import type { LabInsight, LabScenarioBase } from "../../types";
 
-export type NetworkScenario = LabScenarioBase & {
+type NetworkScenario = LabScenarioBase & {
   route: readonly string[];
 };
 
@@ -119,8 +119,6 @@ export const networkNodePositions: Record<string, { x: number; y: number; label:
 };
 
 export const labInsight = {
-  animation: "The route view activates each hop in a request path across client, DNS, edge, CDN, origin, and application nodes. Different scenarios shorten or extend the route depending on cache and edge behavior.",
-  knowledge: "This demonstrates systems knowledge across resolution, routing, caching, TLS or edge boundaries, origin fallback, and the way infrastructure decisions shape latency and load.",
   steps: [
     {
       title: "Client resolves an entry point",

@@ -1,6 +1,6 @@
 import type { LabInsight, LabScenarioBase } from "../../types";
 
-export type ConcurrencyMode = LabScenarioBase & {
+type ConcurrencyMode = LabScenarioBase & {
   workers: number;
   observedIncrement: number;
   phases: readonly string[];
@@ -234,8 +234,6 @@ export const concurrencyModes = [
 ] as const satisfies readonly ConcurrencyMode[];
 
 export const labInsight = {
-  animation: "The scheduler phases show workers reading, computing, waiting, committing, or deadlocking around a shared counter. The expected and observed counters reveal whether the selected primitive preserves correctness.",
-  knowledge: "This demonstrates understanding of races, critical sections, atomics, semaphores, queues, deadlocks, process isolation, and the correctness costs hidden inside concurrent performance work.",
   steps: [
     {
       title: "Workers become schedulable",

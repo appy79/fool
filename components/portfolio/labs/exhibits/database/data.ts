@@ -1,6 +1,6 @@
 import type { LabInsight, LabScenarioBase } from "../../types";
 
-export type DatabaseAccessModule = LabScenarioBase & {
+type DatabaseAccessModule = LabScenarioBase & {
   stages: readonly string[];
   bars: readonly [number, number, number];
 };
@@ -149,8 +149,6 @@ export const databaseAccessModules = [
 ] as const satisfies readonly DatabaseAccessModule[];
 
 export const labInsight = {
-  animation: "The database path advances through the active query plan and updates latency, memory, and throughput bars so scan, index, parallel execution, and cache modules can be compared against the same data-access pipeline.",
-  knowledge: "This demonstrates database-systems fluency: query planning, access paths, indexes, buffer pressure, parallel execution, caching, and the operational tradeoffs behind faster reads.",
   steps: [
     {
       title: "Query reaches the selected access path",

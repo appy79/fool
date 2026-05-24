@@ -15,7 +15,6 @@ export default function TelecomCoreExhibit() {
   return (
     <LabExhibitLayout
       id="telecom-lab"
-      badge="Foundations Exhibit"
       programTitle="3GPP Telecom Core Simulator."
       programDescription="Start a subscriber event and watch the packet move through access, core, policy, charging, event streaming, microservices, persistence, and billing without stepping through prompts."
       moduleSelector={<LabModuleSelector items={telecomScenarios} activeId={lab.scenario.id} onSelect={lab.selectScenario} />}

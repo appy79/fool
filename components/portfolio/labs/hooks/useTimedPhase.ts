@@ -69,10 +69,6 @@ export default function useTimedPhase({
     setIsRunning(true);
   };
 
-  const stop = () => {
-    setIsRunning(false);
-  };
-
   const reset = () => {
     setPhaseIndex(0);
     setIsRunning(false);
@@ -88,8 +84,6 @@ export default function useTimedPhase({
     phaseIndex,
     reset,
     selectPhase,
-    setPhaseIndex,
     start,
-    stop,
   };
 }

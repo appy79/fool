@@ -14,7 +14,6 @@ export default function NetworkEdgeLab() {
   return (
     <LabExhibitLayout
       id="network-lab"
-      badge="Networking Exhibit"
       programTitle="DNS, edge, and CDN routing lab."
       programDescription="Follow a request from client to DNS, edge, CDN, origin, and app layers while latency and cache behavior change."
       moduleSelector={<LabModuleSelector items={networkScenarios} activeId={lab.scenario.id} onSelect={lab.selectScenario} />}

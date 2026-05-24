@@ -14,7 +14,6 @@ export default function DistributedSystemsLab() {
   return (
     <LabExhibitLayout
       id="distributed-lab"
-      badge="Distributed Systems Exhibit"
       programTitle="Consensus, clocks, and ordering lab."
       programDescription="Watch messages move between replicas while the lab visualizes ordering, causality, and fault tolerance."
       moduleSelector={<LabModuleSelector items={distributedScenarios} activeId={lab.scenario.id} onSelect={lab.selectScenario} />}

@@ -2,7 +2,7 @@ import LabSceneFrame from "../../shared/LabSceneFrame";
 import ScaledSceneCanvas from "../../shared/ScaledSceneCanvas";
 
 type DatabaseSceneProps = {
-  module: {
+  accessModule: {
     id: string;
     stages: readonly string[];
     bars: readonly number[];
@@ -12,14 +12,14 @@ type DatabaseSceneProps = {
 
 const canvas = { width: 920, height: 380 };
 
-export default function DatabaseScene({ module, activeStage }: DatabaseSceneProps) {
+export default function DatabaseScene({ accessModule, activeStage }: DatabaseSceneProps) {
   return (
     <LabSceneFrame className="bg-zinc-950 p-0">
       <ScaledSceneCanvas className="bg-zinc-950" height={canvas.height} innerClassName="relative p-5" width={canvas.width}>
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(34,197,94,0.09)_1px,transparent_1px),linear-gradient(0deg,rgba(251,191,36,0.09)_1px,transparent_1px)] bg-[size:42px_42px]" />
         <div className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-emerald-500/10 blur-3xl" />
         <div className="relative mb-4 grid grid-cols-4 gap-3">
-          {module.id === "baseline" ? (
+          {accessModule.id === "baseline" ? (
             <>
               {["scan page", "scan page", "scan page", "scan page"].map((label, index) => (
                 <div key={`${label}-${index}`} className={`rounded-2xl border border-rose-300/30 bg-rose-500/10 p-3 text-xs font-bold uppercase tracking-[0.18em] text-rose-100 ${activeStage >= 1 ? "animate-pulse" : ""}`}>
@@ -27,14 +27,14 @@ export default function DatabaseScene({ module, activeStage }: DatabaseSceneProp
                 </div>
               ))}
             </>
-          ) : module.id === "indexed" ? (
+          ) : accessModule.id === "indexed" ? (
             <>
               <div className="rounded-2xl border border-amber-300/40 bg-amber-400/10 p-3 text-xs font-bold uppercase tracking-[0.18em] text-amber-100">B-tree root</div>
               <div className="rounded-2xl border border-amber-300/40 bg-amber-400/10 p-3 text-xs font-bold uppercase tracking-[0.18em] text-amber-100">index leaf</div>
               <div className="rounded-2xl border border-emerald-300/40 bg-emerald-400/10 p-3 text-xs font-bold uppercase tracking-[0.18em] text-emerald-100">row pointer</div>
               <div className="rounded-2xl border border-zinc-600 bg-zinc-900/80 p-3 text-xs font-bold uppercase tracking-[0.18em] text-zinc-400">skipped pages</div>
             </>
-          ) : module.id === "parallel" ? (
+          ) : accessModule.id === "parallel" ? (
             <>
               {["partition 1", "partition 2", "partition 3", "merge"].map((label, index) => (
                 <div key={label} className={`rounded-2xl border p-3 text-xs font-bold uppercase tracking-[0.18em] ${index === 3 ? "border-violet-300/40 bg-violet-400/10 text-violet-100" : "border-sky-300/40 bg-sky-400/10 text-sky-100"} ${activeStage >= 2 ? "animate-pulse" : ""}`}>
@@ -52,7 +52,7 @@ export default function DatabaseScene({ module, activeStage }: DatabaseSceneProp
           )}
         </div>
         <div className="relative grid grid-cols-5 gap-4">
-          {module.stages.map((stage, index) => {
+          {accessModule.stages.map((stage, index) => {
             const active = index === activeStage;
             const completed = index < activeStage;
 
@@ -83,12 +83,12 @@ export default function DatabaseScene({ module, activeStage }: DatabaseSceneProp
             <div key={label}>
               <div className="flex justify-between text-xs uppercase tracking-[0.18em] text-slate-400">
                 <span>{label}</span>
-                <span>{module.bars[index]}%</span>
+                <span>{accessModule.bars[index]}%</span>
               </div>
               <div className="mt-2 h-3 overflow-hidden rounded-full bg-slate-800">
                 <div
                   className={`h-full rounded-full transition-all duration-700 ${index === 0 ? "bg-rose-400" : index === 1 ? "bg-amber-300" : "bg-emerald-300"}`}
-                  style={{ width: `${module.bars[index]}%` }}
+                  style={{ width: `${accessModule.bars[index]}%` }}
                 />
               </div>
             </div>

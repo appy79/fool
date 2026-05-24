@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useLabFirstLoadPulse } from "../shared/LabProgramManifestContext";
 import type { LabExhibit } from "../types";
 import type { LabId } from "./labRegistry";
+import styles from "../shared/labShared.module.css";
 
 type LabManifestProps = {
   labs: readonly LabExhibit<LabId>[];
@@ -32,7 +33,7 @@ export default function LabManifest({ labs, activeLabId, onSelectLab }: LabManif
       <button
         type="button"
         className={`grid w-full min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border border-primary/35 bg-primary/5 px-3 py-2 text-left transition hover:border-primary/65 hover:bg-primary/10 ${
-          shouldPulseSelectors ? "lab-first-load-pulse" : ""
+          shouldPulseSelectors ? styles.firstLoadPulse : ""
         }`}
         aria-expanded={isOpen}
         onClick={() => setIsOpen((open) => !open)}

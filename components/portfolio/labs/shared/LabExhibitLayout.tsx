@@ -4,10 +4,10 @@ import { type ReactNode } from "react";
 import MetricGrid from "./MetricGrid";
 import { useLabProgramManifest } from "./LabProgramManifestContext";
 import type { LabMetric } from "../types";
+import styles from "./labShared.module.css";
 
 type LabExhibitLayoutProps = {
   id: string;
-  badge: ReactNode;
   programTitle: ReactNode;
   programDescription: ReactNode;
   moduleSelector: ReactNode;
@@ -71,11 +71,11 @@ export default function LabExhibitLayout({
         </header>
 
         <div className={`grid min-w-0 items-start gap-5 ${gridClassName}`}>
-          <div className="lab-scene-stage min-w-0">
-            <div className="lab-scene-visual">
-              <div className="lab-scene-node">{scene}</div>
+          <div className={styles.sceneStage}>
+            <div className={styles.sceneVisual}>
+              <div className={styles.sceneNode}>{scene}</div>
             </div>
-            <div className="lab-scene-control-item">{controls}</div>
+            <div className={styles.sceneControlItem}>{controls}</div>
           </div>
 
           <aside className="min-w-0 space-y-5">
