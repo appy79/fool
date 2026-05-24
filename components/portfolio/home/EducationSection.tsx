@@ -17,7 +17,7 @@ export default function EducationSection() {
         </p>
       </header>
 
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {resume.education.map((item, index) => (
           <div key={item.degree} className="border border-border/70 bg-card/45 p-5 backdrop-blur dark:bg-background/35">
             <div className="flex items-start justify-between gap-4">
@@ -26,7 +26,7 @@ export default function EducationSection() {
                 edu.{String(index + 1).padStart(2, "0")}
               </span>
             </div>
-            <div className="mt-4 grid gap-2 border-t border-border/70 pt-4 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-muted-foreground sm:grid-cols-3">
+            <div className="mt-4 space-y-2 border-t border-border/70 pt-4 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-muted-foreground">
               <p>{item.school}</p>
               <p>{item.location}</p>
               <p>{item.period}</p>

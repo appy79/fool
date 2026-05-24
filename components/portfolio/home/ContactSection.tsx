@@ -24,7 +24,18 @@ export default function ContactSection({ contact }: ContactSectionProps) {
       <div className="border border-border/70 bg-card/45 p-5 backdrop-blur dark:bg-background/35">
         <p className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-primary">contact.channel</p>
         <div className="mt-4 grid gap-4 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
-          <p className="text-sm leading-6 text-muted-foreground">{contact.location}</p>
+          {contact.locationHref ? (
+            <a
+              href={contact.locationHref}
+              target="_blank"
+              rel="noreferrer"
+              className="text-sm leading-6 text-muted-foreground transition hover:text-primary"
+            >
+              {contact.location}
+            </a>
+          ) : (
+            <p className="text-sm leading-6 text-muted-foreground">{contact.location}</p>
+          )}
           <div className="min-w-0 space-y-3">
             {contact.email && (
               <a href={`mailto:${contact.email}`} className="block break-words font-mono text-sm text-primary hover:underline">
