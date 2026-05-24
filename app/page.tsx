@@ -6,6 +6,7 @@ import { resume } from "@/lib/resume";
 import styles from "./page.module.css";
 
 export default function Home() {
+  const currentYear = new Date().getFullYear();
   const contact = {
     ...resume.contact,
     email: resume.contact.emailFromEnv ? process.env[resume.contact.emailFromEnv] : resume.contact.email,
@@ -29,13 +30,13 @@ export default function Home() {
         </div>
 
         <footer className="grid gap-3 border-t border-primary/25 pt-4 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground md:grid-cols-[auto_minmax(0,1fr)_auto] md:items-center">
-          <p className="text-primary">&gt; end.program</p>
-          <p className="min-w-0">Built with Next.js, React, and systems curiosity.</p>
+          <p className="text-primary">&gt; signal.persisted</p>
+          <p className="min-w-0">Telemetry saved. Experiments parked. Still building the next reliable handoff.</p>
           <div className="flex flex-wrap gap-3">
             <a href="/labs" className="transition hover:text-primary">
               Labs
             </a>
-            <span>© 2026 Amandeep Yadav</span>
+            <span>© {currentYear} Amandeep Yadav</span>
           </div>
         </footer>
       </div>
