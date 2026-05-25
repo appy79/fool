@@ -6,7 +6,6 @@ import useTelecomCoreLab from "./useTelecomCoreLab";
 import LabExhibitControls from "../../shared/LabExhibitControls";
 import LabExhibitLayout from "../../shared/LabExhibitLayout";
 import LabModuleSelector from "../../shared/LabModuleSelector";
-import LabProgressBar from "../../shared/LabProgressBar";
 import LiveStepPanel from "../../shared/LiveStepPanel";
 
 export default function TelecomCoreExhibit() {
@@ -36,18 +35,15 @@ export default function TelecomCoreExhibit() {
         />
       }
       controls={
-        <div className="space-y-4">
-          <LabProgressBar percent={lab.routeProgress} />
-          <LabExhibitControls
-            playLabel={lab.isSimulating ? "Flow running..." : lab.isComplete ? "Replay animated flow" : lab.scenario.trigger}
-            onPlay={lab.start}
-            resetLabel="Reset Flow"
-            onReset={lab.reset}
-            activeStepIndex={lab.insightStepIndex}
-            stepCount={lab.activeInsight.steps.length}
-            onStepSelect={lab.selectStep}
-          />
-        </div>
+        <LabExhibitControls
+          playLabel={lab.isSimulating ? "Flow running..." : lab.isComplete ? "Replay animated flow" : lab.scenario.trigger}
+          onPlay={lab.start}
+          resetLabel="Reset Flow"
+          onReset={lab.reset}
+          activeStepIndex={lab.insightStepIndex}
+          stepCount={lab.activeInsight.steps.length}
+          onStepSelect={lab.selectStep}
+        />
       }
       stepPanel={
         <LiveStepPanel
