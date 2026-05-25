@@ -350,7 +350,7 @@ export default function ProjectsSection() {
                     }`}
                     onClick={() => {
                       setActiveProjectTitle(activeProject.title);
-                      setExpandedProjectTitle(null);
+                      setExpandedProjectTitle(activeProject.title);
                       setActiveTechnology({ projectTitle: activeProject.title, technology: tag });
                     }}
                   >
