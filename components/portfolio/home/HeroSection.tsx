@@ -114,8 +114,7 @@ export default function HeroSection({ contact }: HeroSectionProps) {
                     href={contact.locationHref}
                     target="_blank"
                     rel="noreferrer"
-                    aria-label={`${contact.location} location, opens in a new tab`}
-                    className="block text-base font-semibold uppercase tracking-[0.12em] text-foreground transition hover:text-primary"
+                    className="block text-base font-semibold uppercase tracking-[0.12em] text-foreground transition hover:text-primary focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
                   >
                     <FormattedLocation location={contact.location} />
                   </a>
@@ -133,7 +132,7 @@ export default function HeroSection({ contact }: HeroSectionProps) {
                   </span>
                 ) : null}
                 {contact.phone ? (
-                  <a href={`tel:${contact.phone.replace(/\s+/g, "")}`} className="mt-1 block font-mono text-sm text-muted-foreground transition hover:text-primary">
+                  <a href={`tel:${contact.phone.replace(/\s+/g, "")}`} className="mt-1 block font-mono text-sm text-muted-foreground transition hover:text-primary focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none">
                     {contact.phone}
                   </a>
                 ) : null}
@@ -148,7 +147,7 @@ export default function HeroSection({ contact }: HeroSectionProps) {
                       target="_blank"
                       rel="noreferrer"
                       aria-label={`${social.label}, opens in a new tab`}
-                      className="inline-flex size-10 items-center justify-center border border-border/70 text-primary transition hover:border-primary/60 hover:bg-primary/10 hover:text-foreground"
+                      className="inline-flex size-10 items-center justify-center border border-border/70 text-primary transition hover:border-primary/60 hover:bg-primary/10 hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
                     >
                       {getSocialIcon(social.label) ?? (
                         <span className="font-mono text-[0.65rem] uppercase tracking-[0.12em]">{social.label}</span>

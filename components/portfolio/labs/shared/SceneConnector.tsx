@@ -37,7 +37,7 @@ export default function SceneConnector({
 
   return (
     <div
-      className={cn("pointer-events-none absolute rounded-full transition-all duration-500", className)}
+      className={cn("pointer-events-none absolute rounded-full transition-all duration-500 motion-reduce:transition-none", className)}
       style={{
         height: thickness,
         left: `${(from.x / canvasWidth) * 100}%`,

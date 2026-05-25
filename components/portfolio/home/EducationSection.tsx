@@ -25,9 +25,9 @@ export default function EducationSection() {
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {resume.education.map((item) => (
-          <div key={item.degree} className="border border-border/70 bg-card/45 p-5 backdrop-blur dark:bg-background/35">
+          <article key={item.degree} className="border border-border/70 bg-card/45 p-5 backdrop-blur dark:bg-background/35">
             <div className="flex items-center justify-between gap-4">
-              <p className="min-w-0 text-base font-semibold leading-6 text-foreground">{item.degree}</p>
+              <h3 className="min-w-0 text-base font-semibold leading-6 text-foreground">{item.degree}</h3>
               <span className="shrink-0 self-center font-mono text-[0.65rem] uppercase leading-6 tracking-[0.18em] text-primary">
                 {foundationTiers[item.degree] ?? "foundation.record"}
               </span>
@@ -38,8 +38,8 @@ export default function EducationSection() {
                   href={item.schoolHref}
                   target="_blank"
                   rel="noreferrer"
-                  className="min-w-0 text-foreground underline-offset-4 transition hover:text-primary hover:underline"
-                  aria-label={`${item.school} on Wikipedia, opens in a new tab`}
+                  className="min-w-0 text-foreground underline-offset-4 transition hover:text-primary hover:underline focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+                  aria-label={`${item.school}, opens in a new tab`}
                 >
                   {item.school}
                 </a>
@@ -47,7 +47,7 @@ export default function EducationSection() {
               </div>
               <p>{item.location}</p>
             </div>
-          </div>
+          </article>
         ))}
       </div>
     </section>

@@ -178,9 +178,9 @@ export default function SkillsSection() {
               <button
                 key={section.title}
                 type="button"
-                aria-current={active ? "true" : undefined}
+                aria-pressed={active}
                 title={skillCategoryDetails[section.title]?.archiveNote}
-                className={`inline-flex min-w-0 items-center gap-2 border px-2.5 py-2 text-left transition lg:w-full ${
+                className={`inline-flex min-w-0 items-center gap-2 border px-2.5 py-2 text-left transition focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 lg:w-full ${
                   active
                     ? "border-primary/70 bg-primary/10 text-foreground"
                     : "border-border/70 bg-card/45 text-muted-foreground hover:border-primary/45 hover:text-foreground dark:bg-background/35"
@@ -201,7 +201,7 @@ export default function SkillsSection() {
           })}
         </div>
 
-        <div className="min-w-0 border border-primary/25 bg-card/45 p-4 backdrop-blur dark:bg-background/35">
+        <div className="min-w-0 border border-primary/25 bg-card/45 p-4 backdrop-blur dark:bg-background/35" aria-live="polite">
           <div className="flex min-w-0 items-start justify-between gap-4">
             <div className="min-w-0 space-y-2">
               <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">psychohistory.substrate</p>
@@ -236,7 +236,7 @@ export default function SkillsSection() {
           </div>
         </div>
 
-        <div className="min-w-0 border border-primary/25 bg-card/45 p-4 backdrop-blur dark:bg-background/35">
+        <div className="min-w-0 border border-primary/25 bg-card/45 p-4 backdrop-blur dark:bg-background/35" aria-live="polite">
           <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">
             {activeSkillItem ? "personal.note" : "archive.annotation"}
           </p>

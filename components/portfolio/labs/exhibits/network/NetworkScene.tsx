@@ -74,12 +74,12 @@ export default function NetworkScene({ scenarioId, route, activeIndex, activeNod
           return (
             <div
               key={nodeId}
-              className="absolute -translate-x-1/2 -translate-y-1/2 transition-all duration-500"
+              className="absolute -translate-x-1/2 -translate-y-1/2 transition-all duration-500 motion-reduce:transition-none"
               style={scenePointStyle(node, canvas.width, canvas.height)}
             >
-              {active ? <div className="absolute inset-[-0.65rem] animate-ping rounded-2xl bg-sky-300/20" /> : null}
+              {active ? <div className="absolute inset-[-0.65rem] animate-ping rounded-2xl bg-sky-300/20 motion-reduce:animate-none" /> : null}
               <div
-                className={`relative grid h-14 min-w-24 place-items-center rounded-2xl border-2 px-4 text-sm font-extrabold shadow-xl transition ${
+                className={`relative grid h-14 min-w-24 place-items-center rounded-2xl border-2 px-4 text-sm font-extrabold shadow-xl transition motion-reduce:transition-none ${
                   active
                     ? "border-sky-50 bg-sky-300 text-sky-950 shadow-sky-400/35"
                     : completed
@@ -94,7 +94,7 @@ export default function NetworkScene({ scenarioId, route, activeIndex, activeNod
         })}
 
         <div
-          className="absolute h-0 w-0 -translate-x-1/2 -translate-y-[3.2rem] animate-pulse border-x-[10px] border-b-[18px] border-x-transparent border-b-white drop-shadow-[0_0_14px_rgba(255,255,255,0.8)] transition-all duration-700"
+          className="absolute h-0 w-0 -translate-x-1/2 -translate-y-[3.2rem] animate-pulse border-x-[10px] border-b-[18px] border-x-transparent border-b-white drop-shadow-[0_0_14px_rgba(255,255,255,0.8)] transition-all duration-700 motion-reduce:animate-none motion-reduce:transition-none"
           style={scenePointStyle(activeNode, canvas.width, canvas.height)}
         />
       </ScaledSceneCanvas>
