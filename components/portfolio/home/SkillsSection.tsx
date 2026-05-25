@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Badge } from "@/components/ui/badge";
 import { resume } from "@/lib/resume";
 import BrandTechnologyIcon from "./BrandTechnologyIcon";
 
@@ -109,31 +108,66 @@ const shortSkillLabels: Record<string, string> = {
   "Supporting stack": "Tools",
 };
 
+const personalSkillNotes: Record<string, string> = {
+  Java: "The language I reach for when a system needs boring reliability, strong boundaries, and maintenance over years.",
+  "Spring Boot": "My default service shell for turning enterprise rules into APIs that can be tested, deployed, and operated.",
+  Python: "The tool I use when the fastest path is a small workflow service, script, or data-processing bridge.",
+  Flask: "Useful when a service should stay lightweight and expose one clear boundary instead of becoming a platform.",
+  JUnit: "Where I keep backend changes honest before they reach environments shared by other teams.",
+  Mockito: "The testing tool I use when collaborators are noisy, slow, or outside the unit I actually want to reason about.",
+  Kafka: "Where I learned distributed systems are less about moving messages and more about surviving partial truth.",
+  Redis: "My hot-path tool for short-lived state, fast lookups, and keeping expensive systems out of every request.",
+  "Cassandra DB": "A reminder that storage design starts with access patterns, not tables drawn after the fact.",
+  Couchbase: "Useful when document shape and service velocity matter more than pretending every record is relational.",
+  PostgreSQL: "The database I trust when correctness, constraints, and clear queries need to stay close together.",
+  Kubernetes: "Where code stops being just code and starts needing operational discipline.",
+  Docker: "The smallest useful contract between 'works on my machine' and 'can run somewhere else.'",
+  "GitLab CI": "Delivery confidence comes from repeatable paths, not heroic manual releases.",
+  Jenkins: "Old-school, but it taught me how much release systems depend on boring, visible automation.",
+  Vault: "Secrets should be treated like production traffic: controlled, audited, and never casually copied around.",
+  "React.js": "My frontend tool for making backend complexity visible without forcing users to read logs.",
+  "Angular.js": "A legacy UI reminder that maintainability often means improving the system you inherit, not the one you wish you had.",
+  JavaScript: "The browser language that rewards clarity because everyone eventually has to debug it.",
+  TypeScript: "The safety net I want when UI state starts looking like a backend workflow.",
+  "Three.js": "A tool I use when an idea is easier to understand spatially than through another paragraph.",
+  AWS: "Cloud primitives are useful when they are chosen for the workload, not because the diagram needs more icons.",
+  Azure: "Another deployment surface where the real skill is understanding identity, networking, and operational boundaries.",
+  Postman: "Still one of the fastest ways to interrogate an API contract before blaming the code.",
+  TestNG: "A practical test runner for Java systems where integration behavior needs structure.",
+  DSA: "Not interview trivia to me; it is the mental model behind queues, caches, retries, and state.",
+  OOP: "Useful when it creates boundaries people can understand, harmful when it only creates ceremony.",
+  "SQL & NoSQL DBs": "The choice is less about fashion and more about query shape, consistency, and failure recovery.",
+  "Operating Systems": "The foundation behind concurrency, memory, scheduling, and the performance bugs that do not care about frameworks.",
+  "Computer Networks": "The reason distributed systems fail in realistic ways: latency, retries, ordering, and partial reachability.",
+};
+
 export default function SkillsSection() {
   const [activeSkillTitle, setActiveSkillTitle] = useState(resume.skills[0]?.title ?? "");
+  const [activeSkillItem, setActiveSkillItem] = useState<string | null>(null);
   const activeSkill = useMemo(
     () => resume.skills.find((section) => section.title === activeSkillTitle) ?? resume.skills[0],
     [activeSkillTitle]
   );
   const activeSkillDetails = skillCategoryDetails[activeSkill.title];
+  const activeSkillNote = activeSkillItem ? personalSkillNotes[activeSkillItem] : null;
 
   return (
     <section id="skills" className="scroll-mt-24 space-y-5">
-      <header className="grid gap-3 border-y border-primary/25 py-3 md:grid-cols-[minmax(0,1fr)_minmax(18rem,0.45fr)] md:items-start">
+      <header className="grid gap-3 border-y border-primary/25 py-3 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.36fr)] lg:items-start">
         <div className="min-w-0 space-y-2">
-          <p className="font-mono text-[0.7rem] uppercase tracking-[0.22em] text-primary">&gt; section:skills</p>
-          <h2 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+          <p className="font-mono text-[0.86rem] uppercase tracking-[0.24em] text-primary">&gt; section:skills</p>
+          <h2 className="sr-only">
             Core stack for backend and platform delivery.
           </h2>
         </div>
-        <p className="min-w-0 border-t border-border/70 pt-3 text-sm leading-6 text-muted-foreground md:border-l md:border-t-0 md:pl-4 md:pt-0">
-          Focused around the tools I use most for Java services, distributed data flows, Kubernetes delivery, and internal developer tooling.
+        <p className="min-w-0 border-t border-border/70 pt-3 text-sm leading-6 text-muted-foreground lg:border-l lg:border-t-0 lg:pl-4 lg:pt-0">
+          Click a category to inspect the working stack.
         </p>
       </header>
 
-      <div className="grid gap-4 lg:grid-cols-[minmax(12rem,0.7fr)_minmax(0,1.35fr)_minmax(16rem,0.95fr)]">
+      <div className="grid gap-4 lg:grid-cols-[minmax(18rem,1.05fr)_minmax(0,1fr)_minmax(14rem,0.75fr)]">
         <div
-          className="grid grid-cols-2 gap-2 border-y border-border/70 py-3 sm:grid-cols-3 lg:flex lg:flex-col lg:border-y-0"
+          className="grid grid-cols-2 gap-2 border-y border-border/70 py-3 sm:grid-cols-3 lg:grid-cols-2 lg:border-y-0 lg:py-0"
           role="group"
           aria-label="Skill categories"
         >
@@ -146,14 +180,17 @@ export default function SkillsSection() {
                 type="button"
                 aria-current={active ? "true" : undefined}
                 title={skillCategoryDetails[section.title]?.archiveNote}
-                className={`inline-flex min-w-0 items-center gap-2 border px-2.5 py-2 text-left transition lg:w-full lg:px-3 ${
+                className={`inline-flex min-w-0 items-center gap-2 border px-2.5 py-2 text-left transition lg:w-full ${
                   active
                     ? "border-primary/70 bg-primary/10 text-foreground"
                     : "border-border/70 bg-card/45 text-muted-foreground hover:border-primary/45 hover:text-foreground dark:bg-background/35"
                 }`}
-                onClick={() => setActiveSkillTitle(section.title)}
+                onClick={() => {
+                  setActiveSkillTitle(section.title);
+                  setActiveSkillItem(null);
+                }}
               >
-                <span className="grid size-8 place-items-center border border-primary/30 bg-primary/10 text-primary">
+                <span className="grid size-7 shrink-0 place-items-center border border-primary/30 bg-primary/10 text-primary">
                   <SkillCategoryIcon title={section.title} />
                 </span>
                 <span className="min-w-0 truncate font-mono text-[0.64rem] font-semibold uppercase tracking-[0.1em] sm:text-[0.68rem] lg:tracking-[0.13em]">
@@ -164,37 +201,55 @@ export default function SkillsSection() {
           })}
         </div>
 
-        <div className="min-w-0 border border-primary/25 bg-card/45 p-5 backdrop-blur dark:bg-background/35">
+        <div className="min-w-0 border border-primary/25 bg-card/45 p-4 backdrop-blur dark:bg-background/35">
           <div className="flex min-w-0 items-start justify-between gap-4">
             <div className="min-w-0 space-y-2">
               <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">psychohistory.substrate</p>
               <h3 className="text-2xl font-semibold tracking-tight text-foreground">{activeSkill.title}</h3>
             </div>
-            <span className="grid size-12 shrink-0 place-items-center border border-primary/30 bg-primary/10 text-primary">
+            <span className="grid size-10 shrink-0 place-items-center border border-primary/30 bg-primary/10 text-primary">
               <SkillCategoryIcon title={activeSkill.title} />
             </span>
           </div>
 
           <div className="mt-4 flex flex-wrap gap-3">
-            {activeSkill.items.map((item) => (
-              <Badge key={item} variant="outline" className="gap-2 rounded-none px-3.5 py-2.5 font-mono text-[0.78rem] uppercase tracking-[0.12em]">
-                <BrandTechnologyIcon name={item} />
-                {item}
-              </Badge>
-            ))}
+            {activeSkill.items.map((item) => {
+              const active = activeSkillItem === item;
+
+              return (
+                <button
+                  key={item}
+                  type="button"
+                  aria-pressed={active}
+                  className={`inline-flex shrink-0 items-center gap-2 border px-3 py-2 font-mono text-[0.74rem] font-semibold uppercase tracking-[0.12em] transition focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 ${
+                    active
+                      ? "border-primary/70 bg-primary/10 text-primary"
+                      : "border-border/70 bg-card/50 text-muted-foreground hover:border-primary/50 hover:text-primary"
+                  }`}
+                  onClick={() => setActiveSkillItem((current) => current === item ? null : item)}
+                >
+                  <BrandTechnologyIcon name={item} />
+                  {item}
+                </button>
+              );
+            })}
           </div>
         </div>
 
-        <div className="min-w-0 border border-primary/25 bg-card/45 p-5 backdrop-blur dark:bg-background/35">
-          <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">archive.annotation</p>
+        <div className="min-w-0 border border-primary/25 bg-card/45 p-4 backdrop-blur dark:bg-background/35">
+          <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">
+            {activeSkillItem ? "personal.note" : "archive.annotation"}
+          </p>
           <p className="mt-2 text-sm font-medium leading-6 text-foreground">
-            {activeSkillDetails.headline}
+            {activeSkillItem ?? activeSkillDetails.headline}
           </p>
-          <p className="mt-4 border-t border-border/70 pt-4 text-sm leading-6 text-muted-foreground">
-            {activeSkillDetails.detail}
-          </p>
+          {activeSkillNote ? (
+            <p className="mt-4 border-t border-border/70 pt-4 text-sm leading-6 text-muted-foreground">
+              {activeSkillNote}
+            </p>
+          ) : null}
           <p className="mt-4 border-t border-primary/25 pt-4 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-primary">
-            {activeSkillDetails.archiveNote}
+            {activeSkillItem ? `tool.record: ${activeSkillItem.toLowerCase()}` : activeSkillDetails.archiveNote}
           </p>
         </div>
       </div>

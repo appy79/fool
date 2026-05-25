@@ -192,7 +192,7 @@ export default function ProjectsSection() {
   );
   const [activeCategory, setActiveCategory] = useState("Highlighted");
   const [activeProjectTitle, setActiveProjectTitle] = useState<string | null>(defaultProjectTitle);
-  const [expandedProjectTitle, setExpandedProjectTitle] = useState<string | null>(defaultProjectTitle);
+  const [expandedProjectTitle, setExpandedProjectTitle] = useState<string | null>(null);
   const [activeTechnology, setActiveTechnology] = useState<{ projectTitle: string; technology: string } | null>(null);
 
   const filteredProjects = useMemo(
@@ -210,13 +210,13 @@ export default function ProjectsSection() {
 
   return (
     <section id="work" className="scroll-mt-24 space-y-5">
-      <header className="grid gap-3 border-b border-primary/25 pb-3 md:grid-cols-[minmax(0,1fr)_minmax(18rem,0.45fr)] md:items-start">
+      <header className="grid gap-3 border-b border-primary/25 pb-3 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.36fr)] lg:items-start">
         <div className="min-w-0 space-y-2">
-          <p className="font-mono text-[0.7rem] uppercase tracking-[0.22em] text-primary">&gt; section:work</p>
-          <h2 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">Work experience and proof.</h2>
+          <p className="font-mono text-[0.86rem] uppercase tracking-[0.24em] text-primary">&gt; section:work</p>
+          <h2 className="sr-only">Work experience and proof.</h2>
         </div>
-        <p className="min-w-0 border-t border-border/70 pt-3 text-sm leading-6 text-muted-foreground md:border-l md:border-t-0 md:pl-4 md:pt-0">
-          One consolidated view of where I have worked and the major projects delivered across those roles.
+        <p className="min-w-0 border-t border-border/70 pt-3 text-sm leading-6 text-muted-foreground lg:border-l lg:border-t-0 lg:pl-4 lg:pt-0">
+          Roles, projects, and connected labs.
         </p>
       </header>
 
@@ -226,11 +226,13 @@ export default function ProjectsSection() {
             <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">
               {index === 0 ? "current.role" : "previous.role"}
             </p>
-            <h3 className="mt-2 text-sm font-semibold text-foreground">{item.role}</h3>
+            <div className="mt-2 flex items-start justify-between gap-4">
+              <h3 className="min-w-0 text-sm font-semibold text-foreground">{item.role}</h3>
+              <p className="shrink-0 text-right font-mono text-[0.68rem] uppercase tracking-[0.16em] text-primary">{item.period}</p>
+            </div>
             <p className="mt-1 text-sm text-muted-foreground">
               {item.company} / {item.location}
             </p>
-            <p className="mt-3 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-muted-foreground">{item.period}</p>
           </article>
         ))}
       </div>
@@ -260,7 +262,7 @@ export default function ProjectsSection() {
 
                   setActiveCategory(category);
                   setActiveProjectTitle(nextProjectTitle);
-                  setExpandedProjectTitle(nextProjectTitle);
+                  setExpandedProjectTitle(null);
                   setActiveTechnology(null);
                 }}
               >
@@ -307,7 +309,7 @@ export default function ProjectsSection() {
                       }`}
                       onClick={() => {
                         setActiveProjectTitle(project.title);
-                        setExpandedProjectTitle(project.title);
+                        setExpandedProjectTitle(null);
                         setActiveTechnology(null);
                       }}
                     >
@@ -335,12 +337,6 @@ export default function ProjectsSection() {
               <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">historical.record</p>
               <h3 className="mt-2 text-2xl font-semibold tracking-tight text-foreground">{activeProject.title}</h3>
               <p className="mt-3 text-sm font-medium leading-6 text-foreground">{activeProject.impact}</p>
-              {activeProjectCrisisMemo ? (
-                <p className="mt-3 font-mono text-[0.62rem] uppercase tracking-[0.16em] text-muted-foreground">
-                  {activeProjectCrisisMemo.confidence}
-                </p>
-              ) : null}
-
               <div className="mt-4 flex flex-wrap gap-2">
                 {activeProject.tags.map((tag) => (
                   <button
@@ -354,7 +350,7 @@ export default function ProjectsSection() {
                     }`}
                     onClick={() => {
                       setActiveProjectTitle(activeProject.title);
-                      setExpandedProjectTitle(activeProject.title);
+                      setExpandedProjectTitle(null);
                       setActiveTechnology({ projectTitle: activeProject.title, technology: tag });
                     }}
                   >
@@ -367,15 +363,16 @@ export default function ProjectsSection() {
               <div className="mt-4 grid gap-2 border-t border-border/70 pt-4 sm:grid-cols-2">
                 <button
                   type="button"
-                  className="min-w-0 text-left font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground transition hover:text-primary"
+                  className="flex min-w-0 items-center justify-between gap-3 border border-primary/35 bg-primary/10 px-3 py-2 text-left font-mono text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-primary transition hover:border-primary/70 hover:bg-primary/15 hover:text-foreground"
                   aria-expanded={activeProjectDetailsOpen}
                   onClick={() => setExpandedProjectTitle(activeProjectDetailsOpen ? null : activeProject.title)}
                 >
-                  {activeProjectDetailsOpen ? "Seal archive" : "Open archive"}
+                  <span>{activeProjectDetailsOpen ? "Seal archive" : "Open archive"}</span>
+                  <span aria-hidden="true">{activeProjectDetailsOpen ? "^" : "v"}</span>
                 </button>
                 <Link
                   href={activeProject.labHref}
-                  className="min-w-0 text-left font-mono text-[0.65rem] uppercase tracking-[0.16em] text-primary transition hover:text-foreground sm:text-right"
+                  className="min-w-0 border border-border/70 px-3 py-2 text-left font-mono text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-primary transition hover:border-primary/70 hover:text-foreground sm:text-right"
                 >
                   {activeProject.labLabel} -&gt;
                 </Link>
@@ -416,7 +413,7 @@ export default function ProjectsSection() {
                 </section>
 
                 {activeProjectCrisisMemo ? (
-                  <section className="border-t border-primary/25 pt-4">
+                  <section className="border-t border-primary/25 pt-4 md:border-l md:pl-4">
                     <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">seldon.note</p>
                     <p className="mt-2 text-sm leading-6 text-muted-foreground">{activeProjectCrisisMemo.note}</p>
                   </section>
