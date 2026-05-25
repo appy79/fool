@@ -74,7 +74,7 @@ const experience: ExperienceItem[] = [
       {
         title: "AT&T Openet",
         description:
-          "Developed Openet CHF-CGF microservices using Java Spring Boot, Redis, Cassandra DB, Kubernetes, and Kafka to process accounting events from AT&T Network Access Servers. Enabled real-time charging for 50M+ subscribers' data/talk time usage—scaling to 1M+ events/sec with 99.9% accuracy.",
+          "Developed Openet CHF-CGF microservices using Java Spring Boot, Redis, Cassandra DB, Kubernetes, and Kafka to process accounting events from AT&T Network Access Servers. Enabled real-time charging for 100M+ subscribers' data/talk time usage—scaling to 1M+ events/sec with 99.99% accuracy.",
       },
       {
         title: "Metro By T-Mobile",
@@ -146,7 +146,7 @@ const projectDefinitions: ProjectDefinition[] = [
     tags: ["Java", "Kafka", "Kubernetes", "Cassandra", "Redis"],
     labHref: "/labs?lab=distributed",
     labLabel: "Distributed Consensus Lab",
-    impact: "Processed charging/accounting events for 1000M+ subscribers with 1M+ events/sec throughput targets.",
+    impact: "Processed charging/accounting events for 100M+ subscribers with 1M+ events/sec throughput targets.",
     evidence: "Maps to distributed event ordering, fault tolerance, and convergence across high-volume charging services.",
   },
   {
