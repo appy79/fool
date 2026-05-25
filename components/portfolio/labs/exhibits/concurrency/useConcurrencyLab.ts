@@ -25,7 +25,6 @@ export default function useConcurrencyLab() {
     },
     stopOnAdvanceToFinal: true,
   });
-  const progress = Math.round(((phaseIndex + 1) / mode.phases.length) * 100);
   const isRace = mode.id === "race";
   const isQueue = mode.id === "queue";
   const isAtomic = mode.id === "atomic";
@@ -112,7 +111,6 @@ export default function useConcurrencyLab() {
     deadlocked,
     insightStepIndex,
     isRunning,
-    progress,
     liveDescription: deadlocked
       ? "Circular wait detected: no worker can make progress."
       : visibleObservedCounter === visibleExpectedCounter

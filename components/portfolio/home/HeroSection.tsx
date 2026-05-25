@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { resume, type ResolvedContactInfo } from "@/lib/resume";
+import { siLeetcode } from "simple-icons";
+import HeroPortraitCard from "./HeroPortraitCard";
 
 type HeroSectionProps = {
   contact: ResolvedContactInfo;
@@ -39,8 +41,17 @@ function LinkedInIcon() {
   );
 }
 
+function LeetCodeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="size-5" fill="currentColor" aria-hidden="true">
+      <path d={siLeetcode.path} />
+    </svg>
+  );
+}
+
 export default function HeroSection({ contact }: HeroSectionProps) {
   const hasSocials = Boolean(contact.socials?.length);
+  const archiveSignals = ["seldon.plan: active", "probability.vector: favorable", "terminus.node: pune"];
   const getSocialIcon = (label: string) => {
     const normalizedLabel = label.toLowerCase();
 
@@ -52,6 +63,10 @@ export default function HeroSection({ contact }: HeroSectionProps) {
       return <LinkedInIcon />;
     }
 
+    if (normalizedLabel.includes("leetcode")) {
+      return <LeetCodeIcon />;
+    }
+
     return null;
   };
 
@@ -59,14 +74,21 @@ export default function HeroSection({ contact }: HeroSectionProps) {
     <section className="scroll-mt-24 text-foreground" id="home">
       <div className="grid gap-5 border-y border-primary/25 py-5 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.36fr)] lg:items-stretch">
         <div className="flex min-w-0 flex-col gap-5 self-stretch">
-          <div className="font-mono text-[0.68rem] uppercase tracking-[0.22em] text-primary">
-            &gt; portfolio.boot
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-[0.68rem] uppercase tracking-[0.22em] text-primary">
+            <span title="For Foundation readers: the plan is still running.">&gt; portfolio.boot</span>
+            <span className="text-muted-foreground">archive.entry: galactic.engineering.appendix</span>
           </div>
           <div className="max-w-4xl space-y-4">
             <h1 className="max-w-5xl break-words text-4xl font-semibold tracking-tight text-foreground [overflow-wrap:anywhere] sm:text-5xl lg:text-6xl">
               Full-stack systems for telecom-scale platforms.
             </h1>
-            <p className="max-w-4xl text-base leading-7 text-muted-foreground sm:text-lg">{resume.intro}</p>
+          </div>
+          <div className="grid gap-px overflow-hidden border border-primary/25 bg-primary/20 font-mono text-[0.62rem] uppercase tracking-[0.18em] text-muted-foreground sm:grid-cols-3">
+            {archiveSignals.map((signal) => (
+              <p key={signal} className="bg-card/80 px-3 py-2 dark:bg-background/65">
+                {signal}
+              </p>
+            ))}
           </div>
           <div className="grid gap-3 pt-1 md:grid-cols-3">
             {resume.proofPoints.map((point) => (
@@ -77,58 +99,50 @@ export default function HeroSection({ contact }: HeroSectionProps) {
               </div>
             ))}
           </div>
-          <div className="mt-auto border-t border-border/70 pt-4">
-            <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">current.focus</p>
-            <div className="mt-3 flex flex-wrap gap-2">
-              {["Telecom charging", "Internal tooling", "Event-driven services"].map((item) => (
-                <span
-                  key={item}
-                  className="border border-border/70 bg-card/40 px-3 py-1 font-mono text-[0.68rem] uppercase tracking-[0.12em] text-muted-foreground dark:bg-background/30"
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
 
-        <aside className="flex min-w-0 self-stretch border-t border-border/70 pt-4 lg:border-l lg:border-t-0 lg:pl-5 lg:pt-0">
-          <div className="flex min-w-0 flex-1 flex-col">
-            <p className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-primary">contact.channel</p>
-            <div className="mt-3 space-y-3 text-sm leading-6">
-              {contact.locationHref ? (
-                <a
-                  href={contact.locationHref}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="block text-sm uppercase tracking-[0.12em] text-muted-foreground transition hover:text-primary"
-                >
-                  <FormattedLocation location={contact.location} />
-                </a>
-              ) : (
-                <p className="text-sm uppercase tracking-[0.12em] text-muted-foreground">
-                  <FormattedLocation location={contact.location} />
-                </p>
-              )}
-              {contact.email && (
-                <a href={`mailto:${contact.email}`} className="block break-words font-mono text-sm text-foreground transition hover:text-primary">
-                  {contact.email}
-                </a>
-              )}
-              {contact.phone && (
-                <a href={`tel:${contact.phone.replace(/\s+/g, "")}`} className="block font-mono text-sm text-foreground transition hover:text-primary">
-                  {contact.phone}
-                </a>
-              )}
-              {hasSocials && (
-                <div className="mb-4 flex flex-wrap gap-2 border-t border-border/70 pt-3">
+          <div className="mt-auto border-t border-border/70 pt-4">
+            <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">terminus.channel</p>
+            <div className="mt-3 grid gap-px overflow-hidden border border-border/70 bg-border/70 text-sm leading-6 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto]">
+              <div className="flex min-w-0 items-center bg-card/55 px-4 py-3 dark:bg-background/35">
+                {contact.locationHref ? (
+                  <a
+                    href={contact.locationHref}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`${contact.location} location, opens in a new tab`}
+                    className="block text-sm uppercase tracking-[0.12em] text-muted-foreground transition hover:text-primary"
+                  >
+                    <FormattedLocation location={contact.location} />
+                  </a>
+                ) : (
+                  <p className="text-sm uppercase tracking-[0.12em] text-muted-foreground" aria-label={contact.location}>
+                    <FormattedLocation location={contact.location} />
+                  </p>
+                )}
+              </div>
+
+              <div className="flex min-w-0 flex-col justify-center bg-card/55 px-4 py-3 dark:bg-background/35">
+                {contact.email ? (
+                  <span className="block break-words font-mono text-sm text-foreground">
+                    {contact.email}
+                  </span>
+                ) : null}
+                {contact.phone ? (
+                  <a href={`tel:${contact.phone.replace(/\s+/g, "")}`} className="mt-1 block font-mono text-sm text-muted-foreground transition hover:text-primary">
+                    {contact.phone}
+                  </a>
+                ) : null}
+              </div>
+
+              {hasSocials ? (
+                <div className="flex flex-wrap items-center gap-2 bg-card/55 p-3 sm:justify-end dark:bg-background/35">
                   {contact.socials?.map((social) => (
                     <a
                       key={social.label}
                       href={social.href}
                       target="_blank"
                       rel="noreferrer"
-                      aria-label={social.label}
+                      aria-label={`${social.label}, opens in a new tab`}
                       className="inline-flex size-10 items-center justify-center border border-border/70 text-muted-foreground transition hover:border-primary/60 hover:bg-primary/10 hover:text-primary"
                     >
                       {getSocialIcon(social.label) ?? (
@@ -137,10 +151,16 @@ export default function HeroSection({ contact }: HeroSectionProps) {
                     </a>
                   ))}
                 </div>
-              )}
+              ) : null}
             </div>
-            <div className="mt-auto space-y-3 border-t border-primary/25 pt-4">
-              <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">labs.signal</p>
+          </div>
+        </div>
+
+        <aside className="flex min-w-0 self-stretch border-t border-border/70 pt-4 lg:border-l lg:border-t-0 lg:pl-5 lg:pt-0">
+          <div className="flex min-w-0 flex-1 flex-col">
+            <HeroPortraitCard />
+            <div className="mt-4 space-y-3 border-t border-border/70 pt-4">
+              <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">prime.radiant.signal</p>
               <div className="relative min-h-32 overflow-hidden py-2">
                 <svg viewBox="0 0 320 132" className="h-32 w-full" role="img" aria-label="Animated systems lab preview">
                   <path
@@ -187,12 +207,9 @@ export default function HeroSection({ contact }: HeroSectionProps) {
                   ))}
                 </svg>
                 <p className="absolute bottom-1 right-0 font-mono text-[0.62rem] uppercase tracking-[0.18em] text-muted-foreground">
-                  live systems playground
+                  crisis simulations online
                 </p>
               </div>
-              <p className="text-sm leading-6 text-muted-foreground">
-                Explore interactive systems labs for telecom, distributed consensus, database systems, concurrency, and networks.
-              </p>
               <div className="flex flex-col gap-3">
                 <Button asChild className="font-mono uppercase tracking-[0.16em]">
                   <a href="/labs">Open Labs</a>

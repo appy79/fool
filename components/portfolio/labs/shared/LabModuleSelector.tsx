@@ -60,6 +60,7 @@ export default function LabModuleSelector<TItem extends LabModuleSelectorItem>({
               <button
                 key={item.id}
                 type="button"
+                aria-current={active ? "true" : undefined}
                 className={`grid w-full min-w-0 grid-cols-[4.75rem_minmax(0,1fr)_4.5rem] items-center gap-3 py-2 text-left text-xs uppercase tracking-[0.16em] transition ${
                   active ? "text-primary" : "text-muted-foreground hover:text-foreground"
                 }`}

@@ -24,6 +24,41 @@ type LabExhibitLayoutProps = {
   sidebar?: ReactNode;
 };
 
+const foundationTraces: Record<string, { label: string; detail: string }> = {
+  turing: {
+    label: "vault.trace: psychohistorian.prime",
+    detail: "A single tape, a finite rulebook, and a civilization-scale question: can the next state be known before the crisis arrives?",
+  },
+  telecom: {
+    label: "terminus.relay: outer.kingdoms",
+    detail: "Signals cross the edge like Foundation trade routes, turning distant local requests into stable central records.",
+  },
+  distributed: {
+    label: "council.vote: first.foundation",
+    detail: "Consensus holds when no single mayor of Terminus can carry the plan alone; the quorum is the civilization.",
+  },
+  database: {
+    label: "encyclopedia.index: galactica",
+    detail: "Every record needs a home, every query needs a path, and the archive only survives if retrieval stays cheap.",
+  },
+  concurrency: {
+    label: "crisis.window: seldon.lock",
+    detail: "Parallel actors rush the same future; the smallest race can bend the plan unless the critical section is guarded.",
+  },
+  network: {
+    label: "jump.route: imperial.edge",
+    detail: "Latency is the distance between sectors; routing decides whether the message reaches Terminus before the empire reacts.",
+  },
+  complexity: {
+    label: "plan.boundary: mule.event",
+    detail: "Some problems look predictable until a single outlier breaks the model and forces the plan to show its limits.",
+  },
+  patterns: {
+    label: "pattern.archive: second.foundation",
+    detail: "Reusable forms hide in plain sight, steering local decisions without announcing the hand behind the system.",
+  },
+};
+
 export default function LabExhibitLayout({
   id,
   programTitle,
@@ -42,6 +77,7 @@ export default function LabExhibitLayout({
   sidebar,
 }: LabExhibitLayoutProps) {
   const programManifest = useLabProgramManifest();
+  const foundationTrace = foundationTraces[id.replace(/-lab$/, "")];
 
   return (
     <section id={id} className="scroll-mt-24 text-foreground">
@@ -51,7 +87,7 @@ export default function LabExhibitLayout({
             <div className="flex min-w-0 flex-wrap items-center justify-between gap-3 text-[0.65rem] uppercase tracking-[0.22em]">
               {programManifest ?? (
                 <span className="min-w-0 break-words text-primary [overflow-wrap:anywhere]">
-                  &gt; program:{id}
+                  &gt; vault.program:{id}
                 </span>
               )}
             </div>
@@ -87,7 +123,7 @@ export default function LabExhibitLayout({
           {sidebar ?? (
             signals ? (
               <section className="min-w-0 border-y border-border/70 py-4">
-                <p className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-primary">module.signals</p>
+                <p className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-primary">radiant.signals</p>
                 <p className="mt-2 text-sm leading-6 text-muted-foreground">{moduleSignalsDescription}</p>
                 <div className="mt-4">
                   <MetricGrid metrics={signals} />
@@ -96,11 +132,19 @@ export default function LabExhibitLayout({
             ) : null
           )}
 
-          <section className="min-w-0 border-y border-border/70 py-4">
-            <p className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-primary">assertion.output</p>
-            <p className="mt-2 break-words text-sm leading-6 text-muted-foreground">{proof}</p>
-            {proofDetail ? <div className="mt-4 min-w-0 break-words">{proofDetail}</div> : null}
-          </section>
+          <div className="min-w-0 space-y-5">
+            <section className="min-w-0 border-y border-border/70 py-4">
+              <p className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-primary">seldon.assertion</p>
+              <p className="mt-2 break-words text-sm leading-6 text-muted-foreground">{proof}</p>
+              {proofDetail ? <div className="mt-4 min-w-0 break-words">{proofDetail}</div> : null}
+            </section>
+            {foundationTrace ? (
+              <section className="min-w-0 border-y border-border/70 py-4">
+                <p className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-primary">{foundationTrace.label}</p>
+                <p className="mt-2 break-words text-sm leading-6 text-muted-foreground">{foundationTrace.detail}</p>
+              </section>
+            ) : null}
+          </div>
         </div>
       </div>
     </section>

@@ -6,7 +6,6 @@ import useConcurrencyLab from "./useConcurrencyLab";
 import LabExhibitControls from "../../shared/LabExhibitControls";
 import LabExhibitLayout from "../../shared/LabExhibitLayout";
 import LabModuleSelector from "../../shared/LabModuleSelector";
-import LabProgressBar from "../../shared/LabProgressBar";
 import LiveStepPanel from "../../shared/LiveStepPanel";
 
 export default function MemoryConcurrencyLab() {
@@ -25,18 +24,15 @@ export default function MemoryConcurrencyLab() {
       proof="Performance work is also correctness work. Concurrency primitives change throughput, memory isolation, context switching, and whether the final state can be trusted."
       scene={<ConcurrencyScene {...lab.scene} />}
       controls={
-        <div className="space-y-4">
-          <LabProgressBar percent={lab.deadlocked ? 66 : lab.progress} variant={lab.deadlocked ? "destructive" : "primary"} />
-          <LabExhibitControls
-            playLabel={lab.isRunning ? "Threads scheduled..." : lab.mode.trigger}
-            onPlay={lab.start}
-            resetLabel="Reset Cycle"
-            onReset={lab.reset}
-            activeStepIndex={lab.insightStepIndex}
-            stepCount={lab.activeInsight.steps.length}
-            onStepSelect={lab.selectStep}
-          />
-        </div>
+        <LabExhibitControls
+          playLabel={lab.isRunning ? "Threads scheduled..." : lab.mode.trigger}
+          onPlay={lab.start}
+          resetLabel="Reset Cycle"
+          onReset={lab.reset}
+          activeStepIndex={lab.insightStepIndex}
+          stepCount={lab.activeInsight.steps.length}
+          onStepSelect={lab.selectStep}
+        />
       }
       stepPanel={
         <LiveStepPanel

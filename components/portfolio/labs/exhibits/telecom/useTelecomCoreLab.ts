@@ -22,7 +22,6 @@ export default function useTelecomCoreLab() {
   });
   const activeStageId = scenario.route[activeIndex] ?? scenario.route[0];
   const activeStage = telecomStages.find((stage) => stage.id === activeStageId) ?? telecomStages[0];
-  const routeProgress = Math.round(((activeIndex + 1) / scenario.route.length) * 100);
   const isComplete = activeIndex === scenario.route.length - 1 && !isSimulating && eventsProcessed > 0;
   const activeInsight = mergeLabInsight(labInsight, scenario.insightSteps);
   const stageOutputs: Partial<Record<string, string>> | undefined = scenario.stageOutputs;
@@ -69,7 +68,6 @@ export default function useTelecomCoreLab() {
     insightStepIndex,
     isComplete,
     isSimulating,
-    routeProgress,
     reset,
     selectScenario,
     selectStage,
