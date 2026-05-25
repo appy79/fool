@@ -74,9 +74,9 @@ export default function HeroSection({ contact }: HeroSectionProps) {
     <section className="scroll-mt-24 text-foreground" id="home">
       <div className="grid gap-5 border-y border-primary/25 py-5 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.36fr)] lg:items-stretch">
         <div className="flex min-w-0 flex-col gap-5 self-stretch">
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-[0.68rem] uppercase tracking-[0.22em] text-primary">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-[0.86rem] uppercase tracking-[0.24em] text-primary">
             <span title="For Foundation readers: the plan is still running.">&gt; portfolio.boot</span>
-            <span className="text-muted-foreground">archive.entry: galactic.engineering.appendix</span>
+            <span className="text-muted-foreground">archive.entry</span>
           </div>
           <div className="max-w-4xl space-y-4">
             <h1 className="max-w-5xl break-words text-4xl font-semibold tracking-tight text-foreground [overflow-wrap:anywhere] sm:text-5xl lg:text-6xl">
@@ -89,13 +89,15 @@ export default function HeroSection({ contact }: HeroSectionProps) {
                 {signal}
               </p>
             ))}
+            <p className="bg-card/80 px-3 py-2 text-primary dark:bg-background/65 sm:col-span-3">
+              Archive Key: Asimov&apos;s Foundation
+            </p>
           </div>
           <div className="grid gap-3 pt-1 md:grid-cols-3">
             {resume.proofPoints.map((point) => (
               <div key={point.label} className="border border-primary/20 bg-primary/5 px-4 py-3">
                 <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">{point.label}</p>
                 <p className="mt-2 text-sm font-semibold text-foreground">{point.value}</p>
-                <p className="mt-1 text-sm leading-6 text-muted-foreground">{point.detail}</p>
               </div>
             ))}
           </div>
@@ -110,12 +112,12 @@ export default function HeroSection({ contact }: HeroSectionProps) {
                     target="_blank"
                     rel="noreferrer"
                     aria-label={`${contact.location} location, opens in a new tab`}
-                    className="block text-sm uppercase tracking-[0.12em] text-muted-foreground transition hover:text-primary"
+                    className="block text-base font-semibold uppercase tracking-[0.12em] text-foreground transition hover:text-primary"
                   >
                     <FormattedLocation location={contact.location} />
                   </a>
                 ) : (
-                  <p className="text-sm uppercase tracking-[0.12em] text-muted-foreground" aria-label={contact.location}>
+                  <p className="text-base font-semibold uppercase tracking-[0.12em] text-foreground" aria-label={contact.location}>
                     <FormattedLocation location={contact.location} />
                   </p>
                 )}
@@ -143,7 +145,7 @@ export default function HeroSection({ contact }: HeroSectionProps) {
                       target="_blank"
                       rel="noreferrer"
                       aria-label={`${social.label}, opens in a new tab`}
-                      className="inline-flex size-10 items-center justify-center border border-border/70 text-muted-foreground transition hover:border-primary/60 hover:bg-primary/10 hover:text-primary"
+                      className="inline-flex size-10 items-center justify-center border border-border/70 text-primary transition hover:border-primary/60 hover:bg-primary/10 hover:text-foreground"
                     >
                       {getSocialIcon(social.label) ?? (
                         <span className="font-mono text-[0.65rem] uppercase tracking-[0.12em]">{social.label}</span>
