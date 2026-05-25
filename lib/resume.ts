@@ -103,9 +103,9 @@ const experience: ExperienceItem[] = [
   },
   {
     role: "Backend Intern",
-    company: "DUBDUB.AI",
+    company: "Dubdub.ai",
     period: "10/2021 - 01/2022",
-    location: "Pune, MH, India",
+    location: "Remote",
     projects: [
       {
         title: "Multiprocessing",
@@ -185,7 +185,7 @@ const projectDefinitions: ProjectDefinition[] = [
   {
     title: "Media Multiprocessing Service",
     sourceTitle: "Multiprocessing",
-    source: "DUBDUB.AI / Backend Intern",
+    source: "Dubdub.ai / Backend Intern",
     category: "Performance Engineering",
     tags: ["Python", "Flask", "FFmpeg", "Multiprocessing"],
     labHref: "/labs?lab=concurrency",
@@ -196,7 +196,7 @@ const projectDefinitions: ProjectDefinition[] = [
   {
     title: "ML Training Data Pipeline",
     sourceTitle: "Training Pipeline",
-    source: "DUBDUB.AI / Backend Intern",
+    source: "Dubdub.ai / Backend Intern",
     category: "Internal Tooling",
     tags: ["Python", "Flask", "Google API", "AWS S3", "AWS EC2", "Docker"],
     labHref: "/labs?lab=database",
@@ -207,7 +207,7 @@ const projectDefinitions: ProjectDefinition[] = [
   {
     title: "Usage-Based Monetization Service",
     sourceTitle: "Gamify",
-    source: "DUBDUB.AI / Backend Intern",
+    source: "Dubdub.ai / Backend Intern",
     category: "Charging",
     tags: ["Python", "Flask", "AWS", "Docker", "ER/UML"],
     labHref: "/labs?lab=database",
