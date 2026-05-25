@@ -178,6 +178,9 @@ const describeTechnologyRole = (project: (typeof resume.projects)[number], techn
   return `${technology} was part of the project stack for ${project.title}, supporting the ${project.category.toLowerCase()} work behind: ${project.impact}`;
 };
 
+const archiveSectionClass =
+  "relative min-w-0 pt-4 before:absolute before:left-0 before:top-0 before:h-px before:w-24 before:bg-primary/25";
+
 export default function ProjectsSection() {
   const categories = useMemo(
     () => ["Highlighted", ...Array.from(new Set(resume.projects.map((project) => project.category)))],
@@ -192,7 +195,7 @@ export default function ProjectsSection() {
   );
   const [activeCategory, setActiveCategory] = useState("Highlighted");
   const [activeProjectTitle, setActiveProjectTitle] = useState<string | null>(defaultProjectTitle);
-  const [expandedProjectTitle, setExpandedProjectTitle] = useState<string | null>(null);
+  const [isArchiveOpen, setIsArchiveOpen] = useState(false);
   const [activeTechnology, setActiveTechnology] = useState<{ projectTitle: string; technology: string } | null>(null);
 
   const filteredProjects = useMemo(
@@ -206,7 +209,7 @@ export default function ProjectsSection() {
   const activeProjectTechnology =
     activeTechnology?.projectTitle === activeProject?.title ? activeTechnology.technology : null;
   const activeProjectCrisisMemo = activeProject ? projectCrisisMemos[activeProject.title] : null;
-  const activeProjectDetailsOpen = Boolean(activeProject && expandedProjectTitle === activeProject.title);
+  const activeProjectDetailsOpen = Boolean(activeProject && isArchiveOpen);
 
   return (
     <section id="work" className="scroll-mt-24 space-y-5">
@@ -262,7 +265,6 @@ export default function ProjectsSection() {
 
                   setActiveCategory(category);
                   setActiveProjectTitle(nextProjectTitle);
-                  setExpandedProjectTitle(null);
                   setActiveTechnology(null);
                 }}
               >
@@ -288,8 +290,8 @@ export default function ProjectsSection() {
                   <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">archive.records</p>
                   <h3 className="text-2xl font-semibold tracking-tight text-foreground">{activeCategory}</h3>
                 </div>
-                <span className="grid size-12 shrink-0 place-items-center border border-primary/30 bg-primary/10 font-mono text-[0.65rem] uppercase tracking-[0.12em] text-primary">
-                  {filteredProjects.length}
+                <span className="grid size-12 shrink-0 place-items-center border border-primary/30 bg-primary/10 text-primary" aria-hidden="true">
+                  <ProjectCategoryIcon category={activeCategory} />
                 </span>
               </div>
 
@@ -309,7 +311,6 @@ export default function ProjectsSection() {
                       }`}
                       onClick={() => {
                         setActiveProjectTitle(project.title);
-                        setExpandedProjectTitle(null);
                         setActiveTechnology(null);
                       }}
                     >
@@ -350,7 +351,7 @@ export default function ProjectsSection() {
                     }`}
                     onClick={() => {
                       setActiveProjectTitle(activeProject.title);
-                      setExpandedProjectTitle(activeProject.title);
+                      setIsArchiveOpen(true);
                       setActiveTechnology({ projectTitle: activeProject.title, technology: tag });
                     }}
                   >
@@ -365,7 +366,7 @@ export default function ProjectsSection() {
                   type="button"
                   className="flex min-w-0 items-center justify-between gap-3 border border-primary/35 bg-primary/10 px-3 py-2 text-left font-mono text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-primary transition hover:border-primary/70 hover:bg-primary/15 hover:text-foreground"
                   aria-expanded={activeProjectDetailsOpen}
-                  onClick={() => setExpandedProjectTitle(activeProjectDetailsOpen ? null : activeProject.title)}
+                  onClick={() => setIsArchiveOpen((open) => !open)}
                 >
                   <span>{activeProjectDetailsOpen ? "Seal archive" : "Open archive"}</span>
                   <span aria-hidden="true">{activeProjectDetailsOpen ? "^" : "v"}</span>
@@ -380,13 +381,13 @@ export default function ProjectsSection() {
             </div>
 
             {activeProjectDetailsOpen ? (
-              <div className="grid gap-4 border border-primary/25 bg-background/20 p-4 md:grid-cols-2 lg:col-span-3">
-                <section>
+              <div className="grid gap-5 border border-primary/25 bg-background/20 p-4 md:grid-cols-2 lg:col-span-3">
+                <section className={archiveSectionClass}>
                   <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">field.report</p>
                   <p className="mt-2 text-sm leading-6 text-muted-foreground">{activeProject.description}</p>
                 </section>
 
-                <section className="border-t border-primary/25 pt-4 md:border-l md:border-t-0 md:pl-4 md:pt-0">
+                <section className={archiveSectionClass}>
                   <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">stack.vector</p>
                   {activeProjectTechnology ? (
                     <div className="mt-3 flex min-w-0 gap-3 border border-primary/25 bg-primary/5 p-4">
@@ -407,13 +408,13 @@ export default function ProjectsSection() {
                   )}
                 </section>
 
-                <section className="border-t border-primary/25 pt-4">
+                <section className={archiveSectionClass}>
                   <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">radiant.mapping</p>
                   <p className="mt-2 text-sm leading-6 text-muted-foreground">{activeProject.evidence}</p>
                 </section>
 
                 {activeProjectCrisisMemo ? (
-                  <section className="border-t border-primary/25 pt-4 md:border-l md:pl-4">
+                  <section className={archiveSectionClass}>
                     <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">seldon.note</p>
                     <p className="mt-2 text-sm leading-6 text-muted-foreground">{activeProjectCrisisMemo.note}</p>
                   </section>
