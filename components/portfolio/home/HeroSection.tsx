@@ -51,7 +51,12 @@ function LeetCodeIcon() {
 
 export default function HeroSection({ contact }: HeroSectionProps) {
   const hasSocials = Boolean(contact.socials?.length);
-  const archiveSignals = ["seldon.plan: active", "probability.vector: favorable", "terminus.node: pune"];
+  const foundationTimeline = [
+    { era: "0 F.E.",  detail: "predictive model bootstraps the roadmap" },
+    { era: "1 F.E.", detail: "edge node caches civilization state" },
+    { era: "50 F.E.", detail: "protocol negotiation beats brute force" },
+    { era: "300 F.E.", detail: "control plane patches drift silently" },
+  ];
   const getSocialIcon = (label: string) => {
     const normalizedLabel = label.toLowerCase();
 
@@ -72,37 +77,35 @@ export default function HeroSection({ contact }: HeroSectionProps) {
 
   return (
     <section className="scroll-mt-24 text-foreground" id="home">
-      <div className="grid gap-5 border-y border-primary/25 py-5 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.36fr)] lg:items-stretch">
-        <div className="flex min-w-0 flex-col gap-5 self-stretch">
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-[0.86rem] uppercase tracking-[0.24em] text-primary">
-            <span title="For Foundation readers: the plan is still running.">&gt; portfolio.boot</span>
-            <span className="text-muted-foreground">archive.entry</span>
-          </div>
-          <div className="max-w-4xl space-y-4">
-            <h1 className="max-w-5xl break-words text-4xl font-semibold tracking-tight text-foreground [overflow-wrap:anywhere] sm:text-5xl lg:text-6xl">
-              Full-stack systems for telecom-scale platforms.
-            </h1>
-          </div>
-          <div className="grid gap-px overflow-hidden border border-primary/25 bg-primary/20 font-mono text-[0.62rem] uppercase tracking-[0.18em] text-muted-foreground sm:grid-cols-3">
-            {archiveSignals.map((signal) => (
-              <p key={signal} className="bg-card/80 px-3 py-2 dark:bg-background/65">
-                {signal}
-              </p>
-            ))}
-            <p className="bg-card/80 px-3 py-2 text-primary dark:bg-background/65 sm:col-span-3">
-              Archive Key: Asimov&apos;s Foundation
-            </p>
-          </div>
-          <div className="grid gap-3 pt-1 md:grid-cols-3">
-            {resume.proofPoints.map((point) => (
-              <div key={point.label} className="border border-primary/20 bg-primary/5 px-4 py-3">
-                <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">{point.label}</p>
-                <p className="mt-2 text-sm font-semibold text-foreground">{point.value}</p>
-              </div>
-            ))}
+      <div className="space-y-5 border-y border-primary/25 py-5">
+        <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.36fr)] lg:items-start">
+          <div className="flex min-w-0 flex-col gap-5">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-[0.86rem] uppercase tracking-[0.24em] text-primary">
+              <span title="For Foundation readers: the plan is still running.">&gt; portfolio.boot</span>
+              <span className="text-muted-foreground">archive.entry</span>
+            </div>
+            <div className="max-w-4xl space-y-4">
+              <h1 className="max-w-5xl break-words text-4xl font-semibold tracking-tight text-foreground [overflow-wrap:anywhere] sm:text-5xl lg:text-6xl">
+                Full-stack systems for telecom-scale platforms.
+              </h1>
+            </div>
+            <div className="grid gap-3 pt-1 md:grid-cols-3">
+              {resume.proofPoints.map((point) => (
+                <div key={point.label} className="border border-primary/20 bg-primary/5 px-4 py-3">
+                  <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">{point.label}</p>
+                  <p className="mt-2 text-sm font-semibold text-foreground">{point.value}</p>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="mt-auto border-t border-border/70 pt-4">
+          <aside className="min-w-0 border-t border-border/70 pt-4 lg:border-l lg:border-t-0 lg:pl-5 lg:pt-0">
+            <HeroPortraitCard />
+          </aside>
+        </div>
+
+        <div className="grid gap-5 border-t border-border/70 pt-5 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.36fr)] lg:items-start">
+          <div className="min-w-0">
             <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">terminus.channel</p>
             <div className="mt-3 grid gap-px overflow-hidden border border-border/70 bg-border/70 text-sm leading-6 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto]">
               <div className="flex min-w-0 items-center bg-card/55 px-4 py-3 dark:bg-background/35">
@@ -155,13 +158,25 @@ export default function HeroSection({ contact }: HeroSectionProps) {
                 </div>
               ) : null}
             </div>
+            <div className="mt-4 border border-primary/25 bg-card/70 px-3 py-3 dark:bg-background/50">
+              <p className="font-mono text-[0.62rem] uppercase tracking-[0.18em] text-primary">Decode Key: Asimov&apos;s Foundation</p>
+              <ol
+                className="mt-3 grid gap-3 font-mono text-[0.62rem] uppercase tracking-[0.14em] text-muted-foreground sm:grid-cols-4"
+                aria-label="Decode Key: Asimov's Foundation"
+              >
+                {foundationTimeline.map((milestone) => (
+                  <li key={milestone.era} className="relative border-l border-primary/30 pb-1 pl-4 sm:border-l-0 sm:border-t sm:pl-0 sm:pt-4">
+                    <span className="absolute -left-[0.3125rem] top-0 size-2.5 bg-primary shadow-[0_0_0_4px_hsl(var(--card))] dark:shadow-[0_0_0_4px_hsl(var(--background))] sm:-top-[0.3125rem] sm:left-0" />
+                    <span className="block text-primary">{milestone.era}</span>
+                    <span className="mt-1 block leading-5 normal-case tracking-normal">{milestone.detail}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
           </div>
-        </div>
 
-        <aside className="flex min-w-0 self-stretch border-t border-border/70 pt-4 lg:border-l lg:border-t-0 lg:pl-5 lg:pt-0">
-          <div className="flex min-w-0 flex-1 flex-col">
-            <HeroPortraitCard />
-            <div className="mt-4 space-y-3 border-t border-border/70 pt-4">
+          <aside className="min-w-0 border-t border-border/70 pt-4 lg:border-l lg:border-t-0 lg:pl-5 lg:pt-0">
+            <div className="space-y-3">
               <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">prime.radiant.signal</p>
               <div className="relative min-h-32 overflow-hidden py-2">
                 <svg viewBox="0 0 320 132" className="h-32 w-full" role="img" aria-label="Animated systems lab preview">
@@ -218,8 +233,8 @@ export default function HeroSection({ contact }: HeroSectionProps) {
                 </Button>
               </div>
             </div>
-          </div>
-        </aside>
+          </aside>
+        </div>
       </div>
     </section>
   );
