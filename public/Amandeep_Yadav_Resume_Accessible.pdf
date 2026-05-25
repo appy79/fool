@@ -1,0 +1,559 @@
+%PDF-1.7
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R /StructTreeRoot 6 0 R /MarkInfo << /Marked true >> /Outlines 8 0 R /PageMode /UseOutlines /Lang (en-IN) /ViewerPreferences << /DisplayDocTitle true >> >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [14 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<<
+/Title (Amandeep Yadav - Backend Software Developer Resume)
+/Author (Amandeep Yadav)
+/Subject (Fully tagged ATS-ready backend and platform software developer resume with portfolio website)
+/Keywords (Amandeep Yadav, Backend Software Developer, Java, Spring Boot, Kafka, Kubernetes, Redis, Cassandra, PostgreSQL, React, microservices, telecom, charging, billing, platform tooling, portfolio, amandeepyadav.com)
+/Creator (Amandeep Yadav Portfolio)
+/Producer (Fully tagged PDF duplicate generated for portfolio download)
+/ModDate (D:20260524151056Z)
+>>
+endobj
+6 0 obj
+<< /Type /StructTreeRoot /K [21 0 R] /ParentTree 7 0 R /ParentTreeNextKey 6 >>
+endobj
+7 0 obj
+<< /Nums [0 [22 0 R 23 0 R 24 0 R 25 0 R 26 0 R 27 0 R 28 0 R 28 0 R 28 0 R 29 0 R 32 0 R 34 0 R 36 0 R 38 0 R 40 0 R 42 0 R 43 0 R 44 0 R 47 0 R 47 0 R 47 0 R 49 0 R 49 0 R 49 0 R 51 0 R 51 0 R 52 0 R 55 0 R 55 0 R 55 0 R 57 0 R 57 0 R 57 0 R 58 0 R 61 0 R 61 0 R 63 0 R 63 0 R 63 0 R 65 0 R 65 0 R 66 0 R 69 0 R 71 0 R 73 0 R] 1 74 0 R 2 75 0 R 3 76 0 R 4 77 0 R 5 78 0 R] /Limits [0 5] >>
+endobj
+8 0 obj
+<< /Type /Outlines /First 9 0 R /Last 13 0 R /Count 5 >>
+endobj
+9 0 obj
+<< /Title (AMANDEEP YADAV) /Parent 8 0 R /Next 10 0 R /Dest [14 0 R /XYZ 0 748.0 null] >>
+endobj
+10 0 obj
+<< /Title (PROFESSIONAL SUMMARY) /Parent 8 0 R /Prev 9 0 R /Next 11 0 R /Dest [14 0 R /XYZ 0 692.3 null] >>
+endobj
+11 0 obj
+<< /Title (TECHNICAL SKILLS) /Parent 8 0 R /Prev 10 0 R /Next 12 0 R /Dest [14 0 R /XYZ 0 647.3 null] >>
+endobj
+12 0 obj
+<< /Title (PROFESSIONAL EXPERIENCE) /Parent 8 0 R /Prev 11 0 R /Next 13 0 R /Dest [14 0 R /XYZ 0 571.4 null] >>
+endobj
+13 0 obj
+<< /Title (EDUCATION) /Parent 8 0 R /Prev 12 0 R /Dest [14 0 R /XYZ 0 306.8 null] >>
+endobj
+14 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Tabs /S /StructParents 0 /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 15 0 R /Annots [16 0 R 17 0 R 18 0 R 19 0 R 20 0 R] >>
+endobj
+15 0 obj
+<< /Length 6900 >>
+stream
+BT
+/H1 << /MCID 0 >> BDC
+/F2 15.2 Tf
+1 0 0 1 40.0 748.0 Tm
+(AMANDEEP YADAV) Tj
+EMC
+/P << /MCID 1 >> BDC
+/F2 8.0 Tf
+1 0 0 1 40.0 736.7 Tm
+(Backend Software Developer | Java, Spring Boot, Kafka, Kubernetes | Telecom Platforms) Tj
+EMC
+/P << /MCID 2 >> BDC
+/F1 8.0 Tf
+1 0 0 1 40.0 726.6 Tm
+(Pune, MH, India | amandeeppro79@gmail.com                 ) Tj
+EMC
+/P << /MCID 3 >> BDC
+/F1 8.0 Tf
+1 0 0 1 40.0 716.5 Tm
+(Portfolio: https://amandeepyadav.com/) Tj
+EMC
+/P << /MCID 4 >> BDC
+/F1 8.0 Tf
+1 0 0 1 40.0 706.4 Tm
+(LinkedIn: https://www.linkedin.com/in/amandeep-yadav | GitHub: https://github.com/appy79) Tj
+EMC
+/H2 << /MCID 5 >> BDC
+/F2 9.7 Tf
+1 0 0 1 40.0 692.3 Tm
+(PROFESSIONAL SUMMARY) Tj
+EMC
+/P << /MCID 6 >> BDC
+/F1 8.0 Tf
+1 0 0 1 40.0 681.0 Tm
+(Backend and platform-focused Software Developer at Amdocs with 3+ years of experience building Java Spring Boot microservices,) Tj
+EMC
+/P << /MCID 7 >> BDC
+/F1 8.0 Tf
+1 0 0 1 40.0 671.2 Tm
+(distributed data flows, and internal delivery tooling for telecom-scale systems. Skilled in Kafka, Kubernetes, Redis, Cassandra,) Tj
+EMC
+/P << /MCID 8 >> BDC
+/F1 8.0 Tf
+1 0 0 1 40.0 661.4 Tm
+(PostgreSQL, React, CI/CD, charging, billing, ordering, and service-access platforms.) Tj
+EMC
+/H2 << /MCID 9 >> BDC
+/F2 9.7 Tf
+1 0 0 1 40.0 647.3 Tm
+(TECHNICAL SKILLS) Tj
+EMC
+/LBody << /MCID 10 >> BDC
+/F1 8.0 Tf
+1 0 0 1 48.0 636.0 Tm
+(- Languages and backend: Java, Spring Boot, Microservices, REST APIs, Python, Flask, JUnit, Mockito) Tj
+EMC
+/LBody << /MCID 11 >> BDC
+/F1 8.0 Tf
+1 0 0 1 48.0 625.9 Tm
+(- Event-driven systems: Kafka, Camunda, asynchronous processing, distributed services, high-throughput APIs) Tj
+EMC
+/LBody << /MCID 12 >> BDC
+/F1 8.0 Tf
+1 0 0 1 48.0 615.8 Tm
+(- Databases and caching: Redis, Cassandra DB, Couchbase, PostgreSQL, SQL, NoSQL) Tj
+EMC
+/LBody << /MCID 13 >> BDC
+/F1 8.0 Tf
+1 0 0 1 48.0 605.7 Tm
+(- Cloud and DevOps: Kubernetes, Docker, GitLab CI/CD, Jenkins, Vault, AWS, Azure, Fabric8) Tj
+EMC
+/LBody << /MCID 14 >> BDC
+/F1 8.0 Tf
+1 0 0 1 48.0 595.6 Tm
+(- Frontend and tooling: React.js, Angular.js, JavaScript, TypeScript, Postman, TestNG, Git) Tj
+EMC
+/LBody << /MCID 15 >> BDC
+/F1 8.0 Tf
+1 0 0 1 48.0 585.5 Tm
+(- Domain strengths: Telecom charging, digital billing, service ordering, platform tooling, performance optimization) Tj
+EMC
+/H2 << /MCID 16 >> BDC
+/F2 9.7 Tf
+1 0 0 1 40.0 571.4 Tm
+(PROFESSIONAL EXPERIENCE) Tj
+EMC
+/H3 << /MCID 17 >> BDC
+/F2 8.6 Tf
+1 0 0 1 40.0 557.7 Tm
+(Experienced Software Developer | Amdocs | Pune, MH, India | 07/2025 - Current) Tj
+EMC
+/LBody << /MCID 18 >> BDC
+/F1 8.0 Tf
+1 0 0 1 48.0 546.4 Tm
+(- Production Deployment Tool: Built an internal dashboard with Java Spring Boot, Fabric8, GitLab REST API, React.js, and) Tj
+EMC
+/LBody << /MCID 19 >> BDC
+/F1 8.0 Tf
+1 0 0 1 50.0 536.6 Tm
+(  Vault to streamline feature testing. Added environment comparison, change validation, and caching for ~500 concurrent API) Tj
+EMC
+/LBody << /MCID 20 >> BDC
+/F1 8.0 Tf
+1 0 0 1 50.0 526.8 Tm
+(  calls, reducing developer and tester delivery effort by 20%.) Tj
+EMC
+/LBody << /MCID 21 >> BDC
+/F1 8.0 Tf
+1 0 0 1 48.0 516.7 Tm
+(- AT&T Openet: Developed Openet CHF-CGF microservices with Java Spring Boot, Redis, Cassandra DB, Kubernetes, and Kafka to) Tj
+EMC
+/LBody << /MCID 22 >> BDC
+/F1 8.0 Tf
+1 0 0 1 50.0 506.9 Tm
+(  process accounting events from AT&T Network Access Servers. Enabled real-time charging for 50M+ subscribers' data and) Tj
+EMC
+/LBody << /MCID 23 >> BDC
+/F1 8.0 Tf
+1 0 0 1 50.0 497.1 Tm
+(  talk-time usage, scaling to 1M+ events/sec with 99.9% accuracy.) Tj
+EMC
+/LBody << /MCID 24 >> BDC
+/F1 8.0 Tf
+1 0 0 1 48.0 487.0 Tm
+(- Metro By T-Mobile: Built Spring Boot, Kafka, Angular.js, Jenkins, and Kubernetes services to deliver post-acquisition) Tj
+EMC
+/LBody << /MCID 25 >> BDC
+/F1 8.0 Tf
+1 0 0 1 50.0 477.2 Tm
+(  access for 20M+ Metro brand users. Improved adoption by 15% and reduced service integration time by 40%.) Tj
+EMC
+/H3 << /MCID 26 >> BDC
+/F2 8.6 Tf
+1 0 0 1 40.0 464.7 Tm
+(Software Developer | Amdocs | Pune, MH, India | 07/2023 - 06/2025) Tj
+EMC
+/LBody << /MCID 27 >> BDC
+/F1 8.0 Tf
+1 0 0 1 48.0 453.4 Tm
+(- TMO DGB: Built Digital Billing aggregation microservices for T-Mobile using Java Spring Boot, Kafka, Redis, Vault, GitLab) Tj
+EMC
+/LBody << /MCID 28 >> BDC
+/F1 8.0 Tf
+1 0 0 1 50.0 443.6 Tm
+(  CI/CD, and Kubernetes. Bridged legacy SOA and new billing systems for 40M+ subscribers, aggregating 5M+ daily records with) Tj
+EMC
+/LBody << /MCID 29 >> BDC
+/F1 8.0 Tf
+1 0 0 1 50.0 433.8 Tm
+(  99.9% reliability and 50% faster data sync.) Tj
+EMC
+/LBody << /MCID 30 >> BDC
+/F1 8.0 Tf
+1 0 0 1 48.0 423.7 Tm
+(- NorthStar: Modernized T-Mobile ordering from legacy SOA to Java Spring Boot, Kafka, Camunda, Couchbase, PostgreSQL,) Tj
+EMC
+/LBody << /MCID 31 >> BDC
+/F1 8.0 Tf
+1 0 0 1 50.0 413.9 Tm
+(  Jenkins, and Kubernetes microservices for 5M+ enterprise subscribers. Delivered 99.99% uptime, rolling updates, async) Tj
+EMC
+/LBody << /MCID 32 >> BDC
+/F1 8.0 Tf
+1 0 0 1 50.0 404.1 Tm
+(  processing, 100+ features/fixes, 30% faster deployments, and 4x order throughput.) Tj
+EMC
+/H3 << /MCID 33 >> BDC
+/F2 8.6 Tf
+1 0 0 1 40.0 391.6 Tm
+(Backend Intern | DUBDUB.AI | Pune, MH, India | 10/2021 - 01/2022) Tj
+EMC
+/LBody << /MCID 34 >> BDC
+/F1 8.0 Tf
+1 0 0 1 48.0 380.3 Tm
+(- Multiprocessing: Optimized a Flask/FFmpeg media service with Python multiprocessing by partitioning workloads across) Tj
+EMC
+/LBody << /MCID 35 >> BDC
+/F1 8.0 Tf
+1 0 0 1 50.0 370.5 Tm
+(  workers, increasing throughput by approx. 300% for 10K+ daily media tasks.) Tj
+EMC
+/LBody << /MCID 36 >> BDC
+/F1 8.0 Tf
+1 0 0 1 48.0 360.4 Tm
+(- Training Pipeline: Built a Python Flask data pipeline with Google API client, AWS S3/EC2, and Docker for ML training.) Tj
+EMC
+/LBody << /MCID 37 >> BDC
+/F1 8.0 Tf
+1 0 0 1 50.0 350.6 Tm
+(  Automated Google Sheets ingestion for 1000+ daily records, cutting prep time 70% and accelerating model training cycles by) Tj
+EMC
+/LBody << /MCID 38 >> BDC
+/F1 8.0 Tf
+1 0 0 1 50.0 340.8 Tm
+(  50%.) Tj
+EMC
+/LBody << /MCID 39 >> BDC
+/F1 8.0 Tf
+1 0 0 1 48.0 330.7 Tm
+(- Gamify: Designed and launched a usage-based monetization microservice with Python Flask on AWS Docker. Created ER/UML) Tj
+EMC
+/LBody << /MCID 40 >> BDC
+/F1 8.0 Tf
+1 0 0 1 50.0 320.9 Tm
+(  diagrams and enabled early billing workflows, driving $200K initial revenue and 35% faster go-to-market.) Tj
+EMC
+/H2 << /MCID 41 >> BDC
+/F2 9.7 Tf
+1 0 0 1 40.0 306.8 Tm
+(EDUCATION) Tj
+EMC
+/LBody << /MCID 42 >> BDC
+/F1 8.0 Tf
+1 0 0 1 48.0 295.5 Tm
+(- Master of Computer Applications | NIT Trichy | Tiruchirappalli, India | 07/2020 - 06/2023) Tj
+EMC
+/LBody << /MCID 43 >> BDC
+/F1 8.0 Tf
+1 0 0 1 48.0 285.4 Tm
+(- Bachelor of Computer Applications | University of Rajasthan | Jaipur, India | 07/2017 - 06/2020) Tj
+EMC
+/LBody << /MCID 44 >> BDC
+/F1 8.0 Tf
+1 0 0 1 48.0 275.3 Tm
+(- Schooling | Rashtriya Military School | Ajmer, India | 04/2010 - 03/2017) Tj
+EMC
+ET
+endstream
+endobj
+16 0 obj
+<< /Type /Annot /Subtype /Link /Rect [114.88 724.60 173.12 736.60] /Border [0 0 0] /StructParent 1 /Contents (     ) /A << /S /URI /URI (                 ) >> >>
+endobj
+17 0 obj
+<< /Type /Annot /Subtype /Link /Rect [185.60 724.60 281.28 736.60] /Border [0 0 0] /StructParent 2 /Contents (Email) /A << /S /URI /URI (mailto:amandeeppro79@gmail.com) >> >>
+endobj
+18 0 obj
+<< /Type /Annot /Subtype /Link /Rect [85.76 714.50 193.92 726.50] /Border [0 0 0] /StructParent 3 /Contents (Portfolio) /A << /S /URI /URI (https://amandeepyadav.com/) >> >>
+endobj
+19 0 obj
+<< /Type /Annot /Subtype /Link /Rect [81.60 704.40 256.32 716.40] /Border [0 0 0] /StructParent 4 /Contents (LinkedIn) /A << /S /URI /URI (https://www.linkedin.com/in/amandeep-yadav) >> >>
+endobj
+20 0 obj
+<< /Type /Annot /Subtype /Link /Rect [302.08 704.40 406.08 716.40] /Border [0 0 0] /StructParent 5 /Contents (GitHub) /A << /S /URI /URI (https://github.com/appy79) >> >>
+endobj
+21 0 obj
+<< /Type /StructElem /S /Document /P 6 0 R /K [22 0 R 23 0 R 24 0 R 25 0 R 26 0 R 27 0 R 28 0 R 29 0 R 30 0 R 43 0 R 44 0 R 45 0 R 52 0 R 53 0 R 58 0 R 59 0 R 66 0 R 67 0 R 74 0 R 75 0 R 76 0 R 77 0 R 78 0 R] >>
+endobj
+22 0 obj
+<< /Type /StructElem /S /H1 /P 21 0 R /Pg 14 0 R /T (AMANDEEP YADAV) /K 0 >>
+endobj
+23 0 obj
+<< /Type /StructElem /S /P /P 21 0 R /Pg 14 0 R /K 1 >>
+endobj
+24 0 obj
+<< /Type /StructElem /S /P /P 21 0 R /Pg 14 0 R /K 2 >>
+endobj
+25 0 obj
+<< /Type /StructElem /S /P /P 21 0 R /Pg 14 0 R /K 3 >>
+endobj
+26 0 obj
+<< /Type /StructElem /S /P /P 21 0 R /Pg 14 0 R /K 4 >>
+endobj
+27 0 obj
+<< /Type /StructElem /S /H2 /P 21 0 R /Pg 14 0 R /T (PROFESSIONAL SUMMARY) /K 5 >>
+endobj
+28 0 obj
+<< /Type /StructElem /S /P /P 21 0 R /Pg 14 0 R /K [6 7 8] >>
+endobj
+29 0 obj
+<< /Type /StructElem /S /H2 /P 21 0 R /Pg 14 0 R /T (TECHNICAL SKILLS) /K 9 >>
+endobj
+30 0 obj
+<< /Type /StructElem /S /L /P 21 0 R /K [31 0 R 33 0 R 35 0 R 37 0 R 39 0 R 41 0 R] >>
+endobj
+31 0 obj
+<< /Type /StructElem /S /LI /P 30 0 R /K 32 0 R >>
+endobj
+32 0 obj
+<< /Type /StructElem /S /LBody /P 31 0 R /Pg 14 0 R /K 10 >>
+endobj
+33 0 obj
+<< /Type /StructElem /S /LI /P 30 0 R /K 34 0 R >>
+endobj
+34 0 obj
+<< /Type /StructElem /S /LBody /P 33 0 R /Pg 14 0 R /K 11 >>
+endobj
+35 0 obj
+<< /Type /StructElem /S /LI /P 30 0 R /K 36 0 R >>
+endobj
+36 0 obj
+<< /Type /StructElem /S /LBody /P 35 0 R /Pg 14 0 R /K 12 >>
+endobj
+37 0 obj
+<< /Type /StructElem /S /LI /P 30 0 R /K 38 0 R >>
+endobj
+38 0 obj
+<< /Type /StructElem /S /LBody /P 37 0 R /Pg 14 0 R /K 13 >>
+endobj
+39 0 obj
+<< /Type /StructElem /S /LI /P 30 0 R /K 40 0 R >>
+endobj
+40 0 obj
+<< /Type /StructElem /S /LBody /P 39 0 R /Pg 14 0 R /K 14 >>
+endobj
+41 0 obj
+<< /Type /StructElem /S /LI /P 30 0 R /K 42 0 R >>
+endobj
+42 0 obj
+<< /Type /StructElem /S /LBody /P 41 0 R /Pg 14 0 R /K 15 >>
+endobj
+43 0 obj
+<< /Type /StructElem /S /H2 /P 21 0 R /Pg 14 0 R /T (PROFESSIONAL EXPERIENCE) /K 16 >>
+endobj
+44 0 obj
+<< /Type /StructElem /S /H3 /P 21 0 R /Pg 14 0 R /T (Experienced Software Developer | Amdocs | Pune, MH, India | 07/2025 - Current) /K 17 >>
+endobj
+45 0 obj
+<< /Type /StructElem /S /L /P 21 0 R /K [46 0 R 48 0 R 50 0 R] >>
+endobj
+46 0 obj
+<< /Type /StructElem /S /LI /P 45 0 R /K 47 0 R >>
+endobj
+47 0 obj
+<< /Type /StructElem /S /LBody /P 46 0 R /Pg 14 0 R /K [18 19 20] >>
+endobj
+48 0 obj
+<< /Type /StructElem /S /LI /P 45 0 R /K 49 0 R >>
+endobj
+49 0 obj
+<< /Type /StructElem /S /LBody /P 48 0 R /Pg 14 0 R /K [21 22 23] >>
+endobj
+50 0 obj
+<< /Type /StructElem /S /LI /P 45 0 R /K 51 0 R >>
+endobj
+51 0 obj
+<< /Type /StructElem /S /LBody /P 50 0 R /Pg 14 0 R /K [24 25] >>
+endobj
+52 0 obj
+<< /Type /StructElem /S /H3 /P 21 0 R /Pg 14 0 R /T (Software Developer | Amdocs | Pune, MH, India | 07/2023 - 06/2025) /K 26 >>
+endobj
+53 0 obj
+<< /Type /StructElem /S /L /P 21 0 R /K [54 0 R 56 0 R] >>
+endobj
+54 0 obj
+<< /Type /StructElem /S /LI /P 53 0 R /K 55 0 R >>
+endobj
+55 0 obj
+<< /Type /StructElem /S /LBody /P 54 0 R /Pg 14 0 R /K [27 28 29] >>
+endobj
+56 0 obj
+<< /Type /StructElem /S /LI /P 53 0 R /K 57 0 R >>
+endobj
+57 0 obj
+<< /Type /StructElem /S /LBody /P 56 0 R /Pg 14 0 R /K [30 31 32] >>
+endobj
+58 0 obj
+<< /Type /StructElem /S /H3 /P 21 0 R /Pg 14 0 R /T (Backend Intern | DUBDUB.AI | Pune, MH, India | 10/2021 - 01/2022) /K 33 >>
+endobj
+59 0 obj
+<< /Type /StructElem /S /L /P 21 0 R /K [60 0 R 62 0 R 64 0 R] >>
+endobj
+60 0 obj
+<< /Type /StructElem /S /LI /P 59 0 R /K 61 0 R >>
+endobj
+61 0 obj
+<< /Type /StructElem /S /LBody /P 60 0 R /Pg 14 0 R /K [34 35] >>
+endobj
+62 0 obj
+<< /Type /StructElem /S /LI /P 59 0 R /K 63 0 R >>
+endobj
+63 0 obj
+<< /Type /StructElem /S /LBody /P 62 0 R /Pg 14 0 R /K [36 37 38] >>
+endobj
+64 0 obj
+<< /Type /StructElem /S /LI /P 59 0 R /K 65 0 R >>
+endobj
+65 0 obj
+<< /Type /StructElem /S /LBody /P 64 0 R /Pg 14 0 R /K [39 40] >>
+endobj
+66 0 obj
+<< /Type /StructElem /S /H2 /P 21 0 R /Pg 14 0 R /T (EDUCATION) /K 41 >>
+endobj
+67 0 obj
+<< /Type /StructElem /S /L /P 21 0 R /K [68 0 R 70 0 R 72 0 R] >>
+endobj
+68 0 obj
+<< /Type /StructElem /S /LI /P 67 0 R /K 69 0 R >>
+endobj
+69 0 obj
+<< /Type /StructElem /S /LBody /P 68 0 R /Pg 14 0 R /K 42 >>
+endobj
+70 0 obj
+<< /Type /StructElem /S /LI /P 67 0 R /K 71 0 R >>
+endobj
+71 0 obj
+<< /Type /StructElem /S /LBody /P 70 0 R /Pg 14 0 R /K 43 >>
+endobj
+72 0 obj
+<< /Type /StructElem /S /LI /P 67 0 R /K 73 0 R >>
+endobj
+73 0 obj
+<< /Type /StructElem /S /LBody /P 72 0 R /Pg 14 0 R /K 44 >>
+endobj
+74 0 obj
+<< /Type /StructElem /S /Link /P 21 0 R /Pg 14 0 R /T (     ) /K << /Type /OBJR /Obj 16 0 R >> >>
+endobj
+75 0 obj
+<< /Type /StructElem /S /Link /P 21 0 R /Pg 14 0 R /T (Email) /K << /Type /OBJR /Obj 17 0 R >> >>
+endobj
+76 0 obj
+<< /Type /StructElem /S /Link /P 21 0 R /Pg 14 0 R /T (Portfolio) /K << /Type /OBJR /Obj 18 0 R >> >>
+endobj
+77 0 obj
+<< /Type /StructElem /S /Link /P 21 0 R /Pg 14 0 R /T (LinkedIn) /K << /Type /OBJR /Obj 19 0 R >> >>
+endobj
+78 0 obj
+<< /Type /StructElem /S /Link /P 21 0 R /Pg 14 0 R /T (GitHub) /K << /Type /OBJR /Obj 20 0 R >> >>
+endobj
+xref
+0 79
+0000000000 65535 f 
+0000000015 00000 n 
+0000000215 00000 n 
+0000000273 00000 n 
+0000000370 00000 n 
+0000000472 00000 n 
+0000001040 00000 n 
+0000001134 00000 n 
+0000001541 00000 n 
+0000001613 00000 n 
+0000001718 00000 n 
+0000001842 00000 n 
+0000001963 00000 n 
+0000002091 00000 n 
+0000002192 00000 n 
+0000002401 00000 n 
+0000009353 00000 n 
+0000009531 00000 n 
+0000009722 00000 n 
+0000009912 00000 n 
+0000010117 00000 n 
+0000010304 00000 n 
+0000010532 00000 n 
+0000010625 00000 n 
+0000010697 00000 n 
+0000010769 00000 n 
+0000010841 00000 n 
+0000010913 00000 n 
+0000011012 00000 n 
+0000011090 00000 n 
+0000011185 00000 n 
+0000011288 00000 n 
+0000011355 00000 n 
+0000011432 00000 n 
+0000011499 00000 n 
+0000011576 00000 n 
+0000011643 00000 n 
+0000011720 00000 n 
+0000011787 00000 n 
+0000011864 00000 n 
+0000011931 00000 n 
+0000012008 00000 n 
+0000012075 00000 n 
+0000012152 00000 n 
+0000012255 00000 n 
+0000012412 00000 n 
+0000012494 00000 n 
+0000012561 00000 n 
+0000012646 00000 n 
+0000012713 00000 n 
+0000012798 00000 n 
+0000012865 00000 n 
+0000012947 00000 n 
+0000013092 00000 n 
+0000013167 00000 n 
+0000013234 00000 n 
+0000013319 00000 n 
+0000013386 00000 n 
+0000013471 00000 n 
+0000013615 00000 n 
+0000013697 00000 n 
+0000013764 00000 n 
+0000013846 00000 n 
+0000013913 00000 n 
+0000013998 00000 n 
+0000014065 00000 n 
+0000014147 00000 n 
+0000014236 00000 n 
+0000014318 00000 n 
+0000014385 00000 n 
+0000014462 00000 n 
+0000014529 00000 n 
+0000014606 00000 n 
+0000014673 00000 n 
+0000014750 00000 n 
+0000014864 00000 n 
+0000014978 00000 n 
+0000015096 00000 n 
+0000015213 00000 n 
+trailer
+<< /Size 79 /Root 1 0 R /Info 5 0 R >>
+startxref
+15328
+%%EOF

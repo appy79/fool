@@ -1,43 +1,53 @@
-export type SkillCategory = {
+type SkillCategory = {
   title: string;
   items: string[];
 };
 
-export type ExperienceProject = {
+type ExperienceProject = {
   title: string;
   description: string;
 };
 
-export type ExperienceItem = {
+type ExperienceItem = {
   role: string;
   company: string;
   period: string;
   location: string;
-  description?: string;
   projects: ExperienceProject[];
 };
 
-export type ProjectItem = {
+type ProjectItem = {
   title: string;
+  source: string;
+  impact: string;
   description: string;
   category: string;
   tags: string[];
-  link: string;
+  labHref: string;
+  labLabel: string;
+  evidence: string;
 };
 
-type FeaturedProjectDefinition = Omit<ProjectItem, "description"> & {
+type ProjectDefinition = Omit<ProjectItem, "description"> & {
   sourceTitle: string;
 };
 
-export type EducationItem = {
+type ProofPoint = {
+  label: string;
+  value: string;
+  detail: string;
+};
+
+type EducationItem = {
   degree: string;
   school: string;
   period: string;
   location: string;
 };
 
-export type ContactInfo = {
+type ContactInfo = {
   location: string;
+  locationHref?: string;
   socials?: { label: string; href: string }[];
   socialsFromEnv?: { label: string; envKey: string }[];
   emailFromEnv?: "CONTACT_EMAIL" | string;
@@ -64,7 +74,7 @@ const experience: ExperienceItem[] = [
       {
         title: "AT&T Openet",
         description:
-          "Developed Openet CHF-CGF microservices using Java Spring Boot, Redis, Cassandra DB, Kubernetes, and Kafka to process accounting events from AT&T Network Access Servers. Enabled real-time charging for 50M+ subscribers' data/talk time usage—scaling to 1M+ events/sec with 99.9% accuracy.",
+          "Developed Openet CHF-CGF microservices using Java Spring Boot, Redis, Cassandra DB, Kubernetes, and Kafka to process accounting events from AT&T Network Access Servers. Enabled real-time charging for 100M+ subscribers' data/talk time usage—scaling to 1M+ events/sec with 99.99% accuracy.",
       },
       {
         title: "Metro By T-Mobile",
@@ -93,9 +103,9 @@ const experience: ExperienceItem[] = [
   },
   {
     role: "Backend Intern",
-    company: "DUBDUB.AI",
+    company: "Dubdub.ai",
     period: "10/2021 - 01/2022",
-    location: "Pune, MH, India",
+    location: "Remote",
     projects: [
       {
         title: "Multiprocessing",
@@ -116,27 +126,94 @@ const experience: ExperienceItem[] = [
   },
 ];
 
-const featuredProjectDefinitions: FeaturedProjectDefinition[] = [
+const projectDefinitions: ProjectDefinition[] = [
   {
     title: "Production Deployment Tool",
     sourceTitle: "Production Deployment Tool",
+    source: "Amdocs / Experienced Software Developer",
     category: "Internal Tooling",
     tags: ["Java", "Spring Boot", "React.js", "Vault", "GitLab"],
-    link: "#contact",
+    labHref: "/labs?lab=concurrency",
+    labLabel: "Concurrency Race Visualizer",
+    impact: "Reduced developer and tester delivery friction by 20% through faster environment comparison and validation.",
+    evidence: "Maps to coordinating many environment checks and concurrent API calls without losing correctness or throughput.",
   },
   {
     title: "AT&T Openet Microservices",
     sourceTitle: "AT&T Openet",
-    category: "Telecom Enterprise",
+    source: "Amdocs / Experienced Software Developer",
+    category: "Charging",
     tags: ["Java", "Kafka", "Kubernetes", "Cassandra", "Redis"],
-    link: "#contact",
+    labHref: "/labs?lab=distributed",
+    labLabel: "Distributed Consensus Lab",
+    impact: "Processed charging/accounting events for 100M+ subscribers with 1M+ events/sec throughput targets.",
+    evidence: "Maps to distributed event ordering, fault tolerance, and convergence across high-volume charging services.",
   },
   {
     title: "Metro By T-Mobile Platform",
     sourceTitle: "Metro By T-Mobile",
+    source: "Amdocs / Experienced Software Developer",
     category: "Telecom Enterprise",
     tags: ["Java", "Angular.js", "Kafka", "Jenkins", "Kubernetes"],
-    link: "#contact",
+    labHref: "/labs?lab=telecom",
+    labLabel: "Telecom Core Simulator",
+    impact: "Improved service adoption and integration speed during a post-acquisition platform migration.",
+    evidence: "Maps to access, orchestration, events, persistence, and billing paths in telecom service flows.",
+  },
+  {
+    title: "TMO Digital Billing Aggregation",
+    sourceTitle: "TMO DGB",
+    source: "Amdocs / Software Developer",
+    category: "Telecom Enterprise",
+    tags: ["Java", "Spring Boot", "Kafka", "Redis", "GitLab CI", "Kubernetes"],
+    labHref: "/labs?lab=patterns",
+    labLabel: "Design Patterns Machine",
+    impact: "Aggregated 5M+ daily billing records for 40M+ subscribers while improving data sync speed by 50%.",
+    evidence: "Maps to adapter, observer, and boundary patterns used when bridging legacy SOA and new billing systems.",
+  },
+  {
+    title: "NorthStar Ordering Modernization",
+    sourceTitle: "NorthStar",
+    source: "Amdocs / Software Developer",
+    category: "Performance Engineering",
+    tags: ["Java", "Spring Boot", "Kafka", "Camunda", "Couchbase", "PostgreSQL"],
+    labHref: "/labs?lab=concurrency",
+    labLabel: "Concurrency Race Visualizer",
+    impact: "Supported high-volume enterprise ordering, 99.99% uptime goals, and 4x order throughput improvement.",
+    evidence: "Maps to async processing, work queues, bounded parallelism, and throughput tradeoffs in ordering workflows.",
+  },
+  {
+    title: "Media Multiprocessing Service",
+    sourceTitle: "Multiprocessing",
+    source: "Dubdub.ai / Backend Intern",
+    category: "Performance Engineering",
+    tags: ["Python", "Flask", "FFmpeg", "Multiprocessing"],
+    labHref: "/labs?lab=concurrency",
+    labLabel: "Concurrency Race Visualizer",
+    impact: "Increased throughput by approx. 300% for high-volume daily media processing workloads.",
+    evidence: "Maps to multiprocessing, worker isolation, and throughput tradeoffs from the media-processing optimization.",
+  },
+  {
+    title: "ML Training Data Pipeline",
+    sourceTitle: "Training Pipeline",
+    source: "Dubdub.ai / Backend Intern",
+    category: "Internal Tooling",
+    tags: ["Python", "Flask", "Google API", "AWS S3", "AWS EC2", "Docker"],
+    labHref: "/labs?lab=database",
+    labLabel: "Database Systems Lab",
+    impact: "Automated ingestion for 1000+ daily records and cut model preparation time by 70%.",
+    evidence: "Maps to ingestion, storage, batching, and data-access tradeoffs in a training-data pipeline.",
+  },
+  {
+    title: "Usage-Based Monetization Service",
+    sourceTitle: "Gamify",
+    source: "Dubdub.ai / Backend Intern",
+    category: "Charging",
+    tags: ["Python", "Flask", "AWS", "Docker", "ER/UML"],
+    labHref: "/labs?lab=database",
+    labLabel: "Database Systems Lab",
+    impact: "Launched an early monetization service that helped drive $200K initial revenue and faster go-to-market.",
+    evidence: "Maps to ER modeling, usage records, persistence, and data-access design for billing-facing monetization.",
   },
 ];
 
@@ -146,13 +223,13 @@ const getExperienceProjectDescription = (title: string) => {
     .find((item) => item.title === title);
 
   if (!project) {
-    throw new Error(`Featured project source not found: ${title}`);
+    throw new Error(`Project source not found: ${title}`);
   }
 
   return project.description;
 };
 
-const featuredProjects: ProjectItem[] = featuredProjectDefinitions.map(({ sourceTitle, ...project }) => ({
+const projects: ProjectItem[] = projectDefinitions.map(({ sourceTitle, ...project }) => ({
   ...project,
   description: getExperienceProjectDescription(sourceTitle),
 }));
@@ -160,49 +237,48 @@ const featuredProjects: ProjectItem[] = featuredProjectDefinitions.map(({ source
 export const resume = {
   name: "Amandeep Yadav",
   title: "Software Developer",
-  intro: "Dynamic Software Developer with a proven track record at Amdocs, skilled in Java, JavaScript, and Agile methodologies. Adept at collaborating with stakeholders to deliver impactful solutions, leveraging first principles thinking, and expertise in microservices architecture to drive various projects to success.",
-  highlights: [
-    "Microservices architecture and cloud-native delivery",
-    "Distributed systems using Kafka, Kubernetes, and container orchestration",
-    "Agile product delivery with automation and CI/CD",
-    "End-to-end full-stack engineering from backend services to UX-driven frontend",
-  ],
+  focus: "Backend, full-stack, and platform tooling for distributed systems",
+  proofPoints: [
+    {
+      label: "current",
+      value: "Amdocs, India",
+      detail: "Shipping enterprise telecom systems and internal platform tooling.",
+    },
+    {
+      label: "scale",
+      value: "100M+ subscribers",
+      detail: "Charging, billing, and service access flows across telecom programs.",
+    },
+    {
+      label: "stack",
+      value: "Java + React + Kafka + Kubernetes",
+      detail: "Spring Boot services, distributed data systems, and Reactive systems.",
+    },
+  ] as ProofPoint[],
   skills: [
     {
-      title: "Programming",
-      items: ["Java", "Python", "JavaScript", "C++"],
+      title: "Core backend",
+      items: ["Java", "Spring Boot", "Python", "Flask", "JUnit", "Mockito"],
     },
     {
-      title: "Frameworks & libraries",
-      items: ["Angular.js", "React.js", "Three.js", "Spring Boot", "Flask", "WordPress"],
+      title: "Distributed data",
+      items: ["Kafka", "Redis", "Cassandra DB", "Couchbase", "PostgreSQL"],
     },
     {
-      title: "Fundamentals",
-      items: ["DSA", "OOP", "OS & Kernel", "Virtualization", "SQL & NoSQL DBs", "Computer Architecture", "OSI Model"],
+      title: "Cloud delivery",
+      items: ["Kubernetes", "Docker", "GitLab CI", "Jenkins", "Vault"],
     },
     {
-      title: "Cloud & CI",
-      items: ["Docker", "AWS", "Azure", "GitLab CI", "Jenkins"],
+      title: "Frontend",
+      items: ["React.js", "Angular.js", "JavaScript", "TypeScript", "Three.js"],
     },
     {
-      title: "Distributed systems",
-      items: ["Kafka", "Spark", "Kubernetes", "Cassandra DB", "Redis", "Couchbase"],
+      title: "Supporting stack",
+      items: [ "AWS", "Azure", "Postman", "Test NG"],
     },
     {
-      title: "Tools",
-      items: ["Git", "Bash", "Jira", "Confluence", "Draw.io"],
-    },
-    {
-      title: "Testing",
-      items: ["JUnit", "Postman", "TestNG", "Mockito"],
-    },
-    {
-      title: "Concepts",
-      items: ["Microservices architecture", "First principles thinking", "Limits and efficiency of computation"],
-    },
-    {
-      title: "GenAI",
-      items: ["Cursor", "Claude", "Copilot", "Comet"],
+      title: "Engineering fundamentals",
+      items: ["DSA", "OOP", "SQL & NoSQL DBs", "Operating Systems", "Computer Networks"],
     },
   ] as SkillCategory[],
   experience,
@@ -219,13 +295,21 @@ export const resume = {
       period: "07/2017 - 06/2020",
       location: "Jaipur, India",
     },
+    {
+      degree: "Schooling",
+      school: "Rashtriya Military School",
+      period: "04/2010 - 03/2017",
+      location: "Ajmer, India",
+    },
   ] as EducationItem[],
-  projects: featuredProjects,
+  projects,
   contact: {
-    location: "Remote / India",
+    location: "Pune, MH, India",
+    locationHref: "https://www.google.com/maps/search/?api=1&query=Amdocs%20DVCI%20India",
     socialsFromEnv: [
       { label: "GitHub", envKey: "SOCIAL_GITHUB" },
       { label: "LinkedIn", envKey: "SOCIAL_LINKEDIN" },
+      { label: "LeetCode", envKey: "SOCIAL_LEETCODE" },
     ],
     emailFromEnv: "CONTACT_EMAIL",
     phoneFromEnv: "CONTACT_PHONE",

@@ -38,8 +38,9 @@ Open `http://localhost:3000` to view the site.
 
 - `app/` contains the Next.js App Router entrypoints, metadata, providers, and global styles.
 - `app/robots.ts` and `app/sitemap.ts` generate SEO crawler metadata.
-- `components/portfolio/` contains the page sections: hero, skills, education, projects, experience, and contact.
-- `components/ui/` contains reusable shadcn-style UI primitives.
+- `components/portfolio/home/` contains the home page sections: hero, projects/experience, skills, and education.
+- `components/portfolio/labs/` contains the interactive engineering systems lab shell, registry, shared UI, and exhibits.
+- `components/ui/` contains reusable shadcn-style UI primitives currently used by the app.
 - `lib/resume.ts` is the single source of truth for resume content, featured work, education, and contact configuration.
 - `public/` contains static assets used by metadata and browsers.
 

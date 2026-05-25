@@ -1,39 +1,72 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Providers } from "./providers";
 import { Header, HeaderBrand, HeaderNav } from "@/components/ui/header";
+import ResumeDownloadMenu from "@/components/ui/resume-download-menu";
 import ThemeToggle from "@/components/ui/theme-toggle";
+import { resume } from "@/lib/resume";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const siteTitle = `${resume.name} | ${resume.title}`;
+const siteDescription = `Portfolio of ${resume.name}: ${resume.focus}.`;
+const ogImage = {
+  url: "/og.svg",
+  width: 1200,
+  height: 630,
+  alt: `${resume.name} software developer portfolio preview`,
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Amandeep Yadav | Software Developer",
-  description: "Portfolio of Amandeep Yadav, a software developer focused on backend services, platform tooling, and distributed systems.",
+  title: siteTitle,
+  description: siteDescription,
+  applicationName: `${resume.name} Portfolio`,
+  authors: [{ name: resume.name, url: siteUrl }],
+  creator: resume.name,
+  publisher: resume.name,
+  keywords: [
+    resume.name,
+    "software developer",
+    "backend engineer",
+    "full-stack developer",
+    "distributed systems",
+    "telecom systems",
+    "platform tooling",
+    "portfolio",
+  ],
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   icons: {
     icon: "/icon.svg",
   },
   manifest: "/site.webmanifest",
   openGraph: {
-    title: "Amandeep Yadav | Software Developer",
-    description: "Backend services, platform tooling, and distributed systems portfolio.",
-    url: siteUrl,
-    siteName: "Amandeep Yadav Portfolio",
-    images: [
-      {
-        url: "/og.svg",
-        width: 1200,
-        height: 630,
-        alt: "Amandeep Yadav software developer portfolio",
-      },
-    ],
+    title: siteTitle,
+    description: siteDescription,
+    url: "/",
+    siteName: `${resume.name} Portfolio`,
+    images: [ogImage],
+    locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Amandeep Yadav | Software Developer",
-    description: "Backend services, platform tooling, and distributed systems portfolio.",
-    images: ["/og.svg"],
+    title: siteTitle,
+    description: siteDescription,
+    images: [ogImage],
   },
 };
 
@@ -42,18 +75,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning>
       <body>
         <Providers>
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[100] focus:border focus:border-primary/70 focus:bg-background focus:px-4 focus:py-2 focus:font-mono focus:text-sm focus:uppercase focus:tracking-[0.16em] focus:text-primary"
+          >
+            Skip to main content
+          </a>
           <Header>
             <HeaderBrand>
-              <span className="text-sm font-semibold uppercase tracking-[0.24em] text-primary">Amandeep Yadav</span>
-              <span className="hidden text-sm text-muted-foreground sm:inline">Portfolio Experience</span>
+              <Link href="/" className="block truncate text-sm font-semibold uppercase tracking-[0.24em] text-primary transition hover:text-foreground">
+                {resume.name}
+              </Link>
             </HeaderBrand>
             <HeaderNav>
               <nav className="hidden items-center gap-4 md:flex">
-                <a href="#skills" className="text-sm text-muted-foreground transition hover:text-foreground">Skills</a>
-                <a href="#education" className="text-sm text-muted-foreground transition hover:text-foreground">Education</a>
-                <a href="#work" className="text-sm text-muted-foreground transition hover:text-foreground">Work</a>
-                <a href="#experience" className="text-sm text-muted-foreground transition hover:text-foreground">Experience</a>
-                <a href="#contact" className="text-sm text-muted-foreground transition hover:text-foreground">Contact</a>
+                <ResumeDownloadMenu />
+                <Link href="/labs" className="text-sm text-muted-foreground transition hover:text-foreground">Labs</Link>
               </nav>
               <ThemeToggle />
             </HeaderNav>
