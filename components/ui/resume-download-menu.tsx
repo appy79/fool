@@ -2,20 +2,22 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import { resumeFiles } from "@/lib/resume-files";
 
-const resumeOptions = [
-  {
-    label: "Human-readable PDF",
-    detail: "Roomier layout for recruiters and direct sharing.",
-    href: "/Amandeep_Yadav_Resume_Human.pdf",
-    download: "Amandeep_Yadav_Resume_Human.pdf",
-  },
-  {
-    label: "ATS / Accessible PDF",
-    detail: "Tagged, structured PDF for applications and parsers.",
-    href: "/Amandeep_Yadav_Resume_Accessible.pdf",
-    download: "Amandeep_Yadav_Resume_ATS_Accessible.pdf",
-  },
+type ResumeOption = {
+  label: string;
+  detail: string;
+  href: string;
+  target?: React.HTMLAttributeAnchorTarget;
+};
+
+const resumeOptions: ResumeOption[] = [
+  ...resumeFiles.map((resumeFile) => ({
+    label: resumeFile.label,
+    detail: resumeFile.detail,
+    href: resumeFile.href,
+    target: "_blank" as const,
+  })),
 ];
 
 export default function ResumeDownloadMenu({ className }: { className?: string }) {
@@ -86,7 +88,8 @@ export default function ResumeDownloadMenu({ className }: { className?: string }
               key={option.href}
               role="menuitem"
               href={option.href}
-              download={option.download}
+              target={option.target}
+              rel={option.target ? "noreferrer" : undefined}
               className="block border border-transparent px-3 py-3 transition hover:border-primary/60 hover:bg-primary/10 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
               onClick={() => setOpen(false)}
             >
