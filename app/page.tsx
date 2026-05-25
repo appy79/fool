@@ -1,9 +1,9 @@
-import ContactSection from "@/components/portfolio/ContactSection";
-import EducationSection from "@/components/portfolio/EducationSection";
-import ExperienceSection from "@/components/portfolio/ExperienceSection";
-import HeroSection from "@/components/portfolio/HeroSection";
-import ProjectsSection from "@/components/portfolio/ProjectsSection";
-import SkillsSection from "@/components/portfolio/SkillsSection";
+import EducationSection from "@/components/portfolio/home/EducationSection";
+import HeroSection from "@/components/portfolio/home/HeroSection";
+import ProjectsSection from "@/components/portfolio/home/ProjectsSection";
+import SkillsSection from "@/components/portfolio/home/SkillsSection";
+import PortfolioFooter from "@/components/portfolio/shared/PortfolioFooter";
+import styles from "@/components/portfolio/shared/portfolioTheme.module.css";
 import { resume } from "@/lib/resume";
 
 export default function Home() {
@@ -19,21 +19,17 @@ export default function Home() {
   };
 
   return (
-    <main className="relative min-h-screen py-16 text-foreground sm:py-20">
-      <div className="glass mx-auto flex max-w-6xl flex-col gap-16 rounded-[2rem] border border-border/70 bg-card/85 px-8 py-16 shadow-2xl shadow-slate-900/10 dark:bg-background/80 dark:shadow-slate-950/20 sm:px-10 lg:px-14">
-        <HeroSection />
+    <main id="main-content" className={`${styles.theme} min-h-screen px-3 py-4 text-foreground sm:px-5 sm:py-6 lg:px-8`}>
+      <div className="mx-auto flex max-w-[96rem] flex-col gap-5">
+        <HeroSection contact={contact} />
 
-        <div className="space-y-16">
-          <SkillsSection />
-          <div className="h-px bg-border/30" />
-          <EducationSection />
-          <div className="h-px bg-border/30" />
+        <div className="space-y-10">
           <ProjectsSection />
-          <div className="h-px bg-border/30" />
-          <ExperienceSection />
-          <div className="h-px bg-border/30" />
-          <ContactSection contact={contact} />
+          <SkillsSection />
+          <EducationSection />
         </div>
+
+        <PortfolioFooter />
       </div>
     </main>
   );

@@ -1,0 +1,43 @@
+.sceneStage {
+  align-content: start;
+  align-items: start;
+  display: grid;
+  gap: 1.5rem;
+  min-width: 0;
+}
+
+.sceneVisual,
+.sceneControlItem {
+  align-self: start;
+  min-width: 0;
+}
+
+.sceneNode {
+  min-width: 0;
+}
+
+.firstLoadPulse {
+  animation: firstLoadPulse 2.4s ease-out 0.25s 2 both;
+}
+
+@keyframes firstLoadPulse {
+  0%,
+  100% {
+    background-color: color-mix(in oklch, var(--primary) 5%, transparent);
+    border-color: color-mix(in oklch, var(--primary) 35%, transparent);
+    transform: translateY(0);
+  }
+
+  28%,
+  64% {
+    background-color: color-mix(in oklch, var(--primary) 16%, transparent);
+    border-color: var(--primary);
+    transform: translateY(-1px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .firstLoadPulse {
+    animation: none;
+  }
+}
