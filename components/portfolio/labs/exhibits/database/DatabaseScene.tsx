@@ -4,6 +4,7 @@ import ScaledSceneCanvas from "../../shared/ScaledSceneCanvas";
 type DatabaseSceneProps = {
   accessModule: {
     id: string;
+    name: string;
     stages: readonly string[];
     bars: readonly number[];
   };
