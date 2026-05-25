@@ -130,7 +130,7 @@ export default function DistributedScene({ scenarioId, phaseIndex }: Distributed
               key={`${fromId}-${toId}`}
               canvasHeight={canvas.height}
               canvasWidth={canvas.width}
-              className={active ? "animate-pulse bg-amber-300 shadow-[0_0_18px_rgba(251,191,36,0.65)]" : "bg-gray-700/70"}
+              className={active ? "animate-pulse bg-amber-300 shadow-[0_0_18px_rgba(251,191,36,0.65)] motion-reduce:animate-none" : "bg-gray-700/70"}
               from={startNode}
               thickness={active ? 5 : 2}
               to={endNode}
@@ -149,12 +149,12 @@ export default function DistributedScene({ scenarioId, phaseIndex }: Distributed
           return (
             <div
               key={node.id}
-              className="absolute -translate-x-1/2 -translate-y-1/2 text-center transition-all duration-500"
+              className="absolute -translate-x-1/2 -translate-y-1/2 text-center transition-all duration-500 motion-reduce:transition-none"
               style={scenePointStyle(node, canvas.width, canvas.height)}
             >
               {selfMessage ? (
                 <>
-                  <div className="absolute inset-[-1.25rem] animate-ping rounded-full border-4 border-amber-300/50" />
+                  <div className="absolute inset-[-1.25rem] animate-ping rounded-full border-4 border-amber-300/50 motion-reduce:animate-none" />
                   <div className="absolute inset-[-0.8rem] rounded-full border-2 border-dashed border-amber-100/80" />
                 </>
               ) : null}
@@ -167,7 +167,7 @@ export default function DistributedScene({ scenarioId, phaseIndex }: Distributed
                       : active
                         ? "border-violet-200 bg-violet-900 text-white shadow-violet-500/35"
                         : "border-violet-300 bg-gray-800 text-gray-100"
-                } ${leader || faulty || active ? "animate-pulse" : ""}`}
+                } ${leader || faulty || active ? "animate-pulse motion-reduce:animate-none" : ""}`}
               >
                 {node.id}
               </div>

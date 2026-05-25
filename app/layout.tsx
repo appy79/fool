@@ -72,7 +72,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body>
         <Providers>
           <a
@@ -83,14 +83,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </a>
           <Header>
             <HeaderBrand>
-              <Link href="/" className="block truncate text-sm font-semibold uppercase tracking-[0.24em] text-primary transition hover:text-foreground">
+              <Link href="/" className="block truncate text-sm font-semibold uppercase tracking-[0.24em] text-primary transition hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none">
                 {resume.name}
               </Link>
             </HeaderBrand>
             <HeaderNav>
-              <nav className="hidden items-center gap-4 md:flex">
+              <nav className="hidden items-center gap-4 md:flex" aria-label="Main navigation">
                 <ResumeDownloadMenu />
-                <Link href="/labs" className="text-sm text-muted-foreground transition hover:text-foreground">Labs</Link>
+                <Link href="/labs" className="text-sm text-muted-foreground transition hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none">Labs</Link>
               </nav>
               <ThemeToggle />
             </HeaderNav>

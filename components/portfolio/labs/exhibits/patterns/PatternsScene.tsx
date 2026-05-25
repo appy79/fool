@@ -100,12 +100,12 @@ export default function PatternsScene({ pattern, activePart }: PatternSceneProps
           return (
             <div
               key={part}
-              className="absolute -translate-x-1/2 -translate-y-1/2 transition-all duration-500"
+              className="absolute -translate-x-1/2 -translate-y-1/2 transition-all duration-500 motion-reduce:transition-none"
               style={scenePointStyle(position, canvas.width, canvas.height)}
             >
-              {active ? <div className="absolute inset-[-0.7rem] animate-ping rounded-[1.8rem] bg-amber-400/20" /> : null}
+              {active ? <div className="absolute inset-[-0.7rem] animate-ping rounded-[1.8rem] bg-amber-400/20 motion-reduce:animate-none" /> : null}
               <div
-                className={`relative grid h-20 min-w-36 place-items-center rounded-[1.4rem] border-2 px-4 text-center text-sm font-extrabold shadow-xl transition ${
+                className={`relative grid h-20 min-w-36 place-items-center rounded-[1.4rem] border-2 px-4 text-center text-sm font-extrabold shadow-xl transition motion-reduce:transition-none ${
                   active
                     ? "border-amber-100 bg-amber-400 text-stone-950 shadow-amber-500/35"
                     : completed
@@ -120,7 +120,7 @@ export default function PatternsScene({ pattern, activePart }: PatternSceneProps
         })}
 
         <div
-          className="absolute h-5 w-5 -translate-x-1/2 -translate-y-1/2 animate-pulse rounded-full bg-amber-50 shadow-[0_0_18px_rgba(254,243,199,0.9)] transition-all duration-700"
+          className="absolute h-5 w-5 -translate-x-1/2 -translate-y-1/2 animate-pulse rounded-full bg-amber-50 shadow-[0_0_18px_rgba(254,243,199,0.9)] transition-all duration-700 motion-reduce:animate-none motion-reduce:transition-none"
           style={scenePointStyle(activePosition, canvas.width, canvas.height)}
         />
       </ScaledSceneCanvas>

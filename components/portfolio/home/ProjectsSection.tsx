@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { resume } from "@/lib/resume";
 import TechnologyIcon from "./TechnologyIcon";
@@ -181,7 +181,10 @@ const describeTechnologyRole = (project: (typeof resume.projects)[number], techn
 const archiveSectionClass =
   "relative min-w-0 pt-4 before:absolute before:left-0 before:top-0 before:h-px before:w-24 before:bg-primary/25";
 
+const toDomId = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
 export default function ProjectsSection() {
+  const archiveRegionRef = useRef<HTMLDivElement>(null);
   const categories = useMemo(
     () => ["Highlighted", ...Array.from(new Set(resume.projects.map((project) => project.category)))],
     []
@@ -210,6 +213,15 @@ export default function ProjectsSection() {
     activeTechnology?.projectTitle === activeProject?.title ? activeTechnology.technology : null;
   const activeProjectCrisisMemo = activeProject ? projectCrisisMemos[activeProject.title] : null;
   const activeProjectDetailsOpen = Boolean(activeProject && isArchiveOpen);
+  const activeProjectArchiveId = activeProject ? `project-archive-${toDomId(activeProject.title)}` : undefined;
+
+  useEffect(() => {
+    if (!activeProjectDetailsOpen) {
+      return;
+    }
+
+    requestAnimationFrame(() => archiveRegionRef.current?.focus());
+  }, [activeProjectDetailsOpen, activeProjectArchiveId]);
 
   return (
     <section id="work" className="scroll-mt-24 space-y-5">
@@ -253,8 +265,8 @@ export default function ProjectsSection() {
               <button
                 key={category}
                 type="button"
-                aria-current={active ? "true" : undefined}
-                className={`inline-flex min-w-0 items-center gap-2 border px-2.5 py-2 text-left transition lg:w-full lg:px-3 ${
+                aria-pressed={active}
+                className={`inline-flex min-w-0 items-center gap-2 border px-2.5 py-2 text-left transition focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 lg:w-full lg:px-3 ${
                   active
                     ? "border-primary/70 bg-primary/10 text-foreground"
                     : "border-border/70 bg-card/45 text-muted-foreground hover:border-primary/45 hover:text-foreground dark:bg-background/35"
@@ -284,7 +296,7 @@ export default function ProjectsSection() {
 
         {activeProject ? (
           <>
-            <div className="min-w-0 border border-primary/25 bg-card/45 p-5 backdrop-blur dark:bg-background/35">
+            <div className="min-w-0 border border-primary/25 bg-card/45 p-5 backdrop-blur dark:bg-background/35" aria-live="polite">
               <div className="flex min-w-0 items-start justify-between gap-4">
                 <div className="min-w-0 space-y-2">
                   <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">archive.records</p>
@@ -304,7 +316,8 @@ export default function ProjectsSection() {
                     <button
                       key={project.title}
                       type="button"
-                      className={`min-w-0 border p-3 text-left transition ${
+                      aria-pressed={active}
+                      className={`min-w-0 border p-3 text-left transition focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 ${
                         active
                           ? "border-primary/70 bg-primary/10 text-foreground"
                           : "border-border/70 bg-card/50 text-muted-foreground hover:border-primary/45 hover:text-foreground dark:bg-background/35"
@@ -344,7 +357,8 @@ export default function ProjectsSection() {
                     key={tag}
                     type="button"
                     aria-pressed={activeProjectTechnology === tag}
-                    className={`inline-flex shrink-0 items-center gap-1.5 border px-3 py-1.5 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.12em] transition ${
+                    aria-label={`Show ${tag} role in ${activeProject.title}`}
+                    className={`inline-flex shrink-0 items-center gap-1.5 border px-3 py-1.5 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.12em] transition focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 ${
                       activeProjectTechnology === tag
                         ? "border-primary/70 bg-primary/10 text-primary"
                         : "border-border/70 bg-card/50 text-muted-foreground hover:border-primary/50 hover:text-primary"
@@ -364,8 +378,9 @@ export default function ProjectsSection() {
               <div className="mt-4 grid gap-2 border-t border-border/70 pt-4 sm:grid-cols-2">
                 <button
                   type="button"
-                  className="flex min-w-0 items-center justify-between gap-3 border border-primary/35 bg-primary/10 px-3 py-2 text-left font-mono text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-primary transition hover:border-primary/70 hover:bg-primary/15 hover:text-foreground"
+                  className="flex min-w-0 items-center justify-between gap-3 border border-primary/35 bg-primary/10 px-3 py-2 text-left font-mono text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-primary transition hover:border-primary/70 hover:bg-primary/15 hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
                   aria-expanded={activeProjectDetailsOpen}
+                  aria-controls={activeProjectDetailsOpen ? activeProjectArchiveId : undefined}
                   onClick={() => setIsArchiveOpen((open) => !open)}
                 >
                   <span>{activeProjectDetailsOpen ? "Seal archive" : "Open archive"}</span>
@@ -373,7 +388,7 @@ export default function ProjectsSection() {
                 </button>
                 <Link
                   href={activeProject.labHref}
-                  className="min-w-0 border border-border/70 px-3 py-2 text-left font-mono text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-primary transition hover:border-primary/70 hover:text-foreground sm:text-right"
+                  className="min-w-0 border border-border/70 px-3 py-2 text-left font-mono text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-primary transition hover:border-primary/70 hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 sm:text-right"
                 >
                   {activeProject.labLabel} -&gt;
                 </Link>
@@ -381,7 +396,12 @@ export default function ProjectsSection() {
             </div>
 
             {activeProjectDetailsOpen ? (
-              <div className="grid gap-5 border border-primary/25 bg-background/20 p-4 md:grid-cols-2 lg:col-span-3">
+              <div
+                id={activeProjectArchiveId}
+                ref={archiveRegionRef}
+                tabIndex={-1}
+                className="grid gap-5 border border-primary/25 bg-background/20 p-4 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 md:grid-cols-2 lg:col-span-3"
+              >
                 <section className={archiveSectionClass}>
                   <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">field.report</p>
                   <p className="mt-2 text-sm leading-6 text-muted-foreground">{activeProject.description}</p>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { useLabFirstLoadPulse } from "../shared/LabProgramManifestContext";
 import type { LabExhibit } from "../types";
 import type { LabId } from "./labRegistry";
@@ -25,17 +25,88 @@ const programOpcodes: Record<LabId, string> = {
 
 export default function LabManifest({ labs, activeLabId, onSelectLab }: LabManifestProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const manifestListId = useId();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const shouldPulseSelectors = useLabFirstLoadPulse();
   const activeLab = labs.find((lab) => lab.id === activeLabId) ?? labs[0];
 
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    const previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const fallbackFocus = buttonRef.current;
+    requestAnimationFrame(() => {
+      panelRef.current?.querySelector<HTMLElement>("button:not([disabled])")?.focus();
+    });
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setIsOpen(false);
+        return;
+      }
+
+      if (event.key !== "Tab") {
+        return;
+      }
+
+      const focusableElements = Array.from(
+        panelRef.current?.querySelectorAll<HTMLElement>("button:not([disabled]), [tabindex]:not([tabindex=\"-1\"])") ?? []
+      );
+
+      if (focusableElements.length === 0) {
+        event.preventDefault();
+        panelRef.current?.focus();
+        return;
+      }
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault();
+        lastElement.focus();
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault();
+        firstElement.focus();
+      }
+    };
+
+    const closeOnOutsidePointer = (event: PointerEvent) => {
+      if (!containerRef.current?.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("pointerdown", closeOnOutsidePointer);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("pointerdown", closeOnOutsidePointer);
+      if (previouslyFocused?.isConnected) {
+        previouslyFocused.focus();
+      } else {
+        fallbackFocus?.focus();
+      }
+    };
+  }, [isOpen]);
+
   return (
-    <div className="min-w-0 flex-1 font-mono text-sm text-foreground">
+    <div ref={containerRef} className="min-w-0 flex-1 font-mono text-sm text-foreground">
       <button
+        ref={buttonRef}
         type="button"
-        className={`grid w-full min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border border-primary/35 bg-primary/5 px-3 py-2 text-left transition hover:border-primary/65 hover:bg-primary/10 ${
+        className={`grid w-full min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border border-primary/35 bg-primary/5 px-3 py-2 text-left transition hover:border-primary/65 hover:bg-primary/10 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 ${
           shouldPulseSelectors ? styles.firstLoadPulse : ""
         }`}
         aria-expanded={isOpen}
+        aria-controls={isOpen ? manifestListId : undefined}
+        aria-label={`Select lab simulation. ${labs.length} crisis simulations available.`}
         onClick={() => setIsOpen((open) => !open)}
       >
         <span className="min-w-0 text-[0.72rem] uppercase tracking-[0.16em]">
@@ -53,7 +124,7 @@ export default function LabManifest({ labs, activeLabId, onSelectLab }: LabManif
       </button>
 
       {isOpen ? (
-        <div className="mt-2 border-y border-primary/20 py-2">
+        <div id={manifestListId} ref={panelRef} tabIndex={-1} className="mt-2 border-y border-primary/20 py-2">
           <p className="px-3 pb-2 text-[0.62rem] uppercase tracking-[0.22em] text-muted-foreground">
             prime.radiant.manifest
           </p>
@@ -64,8 +135,8 @@ export default function LabManifest({ labs, activeLabId, onSelectLab }: LabManif
               <button
                 key={lab.id}
                 type="button"
-                aria-current={active ? "true" : undefined}
-                className={`grid w-full min-w-0 grid-cols-[3.5rem_4.5rem_minmax(0,1fr)_4.5rem] items-center gap-3 py-2 text-left transition ${
+                aria-pressed={active}
+                className={`grid w-full min-w-0 grid-cols-[3.5rem_4.5rem_minmax(0,1fr)_4.5rem] items-center gap-3 py-2 text-left transition focus-visible:ring-3 focus-visible:ring-ring/50 ${
                   active ? "text-primary" : "text-muted-foreground hover:text-foreground"
                 }`}
                 onClick={() => {

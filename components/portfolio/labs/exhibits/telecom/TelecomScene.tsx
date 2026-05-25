@@ -33,9 +33,9 @@ export default function TelecomScene({
   return (
     <LabSceneFrame className="p-0 shadow-inner shadow-cyan-950/40">
       <ScaledSceneCanvas
-        aria-label="Animated telecom core route"
+        aria-label="Interactive telecom core route"
         className="bg-[linear-gradient(135deg,#1c1917_0%,#052e1a_52%,#042f2e_100%)]"
-        role="img"
+        role="group"
         width={canvas.width}
         height={canvas.height}
       >
@@ -93,7 +93,7 @@ export default function TelecomScene({
                 completed
                   ? "bg-gradient-to-r from-amber-400 via-emerald-400 to-teal-400 shadow-[0_0_18px_rgba(34,197,94,0.55)]"
                   : current
-                    ? "animate-pulse bg-sky-100"
+                    ? "animate-pulse bg-sky-100 motion-reduce:animate-none"
                     : "bg-slate-800"
               }
               from={from}
@@ -114,8 +114,10 @@ export default function TelecomScene({
             <button
               key={stage.id}
               type="button"
-              className={`absolute z-10 -translate-x-1/2 -translate-y-1/2 text-center transition-all duration-500 ${inRoute ? "cursor-pointer" : "cursor-default opacity-35"}`}
+              className={`absolute z-10 -translate-x-1/2 -translate-y-1/2 text-center transition-all duration-500 motion-reduce:transition-none ${inRoute ? "cursor-pointer" : "cursor-default opacity-35"}`}
               disabled={!inRoute}
+              aria-current={active ? "step" : undefined}
+              aria-label={`${stage.label}: ${stage.signal}${inRoute ? "" : `, ${bypassNotes?.[stage.id] ?? "bypassed"}`}`}
               onClick={() => {
                 if (inRoute) {
                   onStageSelect(routeIndex);
@@ -123,7 +125,7 @@ export default function TelecomScene({
               }}
               style={scenePointStyle(position, canvas.width, canvas.height)}
             >
-              {active ? <span className="absolute inset-[-0.7rem] animate-ping rounded-2xl bg-amber-400/25" /> : null}
+              {active ? <span className="absolute inset-[-0.7rem] animate-ping rounded-2xl bg-amber-400/25 motion-reduce:animate-none" /> : null}
               <span
                 className={`relative grid min-h-14 min-w-24 place-items-center rounded-2xl border-2 px-3 text-sm font-bold shadow-xl transition ${
                   active
@@ -151,17 +153,17 @@ export default function TelecomScene({
             style={scenePointStyle({ x: activePosition.x + 52, y: activePosition.y }, canvas.width, canvas.height)}
           >
             {[0, 1, 2, 3].map((offset) => (
-              <span key={offset} className="animate-pulse rounded-full bg-amber-300 shadow-[0_0_12px_rgba(251,191,36,0.8)]" style={{ height: 8 + offset * 2, width: 8 + offset * 2 }} />
+              <span key={offset} className="animate-pulse rounded-full bg-amber-300 shadow-[0_0_12px_rgba(251,191,36,0.8)] motion-reduce:animate-none" style={{ height: 8 + offset * 2, width: 8 + offset * 2 }} />
             ))}
           </div>
         ) : null}
 
         <div
-          className="absolute z-30 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-amber-50 shadow-[0_0_20px_rgba(254,243,199,0.9)] transition-all duration-700"
+          className="absolute z-30 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-amber-50 shadow-[0_0_20px_rgba(254,243,199,0.9)] transition-all duration-700 motion-reduce:transition-none"
           style={scenePointStyle(activePosition, canvas.width, canvas.height)}
         />
         <div
-          className="absolute z-30 h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-amber-50/70 transition-all duration-700"
+          className="absolute z-30 h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-amber-50/70 transition-all duration-700 motion-reduce:transition-none"
           style={scenePointStyle(activePosition, canvas.width, canvas.height)}
         />
       </ScaledSceneCanvas>

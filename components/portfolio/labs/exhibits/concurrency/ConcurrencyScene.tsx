@@ -139,16 +139,16 @@ export default function ConcurrencyScene({
                   </div>
                   <div className="relative h-4 overflow-hidden rounded-full bg-slate-900">
                     <div
-                      className={`absolute top-1/2 h-1 -translate-y-1/2 rounded-full transition-all duration-500 ${
+                      className={`absolute top-1/2 h-1 -translate-y-1/2 rounded-full transition-all duration-500 motion-reduce:transition-none ${
                         waiting ? "bg-red-400" : isRace && phaseIndex >= 3 ? "bg-rose-400" : "bg-orange-300"
                       }`}
                       style={{ left: 0, width: tokenTarget === "read" ? "22%" : tokenTarget === "compute" ? "45%" : tokenTarget === "critical" ? "70%" : "100%" }}
                     />
                     {active && !serialized ? (
                       <span
-                        className={`absolute top-1/2 h-4 w-4 -translate-y-1/2 rounded-full shadow-lg transition-all duration-500 ${
+                        className={`absolute top-1/2 h-4 w-4 -translate-y-1/2 rounded-full shadow-lg transition-all duration-500 motion-reduce:transition-none ${
                           waiting ? "bg-rose-400 shadow-rose-400/40" : phaseIndex >= 3 && isRace ? "bg-rose-400 shadow-rose-400/40" : "bg-orange-100 shadow-orange-200/40"
-                        } ${isRunning ? "animate-pulse" : ""}`}
+                        } ${isRunning ? "animate-pulse motion-reduce:animate-none" : ""}`}
                         style={{ left: tokenTarget === "read" ? "22%" : tokenTarget === "compute" ? "45%" : tokenTarget === "critical" ? "70%" : "calc(100% - 1rem)" }}
                       />
                     ) : null}
@@ -202,7 +202,7 @@ export default function ConcurrencyScene({
               <div className="text-xs font-black uppercase tracking-[0.16em] text-slate-400">Reducer queue</div>
               <div className="mt-3 flex gap-2">
                 {[0, 1, 2, 3].map((item) => (
-                  <span key={item} className={`h-6 w-8 rounded-lg bg-orange-400 ${phaseIndex > 0 ? "animate-pulse" : ""} ${phaseIndex > 1 ? "opacity-90" : "opacity-45"}`} />
+                  <span key={item} className={`h-6 w-8 rounded-lg bg-orange-400 ${phaseIndex > 0 ? "animate-pulse motion-reduce:animate-none" : ""} ${phaseIndex > 1 ? "opacity-90" : "opacity-45"}`} />
                 ))}
               </div>
             </div>

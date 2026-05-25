@@ -114,7 +114,6 @@ body {
   background-color: var(--background);
   background-image: var(--page-background-image);
   background-repeat: no-repeat;
-  background-attachment: fixed;
   background-size: cover;
 }
 

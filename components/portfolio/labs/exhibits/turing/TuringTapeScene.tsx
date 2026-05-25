@@ -68,6 +68,12 @@ export default function TuringTapeScene({
             @keyframes turing-reel-spin {
               to { transform: rotate(360deg); }
             }
+            @media (prefers-reduced-motion: reduce) {
+              .turing-motion {
+                animation: none !important;
+                transition: none !important;
+              }
+            }
           `}
         </style>
 
@@ -96,7 +102,7 @@ export default function TuringTapeScene({
           {["left", "right"].map((side) => (
             <div
               key={side}
-              className={`pointer-events-none absolute top-10 z-0 h-32 w-32 rounded-full border border-amber-100/20 bg-[conic-gradient(from_0deg,#3b2a1c,#c0842f,#2a1e14,#8a5a1f,#3b2a1c)] shadow-inner shadow-black/70 ${side === "left" ? "left-7" : "right-7"}`}
+              className={`turing-motion pointer-events-none absolute top-10 z-0 h-32 w-32 rounded-full border border-amber-100/20 bg-[conic-gradient(from_0deg,#3b2a1c,#c0842f,#2a1e14,#8a5a1f,#3b2a1c)] shadow-inner shadow-black/70 ${side === "left" ? "left-7" : "right-7"}`}
               style={{
                 animationDuration: "1.4s",
                 animationDirection: side === "left" ? "reverse" : "normal",
@@ -116,7 +122,7 @@ export default function TuringTapeScene({
         <div className="absolute left-1/2 top-12 z-20 w-28 -translate-x-1/2 text-center">
           <div
             key={`head-${clackTick}`}
-            className="mx-auto"
+            className="turing-motion mx-auto"
             style={{
               animationDuration: "280ms",
               animationName: clackTick > 0 ? "turing-head-clack" : "none",
@@ -148,7 +154,7 @@ export default function TuringTapeScene({
             <div className="relative left-1/2 w-max -translate-x-1/2">
               <div
                 key={`tape-${clackTick}`}
-                className="flex justify-center gap-1"
+                className="turing-motion flex justify-center gap-1"
                 style={{
                   animation:
                     clackTick > 0
@@ -163,7 +169,7 @@ export default function TuringTapeScene({
                   return (
                     <div key={index} className="flex w-16 flex-col items-center gap-1">
                       <div
-                        className={`grid h-16 w-16 place-items-center border-y border-r border-[#6b481f]/45 font-mono text-2xl font-black transition ${
+                        className={`grid h-16 w-16 place-items-center border-y border-r border-[#6b481f]/45 font-mono text-2xl font-black transition motion-reduce:transition-none ${
                           active
                             ? "bg-amber-50 text-slate-950 shadow-[0_0_28px_rgba(251,191,36,0.65)]"
                             : "bg-[#e5c982] text-[#4a2f11]"
