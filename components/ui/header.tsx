@@ -32,6 +32,8 @@ function HeaderNav({ className, children, ...props }: HeaderProps) {
   const [open, setOpen] = React.useState(false);
   const menuId = React.useId();
   const containerRef = React.useRef<HTMLDivElement>(null);
+  const menuButtonRef = React.useRef<HTMLButtonElement>(null);
+  const menuPanelRef = React.useRef<HTMLDivElement>(null);
 
   const childrenArray = React.Children.toArray(children);
   const navChild = childrenArray.find(
@@ -49,9 +51,44 @@ function HeaderNav({ className, children, ...props }: HeaderProps) {
       return;
     }
 
-    const closeOnEscape = (event: KeyboardEvent) => {
+    const previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const fallbackFocus = menuButtonRef.current;
+    requestAnimationFrame(() => {
+      menuPanelRef.current?.querySelector<HTMLElement>("a[href], button:not([disabled])")?.focus();
+    });
+
+    const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
+        event.preventDefault();
         setOpen(false);
+        return;
+      }
+
+      if (event.key !== "Tab") {
+        return;
+      }
+
+      const focusableElements = Array.from(
+        menuPanelRef.current?.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        ) ?? []
+      );
+
+      if (focusableElements.length === 0) {
+        event.preventDefault();
+        menuPanelRef.current?.focus();
+        return;
+      }
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault();
+        lastElement.focus();
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault();
+        firstElement.focus();
       }
     };
 
@@ -61,12 +98,17 @@ function HeaderNav({ className, children, ...props }: HeaderProps) {
       }
     };
 
-    window.addEventListener("keydown", closeOnEscape);
+    window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("pointerdown", closeOnOutsidePointer);
 
     return () => {
-      window.removeEventListener("keydown", closeOnEscape);
+      window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("pointerdown", closeOnOutsidePointer);
+      if (previouslyFocused?.isConnected) {
+        previouslyFocused.focus();
+      } else {
+        fallbackFocus?.focus();
+      }
     };
   }, [open]);
 
@@ -80,10 +122,11 @@ function HeaderNav({ className, children, ...props }: HeaderProps) {
       <div className="relative z-50 flex items-center gap-3 md:hidden">
         {otherChildren}
         <Button
+          ref={menuButtonRef}
           variant="ghost"
           size="icon"
           className="relative z-50 rounded-none border border-border/70 bg-card/40 hover:border-primary/60 hover:bg-primary/10"
-          aria-controls={menuId}
+          aria-controls={open ? menuId : undefined}
           aria-expanded={open}
           aria-label={open ? "Close navigation menu" : "Open navigation menu"}
           onClick={() => setOpen((current) => !current)}
@@ -101,14 +144,19 @@ function HeaderNav({ className, children, ...props }: HeaderProps) {
       </div>
 
       {open && (
-        <div id={menuId} className="absolute right-0 top-full z-50 mt-3 w-screen max-w-xs border border-border/70 bg-card/95 p-4 shadow-2xl shadow-slate-900/10 backdrop-blur-xl md:hidden dark:bg-background/95 dark:shadow-slate-950/10">
+        <div
+          id={menuId}
+          ref={menuPanelRef}
+          tabIndex={-1}
+          className="absolute right-0 top-full z-50 mt-3 w-screen max-w-xs border border-border/70 bg-card/95 p-4 shadow-2xl shadow-slate-900/10 backdrop-blur-xl md:hidden dark:bg-background/95 dark:shadow-slate-950/10"
+        >
           <nav className="flex flex-col gap-2" aria-label="Mobile navigation">
             {mobileLinks.map((child, index) =>
               isNavLinkElement(child) ? (
                 React.cloneElement(child, {
                   key: child.key ?? index,
                   className: cn(
-                    "block border border-transparent px-4 py-3 text-sm text-muted-foreground transition hover:border-primary/60 hover:bg-primary/10 hover:text-foreground",
+                    "block border border-transparent px-4 py-3 text-sm text-muted-foreground transition hover:border-primary/60 hover:bg-primary/10 hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none",
                     child.props.className
                   ),
                   onClick: () => setOpen(false),

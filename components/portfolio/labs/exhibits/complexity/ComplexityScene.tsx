@@ -120,11 +120,11 @@ export default function ComplexityScene({ isRouteSearch, activeDepth }: Complexi
           return (
             <div
               key={node.id}
-              className={`absolute -translate-x-1/2 -translate-y-1/2 text-center transition-all duration-500 ${visible ? (rejected ? "opacity-55" : "opacity-100") : "opacity-20"}`}
+              className={`absolute -translate-x-1/2 -translate-y-1/2 text-center transition-all duration-500 motion-reduce:transition-none ${visible ? (rejected ? "opacity-55" : "opacity-100") : "opacity-20"}`}
               style={scenePointStyle(node, canvas.width, canvas.height)}
             >
               <div
-                className={`grid h-10 min-w-24 place-items-center px-3 text-xs font-black shadow-lg transition [clip-path:polygon(16%_0,84%_0,100%_50%,84%_100%,16%_100%,0_50%)] ${
+                className={`grid h-10 min-w-24 place-items-center px-3 text-xs font-black shadow-lg transition motion-reduce:transition-none [clip-path:polygon(16%_0,84%_0,100%_50%,84%_100%,16%_100%,0_50%)] ${
                   success
                     ? "bg-amber-400 text-slate-950 shadow-amber-500/35"
                     : rejected
@@ -132,7 +132,7 @@ export default function ComplexityScene({ isRouteSearch, activeDepth }: Complexi
                       : kept
                         ? "bg-violet-900 text-violet-50 shadow-violet-500/25"
                         : "bg-indigo-950 text-slate-200"
-                } ${success ? "animate-pulse" : ""}`}
+                } ${success ? "animate-pulse motion-reduce:animate-none" : ""}`}
               >
                 {node.label}
               </div>
