@@ -41,6 +41,7 @@ type ProofPoint = {
 type EducationItem = {
   degree: string;
   school: string;
+  schoolHref: string;
   period: string;
   location: string;
 };
@@ -286,18 +287,21 @@ export const resume = {
     {
       degree: "Master of Computer Applications",
       school: "NIT Trichy",
+      schoolHref: "https://en.wikipedia.org/wiki/NIT_Trichy",
       period: "07/2020 - 06/2023",
       location: "Tiruchirappalli, India",
     },
     {
       degree: "Bachelor of Computer Applications",
       school: "University of Rajasthan",
+      schoolHref: "https://en.wikipedia.org/wiki/University_of_Rajasthan",
       period: "07/2017 - 06/2020",
       location: "Jaipur, India",
     },
     {
       degree: "Schooling",
       school: "Rashtriya Military School",
+      schoolHref: "https://en.wikipedia.org/wiki/Ajmer_Military_School",
       period: "04/2010 - 03/2017",
       location: "Ajmer, India",
     },

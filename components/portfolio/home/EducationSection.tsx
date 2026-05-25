@@ -34,7 +34,15 @@ export default function EducationSection() {
             </div>
             <div className="mt-4 space-y-2 border-t border-border/70 pt-4 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-muted-foreground">
               <div className="flex items-start justify-between gap-4">
-                <p className="min-w-0">{item.school}</p>
+                <a
+                  href={item.schoolHref}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="min-w-0 text-foreground underline-offset-4 transition hover:text-primary hover:underline"
+                  aria-label={`${item.school} on Wikipedia, opens in a new tab`}
+                >
+                  {item.school}
+                </a>
                 <p className="shrink-0 text-right text-primary">{item.period}</p>
               </div>
               <p>{item.location}</p>
