@@ -165,7 +165,7 @@ export default function HeroSection({ contact }: HeroSectionProps) {
                 aria-label="Decode Key: Asimov's Foundation"
               >
                 {foundationTimeline.map((milestone) => (
-                  <li key={milestone.event} className="relative border-l border-primary/30 pb-1 pl-4 sm:border-l-0 sm:border-t sm:pl-0 sm:pt-4">
+                  <li key={milestone.era} className="relative border-l border-primary/30 pb-1 pl-4 sm:border-l-0 sm:border-t sm:pl-0 sm:pt-4">
                     <span className="absolute -left-[0.3125rem] top-0 size-2.5 bg-primary shadow-[0_0_0_4px_hsl(var(--card))] dark:shadow-[0_0_0_4px_hsl(var(--background))] sm:-top-[0.3125rem] sm:left-0" />
                     <span className="block text-primary">{milestone.era}</span>
                     <span className="mt-1 block leading-5 normal-case tracking-normal">{milestone.detail}</span>
