@@ -274,7 +274,7 @@ export const resume = {
     },
     {
       title: "Supporting stack",
-      items: [ "AWS", "Azure", "Postman", "TestNG"],
+      items: [ "AWS", "Azure", "Postman", "Test NG"],
     },
     {
       title: "Engineering fundamentals",
