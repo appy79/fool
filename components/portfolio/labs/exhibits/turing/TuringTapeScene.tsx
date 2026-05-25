@@ -36,7 +36,14 @@ export default function TuringTapeScene({
 
   return (
     <LabSceneFrame className="border-amber-900/50 bg-[#201811] p-0 text-amber-50 shadow-2xl shadow-amber-950/25">
-      <ScaledSceneCanvas className="bg-[#201811]" height={canvas.height} innerClassName="p-4" width={canvas.width}>
+      <ScaledSceneCanvas
+        className="bg-[#201811]"
+        height={canvas.height}
+        innerClassName="p-4"
+        role="img"
+        aria-label={`Turing machine tape animation showing state ${state}, head position ${head}, and ${steps} of ${stepCount} steps completed`}
+        width={canvas.width}
+      >
         <style>
           {`
             @keyframes turing-head-clack {
@@ -74,9 +81,9 @@ export default function TuringTapeScene({
             </p>
           </div>
           <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.22em]">
-            <span className={`h-3 w-3 rounded-full ${isRunning ? "animate-pulse bg-emerald-300" : "bg-amber-900"}`} />
+            <span className={`h-3 w-3 rounded-full ${isRunning ? "animate-pulse bg-emerald-300 motion-reduce:animate-none" : "bg-amber-900"}`} />
             {clackTick > 0 ? (
-              <span key={`clack-label-${clackTick}`} className="rounded-full border border-amber-100/20 bg-amber-100/10 px-3 py-1 text-amber-100 animate-pulse">
+              <span key={`clack-label-${clackTick}`} className="rounded-full border border-amber-100/20 bg-amber-100/10 px-3 py-1 text-amber-100 animate-pulse motion-reduce:animate-none">
                 {lastMove === "S" ? "CLACK" : lastMove === "R" ? "CLICK ->" : "<- CLACK"}
               </span>
             ) : (

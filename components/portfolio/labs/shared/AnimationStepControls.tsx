@@ -23,6 +23,7 @@ export default function AnimationStepControls({
         className="w-10 px-0"
         size="sm"
         variant="outline"
+        aria-label="Previous step"
         disabled={previousDisabled || activeStepIndex <= 0}
         onClick={() => onStepSelect(Math.max(activeStepIndex - 1, 0))}
       >
@@ -32,6 +33,7 @@ export default function AnimationStepControls({
         className="w-10 px-0"
         size="sm"
         variant="outline"
+        aria-label="Next step"
         disabled={nextDisabled || (!allowNextAtEnd && activeStepIndex >= stepCount - 1)}
         onClick={() => onStepSelect(activeStepIndex + 1)}
       >

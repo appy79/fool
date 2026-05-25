@@ -13,7 +13,6 @@ type ExperienceItem = {
   company: string;
   period: string;
   location: string;
-  description?: string;
   projects: ExperienceProject[];
 };
 
@@ -239,7 +238,6 @@ export const resume = {
   name: "Amandeep Yadav",
   title: "Software Developer",
   focus: "Backend, full-stack, and platform tooling for distributed systems",
-  intro: "Software developer at Amdocs building backend services, platform tooling, and delivery workflows for high-scale telecom systems.",
   proofPoints: [
     {
       label: "current",
@@ -254,13 +252,13 @@ export const resume = {
     {
       label: "stack",
       value: "Java + React + Kafka + Kubernetes",
-      detail: "Spring Boot services, distributed data systems, and React delivery tooling.",
+      detail: "Spring Boot services, distributed data systems, and Reactive systems.",
     },
   ] as ProofPoint[],
   skills: [
     {
       title: "Core backend",
-      items: ["Java", "Spring Boot", "Microservices", "REST APIs", "JUnit", "Mockito"],
+      items: ["Java", "Spring Boot", "Python", "Flask", "JUnit", "Mockito"],
     },
     {
       title: "Distributed data",
@@ -271,12 +269,12 @@ export const resume = {
       items: ["Kubernetes", "Docker", "GitLab CI", "Jenkins", "Vault"],
     },
     {
-      title: "Frontend tooling",
+      title: "Frontend",
       items: ["React.js", "Angular.js", "JavaScript", "TypeScript", "Three.js"],
     },
     {
       title: "Supporting stack",
-      items: ["Python", "Flask", "AWS", "Azure", "Postman", "TestNG"],
+      items: [ "AWS", "Azure", "Postman", "TestNG"],
     },
     {
       title: "Engineering fundamentals",
@@ -311,6 +309,7 @@ export const resume = {
     socialsFromEnv: [
       { label: "GitHub", envKey: "SOCIAL_GITHUB" },
       { label: "LinkedIn", envKey: "SOCIAL_LINKEDIN" },
+      { label: "LeetCode", envKey: "SOCIAL_LEETCODE" },
     ],
     emailFromEnv: "CONTACT_EMAIL",
     phoneFromEnv: "CONTACT_PHONE",

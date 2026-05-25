@@ -2,11 +2,11 @@ import EducationSection from "@/components/portfolio/home/EducationSection";
 import HeroSection from "@/components/portfolio/home/HeroSection";
 import ProjectsSection from "@/components/portfolio/home/ProjectsSection";
 import SkillsSection from "@/components/portfolio/home/SkillsSection";
+import PortfolioFooter from "@/components/portfolio/shared/PortfolioFooter";
+import styles from "@/components/portfolio/shared/portfolioTheme.module.css";
 import { resume } from "@/lib/resume";
-import styles from "./page.module.css";
 
 export default function Home() {
-  const currentYear = new Date().getFullYear();
   const contact = {
     ...resume.contact,
     email: resume.contact.emailFromEnv ? process.env[resume.contact.emailFromEnv] : resume.contact.email,
@@ -19,7 +19,7 @@ export default function Home() {
   };
 
   return (
-    <main className={`${styles.theme} min-h-screen px-3 py-4 text-foreground sm:px-5 sm:py-6 lg:px-8`}>
+    <main id="main-content" className={`${styles.theme} min-h-screen px-3 py-4 text-foreground sm:px-5 sm:py-6 lg:px-8`}>
       <div className="mx-auto flex max-w-[96rem] flex-col gap-5">
         <HeroSection contact={contact} />
 
@@ -29,16 +29,7 @@ export default function Home() {
           <EducationSection />
         </div>
 
-        <footer className="grid gap-3 border-t border-primary/25 pt-4 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground md:grid-cols-[auto_minmax(0,1fr)_auto] md:items-center">
-          <p className="text-primary">&gt; signal.persisted</p>
-          <p className="min-w-0">Telemetry saved. Experiments parked. Still building the next reliable handoff.</p>
-          <div className="flex flex-wrap gap-3">
-            <a href="/labs" className="transition hover:text-primary">
-              Labs
-            </a>
-            <span>© {currentYear} Amandeep Yadav</span>
-          </div>
-        </footer>
+        <PortfolioFooter />
       </div>
     </main>
   );
