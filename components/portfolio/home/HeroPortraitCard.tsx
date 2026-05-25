@@ -52,6 +52,7 @@ export default function HeroPortraitCard() {
               alt="Amandeep Yadav portrait"
               width={1200}
               height={900}
+              sizes="(min-width: 1024px) 34vw, calc(100vw - 2.5rem)"
               fetchPriority="high"
               loading="eager"
               className={`${styles.portraitImage} h-full w-full object-cover transition`}
