@@ -24,15 +24,52 @@ export default function ResumeDownloadMenu({ className }: { className?: string }
   const [open, setOpen] = React.useState(false);
   const menuId = React.useId();
   const containerRef = React.useRef<HTMLDivElement>(null);
+  const buttonRef = React.useRef<HTMLButtonElement>(null);
+  const panelRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     if (!open) {
       return;
     }
 
-    const closeOnEscape = (event: KeyboardEvent) => {
+    const previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const fallbackFocus = buttonRef.current;
+    requestAnimationFrame(() => {
+      panelRef.current?.querySelector<HTMLElement>("a[href], button:not([disabled])")?.focus();
+    });
+
+    const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
+        event.preventDefault();
         setOpen(false);
+        return;
+      }
+
+      if (event.key !== "Tab") {
+        return;
+      }
+
+      const focusableElements = Array.from(
+        panelRef.current?.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        ) ?? []
+      );
+
+      if (focusableElements.length === 0) {
+        event.preventDefault();
+        panelRef.current?.focus();
+        return;
+      }
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault();
+        lastElement.focus();
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault();
+        firstElement.focus();
       }
     };
 
@@ -42,22 +79,28 @@ export default function ResumeDownloadMenu({ className }: { className?: string }
       }
     };
 
-    window.addEventListener("keydown", closeOnEscape);
+    window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("pointerdown", closeOnOutsidePointer);
 
     return () => {
-      window.removeEventListener("keydown", closeOnEscape);
+      window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("pointerdown", closeOnOutsidePointer);
+      if (previouslyFocused?.isConnected) {
+        previouslyFocused.focus();
+      } else {
+        fallbackFocus?.focus();
+      }
     };
   }, [open]);
 
   return (
     <div ref={containerRef} className={cn("relative w-full md:w-auto", className)}>
       <button
+        ref={buttonRef}
         type="button"
         className="relative block w-full border border-transparent px-4 py-3 pr-10 text-left text-sm text-muted-foreground transition hover:border-primary/60 hover:bg-primary/10 hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none md:inline-flex md:w-auto md:items-center md:gap-2 md:px-0 md:py-0 md:pr-0 md:hover:border-transparent md:hover:bg-transparent"
-        aria-haspopup="menu"
-        aria-controls={menuId}
+        aria-haspopup="true"
+        aria-controls={open ? menuId : undefined}
         aria-expanded={open}
         onClick={() => setOpen((current) => !current)}
       >
@@ -80,16 +123,17 @@ export default function ResumeDownloadMenu({ className }: { className?: string }
       {open && (
         <div
           id={menuId}
-          role="menu"
+          ref={panelRef}
+          tabIndex={-1}
           className="static z-50 mt-2 w-full border border-border/70 bg-card/95 p-2 shadow-2xl shadow-slate-900/10 backdrop-blur-xl md:absolute md:left-auto md:right-0 md:top-full md:w-80 dark:bg-background/95 dark:shadow-slate-950/10"
         >
           {resumeOptions.map((option) => (
             <a
               key={option.href}
-              role="menuitem"
               href={option.href}
               target={option.target}
               rel={option.target ? "noreferrer" : undefined}
+              aria-label={option.target ? `${option.label}, opens in a new tab` : option.label}
               className="block border border-transparent px-3 py-3 transition hover:border-primary/60 hover:bg-primary/10 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
               onClick={() => setOpen(false)}
             >

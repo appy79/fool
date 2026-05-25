@@ -36,7 +36,7 @@ endobj
 << /Title (Education) /Parent 6 0 R /Prev 8 0 R /Dest [10 0 R /XYZ 0 107.7 null] >>
 endobj
 10 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 11 0 R /Annots [12 0 R 13 0 R 14 0 R 15 0 R 16 0 R] >>
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 11 0 R /Annots [              14 0 R 15 0 R 16 0 R] >>
 endobj
 11 0 obj
 << /Length 6695 >>
@@ -397,10 +397,10 @@ ET
 endstream
 endobj
 12 0 obj
-<< /Type /Annot /Subtype /Link /Rect [127.28 690.00 186.98 706.94] /Border [0 0 0] /A << /S /URI /URI (                 ) >> >>
+<< /Type /Annot /Subtype /Link /Rect [127.28 690.00 186.98 706.94] /Border [0 0 0]                                           >>
 endobj
 13 0 obj
-<< /Type /Annot /Subtype /Link /Rect [208.30 690.00 306.37 706.94] /Border [0 0 0] /A << /S /URI /URI (mailto:amandeeppro79@gmail.com) >> >>
+<< /Type /Annot /Subtype /Link /Rect [208.30 690.00 306.37 706.94] /Border [0 0 0]                                                        >>
 endobj
 14 0 obj
 << /Type /Annot /Subtype /Link /Rect [42.00 674.02 114.49 690.97] /Border [0 0 0] /A << /S /URI /URI (https://amandeepyadav.com/) >> >>
