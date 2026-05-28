@@ -54,6 +54,7 @@ export type TelecomScenario = {
   summary: string;
   route: readonly string[];
   signals: readonly LabMetric[];
+  stageOverrides?: Partial<Record<string, Partial<TelecomStage>>>;
   stageOutputs?: Partial<Record<string, string>>;
   bypassNotes?: Partial<Record<string, string>>;
   guardrail?: {

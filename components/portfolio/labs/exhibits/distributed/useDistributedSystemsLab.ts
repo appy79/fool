@@ -22,6 +22,7 @@ export default function useDistributedSystemsLab() {
   });
   const activeInsight = mergeLabInsight(labInsight, scenario.insightSteps);
   const insightStepIndex = clampPhaseToInsightStep(phaseIndex, activeInsight.steps.length);
+  const activePhase = scenario.phases[Math.min(phaseIndex, scenario.phases.length - 1)] ?? scenario.phases[0];
 
   const selectScenario = (nextScenarioId: string) => {
     setScenarioId(nextScenarioId);
@@ -40,7 +41,7 @@ export default function useDistributedSystemsLab() {
   return {
     scenario,
     phaseIndex,
-    activePhase: scenario.phases[phaseIndex],
+    activePhase,
     activeInsight,
     insightStepIndex,
     isRunning,

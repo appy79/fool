@@ -9,29 +9,37 @@ export const designPatternScenarios = [
     id: "strategy",
     name: "Strategy",
     trigger: "Swap algorithm",
-    summary: "The same request can choose between interchangeable algorithms without rewriting the caller.",
-    parts: ["Caller", "Strategy", "Algorithm A/B", "Result"],
+    summary: "A context delegates variable behavior to a strategy interface, allowing concrete algorithms to be selected without changing the caller.",
+    parts: ["Request", "Context Policy", "Strategy Registry", "Selected Strategy", "Normalize Return", "Caller Result"],
     metrics: [
       { label: "Problem", value: "Vary behavior" },
-      { label: "Benefit", value: "Runtime choice" },
+      { label: "Benefit", value: "Policy choice" },
       { label: "Tradeoff", value: "More types" },
     ],
     insightSteps: [
       {
-        title: "Caller asks for behavior",
-        description: "The caller depends on a stable contract rather than a concrete algorithm.",
+        title: "Caller sends a normal request",
+        description: "The caller asks the context for a result and does not contain branching logic for every algorithm.",
       },
       {
-        title: "Strategy boundary selects an implementation",
-        description: "The pattern node represents choosing an algorithm at runtime.",
+        title: "Context evaluates selection policy",
+        description: "The context chooses which strategy key to use based on runtime policy, injected configuration, or request shape.",
       },
       {
-        title: "Algorithm A or B executes",
-        description: "The branching rails show interchangeable behavior behind the same interface.",
+        title: "Registry resolves the implementation",
+        description: "A registry or dependency-injected map returns a concrete strategy behind the same interface.",
       },
       {
-        title: "Result returns through one contract",
-        description: "The caller gets the result without knowing which algorithm produced it.",
+        title: "Only the selected strategy executes",
+        description: "One concrete algorithm runs; the alternatives remain available but idle.",
+      },
+      {
+        title: "Context normalizes the return",
+        description: "The context receives a common result shape regardless of which strategy ran.",
+      },
+      {
+        title: "Caller receives one contract",
+        description: "The caller gets the final result without depending on concrete strategy classes.",
       },
     ],
   },
@@ -39,8 +47,8 @@ export const designPatternScenarios = [
     id: "adapter",
     name: "Adapter",
     trigger: "Wrap legacy API",
-    summary: "A modern interface translates requests into a legacy contract without leaking old details upstream.",
-    parts: ["Client", "Adapter", "Legacy SOA", "Unified API"],
+    summary: "A target interface and adapter translate between modern callers and incompatible legacy contracts without leaking old payload details upstream.",
+    parts: ["Target Request", "Adapter Boundary", "Map DTO", "Call Legacy", "Map Response", "Target Response"],
     metrics: [
       { label: "Problem", value: "Legacy mismatch" },
       { label: "Benefit", value: "Stable interface" },
@@ -48,20 +56,28 @@ export const designPatternScenarios = [
     ],
     insightSteps: [
       {
-        title: "Client speaks the modern contract",
+        title: "Client speaks the target contract",
         description: "The client sends a clean request without knowing the legacy API shape.",
       },
       {
-        title: "Adapter translates the request",
-        description: "The adapter panel converts naming, payload, and protocol expectations.",
+        title: "Adapter boundary receives the call",
+        description: "The adapter implements the target interface that the rest of the codebase wants to use.",
       },
       {
-        title: "Legacy SOA remains contained",
-        description: "The old dependency is called behind the adapter boundary instead of leaking upstream.",
+        title: "Adapter maps request DTO",
+        description: "The adapter converts naming, payload shape, protocol expectations, and error semantics.",
       },
       {
-        title: "Unified API returns a stable response",
-        description: "The final result preserves a modern contract while still using the legacy system.",
+        title: "Legacy SOA executes behind the boundary",
+        description: "The old request format and dependency call exist only behind the adapter boundary.",
+      },
+      {
+        title: "Legacy response is mapped back",
+        description: "Legacy status codes, field names, and errors are normalized into the target model.",
+      },
+      {
+        title: "Target response returns",
+        description: "The result is translated back into the target model expected by the client.",
       },
     ],
   },
@@ -69,8 +85,8 @@ export const designPatternScenarios = [
     id: "observer",
     name: "Observer",
     trigger: "Publish event",
-    summary: "One event fans out to many subscribers without the publisher knowing every downstream consumer.",
-    parts: ["Publisher", "Event Bus", "Subscribers", "Side effects"],
+    summary: "A publisher emits one event into a subject/bus, and independent subscribers react without being named by the publisher.",
+    parts: ["Domain Event", "Publish", "Fan-out Queue", "Subscribers Consume", "Ack / Retry", "Effects Settled"],
     metrics: [
       { label: "Problem", value: "Notify many" },
       { label: "Benefit", value: "Loose coupling" },
@@ -78,20 +94,28 @@ export const designPatternScenarios = [
     ],
     insightSteps: [
       {
-        title: "Publisher emits one event",
-        description: "The publisher sends a single notification without naming every downstream consumer.",
+        title: "Publisher creates a domain event",
+        description: "The publisher records one event describing what happened, without naming downstream consumers.",
       },
       {
-        title: "Event bus owns fan-out",
-        description: "The bus becomes the decoupling point between producer and subscribers.",
+        title: "Event is published once",
+        description: "The subject or event bus receives the event and becomes the fan-out boundary.",
       },
       {
-        title: "Subscribers react independently",
-        description: "The fan-out branches show multiple consumers handling the same event in parallel.",
+        title: "Fan-out queues subscriber deliveries",
+        description: "Each subscriber gets its own delivery lane so one slow consumer does not block all others.",
+      },
+      {
+        title: "Subscribers consume independently",
+        description: "Audit, email, and cache handlers react to the same event with separate responsibilities.",
+      },
+      {
+        title: "Acks and retries are handled",
+        description: "Each consumer acknowledges success or retries idempotently if its side effect fails.",
       },
       {
         title: "Side effects complete separately",
-        description: "The final node represents independent downstream work such as audit, email, or cache update.",
+        description: "Subscribers may finish at different times, so retries, ordering, and idempotency matter.",
       },
     ],
   },
@@ -99,8 +123,8 @@ export const designPatternScenarios = [
     id: "breaker",
     name: "Circuit Breaker",
     trigger: "Trip dependency",
-    summary: "A failing dependency is isolated before it cascades through the rest of the system.",
-    parts: ["Service", "Breaker", "Dependency", "Fallback"],
+    summary: "A breaker tracks dependency failures, opens to fail fast, serves fallback, then probes recovery before closing again.",
+    parts: ["Request", "Closed Pass", "Failures Counted", "Open Fail-fast", "Fallback Served", "Half-open Probe"],
     metrics: [
       { label: "Problem", value: "Cascading failure" },
       { label: "Benefit", value: "Resilience" },
@@ -108,20 +132,28 @@ export const designPatternScenarios = [
     ],
     insightSteps: [
       {
-        title: "Service calls an unstable dependency",
+        title: "Service receives a request",
         description: "The request begins on a path that could normally cascade into failure.",
       },
       {
-        title: "Breaker watches failure state",
-        description: "The breaker boundary tracks whether calls should pass, fail fast, or probe recovery.",
+        title: "Closed breaker passes the call",
+        description: "In the closed state the breaker allows calls while tracking failures and latency.",
       },
       {
-        title: "Dependency is isolated",
-        description: "The red dependency rail shows the risky call being contained instead of overwhelming the service.",
+        title: "Dependency failures accumulate",
+        description: "The breaker observes timeout/error thresholds as the dependency becomes unsafe.",
+      },
+      {
+        title: "Breaker opens and fails fast",
+        description: "Open state stops new calls from hammering the dependency.",
       },
       {
         title: "Fallback protects the user path",
         description: "The fallback branch returns a degraded but controlled outcome while the dependency recovers.",
+      },
+      {
+        title: "Half-open probe tests recovery",
+        description: "After a cooldown, a limited probe decides whether the breaker can close or should reopen.",
       },
     ],
   },
