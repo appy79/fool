@@ -1,7 +1,22 @@
 import type { LabInsight, LabScenarioBase } from "../../types";
 
-type DistributedScenario = LabScenarioBase & {
-  phases: readonly string[];
+export type DistributedEdge = readonly [string, string];
+
+export type DistributedPhase = {
+  title: string;
+  summary: string;
+  activeEdges: readonly DistributedEdge[];
+  selfNodes?: readonly string[];
+  activeNodes?: readonly string[];
+  statuses: Partial<Record<string, string>>;
+  badges?: Partial<Record<string, string>>;
+};
+
+export type DistributedScenario = LabScenarioBase & {
+  phases: readonly DistributedPhase[];
+  leaderNodeIds?: readonly string[];
+  faultyNodeIds?: readonly string[];
+  nodeRoles?: Partial<Record<string, string>>;
 };
 
 export const distributedScenarios = [
@@ -9,29 +24,141 @@ export const distributedScenarios = [
     id: "total-order",
     name: "Total Order Broadcast",
     trigger: "Broadcast event",
-    summary: "A leader sequences concurrent events so every replica applies the same log order.",
-    phases: ["Client proposes E7", "Leader assigns sequence #42", "Replicas append #42", "Quorum acks converge"],
+    summary: "A sequencer assigns one global log position, then replicas append, acknowledge, and commit the same entry.",
+    leaderNodeIds: ["B"],
+    phases: [
+      {
+        title: "Client submits E7",
+        summary: "A sends an operation to the sequencer instead of asking every replica to choose an order.",
+        activeEdges: [["A", "B"]],
+        activeNodes: ["A", "B"],
+        statuses: {
+          A: "submit E7",
+          B: "sequencer",
+          C: "waiting",
+          D: "waiting",
+          E: "waiting",
+          F: "waiting",
+          G: "waiting",
+        },
+      },
+      {
+        title: "Sequencer reserves slot 42",
+        summary: "B performs the single ordering decision and assigns the next log slot.",
+        activeEdges: [],
+        selfNodes: ["B"],
+        activeNodes: ["B"],
+        statuses: {
+          A: "client",
+          B: "slot #42",
+          C: "waiting",
+          D: "waiting",
+          E: "waiting",
+          F: "waiting",
+          G: "waiting",
+        },
+        badges: { B: "ORDER E7 -> #42" },
+      },
+      {
+        title: "Ordered entry fans out",
+        summary: "The sequencer broadcasts the same ordered entry to every replica.",
+        activeEdges: [["B", "C"], ["B", "D"], ["B", "E"], ["B", "F"], ["B", "G"]],
+        activeNodes: ["B", "C", "D", "E", "F", "G"],
+        statuses: {
+          A: "client",
+          B: "broadcast #42",
+          C: "receive #42",
+          D: "receive #42",
+          E: "receive #42",
+          F: "receive #42",
+          G: "receive #42",
+        },
+      },
+      {
+        title: "Replicas append locally",
+        summary: "Each replica appends E7 at slot 42; this local write is shown as self-pulsing state.",
+        activeEdges: [],
+        selfNodes: ["C", "D", "E", "F", "G"],
+        activeNodes: ["C", "D", "E", "F", "G"],
+        statuses: {
+          A: "client",
+          B: "await quorum",
+          C: "log[42]=E7",
+          D: "log[42]=E7",
+          E: "log[42]=E7",
+          F: "log[42]=E7",
+          G: "log[42]=E7",
+        },
+        badges: {
+          C: "APPENDED",
+          D: "APPENDED",
+          E: "APPENDED",
+          F: "APPENDED",
+          G: "APPENDED",
+        },
+      },
+      {
+        title: "Quorum acknowledgements return",
+        summary: "A quorum proves enough replicas observed the same ordered slot.",
+        activeEdges: [["C", "B"], ["D", "B"], ["E", "B"], ["F", "B"]],
+        activeNodes: ["B", "C", "D", "E", "F"],
+        statuses: {
+          A: "client",
+          B: "4/5 acks",
+          C: "ack #42",
+          D: "ack #42",
+          E: "ack #42",
+          F: "ack #42",
+          G: "lagging ok",
+        },
+      },
+      {
+        title: "Commit becomes visible",
+        summary: "The ordered entry is safe to expose because the quorum converged on slot 42.",
+        activeEdges: [["B", "A"], ["B", "G"]],
+        selfNodes: ["B"],
+        activeNodes: ["A", "B", "C", "D", "E", "F", "G"],
+        statuses: {
+          A: "committed",
+          B: "commit #42",
+          C: "committed",
+          D: "committed",
+          E: "committed",
+          F: "committed",
+          G: "catch up",
+        },
+        badges: { B: "COMMIT #42" },
+      },
+    ],
     metrics: [
       { label: "Invariant", value: "Same order" },
       { label: "Risk", value: "Leader bottleneck" },
-      { label: "Use case", value: "Kafka-style log" },
+      { label: "Use case", value: "Replicated log" },
     ],
     insightSteps: [
       {
-        title: "Client proposes one event",
-        description: "Node A sends event E7 to the leader instead of every replica choosing its own order.",
+        title: "Client submits one event",
+        description: "Node A sends E7 to the sequencer so replicas do not independently choose incompatible positions.",
       },
       {
-        title: "Leader assigns sequence #42",
-        description: "Node B becomes the serialization point and broadcasts the same log position to replicas.",
+        title: "Sequencer assigns slot #42",
+        description: "Node B serializes the operation by reserving a single global log slot.",
       },
       {
-        title: "Replicas append the same entry",
-        description: "Each replica performs a local log update, shown as self-pulsing state rather than network motion.",
+        title: "Ordered entry is broadcast",
+        description: "Every replica receives the same instruction: append E7 at log position 42.",
       },
       {
-        title: "Quorum acks prove convergence",
-        description: "Acknowledgements flow back so the system can trust that enough replicas observed the order.",
+        title: "Replicas append locally",
+        description: "The local append is not a network message; each node updates its own durable log.",
+      },
+      {
+        title: "Quorum acknowledgements return",
+        description: "Enough acknowledgements prove the ordered entry survived on a quorum of replicas.",
+      },
+      {
+        title: "Commit becomes visible",
+        description: "The client and any lagging replica can learn the committed order after quorum convergence.",
       },
     ],
   },
@@ -39,11 +166,94 @@ export const distributedScenarios = [
     id: "logical-clocks",
     name: "Lamport Clock",
     trigger: "Send messages",
-    summary: "Nodes exchange messages and increment clocks to preserve happened-before relationships.",
-    phases: ["A ticks to 1", "A sends to D", "D merges max clock", "C and F remain concurrent"],
+    summary: "Local events and messages advance counters so nodes can preserve happened-before relationships without physical time.",
+    phases: [
+      {
+        title: "A performs a local event",
+        summary: "A increments its own counter before sending anything.",
+        activeEdges: [],
+        selfNodes: ["A"],
+        activeNodes: ["A"],
+        statuses: {
+          A: "clock 1",
+          B: "clock 0",
+          C: "clock 0",
+          D: "clock 0",
+          E: "clock 0",
+          F: "clock 0",
+          G: "clock 0",
+        },
+        badges: { A: "LOCAL TICK" },
+      },
+      {
+        title: "A sends timestamp 2 to D",
+        summary: "A increments before send and attaches the logical timestamp to the message.",
+        activeEdges: [["A", "D"]],
+        activeNodes: ["A", "D"],
+        statuses: {
+          A: "send ts=2",
+          B: "clock 0",
+          C: "clock 0",
+          D: "waiting",
+          E: "clock 0",
+          F: "clock 0",
+          G: "clock 0",
+        },
+        badges: { A: "TS=2" },
+      },
+      {
+        title: "D receives and merges",
+        summary: "D sets its counter above both its local value and the received timestamp.",
+        activeEdges: [],
+        selfNodes: ["D"],
+        activeNodes: ["D"],
+        statuses: {
+          A: "clock 2",
+          B: "clock 0",
+          C: "clock 0",
+          D: "clock 3",
+          E: "clock 0",
+          F: "clock 0",
+          G: "clock 0",
+        },
+        badges: { D: "MAX(0,2)+1" },
+      },
+      {
+        title: "C and F exchange unrelated work",
+        summary: "Another part of the cluster advances without a causal path from A to D.",
+        activeEdges: [["C", "F"]],
+        activeNodes: ["C", "F"],
+        statuses: {
+          A: "clock 2",
+          B: "clock 0",
+          C: "send ts=1",
+          D: "clock 3",
+          E: "clock 0",
+          F: "recv -> 2",
+          G: "clock 0",
+        },
+        badges: { C: "CONCURRENT", F: "CONCURRENT" },
+      },
+      {
+        title: "Partial order is visible",
+        summary: "A happened before D, but the C/F exchange is only ordered with itself.",
+        activeEdges: [["A", "D"], ["C", "F"]],
+        activeNodes: ["A", "C", "D", "F"],
+        statuses: {
+          A: "A -> D",
+          B: "idle",
+          C: "C -> F",
+          D: "after A",
+          E: "idle",
+          F: "after C",
+          G: "idle",
+        },
+        badges: { D: "CAUSAL", F: "SEPARATE CHAIN" },
+      },
+    ],
     metrics: [
-      { label: "Causality", value: "A -> B" },
-      { label: "Concurrent", value: "B || C" },
+      { label: "Causality", value: "A -> D" },
+      { label: "Concurrent", value: "A/D || C/F" },
       { label: "Clock type", value: "Logical" },
     ],
     insightSteps: [
@@ -60,8 +270,12 @@ export const distributedScenarios = [
         description: "D updates to a clock greater than the received timestamp, preserving causality.",
       },
       {
-        title: "C and F remain concurrent",
-        description: "The side link shows unrelated clocks advancing without a causal path between those events and A.",
+        title: "C and F exchange unrelated work",
+        description: "The side link advances independently, so that chain is concurrent with A's chain.",
+      },
+      {
+        title: "Only a partial order exists",
+        description: "Lamport clocks prove happened-before, but they do not prove that unrelated events happened at the same real time.",
       },
     ],
   },
@@ -69,8 +283,110 @@ export const distributedScenarios = [
     id: "byzantine",
     name: "Byzantine Vote",
     trigger: "Run vote",
-    summary: "One faulty node sends conflicting values while honest nodes try to converge on a decision.",
-    phases: ["Commander proposes", "Faulty G forks value", "Honest replicas compare", "Quorum rejects lie"],
+    summary: "A faulty replica equivocates, honest nodes exchange evidence, and the quorum converges on one decision.",
+    leaderNodeIds: ["B"],
+    faultyNodeIds: ["G"],
+    nodeRoles: {
+      B: "Commander",
+      G: "Byzantine",
+    },
+    phases: [
+      {
+        title: "Commander proposes X",
+        summary: "B sends one intended value to the replica set.",
+        activeEdges: [["B", "C"], ["B", "D"], ["B", "E"], ["B", "F"], ["B", "G"]],
+        activeNodes: ["B", "C", "D", "E", "F", "G"],
+        statuses: {
+          A: "observer",
+          B: "propose X",
+          C: "recv X",
+          D: "recv X",
+          E: "recv X",
+          F: "recv X",
+          G: "recv X",
+        },
+      },
+      {
+        title: "Faulty G equivocates",
+        summary: "G sends different claims to different honest nodes.",
+        activeEdges: [["G", "C"], ["G", "D"], ["G", "F"]],
+        activeNodes: ["G", "C", "D", "F"],
+        statuses: {
+          A: "observer",
+          B: "await reports",
+          C: "heard X",
+          D: "heard Y",
+          E: "heard X",
+          F: "heard X",
+          G: "fork X/Y",
+        },
+        badges: { G: "LIES DIFFERENTLY", D: "G SAYS Y" },
+      },
+      {
+        title: "Honest replicas echo evidence",
+        summary: "Honest nodes share what they received instead of trusting G in isolation.",
+        activeEdges: [["C", "D"], ["D", "E"], ["E", "F"], ["F", "C"]],
+        activeNodes: ["C", "D", "E", "F"],
+        statuses: {
+          A: "observer",
+          B: "await reports",
+          C: "echo X",
+          D: "echo Y",
+          E: "echo X",
+          F: "echo X",
+          G: "silent",
+        },
+        badges: { C: "X", D: "Y?", E: "X", F: "X" },
+      },
+      {
+        title: "Majority observes X",
+        summary: "The honest view contains enough matching X reports to isolate the conflicting value.",
+        activeEdges: [["C", "E"], ["E", "F"], ["C", "F"]],
+        activeNodes: ["C", "E", "F"],
+        statuses: {
+          A: "observer",
+          B: "collecting",
+          C: "vote X",
+          D: "outlier Y",
+          E: "vote X",
+          F: "vote X",
+          G: "suspect",
+        },
+        badges: { E: "3X > 1Y" },
+      },
+      {
+        title: "Quorum certificate returns",
+        summary: "Honest replicas return their evidence to the commander.",
+        activeEdges: [["C", "B"], ["D", "B"], ["E", "B"], ["F", "B"]],
+        activeNodes: ["B", "C", "D", "E", "F"],
+        statuses: {
+          A: "observer",
+          B: "QC for X",
+          C: "report X",
+          D: "report conflict",
+          E: "report X",
+          F: "report X",
+          G: "ignored",
+        },
+        badges: { B: "QUORUM X" },
+      },
+      {
+        title: "Decision X is committed",
+        summary: "The system rejects the equivocation and commits the quorum-supported value.",
+        activeEdges: [["B", "C"], ["B", "D"], ["B", "E"], ["B", "F"]],
+        activeNodes: ["B", "C", "D", "E", "F"],
+        statuses: {
+          A: "observer",
+          B: "commit X",
+          C: "decide X",
+          D: "decide X",
+          E: "decide X",
+          F: "decide X",
+          G: "excluded",
+        },
+        badges: { G: "FAULT ISOLATED" },
+      },
+    ],
     metrics: [
       { label: "Fault model", value: "Byzantine" },
       { label: "Faulty nodes", value: "1" },
@@ -86,12 +402,20 @@ export const distributedScenarios = [
         description: "G sends conflicting values to different honest replicas, which is the Byzantine behavior.",
       },
       {
-        title: "Honest replicas compare evidence",
+        title: "Honest replicas echo evidence",
         description: "Cross-check links show replicas sharing what they heard instead of trusting one sender.",
       },
       {
-        title: "Quorum rejects the lie",
-        description: "The final round routes evidence back to the commander so the conflicting value is discarded.",
+        title: "Majority observes X",
+        description: "The conflicting report becomes an outlier once honest replicas compare evidence.",
+      },
+      {
+        title: "Quorum certificate returns",
+        description: "The commander receives enough matching evidence to identify the supported value.",
+      },
+      {
+        title: "Decision X is committed",
+        description: "Honest replicas commit the quorum-supported value and exclude the faulty sender's equivocation.",
       },
     ],
   },
@@ -104,14 +428,14 @@ export const distributedNodePositions = [
   { id: "D", x: 135, y: 300, role: "Replica" },
   { id: "E", x: 390, y: 318, role: "Replica" },
   { id: "F", x: 645, y: 300, role: "Replica" },
-  { id: "G", x: 390, y: 196, role: "Replica" },
+  { id: "G", x: 520, y: 255, role: "Replica" },
 ] as const;
 
 export const labInsight = {
   steps: [
     {
       title: "Proposal or local event begins",
-      description: "The first phase introduces the client request, local clock tick, or commander proposal.",
+      description: "The first phase introduces a client request, logical-clock tick, or commander proposal.",
     },
     {
       title: "Coordination message fans out",
