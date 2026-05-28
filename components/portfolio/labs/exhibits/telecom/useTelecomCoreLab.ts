@@ -4,11 +4,12 @@ import { useState } from "react";
 import { labInsight, telecomScenarios, telecomStagePositions, telecomStages } from "./data";
 import { mapInsightStepToPhase, mapPhaseToInsightStep, mergeLabInsight } from "../../utils/insight";
 import useTimedPhase from "../../hooks/useTimedPhase";
+import type { TelecomScenario } from "../../types";
 
 export default function useTelecomCoreLab() {
   const [scenarioId, setScenarioId] = useState(telecomScenarios[0].id);
   const [eventsProcessed, setEventsProcessed] = useState(0);
-  const scenario = telecomScenarios.find((item) => item.id === scenarioId) ?? telecomScenarios[0];
+  const scenario: TelecomScenario = telecomScenarios.find((item) => item.id === scenarioId) ?? telecomScenarios[0];
   const {
     isRunning: isSimulating,
     phaseIndex: activeIndex,
