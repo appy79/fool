@@ -46,7 +46,14 @@ export const concurrencyModes = [
     summary: "Threads serialize access through a mutex so the counter is correct, but contention appears.",
     workers: 4,
     observedIncrement: 4,
-    phases: ["Ready", "Acquire lock", "Increment safely", "Release lock"],
+    phases: [
+      "Ready", 
+      "T1 Lock & Write", 
+      "T2 Lock & Write", 
+      "T3 Lock & Write", 
+      "T4 Lock & Write", 
+      "All Committed"
+    ],
     metrics: [
       { label: "Correctness", value: "Exact" },
       { label: "Throughput", value: "Lower" },
@@ -54,19 +61,27 @@ export const concurrencyModes = [
     ],
     insightSteps: [
       {
-        title: "Threads queue for one critical section",
-        description: "The lock marker shows that shared counter access must pass through a single owner.",
+        title: "Threads queue for lock",
+        description: "All threads attempt to enter the critical section, but the mutex enforces mutual exclusion.",
       },
       {
-        title: "T1 acquires the mutex",
-        description: "One worker enters while the others wait their turn instead of reading stale state.",
+        title: "T1 acquires and commits",
+        description: "T1 obtains the lock first, increments the shared register safely to 1, and releases the lock.",
       },
       {
-        title: "The protected write commits safely",
-        description: "The counter update happens inside the critical section, preserving exact increments.",
+        title: "T2 takes its turn",
+        description: "T2 enters the critical section next, reads the fresh value of 1, increments to 2, and releases the lock.",
       },
       {
-        title: "The lock releases for the next worker",
+        title: "T3 takes its turn",
+        description: "T3 gets the lock, reads the value 2, increments the register to 3, preserving perfect serialization.",
+      },
+      {
+        title: "T4 completes sequence",
+        description: "T4 runs the final safe update to 4. Zero updates are lost, though serialization was required.",
+      },
+      {
+        title: "All threads committed",
         description: "Correctness is restored, with visible serialization as the performance tradeoff.",
       },
     ],
@@ -75,30 +90,45 @@ export const concurrencyModes = [
     id: "atomic",
     name: "Atomic Increment",
     trigger: "Use atomic op",
-    summary: "The increment becomes a single indivisible operation, preserving correctness with less lock overhead.",
+    summary: "The counter update becomes one linearizable hardware operation, preserving correctness without a broad mutex.",
     workers: 4,
     observedIncrement: 4,
-    phases: ["Ready", "CPU atomic", "Cache sync", "Commit value"],
+    phases: [
+      "Ready", 
+      "T1 Atomic Sync", 
+      "T2 Atomic Sync", 
+      "T3 Atomic Sync", 
+      "T4 Atomic Sync", 
+      "All Committed"
+    ],
     metrics: [
       { label: "Correctness", value: "Exact" },
       { label: "Throughput", value: "High" },
-      { label: "Primitive", value: "CAS/atomic" },
+      { label: "Primitive", value: "fetch_add/CAS" },
     ],
     insightSteps: [
       {
-        title: "Workers target an atomic instruction",
-        description: "The CPU marker replaces a broad critical section with a single indivisible update.",
+        title: "Workers target register",
+        description: "The CPU atomic instruction allows safe, concurrent updates without a broad critical section.",
       },
       {
-        title: "CAS owns the read-modify-write",
-        description: "The counter read and write are treated as one operation from the thread's perspective.",
+        title: "T1 atomic operation",
+        description: "T1 executes a linearizable atomic increment, successfully moving the register to 1.",
       },
       {
-        title: "Cache synchronization resolves contention",
-        description: "The sync bus shows hardware-level coordination keeping cores from committing stale writes.",
+        title: "T2 atomic operation",
+        description: "T2's atomic increment is ordered after T1 at the memory location, moving the register to 2.",
       },
       {
-        title: "The counter commits exactly",
+        title: "T3 atomic operation",
+        description: "T3 commits its atomic increment to 3 safely without holding any high-level mutex.",
+      },
+      {
+        title: "T4 atomic operation",
+        description: "T4 executes the final atomic update to write 4. The cache-coherence protocol serializes the memory location.",
+      },
+      {
+        title: "All increments completed",
         description: "All increments land without the larger lock overhead of a user-space critical section.",
       },
     ],
@@ -107,10 +137,17 @@ export const concurrencyModes = [
     id: "semaphore",
     name: "Semaphore",
     trigger: "Limit workers",
-    summary: "A semaphore allows a bounded number of workers through the critical region at once.",
+    summary: "A semaphore bounds how many workers may use a limited resource at once; it is not a mutex for one shared variable.",
     workers: 4,
     observedIncrement: 4,
-    phases: ["Ready", "Acquire permit", "Bounded work", "Return permit"],
+    phases: [
+      "Ready", 
+      "T1/T2 Use Permits", 
+      "T1/T2 Release", 
+      "T3/T4 Use Permits", 
+      "T3/T4 Release", 
+      "All Committed"
+    ],
     metrics: [
       { label: "Correctness", value: "Exact" },
       { label: "Parallelism", value: "Bounded" },
@@ -118,20 +155,28 @@ export const concurrencyModes = [
     ],
     insightSteps: [
       {
-        title: "Workers wait for permits",
-        description: "The semaphore starts with a small number of available permits instead of a single lock owner.",
+        title: "Queueing for permits",
+        description: "The semaphore is initialized with 2 permits, so up to 2 workers can use the bounded resource.",
       },
       {
-        title: "Two workers acquire permits",
-        description: "T1 and T2 enter together while the remaining workers wait outside the bound.",
+        title: "T1 and T2 use permits",
+        description: "T1 and T2 check out the two available permits and run concurrently, while T3/T4 wait.",
       },
       {
-        title: "Bounded work proceeds safely",
-        description: "The critical region allows controlled parallelism without unbounded shared-state pressure.",
+        title: "T1 and T2 release",
+        description: "T1 and T2 finish their bounded-resource work, record completion, and return permits to the pool.",
       },
       {
-        title: "Permits return to the pool",
-        description: "The final phase makes the concurrency limit explicit rather than treating access as all-or-nothing.",
+        title: "T3 and T4 use permits",
+        description: "T3 and T4 acquire the released permits and begin their concurrent execution.",
+      },
+      {
+        title: "T3 and T4 release",
+        description: "T3 and T4 complete their bounded-resource work and record the final completions.",
+      },
+      {
+        title: "Permits fully released",
+        description: "All threads have run. Parallelism was bounded at exactly 2 resource users, but shared data still needs its own protection.",
       },
     ],
   },
@@ -142,7 +187,13 @@ export const concurrencyModes = [
     summary: "Workers avoid shared counter races by sending increments through a queue-owned reducer.",
     workers: 4,
     observedIncrement: 4,
-    phases: ["Ready", "Enqueue deltas", "Reducer drains", "Single writer"],
+    phases: [
+      "Ready", 
+      "Enqueue Messages", 
+      "Drain T1 & T2", 
+      "Drain T3 & T4", 
+      "All Completed"
+    ],
     metrics: [
       { label: "Correctness", value: "Exact" },
       { label: "Backpressure", value: "Visible" },
@@ -150,19 +201,23 @@ export const concurrencyModes = [
     ],
     insightSteps: [
       {
-        title: "Workers produce deltas",
-        description: "Threads avoid direct counter writes and produce small +1 messages instead.",
+        title: "Workers submit tasks",
+        description: "Threads produce +1 increment messages and push them into the thread-safe work queue.",
       },
       {
-        title: "Deltas enter the work queue",
-        description: "The queue absorbs concurrent producers and makes backlog visible.",
+        title: "Deltas buffered in queue",
+        description: "The queue holds the concurrent messages, absorbing load spikes and acting as a buffer.",
       },
       {
-        title: "Reducer drains one item at a time",
-        description: "A single owner applies updates, eliminating shared counter races.",
+        title: "Single-threaded drain 1",
+        description: "A dedicated single-threaded reducer drains and processes the first two messages, updating the register to 2.",
       },
       {
-        title: "Single writer commits the result",
+        title: "Single-threaded drain 2",
+        description: "The reducer processes the remaining two messages to write 4, avoiding lock contention entirely.",
+      },
+      {
+        title: "All tasks drained",
         description: "Correctness comes from ownership transfer and backpressure rather than locks around every worker.",
       },
     ],
@@ -174,7 +229,13 @@ export const concurrencyModes = [
     summary: "Two threads hold different locks and wait forever for the other lock to be released.",
     workers: 2,
     observedIncrement: 0,
-    phases: ["Thread A locks X", "Thread B locks Y", "A waits for Y", "B waits for X"],
+    phases: [
+      "Ready",
+      "Thread A locks X", 
+      "Thread B locks Y", 
+      "A waits for Y", 
+      "B waits for X"
+    ],
     metrics: [
       { label: "Correctness", value: "No progress" },
       { label: "Throughput", value: "0" },
@@ -182,20 +243,24 @@ export const concurrencyModes = [
     ],
     insightSteps: [
       {
+        title: "Both workers are ready",
+        description: "Both Thread A and Thread B are ready. No locks are currently held.",
+      },
+      {
         title: "Thread A locks resource X",
-        description: "The first worker owns one lock and still needs another resource to finish.",
+        description: "The first worker owns lock X and still needs resource Y to finish.",
       },
       {
         title: "Thread B locks resource Y",
-        description: "The second worker owns the other lock, creating the ingredients for circular wait.",
+        description: "The second worker owns lock Y, creating the ingredients for circular wait.",
       },
       {
         title: "A waits for Y",
-        description: "A cannot proceed because B holds the resource it needs.",
+        description: "A attempts to acquire Y but cannot proceed because B holds Y.",
       },
       {
         title: "B waits for X",
-        description: "Both workers now wait forever, so the counter makes no progress.",
+        description: "B attempts to acquire X. Both workers now wait forever in a circular dependency.",
       },
     ],
   },
@@ -206,13 +271,23 @@ export const concurrencyModes = [
     summary: "Separate processes avoid the GIL for CPU-bound work, then merge results through IPC.",
     workers: 4,
     observedIncrement: 4,
-    phases: ["Fork workers", "Private memory", "Parallel compute", "Merge result"],
+    phases: [
+      "Ready",
+      "Fork workers", 
+      "Private memory", 
+      "Parallel compute", 
+      "Merge result"
+    ],
     metrics: [
       { label: "CPU use", value: "Multi-core" },
       { label: "Memory", value: "Isolated" },
       { label: "Overhead", value: "IPC" },
     ],
     insightSteps: [
+      {
+        title: "Parent process is ready",
+        description: "The main parent process is prepared to partition concurrent computation.",
+      },
       {
         title: "The parent forks workers",
         description: "The workers become separate processes rather than threads sharing one memory space.",

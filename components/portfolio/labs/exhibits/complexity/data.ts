@@ -10,8 +10,8 @@ export const complexityScenarios = [
     id: "tsp",
     name: "Route Search",
     trigger: "Explore routes",
-    summary: "A tiny traveling-salesperson style route looks simple, but brute-force permutations explode quickly.",
-    searchNodes: 24,
+    summary: "A tiny fixed-start traveling-salesperson tour looks simple, but brute-force permutations explode quickly.",
+    searchNodes: 6,
     metrics: [
       { label: "Verify one route", value: "O(n)" },
       { label: "Brute force", value: "O(n!)" },
@@ -23,8 +23,8 @@ export const complexityScenarios = [
         description: "The root represents one route prefix before choosing the next city.",
       },
       {
-        title: "Choose the cheaper next hop",
-        description: "A high-cost branch fades while the partial tour through C stays active.",
+        title: "Follow one candidate branch",
+        description: "A higher-cost branch fades while one candidate tour prefix through C stays active.",
       },
       {
         title: "Extend the tour by edge cost",
@@ -32,7 +32,7 @@ export const complexityScenarios = [
       },
       {
         title: "Close and score one tour",
-        description: "The bottom check sums the chosen edges, while the larger factorial search remains the hard part.",
+        description: "The bottom check sums the chosen edges plus the closing edge back to A, while the factorial search remains the hard part.",
       },
     ],
   },
@@ -41,9 +41,9 @@ export const complexityScenarios = [
     name: "Constraint Search",
     trigger: "Try assignments",
     summary: "A satisfying assignment can be checked quickly, but finding one may require exploring many branches.",
-    searchNodes: 32,
+    searchNodes: 8,
     metrics: [
-      { label: "Verify witness", value: "Polynomial" },
+      { label: "Verify witness", value: "Poly / linear in formula" },
       { label: "Naive search", value: "2^n" },
       { label: "Lesson", value: "P vs NP" },
     ],
@@ -76,7 +76,7 @@ export const labInsight = {
     },
     {
       title: "First choice narrows the path",
-      description: "The animation compares a rejected branch with the partial witness path that remains viable.",
+      description: "The animation compares a rejected branch with one partial candidate path that remains viable.",
     },
     {
       title: "Search keeps branching",
@@ -84,7 +84,7 @@ export const labInsight = {
     },
     {
       title: "Verification is compact",
-      description: "The bottom checks show the selected route cost or satisfied clauses without exploring every branch.",
+      description: "The bottom checks show the selected tour cost or satisfied clauses without exploring every branch.",
     },
   ],
   concepts: [
@@ -101,8 +101,8 @@ export const labInsight = {
       title: "Growth rates matter",
       description: "The practical limit is often the shape of the search space, not implementation speed.",
       bullets: [
-        "TSP-style brute force grows factorially with the number of cities.",
-        "SAT-style assignment search grows exponentially with variables.",
+        "Fixed-start TSP-style brute force grows factorially with the remaining cities.",
+        "SAT-style assignment search grows exponentially with the number of Boolean variables.",
         "Recognizing these limits is key to choosing heuristics, pruning, approximation, or reformulation.",
       ],
     },

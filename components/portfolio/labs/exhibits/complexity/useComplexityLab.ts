@@ -8,9 +8,9 @@ import useTimedPhase from "../../hooks/useTimedPhase";
 const animationSteps = 4;
 const routeCaptions = [
   "Route search makes the same kind of branching choices, but each choice adds travel cost.",
-  "Higher-cost route choices fade while the cheaper partial tour stays active.",
-  "The benefit is that one proposed tour can be scored by summing a few edges.",
-  "Search is expensive because many tours compete; checking one route is cheap.",
+  "Higher-cost route choices fade while one candidate tour prefix stays active.",
+  "The benefit is that one proposed tour can be scored by summing its edges.",
+  "Search is expensive because many tours compete; checking one complete tour is cheap.",
 ];
 const constraintCaptions = [
   "Constraint search makes the same kind of branching choices, but each choice assigns a variable.",
@@ -56,8 +56,8 @@ export default function useComplexityLab() {
   const liveTitle =
     runs > 0 && !isRunning
       ? isRouteSearch
-        ? `${scenario.searchNodes} possible tours visualized. Scoring one tour is small; finding the best tour is the hard part.`
-        : `${scenario.searchNodes} assignment branches visualized. Checking one assignment is small; finding it is the hard part.`
+        ? `${scenario.searchNodes} fixed-start tours are possible in this 4-city toy case. Scoring one complete tour is small; finding the best tour is the hard part.`
+        : `${scenario.searchNodes} assignments are possible for this 3-variable toy formula. Checking one assignment is small; finding it is the hard part.`
       : activeCaption;
 
   return {

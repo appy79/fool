@@ -9,8 +9,8 @@ export const networkScenarios = [
     id: "edge-hit",
     name: "Edge Cache Hit",
     trigger: "Request asset",
-    summary: "DNS sends the user to a nearby edge and the CDN responds without origin traffic.",
-    route: ["client", "dns", "edge", "cdn"],
+    summary: "DNS resolves the user to a nearby POP, where the edge cache serves the asset without origin traffic.",
+    route: ["client", "dns", "edge", "cdn", "response"],
     metrics: [
       { label: "Latency", value: "24ms" },
       { label: "Origin load", value: "0%" },
@@ -23,15 +23,19 @@ export const networkScenarios = [
       },
       {
         title: "DNS chooses a nearby edge",
-        description: "Resolution sends the user to a close point of presence instead of a distant origin.",
+        description: "DNS returns an address for a close point of presence; it does not carry the HTTP payload.",
       },
       {
         title: "Edge handles the request",
-        description: "The request lands near the user, keeping the round-trip path short.",
+        description: "After resolution, the browser sends the request to the nearby edge POP, keeping the round-trip path short.",
       },
       {
-        title: "CDN cache answers locally",
-        description: "The cache-hit badge marks the terminal hop, bypassing origin and app infrastructure.",
+        title: "Edge cache answers locally",
+        description: "The cached object is returned from the POP, bypassing origin and app infrastructure.",
+      },
+      {
+        title: "Response returns from the POP",
+        description: "The user receives the asset from the edge cache, so origin load stays at zero.",
       },
     ],
   },
@@ -40,7 +44,7 @@ export const networkScenarios = [
     name: "Origin Miss",
     trigger: "Fetch cold asset",
     summary: "A cache miss travels from edge to origin, fills CDN storage, then returns to the client.",
-    route: ["client", "dns", "edge", "cdn", "origin", "app"],
+    route: ["client", "dns", "edge", "cdn", "origin", "fill", "response"],
     metrics: [
       { label: "Latency", value: "188ms" },
       { label: "Origin load", value: "High" },
@@ -53,23 +57,27 @@ export const networkScenarios = [
       },
       {
         title: "DNS resolves to the edge",
-        description: "The user still enters through the nearest point of presence before cache state is checked.",
+        description: "DNS still returns a nearby POP address before the HTTP request checks cache state.",
       },
       {
-        title: "Edge forwards to CDN storage",
-        description: "The edge checks the delivery layer and discovers that the object cannot be served locally yet.",
+        title: "Edge cache lookup misses",
+        description: "The POP checks its cache and discovers that the object cannot be served locally yet.",
       },
       {
         title: "CDN miss continues to origin",
-        description: "The route extends beyond the fast path, increasing latency and origin load.",
+        description: "The route extends beyond the fast path to the origin/object store, increasing latency and origin load.",
       },
       {
         title: "Origin retrieves the cold object",
         description: "The origin fetch supplies the missing asset and creates the opportunity to fill cache storage.",
       },
       {
-        title: "Application completes the miss path",
-        description: "The final hop represents the extra service path that makes misses slower but warms future hits.",
+        title: "Cache fills on the response path",
+        description: "The response writes the object into edge/CDN storage so future requests can become hits.",
+      },
+      {
+        title: "Client receives the fetched object",
+        description: "The first cold request is slower, but the path has warmed the cache for the next user.",
       },
     ],
   },
@@ -77,8 +85,8 @@ export const networkScenarios = [
     id: "api-edge",
     name: "API Edge Route",
     trigger: "Call API",
-    summary: "The request resolves DNS, crosses edge routing, terminates TLS, then reaches application services.",
-    route: ["client", "dns", "edge", "origin", "app"],
+    summary: "The request resolves DNS, enters an edge POP, terminates or proxies TLS/L7 work, then reaches service ingress and application code.",
+    route: ["client", "dns", "edge", "origin", "app", "response"],
     metrics: [
       { label: "Layers", value: "L3-L7" },
       { label: "TLS", value: "Terminated" },
@@ -91,19 +99,23 @@ export const networkScenarios = [
       },
       {
         title: "DNS chooses the nearest POP",
-        description: "Resolution still optimizes entry point selection before the request crosses application boundaries.",
+        description: "Resolution chooses the entry point before the HTTP request crosses application boundaries.",
       },
       {
         title: "Edge terminates protocol work",
-        description: "The TLS/L7 gate appears at the edge because API routes often handle protocol boundaries there.",
+        description: "The TLS/L7 gate appears at the edge because API routes often terminate, inspect, or proxy protocol boundaries there.",
       },
       {
-        title: "Origin routes toward services",
-        description: "Dynamic traffic crosses into origin infrastructure instead of stopping at CDN storage.",
+        title: "Service ingress receives dynamic traffic",
+        description: "Dynamic traffic crosses into origin infrastructure or a load balancer/service gateway instead of stopping at cache storage.",
       },
       {
         title: "App service produces the response",
         description: "The final hop shows why API latency depends on both network routing and application behavior.",
+      },
+      {
+        title: "Response returns through the edge",
+        description: "The API response travels back through the same delivery boundary to the client.",
       },
     ],
   },
@@ -111,18 +123,20 @@ export const networkScenarios = [
 
 export const networkNodePositions: Record<string, { x: number; y: number; label: string }> = {
   client: { x: 90, y: 210, label: "Client" },
-  dns: { x: 240, y: 112, label: "DNS" },
-  edge: { x: 405, y: 210, label: "Edge" },
-  cdn: { x: 570, y: 112, label: "CDN" },
-  origin: { x: 720, y: 210, label: "Origin" },
-  app: { x: 890, y: 210, label: "App" },
+  dns: { x: 240, y: 112, label: "DNS Resolver" },
+  edge: { x: 405, y: 210, label: "Edge POP" },
+  cdn: { x: 570, y: 112, label: "Edge Cache" },
+  origin: { x: 720, y: 210, label: "Origin / Ingress" },
+  fill: { x: 570, y: 292, label: "Cache Fill" },
+  app: { x: 890, y: 210, label: "App Service" },
+  response: { x: 250, y: 292, label: "Response" },
 };
 
 export const labInsight = {
   steps: [
     {
       title: "Client resolves an entry point",
-      description: "The request starts at the user and DNS decides where the traffic should enter the network.",
+      description: "The request starts at the user and DNS resolves where traffic should enter the delivery network.",
     },
     {
       title: "Edge receives the request",

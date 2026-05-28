@@ -30,7 +30,6 @@ export default function TelecomCoreExhibit() {
           activeOutput={lab.activeOutput}
           bypassNotes={lab.bypassNotes}
           guardrailReached={lab.guardrailReached}
-          guardrailPosition={lab.guardrailPosition}
           onStageSelect={lab.selectStage}
         />
       }

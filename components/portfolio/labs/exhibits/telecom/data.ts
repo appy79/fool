@@ -5,8 +5,8 @@ export const telecomStages = [
     id: "ue",
     label: "UE",
     layer: "Device",
-    description: "A subscriber device initiates data, voice, or charging usage.",
-    signal: "Usage event",
+    description: "A subscriber device starts a network session whose usage may later become chargeable records.",
+    signal: "Session request",
   },
   {
     id: "ran",
@@ -33,8 +33,8 @@ export const telecomStages = [
     id: "charging",
     label: "CHF/CGF",
     layer: "Charging",
-    description: "Charging functions rate, aggregate, and prepare accounting records.",
-    signal: "Charging event",
+    description: "Charging functions collect, correlate, and prepare charging records for rating, mediation, or billing.",
+    signal: "Charging record",
   },
   {
     id: "kafka",
@@ -61,8 +61,8 @@ export const telecomStages = [
     id: "billing",
     label: "Billing",
     layer: "Revenue",
-    description: "The usage outcome reaches billing, dashboards, or downstream product systems.",
-    signal: "Rated usage",
+    description: "Revenue systems rate, invoice, sync, or expose the completed commercial outcome.",
+    signal: "Billing outcome",
   },
 ] satisfies readonly TelecomStage[];
 
@@ -71,21 +71,21 @@ export const telecomScenarios = [
     id: "data-session",
     name: "Data Session Charging",
     trigger: "Start data usage",
-    summary: "Follow a live data event from the device through policy, charging, event streaming, and persistence.",
+    summary: "Follow a data session from access and core validation into charging, mediation, backend persistence, and billing.",
     route: ["ue", "ran", "core", "policy", "charging", "kafka", "services", "store", "billing"],
     signals: [
       { label: "Flow type", value: "Online charging" },
-      { label: "Control point", value: "Policy gate" },
-      { label: "Delivery mode", value: "Rated event stream" },
+      { label: "Control point", value: "Policy + charging" },
+      { label: "Delivery mode", value: "Mediated event stream" },
     ],
     stageOutputs: {
-      ue: "usage event opened",
-      ran: "bearer context attached",
-      core: "session state validated",
-      policy: "quota and entitlement ok",
-      charging: "rated CDR generated",
-      kafka: "event committed to topic",
-      services: "record enriched + reconciled",
+      ue: "data session requested",
+      ran: "access bearer established",
+      core: "subscriber session validated",
+      policy: "policy and quota decision ready",
+      charging: "charging record produced",
+      kafka: "record mediated into stream",
+      services: "backend enrichment reconciled",
       store: "usage ledger persisted",
       billing: "billable outcome delivered",
     },
@@ -97,7 +97,7 @@ export const telecomScenarios = [
     insightSteps: [
       {
         title: "UE starts mobile data usage",
-        description: "The subscriber device creates the usage event that will eventually become a rated billing record.",
+        description: "The subscriber device starts a data session. The chargeable usage is observed and prepared later in the core and charging path.",
       },
       {
         title: "RAN forwards bearer context",
@@ -112,12 +112,12 @@ export const telecomScenarios = [
         description: "Policy rules decide whether the session is allowed and which charging behavior applies.",
       },
       {
-        title: "Charging rates the usage",
-        description: "Charging functions convert the data event into an accounting event with rating context.",
+        title: "Charging prepares the record",
+        description: "Charging functions produce charging records and rating context. Final pricing may happen here or in downstream billing, depending on the operator stack.",
       },
       {
         title: "Kafka decouples event processing",
-        description: "The rated event enters the stream so downstream services can scale independently.",
+        description: "The charging record enters a mediated stream so downstream services can scale independently.",
       },
       {
         title: "Microservices enrich and reconcile",
@@ -137,24 +137,32 @@ export const telecomScenarios = [
     id: "billing-aggregation",
     name: "Billing Aggregation",
     trigger: "Aggregate records",
-    summary: "Watch records move from high-volume ingestion into aggregation, cache, storage, and billing sync.",
-    route: ["ue", "core", "charging", "kafka", "services", "store", "billing"],
+    summary: "Watch already-produced charging records move through mediation, aggregation, checkpointing, and billing sync.",
+    route: ["charging", "kafka", "services", "store", "billing"],
     signals: [
       { label: "Flow type", value: "Batch aggregation" },
-      { label: "Input shape", value: "Rated records" },
+      { label: "Input shape", value: "CDR/EDR records" },
       { label: "Recovery model", value: "Checkpointed sync" },
     ],
+    stageOverrides: {
+      charging: {
+        label: "CDR/EDR",
+        layer: "Mediation",
+        description: "The batch job starts from charging records that have already been collected or mediated upstream.",
+        signal: "Rated records",
+      },
+    },
     stageOutputs: {
-      ue: "usage source selected",
-      core: "subscriber context normalized",
-      charging: "records grouped for aggregation",
+      charging: "charging records selected",
       kafka: "batch window published",
       services: "source + target billing reconciled",
       store: "aggregate checkpoint stored",
       billing: "billing sync acknowledged",
     },
     bypassNotes: {
-      ran: "not needed for record aggregation",
+      ue: "usage happened upstream",
+      ran: "not part of batch aggregation",
+      core: "session context already resolved",
       policy: "policy already resolved upstream",
     },
     guardrail: {
@@ -164,16 +172,8 @@ export const telecomScenarios = [
     },
     insightSteps: [
       {
-        title: "Subscriber usage creates billable records",
-        description: "The UE represents the original usage activity that eventually becomes aggregation input.",
-      },
-      {
-        title: "Core context normalizes the records",
-        description: "Subscriber and session context is aligned before the records move into charging aggregation.",
-      },
-      {
-        title: "Charging groups billable events",
-        description: "Charging output becomes the unit of work for high-volume billing aggregation.",
+        title: "Charging records enter aggregation",
+        description: "The flow starts from CDR/EDR or mediated charging records, not from the live UE/RAN session.",
       },
       {
         title: "Kafka absorbs daily volume",
@@ -197,25 +197,38 @@ export const telecomScenarios = [
     id: "service-integration",
     name: "Service Provisioning Integration",
     trigger: "Provision service",
-    summary: "Simulate a service access flow after platform integration, with delivery systems and downstream services.",
-    route: ["ue", "ran", "core", "services", "kafka", "store", "billing"],
+    summary: "Simulate an OSS/BSS service order moving through orchestration, audit streaming, durable state, and billing updates.",
+    route: ["ue", "services", "kafka", "store", "billing"],
     signals: [
       { label: "Flow type", value: "Provisioning" },
       { label: "Control point", value: "Service orchestration" },
       { label: "Audit model", value: "Event trail" },
     ],
+    stageOverrides: {
+      ue: {
+        label: "Order API",
+        layer: "OSS/BSS",
+        description: "An order-management, CRM, or API entry point starts the service activation request.",
+        signal: "Service order",
+      },
+      services: {
+        label: "Orchestrator",
+        description: "Application services coordinate fulfillment across inventory, network-facing APIs, and downstream systems.",
+        signal: "Fulfillment command",
+      },
+    },
     stageOutputs: {
-      ue: "activation request received",
-      ran: "access context attached",
-      core: "subscriber eligibility confirmed",
-      services: "service orchestration started",
+      ue: "service order accepted",
+      services: "fulfillment workflow started",
       kafka: "provisioning event emitted",
       store: "activation state persisted",
-      billing: "service lifecycle closed",
+      billing: "billing profile updated",
     },
     bypassNotes: {
-      policy: "handled inside orchestration",
-      charging: "billing follows provisioning outcome",
+      ran: "not in the order path",
+      core: "network activation is called downstream",
+      policy: "entitlement handled by orchestration",
+      charging: "charging follows activated service",
     },
     guardrail: {
       label: "Provisioning audit trail",
@@ -224,20 +237,12 @@ export const telecomScenarios = [
     },
     insightSteps: [
       {
-        title: "Subscriber requests service access",
-        description: "A subscriber initiates a provisioning or service-activation flow.",
-      },
-      {
-        title: "RAN carries the activation context",
-        description: "Access context enters the network so the platform can identify the subscriber flow.",
-      },
-      {
-        title: "Core validates the subscriber state",
-        description: "The core confirms the session and prepares the request for service orchestration.",
+        title: "Order API receives activation",
+        description: "Provisioning begins in OSS/BSS or an external API, not in the live RAN session path.",
       },
       {
         title: "Services orchestrate fulfillment",
-        description: "Application services coordinate the integrated platform behavior for the activation.",
+        description: "Application services coordinate the integrated platform behavior and call any required network-facing systems.",
       },
       {
         title: "Kafka publishes platform events",
@@ -249,7 +254,7 @@ export const telecomScenarios = [
       },
       {
         title: "Billing closes the lifecycle",
-        description: "The completed path connects activation, durable state, and revenue-facing systems.",
+        description: "The completed path connects activation state to subscription, invoicing, or revenue-facing systems.",
       },
     ],
   },
@@ -270,16 +275,16 @@ export const telecomStagePositions: Record<string, { x: number; y: number }> = {
 export const labInsight = {
   steps: [
     {
-      title: "Subscriber event enters the network",
-      description: "The device and access network hand a usage or provisioning event into the mobile core.",
+      title: "Event enters the platform",
+      description: "The flow starts from either a live network session or an OSS/BSS order, depending on the scenario.",
     },
     {
-      title: "Core validates session and policy",
-      description: "The control-plane path checks subscriber context, entitlement, quota, and charging rules.",
+      title: "Context and entitlement resolve",
+      description: "Network control-plane functions or backend orchestration resolve subscriber context, entitlement, quota, and charging inputs.",
     },
     {
-      title: "Charging emits durable events",
-      description: "Charging functions rate or aggregate the event and publish it into the streaming path.",
+      title: "Charging or orchestration emits events",
+      description: "Charging records, provisioning outcomes, or billing batches are published into the streaming path.",
     },
     {
       title: "Services persist and reconcile outcome",
@@ -289,10 +294,11 @@ export const labInsight = {
   concepts: [
     {
       title: "Subscriber usage flow",
-      description: "Telecom systems turn network activity into policy decisions, charging events, and durable billing records.",
+      description: "Telecom platforms turn network activity or OSS/BSS orders into charging records, activation state, and durable billing outcomes.",
       bullets: [
-        "Access and core layers establish the subscriber/session context.",
-        "Policy and charging decide entitlement, quota, rating, and accounting behavior.",
+        "Access and core layers establish subscriber/session context for live network usage.",
+        "OSS/BSS and orchestration layers handle service orders and provisioning workflows.",
+        "Policy, charging, mediation, and billing divide entitlement, quota, rating, and accounting behavior.",
         "Downstream services persist and expose the result for billing or product workflows.",
       ],
     },

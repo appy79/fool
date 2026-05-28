@@ -33,6 +33,7 @@ export default function TuringTapeScene({
   stepCount,
 }: TuringTapeSceneProps) {
   const visibleCells = Array.from({ length: tapeRadius * 2 + 1 }, (_, index) => head - tapeRadius + index);
+  const machineVisualActive = isRunning || (steps > 0 && steps < stepCount);
 
   return (
     <LabSceneFrame className="border-amber-900/50 bg-[#201811] p-0 text-amber-50 shadow-2xl shadow-amber-950/25">
@@ -68,6 +69,10 @@ export default function TuringTapeScene({
             @keyframes turing-reel-spin {
               to { transform: rotate(360deg); }
             }
+            @keyframes turing-valve-glow {
+              0%, 100% { opacity: 0.35; filter: drop-shadow(0 0 2px rgba(239, 68, 68, 0.4)); }
+              50% { opacity: 0.85; filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.9)); }
+            }
             @media (prefers-reduced-motion: reduce) {
               .turing-motion {
                 animation: none !important;
@@ -77,7 +82,10 @@ export default function TuringTapeScene({
           `}
         </style>
 
-        <div className="mb-4 flex items-center justify-between gap-3 rounded-2xl border border-amber-100/10 bg-black/25 px-4 py-3">
+        <div className="mb-4 flex items-center justify-between gap-3 rounded-2xl border border-amber-100/10 bg-black/25 px-4 py-3 relative overflow-hidden">
+          {/* Cybernetic side bracket lines to reinforce machine retro-feel */}
+          <div className="absolute top-0 bottom-0 left-0 w-1.5 bg-amber-500/30" />
+          
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-200/80">
               TM-1956 Tape Console
@@ -86,8 +94,17 @@ export default function TuringTapeScene({
               READ HEAD: {head} / MOVE: {lastMove} / STATE: {state}
             </p>
           </div>
-          <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.22em]">
-            <span className={`h-3 w-3 rounded-full ${isRunning ? "animate-pulse bg-emerald-300 motion-reduce:animate-none" : "bg-amber-900"}`} />
+          <div className="flex items-center gap-4 font-mono text-xs uppercase tracking-[0.22em]">
+            {/* Glowing Vacuum Tube indicator lamp representing retro state machinery */}
+            <div className="flex gap-1.5 items-center">
+              <span className="text-[0.55rem] text-amber-400/40 font-bold uppercase tracking-widest">VACUUM GLOW:</span>
+              <div 
+                className="h-6 w-3.5 rounded-t-full rounded-b-sm border border-red-500/50 bg-gradient-to-b from-red-500/80 to-stone-900" 
+                style={{ animation: machineVisualActive ? "turing-valve-glow 1.5s infinite" : "none" }}
+              />
+            </div>
+            
+            <span className={`h-3 w-3 rounded-full ${machineVisualActive ? "animate-pulse bg-emerald-300 motion-reduce:animate-none" : "bg-amber-900"}`} />
             {clackTick > 0 ? (
               <span key={`clack-label-${clackTick}`} className="rounded-full border border-amber-100/20 bg-amber-100/10 px-3 py-1 text-amber-100 animate-pulse motion-reduce:animate-none">
                 {lastMove === "S" ? "CLACK" : lastMove === "R" ? "CLICK ->" : "<- CLACK"}
@@ -102,95 +119,103 @@ export default function TuringTapeScene({
           {["left", "right"].map((side) => (
             <div
               key={side}
-              className={`turing-motion pointer-events-none absolute top-10 z-0 h-32 w-32 rounded-full border border-amber-100/20 bg-[conic-gradient(from_0deg,#3b2a1c,#c0842f,#2a1e14,#8a5a1f,#3b2a1c)] shadow-inner shadow-black/70 ${side === "left" ? "left-7" : "right-7"}`}
+              className={`turing-motion pointer-events-none absolute top-10 z-0 h-32 w-32 overflow-hidden rounded-full ${side === "left" ? "left-7" : "right-7"}`}
               style={{
                 animationDuration: "1.4s",
                 animationDirection: side === "left" ? "reverse" : "normal",
                 animationIterationCount: "infinite",
-                animationName: isRunning ? "turing-reel-spin" : "none",
+                animationName: machineVisualActive ? "turing-reel-spin" : "none",
                 animationTimingFunction: "linear",
               }}
             >
-              <div className="absolute left-1/2 top-1/2 h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-full border border-amber-100/20 bg-[#160f09]" />
-              <div className="absolute left-1/2 top-4 h-5 w-5 -translate-x-1/2 rounded-full bg-black/45" />
-              <div className="absolute bottom-4 left-1/2 h-5 w-5 -translate-x-1/2 rounded-full bg-black/45" />
-              <div className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-black/45" />
-              <div className="absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-black/45" />
+              <svg aria-hidden="true" className="block h-full w-full rounded-full" viewBox="0 0 128 128">
+                <circle cx="64" cy="64" r="62" fill="#24170d" stroke="#f5d48a" strokeOpacity="0.22" strokeWidth="2" />
+                <circle cx="64" cy="64" r="55" fill="#3b2a1c" />
+                <circle cx="64" cy="64" r="45" fill="none" stroke="#d69a3a" strokeOpacity="0.36" strokeWidth="8" />
+                <circle cx="64" cy="64" r="32" fill="none" stroke="#f1c46d" strokeOpacity="0.2" strokeWidth="7" />
+                <circle cx="64" cy="30" r="9" fill="#120d08" opacity="0.72" />
+                <circle cx="94" cy="81" r="9" fill="#120d08" opacity="0.72" />
+                <circle cx="34" cy="81" r="9" fill="#120d08" opacity="0.72" />
+                <circle cx="64" cy="64" r="17" fill="#160f09" stroke="#f5d48a" strokeOpacity="0.22" strokeWidth="2" />
+                <circle cx="64" cy="64" r="6" fill="#c0842f" opacity="0.72" />
+              </svg>
             </div>
           ))}
 
-        <div className="absolute left-1/2 top-12 z-20 w-28 -translate-x-1/2 text-center">
-          <div
-            key={`head-${clackTick}`}
-            className="turing-motion mx-auto"
-            style={{
-              animationDuration: "280ms",
-              animationName: clackTick > 0 ? "turing-head-clack" : "none",
-              animationTimingFunction: "ease-out",
-            }}
-          >
-            <div className="mx-auto rounded-t-2xl border border-amber-100/30 bg-gradient-to-b from-stone-300 to-stone-700 px-3 py-3 text-[0.65rem] font-black uppercase tracking-[0.18em] text-stone-950 shadow-xl shadow-black/50">
-              R/W Head
+          <div className="absolute left-1/2 top-12 z-20 w-28 -translate-x-1/2 text-center">
+            <div
+              key={`head-${clackTick}`}
+              className="turing-motion mx-auto"
+              style={{
+                animationDuration: "280ms",
+                animationName: clackTick > 0 ? "turing-head-clack" : "none",
+                animationTimingFunction: "ease-out",
+              }}
+            >
+              {/* Tapered triangular pointer/stamp mechanical pointer for write head */}
+              <div className="mx-auto rounded-t-2xl border border-amber-100/30 bg-gradient-to-b from-stone-300 to-stone-700 px-3 py-3 text-[0.65rem] font-black uppercase tracking-[0.18em] text-stone-950 shadow-xl shadow-black/50">
+                R/W Head
+              </div>
+              <div className="mx-auto h-[4.6rem] w-3 bg-gradient-to-b from-stone-500 to-amber-200 shadow-lg shadow-amber-200/20" />
+              <div className="mx-auto h-0 w-0 border-l-[13px] border-r-[13px] border-t-[28px] border-l-transparent border-r-transparent border-t-amber-200 drop-shadow-[0_8px_12px_rgba(251,191,36,0.45)]" />
             </div>
-            <div className="mx-auto h-[4.6rem] w-3 bg-gradient-to-b from-stone-500 to-amber-200 shadow-lg shadow-amber-200/20" />
-            <div className="mx-auto h-0 w-0 border-l-[13px] border-r-[13px] border-t-[28px] border-l-transparent border-r-transparent border-t-amber-200 drop-shadow-[0_8px_12px_rgba(251,191,36,0.45)]" />
-          </div>
-        </div>
-
-        <div className="absolute left-0 right-0 top-[150px] z-10 border-y border-amber-950/60 bg-[#d7b46a] py-4 shadow-2xl shadow-black/50">
-          <div className="absolute left-0 right-0 top-2 flex justify-around">
-            {Array.from({ length: 34 }).map((_, index) => (
-              <span key={`top-hole-${index}`} className="h-2 w-2 rounded-full bg-[#5c3a16]/65" />
-            ))}
-          </div>
-          <div className="absolute bottom-2 left-0 right-0 flex justify-around">
-            {Array.from({ length: 34 }).map((_, index) => (
-              <span key={`bottom-hole-${index}`} className="h-2 w-2 rounded-full bg-[#5c3a16]/65" />
-            ))}
           </div>
 
-          <div className="pointer-events-none absolute left-1/2 top-0 z-20 h-full w-[4.45rem] -translate-x-1/2 border-x border-amber-950/50 bg-amber-50/20 shadow-[0_0_30px_rgba(251,191,36,0.45)]" />
-          <div className="overflow-hidden px-0 pb-1 pt-4">
-            <div className="relative left-1/2 w-max -translate-x-1/2">
-              <div
-                key={`tape-${clackTick}`}
-                className="turing-motion flex justify-center gap-1"
-                style={{
-                  animation:
-                    clackTick > 0
-                      ? `${lastMove === "L" ? "turing-tape-shift-left" : lastMove === "R" ? "turing-tape-shift-right" : "turing-tape-stamp"} 320ms ease-out`
-                      : undefined,
-                }}
-              >
-                {visibleCells.map((index) => {
-                  const active = index === head;
-                  const value = readCell(tape, index);
+          <div className="absolute left-0 right-0 top-[150px] z-10 border-y border-amber-950/60 bg-[#d7b46a] py-4 shadow-2xl shadow-black/50">
+            <div className="absolute left-0 right-0 top-2 flex justify-around">
+              {Array.from({ length: 34 }).map((_, index) => (
+                <span key={`top-hole-${index}`} className="h-2 w-2 rounded-full bg-[#5c3a16]/65" />
+              ))}
+            </div>
+            <div className="absolute bottom-2 left-0 right-0 flex justify-around">
+              {Array.from({ length: 34 }).map((_, index) => (
+                <span key={`bottom-hole-${index}`} className="h-2 w-2 rounded-full bg-[#5c3a16]/65" />
+              ))}
+            </div>
 
-                  return (
-                    <div key={index} className="flex w-16 flex-col items-center gap-1">
-                      <div
-                        className={`grid h-16 w-16 place-items-center border-y border-r border-[#6b481f]/45 font-mono text-2xl font-black transition motion-reduce:transition-none ${
-                          active
-                            ? "bg-amber-50 text-slate-950 shadow-[0_0_28px_rgba(251,191,36,0.65)]"
-                            : "bg-[#e5c982] text-[#4a2f11]"
-                        }`}
-                      >
-                        {value}
+            <div className="pointer-events-none absolute left-1/2 top-0 z-20 h-full w-[4.45rem] -translate-x-1/2 border-x border-amber-950/50 bg-amber-50/20 shadow-[0_0_30px_rgba(251,191,36,0.45)]" />
+            <div className="overflow-hidden px-0 pb-1 pt-4">
+              <div className="relative left-1/2 w-max -translate-x-1/2">
+                <div
+                  key={`tape-${clackTick}`}
+                  className="turing-motion flex justify-center gap-1"
+                  style={{
+                    animation:
+                      clackTick > 0
+                        ? `${lastMove === "L" ? "turing-tape-shift-left" : lastMove === "R" ? "turing-tape-shift-right" : "turing-tape-stamp"} 320ms ease-out`
+                        : undefined,
+                  }}
+                >
+                  {visibleCells.map((index) => {
+                    const active = index === head;
+                    const value = readCell(tape, index);
+
+                    return (
+                      <div key={index} className="flex w-16 flex-col items-center gap-1">
+                        {/* Rounded circular cells as expected in punched / sprocket style paper tapes */}
+                        <div
+                          className={`grid h-16 w-16 place-items-center border border-[#6b481f]/45 font-mono text-2xl font-black transition-all duration-300 rounded-full ${
+                            active
+                              ? "bg-amber-50 text-slate-950 shadow-[0_0_28px_rgba(251,191,36,0.65)] scale-105 border-amber-300"
+                              : "bg-[#e5c982] text-[#4a2f11]"
+                          }`}
+                        >
+                          {value}
+                        </div>
+                        <span className="font-mono text-[0.62rem] text-[#5c3a16]">{index}</span>
                       </div>
-                      <span className="font-mono text-[0.62rem] text-[#5c3a16]">{index}</span>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="absolute bottom-5 left-5 right-5 z-20 grid grid-cols-3 gap-3 rounded-2xl border border-amber-100/10 bg-black/30 p-3 font-mono text-xs text-amber-100/80">
-          <span>READ: {readCell(tape, head)}</span>
-          <span>WRITE: {lastTransition.includes("write") ? lastTransition.split("write ")[1]?.split(",")[0] : "-"}</span>
-          <span>STEPS: {steps}/{stepCount}</span>
-        </div>
+          <div className="absolute bottom-5 left-5 right-5 z-20 grid grid-cols-3 gap-3 rounded-2xl border border-amber-100/10 bg-black/30 p-3 font-mono text-xs text-amber-100/80">
+            <span>READ: {readCell(tape, head)}</span>
+            <span>WRITE: {lastTransition.includes("write") ? lastTransition.split("write ")[1]?.split(",")[0] : "-"}</span>
+            <span>STEPS: {steps}/{stepCount}</span>
+          </div>
         </div>
       </ScaledSceneCanvas>
     </LabSceneFrame>
