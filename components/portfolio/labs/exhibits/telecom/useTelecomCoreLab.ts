@@ -4,11 +4,12 @@ import { useState } from "react";
 import { labInsight, telecomScenarios, telecomStagePositions, telecomStages } from "./data";
 import { mapInsightStepToPhase, mapPhaseToInsightStep, mergeLabInsight } from "../../utils/insight";
 import useTimedPhase from "../../hooks/useTimedPhase";
+import type { TelecomScenario } from "../../types";
 
 export default function useTelecomCoreLab() {
   const [scenarioId, setScenarioId] = useState(telecomScenarios[0].id);
   const [eventsProcessed, setEventsProcessed] = useState(0);
-  const scenario = telecomScenarios.find((item) => item.id === scenarioId) ?? telecomScenarios[0];
+  const scenario: TelecomScenario = telecomScenarios.find((item) => item.id === scenarioId) ?? telecomScenarios[0];
   const {
     isRunning: isSimulating,
     phaseIndex: activeIndex,
@@ -21,7 +22,8 @@ export default function useTelecomCoreLab() {
     onAdvance: () => setEventsProcessed((count) => count + 1),
   });
   const activeStageId = scenario.route[activeIndex] ?? scenario.route[0];
-  const activeStage = telecomStages.find((stage) => stage.id === activeStageId) ?? telecomStages[0];
+  const baseActiveStage = telecomStages.find((stage) => stage.id === activeStageId) ?? telecomStages[0];
+  const activeStage = { ...baseActiveStage, ...scenario.stageOverrides?.[baseActiveStage.id] };
   const isComplete = activeIndex === scenario.route.length - 1 && !isSimulating && eventsProcessed > 0;
   const activeInsight = mergeLabInsight(labInsight, scenario.insightSteps);
   const stageOutputs: Partial<Record<string, string>> | undefined = scenario.stageOutputs;

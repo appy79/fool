@@ -3,6 +3,7 @@ import type { LabInsight, LabScenarioBase } from "../../types";
 type DatabaseAccessModule = LabScenarioBase & {
   stages: readonly string[];
   bars: readonly [number, number, number];
+  statLabels: readonly [string, string, string];
 };
 
 export const databaseAccessModules = [
@@ -11,8 +12,9 @@ export const databaseAccessModules = [
     name: "Full Table Scan",
     trigger: "Run scan",
     summary: "A direct scan is simple, but query cost grows with table size and storage latency.",
-    stages: ["Query", "Planner", "Buffer churn", "Table scan", "Rows returned"],
-    bars: [92, 38, 28],
+    stages: ["Query Request", "Parser & Planner", "Disk Buffer Read", "Sequential Scan", "Filter Rows", "Rows Returned"],
+    bars: [92, 82, 28],
+    statLabels: ["Latency cost", "Buffer pressure", "Read throughput"],
     metrics: [
       { label: "Latency", value: "420ms" },
       { label: "Memory", value: "High churn" },
@@ -20,24 +22,28 @@ export const databaseAccessModules = [
     ],
     insightSteps: [
       {
-        title: "Query enters the database path",
-        description: "The request starts with the simplest access path: inspect available rows until the answer is found.",
+        title: "Query reaches parser and planner",
+        description: "The incoming request is parsed into an abstract syntax tree and prepared for planning.",
       },
       {
-        title: "Planner has no selective structure",
-        description: "Without a useful index, the planner cannot jump directly to matching rows.",
+        title: "Planner initiates full relation scan",
+        description: "Without selective statistics or an index, the planner resorts to a full table scan.",
       },
       {
-        title: "Buffer churn appears",
-        description: "Repeated page reads and intermediate objects create pressure before the scan completes.",
+        title: "Disk pages loaded into buffer pool",
+        description: "Every page in the relation must be read from disk or cache buffers, increasing I/O churn.",
       },
       {
-        title: "Table scan dominates",
-        description: "The slow storage access becomes the main bottleneck for this baseline query path.",
+        title: "Sequential record scan executes",
+        description: "Execution loops sequentially through every single tuple in the table pages.",
       },
       {
-        title: "Rows return with baseline latency",
-        description: "The result is correct but slow, giving later database modules a measured comparison point.",
+        title: "WHERE condition filtering applied",
+        description: "Each row is tested against the query filter predicates to select matching data.",
+      },
+      {
+        title: "Matching rows returned to client",
+        description: "The result is compiled and returned, completing the slow, baseline disk-heavy loop.",
       },
     ],
   },
@@ -46,8 +52,9 @@ export const databaseAccessModules = [
     name: "Indexed Query",
     trigger: "Use index",
     summary: "An index trades write/storage cost for faster reads and fewer scanned rows.",
-    stages: ["Query", "Planner", "B-tree index", "Row fetch", "Rows returned"],
+    stages: ["Query Request", "B-tree Index", "Row Pointer Fetch", "Rows Returned"],
     bars: [36, 46, 76],
+    statLabels: ["Latency cost", "Index upkeep", "Read throughput"],
     metrics: [
       { label: "Latency", value: "95ms" },
       { label: "Rows read", value: "-88%" },
@@ -55,24 +62,20 @@ export const databaseAccessModules = [
     ],
     insightSteps: [
       {
-        title: "Query reaches the planner",
-        description: "The database has enough structure to consider an indexed access path.",
+        title: "Query targets indexed search column",
+        description: "The database planner detects an index covering the search condition.",
       },
       {
-        title: "Planner selects the index",
-        description: "The lookup avoids scanning most rows by using precomputed ordering or hash structure.",
+        title: "Traverse B-tree nodes directly to leaf",
+        description: "The index is searched via rapid logarithmic leaf lookups, bypassing almost all data pages.",
       },
       {
-        title: "Index narrows the search",
-        description: "The B-tree or lookup structure reduces the candidate set before touching table rows.",
+        title: "Dereference row pointers in heap storage",
+        description: "The leaf node provides exact row IDs, loading only the target data tuples.",
       },
       {
-        title: "Only matching rows are fetched",
-        description: "The row-fetch stage shows why reads get faster while storage and writes become more expensive.",
-      },
-      {
-        title: "Response improves with a write tradeoff",
-        description: "The final bars show lower latency but acknowledge the operational cost of maintaining the index.",
+        title: "Precise rows returned with low latency",
+        description: "The fast-path query completes, saving massive disk reads with low latency.",
       },
     ],
   },
@@ -81,8 +84,9 @@ export const databaseAccessModules = [
     name: "Parallel Query Workers",
     trigger: "Fan out query",
     summary: "Independent partitions run concurrently, improving throughput until merge or lock contention appears.",
-    stages: ["Queue", "Shard", "Workers", "Merge", "Rows returned"],
+    stages: ["Query Request", "Partition Split", "Parallel Workers", "Merge Results", "Rows Returned"],
     bars: [68, 62, 88],
+    statLabels: ["Coordination cost", "Worker pressure", "Read throughput"],
     metrics: [
       { label: "Throughput", value: "3x" },
       { label: "Bottleneck", value: "Merge" },
@@ -90,24 +94,24 @@ export const databaseAccessModules = [
     ],
     insightSteps: [
       {
-        title: "Query becomes parallel work",
-        description: "The request is split into chunks instead of being processed as one serial scan.",
+        title: "Query parsed for parallel execution",
+        description: "The database engine identifies that a parallel scan of the relation will be cheaper.",
       },
       {
-        title: "Shards divide the relation",
-        description: "Independent partitions make parallel query execution possible.",
+        title: "Divide relation into table blocks",
+        description: "The planner chunks the table into independent block ranges for parallel execution.",
       },
       {
-        title: "Workers scan concurrently",
-        description: "Multiple workers increase throughput until coordination or resource contention appears.",
+        title: "Multiple background worker threads scan",
+        description: "Concurrent CPU cores scan different segments of the data stream simultaneously.",
       },
       {
-        title: "Merge becomes the bottleneck",
-        description: "Fan-out still needs a safe join point, which can become the new limiting resource.",
+        title: "Gather and merge worker intermediate sets",
+        description: "The coordinator gathers and merges row segments from all workers, creating a bottleneck.",
       },
       {
-        title: "Rows return with throughput gains",
-        description: "The final stage shows higher throughput with coordination risk shifted to the merge boundary.",
+        title: "Consolidated results returned safely",
+        description: "The final merged results are delivered to the client with high throughput.",
       },
     ],
   },
@@ -115,34 +119,35 @@ export const databaseAccessModules = [
     id: "cache",
     name: "Redis Read-Through Cache",
     trigger: "Warm cache",
-    summary: "Hot data exits through Redis/cache before touching slower persistence layers.",
-    stages: ["Query", "Key hash", "Redis hit", "Serialize", "Response"],
-    bars: [22, 31, 92],
+    summary: "A miss falls through to the database, then the result is written into Redis so later reads take the fast path.",
+    stages: ["Query Request", "Cache Miss", "Database Fetch", "Populate Cache", "Response Returned"],
+    bars: [48, 54, 86],
+    statLabels: ["First-read latency", "Cache memory", "Repeat-read speed"],
     metrics: [
-      { label: "Latency", value: "18ms" },
-      { label: "Hit rate", value: "92%" },
+      { label: "First read", value: "DB fill" },
+      { label: "Warm read", value: "18ms" },
       { label: "Tradeoff", value: "Invalidation" },
     ],
     insightSteps: [
       {
-        title: "Query is converted to a cache key",
-        description: "The request starts by shaping query parameters into a stable lookup key.",
+        title: "Query converted to hash key",
+        description: "The application hashes query parameters into a unique Redis lookup key.",
       },
       {
-        title: "Key hash targets hot data",
-        description: "The cache path avoids expensive persistence when the key is already warm.",
+        title: "Redis lookup misses",
+        description: "The key is not in memory yet, so the read-through path must fall through to the primary database.",
       },
       {
-        title: "Redis hit exits early",
-        description: "The fast path responds before reaching slower database pages or compute stages.",
+        title: "Primary database fetches source row",
+        description: "The application loads the authoritative value from the slower persistence layer.",
       },
       {
-        title: "Serialization shapes the payload",
-        description: "The hot value is converted into the response format without touching slower persistence.",
+        title: "Result is written into Redis",
+        description: "The fetched payload is cached with a key and TTL so repeat reads can bypass the database.",
       },
       {
-        title: "Response returns on the fast path",
-        description: "The result is very fast, with invalidation and freshness as the main database tradeoffs.",
+        title: "Response returns from warmed path",
+        description: "The first request pays the fill cost, while later requests can return from Redis memory.",
       },
     ],
   },
