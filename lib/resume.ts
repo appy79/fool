@@ -1,5 +1,6 @@
 type SkillCategory = {
   title: string;
+  summary: string;
   items: string[];
 };
 
@@ -259,18 +260,22 @@ export const resume = {
   skills: [
     {
       title: "Backend & testing",
+      summary: "Service code, API edges, and confidence checks.",
       items: ["Java", "Spring Boot", "Python", "Flask", "JUnit", "Mockito", "Test NG", "Postman"],
     },
     {
       title: "Data & systems",
+      summary: "Event flows, storage tradeoffs, and fundamentals.",
       items: ["Kafka", "Redis", "Cassandra DB", "Couchbase", "PostgreSQL", "SQL & NoSQL DBs", "DSA", "OOP", "Operating Systems", "Computer Networks"],
     },
     {
       title: "Cloud & delivery",
+      summary: "Containers, pipelines, secrets, and release paths.",
       items: ["Kubernetes", "Docker", "GitLab CI", "Jenkins", "Vault", "AWS", "Azure"],
     },
     {
       title: "Frontend",
+      summary: "Readable interfaces for operational systems.",
       items: ["React.js", "Angular.js", "JavaScript", "TypeScript", "Three.js"],
     },
   ] as SkillCategory[],

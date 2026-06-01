@@ -30,6 +30,22 @@ const getProjectVisualKind = (title: string) => {
   return "system";
 };
 
+const getProjectSceneLabel = (kind: string) => {
+  const labels: Record<string, string> = {
+    billing: "billing sync",
+    charging: "event rating",
+    deployment: "release diff",
+    media: "worker pool",
+    monetization: "usage meter",
+    ordering: "order flow",
+    pipeline: "data prep",
+    telecom: "service path",
+    system: "system trace",
+  };
+
+  return labels[kind] ?? labels.system;
+};
+
 const getProjectsForExperience = (role: string) =>
   resume.projects.filter((project) => getProjectRole(project.source) === role);
 
@@ -120,6 +136,7 @@ function ProjectVisual({ project }: { project: Project }) {
       aria-label={`Open ${project.labLabel} for ${project.title}`}
     >
       <span className="visual-banner !absolute">click to deep dive</span>
+      <span className="scene-mode-label !absolute">scene: {getProjectSceneLabel(visualKind)}</span>
       <ScaledSceneCanvas
         aria-hidden="true"
         className="rounded-none bg-transparent"
@@ -772,7 +789,7 @@ export default function ProjectsSection() {
 
   return (
     <section id="work" className="scroll-mt-24 space-y-10">
-      <header className="grid gap-4 border-b border-border/70 pb-7 md:grid-cols-[minmax(12rem,0.38fr)_minmax(0,1fr)]">
+      <header className="section-header-motion grid gap-4 border-b border-border/70 pb-7 md:grid-cols-[minmax(12rem,0.38fr)_minmax(0,1fr)]">
         <div>
           <p className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">work</p>
           <h2 className="mt-2 text-4xl font-semibold tracking-[-0.045em] text-foreground">Project reel.</h2>
@@ -825,7 +842,7 @@ export default function ProjectsSection() {
                             }}
                           >
                             <span className="flex min-w-0 items-start gap-3">
-                              <span className={`mt-2 h-px w-5 shrink-0 transition ${active ? "bg-primary" : "bg-border group-hover:bg-primary/70"}`} aria-hidden="true" />
+                              <span className={`mt-2 h-px shrink-0 transition-all duration-300 ${active ? "w-8 bg-primary" : "w-5 bg-border group-hover:w-7 group-hover:bg-primary/70"}`} aria-hidden="true" />
                               <span className="min-w-0">
                                 <span className="block break-words text-sm font-medium [overflow-wrap:anywhere]">{project.title}</span>
                                 <span className="mt-1 block font-mono text-[0.58rem] uppercase tracking-[0.14em] text-primary">{project.category}</span>
@@ -843,9 +860,9 @@ export default function ProjectsSection() {
         </aside>
 
         <article className="min-w-0">
-          <ProjectVisual project={activeProject} />
+          <ProjectVisual key={activeProject.title} project={activeProject} />
 
-          <div className="mt-7">
+          <div key={`copy-${activeProject.title}`} className="content-reveal mt-7">
             <div className="min-w-0">
               <h3 className="break-words text-3xl font-semibold tracking-[-0.045em] text-foreground [overflow-wrap:anywhere]">
                 {activeProject.title}
