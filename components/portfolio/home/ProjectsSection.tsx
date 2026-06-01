@@ -803,12 +803,14 @@ export default function ProjectsSection() {
             {projectGroups.map(({ experience, projects }) => {
               const groupKey = getExperienceKey(experience);
               const groupOpen = openExperienceKey === groupKey;
+              const groupPanelId = `project-group-${groupKey.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`;
 
               return (
                 <section key={groupKey} className="border-t border-border/70 pt-4">
                   <button
                     type="button"
                     aria-expanded={groupOpen}
+                    aria-controls={groupPanelId}
                     className="grid w-full min-w-0 gap-1 text-left transition focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
                     onClick={() => setOpenExperienceKey(groupOpen ? "" : groupKey)}
                   >
@@ -824,7 +826,7 @@ export default function ProjectsSection() {
                     </span>
                   </button>
                   {groupOpen ? (
-                    <div className="mt-3 grid gap-1">
+                    <div id={groupPanelId} className="mt-3 grid gap-1">
                       {projects.map((project) => {
                         const active = activeProject.title === project.title;
 
@@ -832,7 +834,7 @@ export default function ProjectsSection() {
                           <button
                             key={project.title}
                             type="button"
-                            aria-pressed={active}
+                            aria-current={active ? "true" : undefined}
                             className={`group min-w-0 px-0 py-2 text-left transition focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none ${
                               active ? "text-foreground" : "text-muted-foreground hover:text-foreground"
                             }`}
