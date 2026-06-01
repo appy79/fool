@@ -43,7 +43,7 @@ export default function EngineeringSystemsLab() {
             <ActiveLab />
           </LabProgramManifestProvider>
         </div>
-        <PortfolioFooter activeSurface="labs" />
+        <PortfolioFooter />
       </div>
     </main>
   );

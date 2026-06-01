@@ -60,7 +60,7 @@ export default function Home() {
           <EducationSection />
         </div>
 
-        <PortfolioFooter contact={contact} />
+        <PortfolioFooter />
       </div>
     </main>
   );
