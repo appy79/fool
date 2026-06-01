@@ -322,6 +322,7 @@ export default function DatabaseScene({ accessModule, activeStage }: DatabaseSce
                   aria-valuemin={0}
                   aria-valuemax={100}
                   aria-valuenow={accessModule.bars[index]}
+                  aria-valuetext={`${accessModule.bars[index]} percent`}
                   className={`h-full rounded-full transition-all duration-700 motion-reduce:transition-none ${index === 0 ? "bg-rose-400" : index === 1 ? "bg-amber-300" : "bg-emerald-300"}`}
                   style={{ width: `${accessModule.bars[index]}%` }}
                 />
