@@ -24,10 +24,10 @@ export default function HeroPortraitCard() {
   };
 
   return (
-    <figure className="relative overflow-hidden border border-primary/25 bg-card p-2 dark:bg-background">
+    <figure className="relative overflow-hidden">
       <button
         type="button"
-        className={`${styles.portraitCard} relative block aspect-[4/3] w-full overflow-hidden border border-border/70 text-left focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none`}
+        className={`${styles.portraitCard} relative block aspect-[4/3] w-full overflow-hidden text-left ring-1 ring-border/70 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none`}
         aria-expanded={isPinnedRevealed}
         aria-controls={identityRecordId}
         aria-label={isPinnedRevealed ? "Hide Foundation identity record" : "Reveal Foundation identity record"}
@@ -93,9 +93,6 @@ export default function HeroPortraitCard() {
           </div>
         </div>
       </button>
-      <figcaption className="mt-2 font-mono text-[0.62rem] uppercase tracking-[0.18em] text-muted-foreground">
-        archive.portrait / identity plate armed
-      </figcaption>
     </figure>
   );
 }

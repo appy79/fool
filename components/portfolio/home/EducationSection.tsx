@@ -2,16 +2,18 @@ import { resume } from "@/lib/resume";
 
 export default function EducationSection() {
   return (
-    <section id="education" className="scroll-mt-24 space-y-8">
-      <header className="border-b border-border/70 pb-6">
-        <p className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">background</p>
-        <h2 className="mt-2 text-3xl font-semibold tracking-[-0.03em] text-foreground">Education</h2>
+    <section id="education" className="scroll-mt-24 space-y-10">
+      <header className="grid gap-4 border-b border-border/70 pb-7 md:grid-cols-[minmax(12rem,0.38fr)_minmax(0,1fr)]">
+        <div>
+          <p className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">education</p>
+          <h2 className="mt-2 text-4xl font-semibold tracking-[-0.045em] text-foreground">Background.</h2>
+        </div>
       </header>
 
-      <div className="divide-y divide-border/70 border-y border-border/70">
+      <div className="divide-y divide-border/70 border-t border-border/70">
         {resume.education.map((item) => (
           <article key={item.degree} className="grid gap-4 py-6 md:grid-cols-[minmax(0,0.95fr)_minmax(0,1fr)_auto] md:items-center">
-            <h3 className="text-base font-semibold leading-6 text-foreground">{item.degree}</h3>
+            <h3 className="text-lg font-semibold tracking-[-0.025em] text-foreground">{item.degree}</h3>
             <a
               href={item.schoolHref}
               target="_blank"

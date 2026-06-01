@@ -51,16 +51,16 @@ export default function Home() {
 
   return (
     <main id="main-content" className={`${styles.theme} min-h-screen px-4 py-8 text-foreground sm:px-8 sm:py-12 lg:px-10`}>
-      <div className="mx-auto flex max-w-[78rem] flex-col gap-16">
+      <div className="mx-auto flex max-w-[82rem] flex-col gap-20">
         <HeroSection contact={contact} />
 
-        <div className="space-y-28">
+        <div className="space-y-24">
           <ProjectsSection />
           <SkillsSection />
           <EducationSection />
         </div>
 
-        <PortfolioFooter />
+        <PortfolioFooter contact={contact} />
       </div>
     </main>
   );
