@@ -24,7 +24,7 @@ export default function HeroPortraitCard() {
   };
 
   return (
-    <figure className="relative overflow-hidden border border-primary/25 bg-card/45 p-2 dark:bg-background/35">
+    <figure className="relative overflow-hidden border border-primary/25 bg-card p-2 dark:bg-background">
       <button
         type="button"
         className={`${styles.portraitCard} relative block aspect-[4/3] w-full overflow-hidden border border-border/70 text-left focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none`}
@@ -59,10 +59,7 @@ export default function HeroPortraitCard() {
             />
             <div className={`${styles.nightOverlay} absolute inset-0 transition`} aria-hidden="true" />
             <div className={`${styles.signalOverlay} absolute inset-0 transition`} aria-hidden="true" />
-            <div
-              className={`${styles.gridOverlay} absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.08)_1px,transparent_1px)] bg-[size:24px_24px] transition`}
-              aria-hidden="true"
-            />
+            <div className={`${styles.gridOverlay} absolute inset-0 transition`} aria-hidden="true" />
             {!hasViewedBack ? (
               <span className={styles.portraitPrompt} aria-hidden="true">
                 tap to reveal

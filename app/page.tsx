@@ -19,11 +19,11 @@ export default function Home() {
   };
 
   return (
-    <main id="main-content" className={`${styles.theme} min-h-screen px-3 py-4 text-foreground sm:px-5 sm:py-6 lg:px-8`}>
-      <div className="mx-auto flex max-w-[96rem] flex-col gap-5">
+    <main id="main-content" className={`${styles.theme} min-h-screen px-4 py-6 text-foreground sm:px-8 sm:py-10 lg:px-10`}>
+      <div className="mx-auto flex max-w-[86rem] flex-col gap-12">
         <HeroSection contact={contact} />
 
-        <div className="space-y-10">
+        <div className="space-y-24">
           <ProjectsSection />
           <SkillsSection />
           <EducationSection />

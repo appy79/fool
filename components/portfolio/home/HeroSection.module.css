@@ -20,9 +20,7 @@
 
 .portraitCardBack {
   transform: rotateY(180deg);
-  background:
-    linear-gradient(135deg, color-mix(in oklch, var(--primary) 16%, transparent), transparent 38%),
-    linear-gradient(180deg, var(--card), var(--background));
+  background: var(--card);
 }
 
 .accessCard {
@@ -33,9 +31,7 @@
   gap: clamp(0.35rem, 1.1vw, 0.75rem);
   overflow: hidden;
   border: 1px solid color-mix(in oklch, var(--primary) 42%, transparent);
-  background:
-    radial-gradient(circle at 85% 20%, color-mix(in oklch, var(--primary) 18%, transparent), transparent 34%),
-    linear-gradient(135deg, color-mix(in oklch, var(--primary) 12%, var(--background)), var(--background) 58%);
+  background: var(--card);
   padding: clamp(0.55rem, 1.6vw, 1rem);
   color: var(--muted-foreground);
   font-family: var(--font-sans);
@@ -69,11 +65,7 @@
 .accessGrid {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(color-mix(in oklch, var(--primary) 10%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in oklch, var(--primary) 10%, transparent) 1px, transparent 1px);
-  background-size: 18px 18px;
-  opacity: 0.35;
+  display: none;
 }
 
 .accessHeader,
