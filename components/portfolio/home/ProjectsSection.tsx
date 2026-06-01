@@ -134,7 +134,7 @@ export default function ProjectsSection() {
                 </button>
                 <Link
                   href={activeProject.labHref}
-                  className="min-w-0 border border-border/70 px-4 py-3 text-left font-mono text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-primary transition hover:border-primary/70 hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 sm:text-right"
+                  className="labs-acceleration-cta min-w-0 border border-border/70 px-4 py-3 text-left font-mono text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-primary transition hover:border-primary/70 hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 sm:text-right"
                 >
                   {activeProject.labLabel} -&gt;
                 </Link>

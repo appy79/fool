@@ -50,7 +50,7 @@ type ContactInfo = {
   location: string;
   locationHref?: string;
   socials?: { label: string; href: string }[];
-  socialsFromEnv?: { label: string; envKey: string }[];
+  socialsFromEnv?: { label: string; envKey: string; hrefTemplate?: string }[];
   emailFromEnv?: "CONTACT_EMAIL" | string;
   phoneFromEnv?: "CONTACT_PHONE" | string;
 };
@@ -311,9 +311,9 @@ export const resume = {
     location: "Pune, MH, India",
     locationHref: "https://www.google.com/maps/search/?api=1&query=Amdocs%20DVCI%20India",
     socialsFromEnv: [
-      { label: "GitHub", envKey: "SOCIAL_GITHUB" },
-      { label: "LinkedIn", envKey: "SOCIAL_LINKEDIN" },
-      { label: "LeetCode", envKey: "SOCIAL_LEETCODE" },
+      { label: "GitHub", envKey: "SOCIAL_GITHUB", hrefTemplate: "https://github.com/{value}" },
+      { label: "LinkedIn", envKey: "SOCIAL_LINKEDIN", hrefTemplate: "https://www.linkedin.com/in/{value}" },
+      { label: "LeetCode", envKey: "SOCIAL_LEETCODE", hrefTemplate: "https://leetcode.com/u/{value}" },
     ],
     emailFromEnv: "CONTACT_EMAIL",
     phoneFromEnv: "CONTACT_PHONE",
