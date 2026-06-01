@@ -15,12 +15,9 @@ export default function DistributedSystemsLab() {
     <LabExhibitLayout
       id="distributed-lab"
       programTitle="Consensus, clocks, and ordering lab."
-      programDescription="Watch messages move between replicas while the lab visualizes ordering, causality, and fault tolerance."
       moduleSelector={<LabModuleSelector items={distributedScenarios} activeId={lab.scenario.id} onSelect={lab.selectScenario} />}
       moduleTitle={lab.scenario.name}
-      moduleDescription={lab.scenario.summary}
       signals={lab.scenario.metrics}
-      moduleSignalsDescription="Static invariants attached to the loaded protocol module."
       proof="Distributed systems are not just about services talking to each other. Correctness depends on order, causality, failure assumptions, and what every node believes happened."
       scene={<DistributedScene scenario={lab.scenario} phaseIndex={lab.phaseIndex} />}
       controls={

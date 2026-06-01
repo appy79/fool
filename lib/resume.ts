@@ -26,7 +26,6 @@ type ProjectItem = {
   tags: string[];
   labHref: string;
   labLabel: string;
-  evidence: string;
 };
 
 type ProjectDefinition = Omit<ProjectItem, "description"> & {
@@ -36,7 +35,6 @@ type ProjectDefinition = Omit<ProjectItem, "description"> & {
 type ProofPoint = {
   label: string;
   value: string;
-  detail: string;
 };
 
 type EducationItem = {
@@ -138,7 +136,6 @@ const projectDefinitions: ProjectDefinition[] = [
     labHref: "/labs?lab=concurrency",
     labLabel: "Concurrency Race Visualizer",
     impact: "Reduced developer and tester delivery friction by 20% through faster environment comparison and validation.",
-    evidence: "Maps to coordinating many environment checks and concurrent API calls without losing correctness or throughput.",
   },
   {
     title: "AT&T Openet Microservices",
@@ -149,7 +146,6 @@ const projectDefinitions: ProjectDefinition[] = [
     labHref: "/labs?lab=distributed",
     labLabel: "Distributed Consensus Lab",
     impact: "Processed charging/accounting events for 100M+ subscribers with 1M+ events/sec throughput targets.",
-    evidence: "Maps to distributed event ordering, fault tolerance, and convergence across high-volume charging services.",
   },
   {
     title: "Metro By T-Mobile Platform",
@@ -160,7 +156,6 @@ const projectDefinitions: ProjectDefinition[] = [
     labHref: "/labs?lab=telecom",
     labLabel: "Telecom Core Simulator",
     impact: "Improved service adoption and integration speed during a post-acquisition platform migration.",
-    evidence: "Maps to access, orchestration, events, persistence, and billing paths in telecom service flows.",
   },
   {
     title: "TMO Digital Billing Aggregation",
@@ -171,7 +166,6 @@ const projectDefinitions: ProjectDefinition[] = [
     labHref: "/labs?lab=patterns",
     labLabel: "Design Patterns Machine",
     impact: "Aggregated 5M+ daily billing records for 40M+ subscribers while improving data sync speed by 50%.",
-    evidence: "Maps to adapter, observer, and boundary patterns used when bridging legacy SOA and new billing systems.",
   },
   {
     title: "NorthStar Ordering Modernization",
@@ -182,7 +176,6 @@ const projectDefinitions: ProjectDefinition[] = [
     labHref: "/labs?lab=concurrency",
     labLabel: "Concurrency Race Visualizer",
     impact: "Supported high-volume enterprise ordering, 99.99% uptime goals, and 4x order throughput improvement.",
-    evidence: "Maps to async processing, work queues, bounded parallelism, and throughput tradeoffs in ordering workflows.",
   },
   {
     title: "Media Multiprocessing Service",
@@ -193,7 +186,6 @@ const projectDefinitions: ProjectDefinition[] = [
     labHref: "/labs?lab=concurrency",
     labLabel: "Concurrency Race Visualizer",
     impact: "Increased throughput by approx. 300% for high-volume daily media processing workloads.",
-    evidence: "Maps to multiprocessing, worker isolation, and throughput tradeoffs from the media-processing optimization.",
   },
   {
     title: "ML Training Data Pipeline",
@@ -204,7 +196,6 @@ const projectDefinitions: ProjectDefinition[] = [
     labHref: "/labs?lab=database",
     labLabel: "Database Systems Lab",
     impact: "Automated ingestion for 1000+ daily records and cut model preparation time by 70%.",
-    evidence: "Maps to ingestion, storage, batching, and data-access tradeoffs in a training-data pipeline.",
   },
   {
     title: "Usage-Based Monetization Service",
@@ -215,7 +206,6 @@ const projectDefinitions: ProjectDefinition[] = [
     labHref: "/labs?lab=database",
     labLabel: "Database Systems Lab",
     impact: "Launched an early monetization service that helped drive $200K initial revenue and faster go-to-market.",
-    evidence: "Maps to ER modeling, usage records, persistence, and data-access design for billing-facing monetization.",
   },
 ];
 
@@ -244,17 +234,14 @@ export const resume = {
     {
       label: "current",
       value: "Amdocs, India",
-      detail: "Shipping enterprise telecom systems and internal platform tooling.",
     },
     {
       label: "scale",
       value: "100M+ subscribers",
-      detail: "Charging, billing, and service access flows across telecom programs.",
     },
     {
       label: "stack",
       value: "Java + React + Kafka + Kubernetes",
-      detail: "Spring Boot services, distributed data systems, and Reactive systems.",
     },
   ] as ProofPoint[],
   skills: [

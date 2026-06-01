@@ -69,7 +69,6 @@ export default function HeroPortraitCard() {
 
           <div id={identityRecordId} className={`${styles.portraitCardFace} ${styles.portraitCardBack} absolute inset-0`}>
             <div className={styles.accessCard}>
-              <div className={styles.accessGrid} aria-hidden="true" />
               <div className={styles.accessHeader}>
                 <div className="min-w-0">
                   <p className={styles.accessKicker}>encyclopedia.access</p>

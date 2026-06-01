@@ -37,41 +37,6 @@
   --sidebar-ring: oklch(0.56 0.16 255);
 }
 
-:root {
-  --page-background-image: none;
-  --page-overlay-image: none;
-  --page-overlay-opacity: 0;
-}
-
-/* Light theme overrides */
-.light {
-  color-scheme: light;
-  --background: oklch(0.985 0.006 255);
-  --foreground: oklch(0.18 0.025 260);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.025 260);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.025 260);
-  --primary: oklch(0.48 0.18 255);
-  --primary-foreground: oklch(0.99 0.006 255);
-  --secondary: oklch(0.94 0.014 255);
-  --secondary-foreground: oklch(0.24 0.035 260);
-  --muted: oklch(0.94 0.012 255);
-  --muted-foreground: oklch(0.36 0.035 260);
-  --accent: oklch(0.93 0.03 255);
-  --accent-foreground: oklch(0.24 0.04 260);
-  --border: oklch(0.84 0.018 255 / 0.65);
-  --input: oklch(0.92 0.014 255);
-  --ring: oklch(0.56 0.16 255);
-}
-
-.dark {
-  color-scheme: dark;
-  --page-background-image: none;
-  --page-overlay-image: none;
-  --page-overlay-opacity: 0;
-}
-
 html {
   scroll-behavior: smooth;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -88,13 +53,6 @@ body {
   margin: 0;
   color: var(--foreground);
   background-color: var(--background);
-  background-image: var(--page-background-image);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-body::before {
-  content: none;
 }
 
 * {
@@ -102,7 +60,6 @@ body::before {
 }
 
 @theme inline {
-  --font-heading: var(--font-sans);
   --font-sans: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);

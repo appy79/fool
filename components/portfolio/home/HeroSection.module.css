@@ -62,12 +62,6 @@
   opacity: 0.65;
 }
 
-.accessGrid {
-  position: absolute;
-  inset: 0;
-  display: none;
-}
-
 .accessHeader,
 .accessMetrics,
 .accessFooter {

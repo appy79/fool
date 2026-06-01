@@ -1,4 +1,4 @@
-export type ResumeFile = {
+type ResumeFile = {
   label: string;
   detail: string;
   href: string;

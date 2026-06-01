@@ -15,12 +15,9 @@ export default function NetworkEdgeLab() {
     <LabExhibitLayout
       id="network-lab"
       programTitle="DNS, edge, and CDN routing lab."
-      programDescription="Follow a request from client to DNS, edge, CDN, origin, and app layers while latency and cache behavior change."
       moduleSelector={<LabModuleSelector items={networkScenarios} activeId={lab.scenario.id} onSelect={lab.selectScenario} />}
       moduleTitle={lab.scenario.name}
-      moduleDescription={lab.scenario.summary}
       signals={lab.scenario.metrics}
-      moduleSignalsDescription="Static characteristics of the loaded network path module."
       proof="Networking performance is a chain of resolution, routing, caching, protocol boundaries, and origin behavior."
       scene={<NetworkScene scenarioId={lab.scenario.id} route={lab.route} activeIndex={lab.activeIndex} activeNodeId={lab.activeNodeId} />}
       controls={
