@@ -17,21 +17,21 @@
 }
 
 .firstLoadPulse {
-  animation: firstLoadPulse 2.4s ease-out 0.25s 2 both;
+  animation: firstLoadPulse 2.4s ease-out 0.25s 1 both;
 }
 
 @keyframes firstLoadPulse {
   0%,
   100% {
     background-color: color-mix(in oklch, var(--primary) 5%, transparent);
-    border-color: color-mix(in oklch, var(--primary) 35%, transparent);
+    border-color: color-mix(in oklch, var(--primary) 28%, transparent);
     transform: translateY(0);
   }
 
   28%,
   64% {
-    background-color: color-mix(in oklch, var(--primary) 16%, transparent);
-    border-color: var(--primary);
+    background-color: color-mix(in oklch, var(--primary) 10%, transparent);
+    border-color: color-mix(in oklch, var(--primary) 60%, transparent);
     transform: translateY(-1px);
   }
 }

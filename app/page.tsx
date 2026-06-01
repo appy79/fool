@@ -6,6 +6,8 @@ import PortfolioFooter from "@/components/portfolio/shared/PortfolioFooter";
 import styles from "@/components/portfolio/shared/portfolioTheme.module.css";
 import { resume } from "@/lib/resume";
 
+export const dynamic = "force-dynamic";
+
 const absoluteHrefPattern = /^(?:https?:|mailto:|tel:)/i;
 const domainHrefPattern = /^(?:www\.)?[a-z0-9-]+(?:\.[a-z0-9-]+)+(?:[/?#]|$)/i;
 
@@ -48,11 +50,11 @@ export default function Home() {
   };
 
   return (
-    <main id="main-content" className={`${styles.theme} min-h-screen px-4 py-6 text-foreground sm:px-8 sm:py-10 lg:px-10`}>
-      <div className="mx-auto flex max-w-[86rem] flex-col gap-12">
+    <main id="main-content" className={`${styles.theme} min-h-screen px-4 py-8 text-foreground sm:px-8 sm:py-12 lg:px-10`}>
+      <div className="mx-auto flex max-w-[78rem] flex-col gap-16">
         <HeroSection contact={contact} />
 
-        <div className="space-y-24">
+        <div className="space-y-28">
           <ProjectsSection />
           <SkillsSection />
           <EducationSection />

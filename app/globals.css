@@ -198,26 +198,26 @@ body::before {
 
 @media (prefers-reduced-motion: no-preference) {
   :where(a[href], button:not(:disabled)):not([data-slot="button"]):not([class*="translate"]) {
-    transition-duration: 180ms;
+    transition-duration: 160ms;
     transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   :where(a[href], button:not(:disabled)):not([data-slot="button"]):not([class*="translate"]):where(:hover, :focus-visible) {
-    translate: 0 -1px;
+    translate: 0 -0.0625rem;
   }
 
   :where(a[href], button:not(:disabled)):not([data-slot="button"]):not([class*="translate"]):active {
-    scale: 0.98;
-    translate: 0 1px;
+    scale: 0.99;
+    translate: 0 0.0625rem;
     transition-duration: 90ms;
   }
 
   :where(a[href]):where(:hover, :focus-visible) {
-    text-shadow: 0 0 18px color-mix(in oklch, var(--primary) 35%, transparent);
+    text-shadow: 0 0 10px color-mix(in oklch, var(--primary) 18%, transparent);
   }
 
   :where(button:not(:disabled)):where(:hover, :focus-visible) {
-    box-shadow: 0 0 0 1px color-mix(in oklch, var(--primary) 10%, transparent);
+    box-shadow: 0 0 0 1px color-mix(in oklch, var(--primary) 8%, transparent);
   }
 }
 
@@ -231,8 +231,14 @@ body::before {
 .labs-acceleration-cta::after {
   position: absolute;
   content: "";
+  z-index: 0;
   pointer-events: none;
   opacity: 0;
+}
+
+.labs-acceleration-cta > * {
+  position: relative;
+  z-index: 1;
 }
 
 .labs-acceleration-cta::before {
@@ -290,7 +296,7 @@ body::before {
 
   18%,
   72% {
-    opacity: 0.82;
+    opacity: 0.48;
   }
 
   100% {
@@ -307,7 +313,7 @@ body::before {
 
   20%,
   78% {
-    opacity: 0.8;
+    opacity: 0.38;
   }
 
   100% {
@@ -324,7 +330,7 @@ body::before {
 
   18%,
   72% {
-    opacity: 0.82;
+    opacity: 0.48;
   }
 
   100% {
@@ -341,7 +347,7 @@ body::before {
 
   20%,
   78% {
-    opacity: 0.8;
+    opacity: 0.38;
   }
 
   100% {
