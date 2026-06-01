@@ -17,22 +17,11 @@ export default function TuringTapeExhibit() {
     <LabExhibitLayout
       id="turing-lab"
       programTitle="Turing Tape Simulator."
-      programDescription="Watch a fixed read/write head click and clack over an old-style tape while the machine mutates memory."
       moduleSelector={<LabModuleSelector items={machinePresets} activeId={machine.preset.id} onSelect={machine.selectPreset} />}
       moduleTitle={machine.preset.name}
-      moduleDescription={machine.preset.goal}
       gridClassName="xl:grid-cols-[1.45fr_0.85fr]"
       signals={machine.preset.metrics}
-      moduleSignalsDescription="Static characteristics of the loaded machine module."
       proof={machine.preset.explanation}
-      proofDetail={
-        <div className="rounded-3xl border border-border/70 bg-card/60 p-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">
-            Efficiency Note
-          </p>
-          <p className="mt-2 text-sm leading-6 text-foreground">{machine.preset.complexityNote}</p>
-        </div>
-      }
       scene={
         <TuringTapeScene
           tape={machine.tape}

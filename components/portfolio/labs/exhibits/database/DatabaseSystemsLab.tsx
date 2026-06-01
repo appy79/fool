@@ -15,12 +15,9 @@ export default function DatabaseSystemsLab() {
     <LabExhibitLayout
       id="database-lab"
       programTitle="Database systems lab."
-      programDescription="Animate query access paths across full scans, indexes, parallel execution, and cache fast paths."
       moduleSelector={<LabModuleSelector items={databaseAccessModules} activeId={lab.accessModule.id} onSelect={lab.selectModule} />}
       moduleTitle={lab.accessModule.name}
-      moduleDescription={lab.accessModule.summary}
       signals={lab.accessModule.metrics}
-      moduleSignalsDescription="Static tradeoffs for the loaded database access module."
       proof="Database performance is access-path design: query planning, indexes, buffer pressure, parallel execution, cache behavior, and consistency tradeoffs determine whether data systems stay fast."
       scene={<DatabaseScene accessModule={lab.accessModule} activeStage={lab.activeStage} />}
       controls={

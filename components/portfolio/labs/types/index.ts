@@ -27,7 +27,6 @@ export type MachinePreset = {
   metrics: readonly LabMetric[];
   insightSteps: readonly LabInsightStep[];
   explanation: string;
-  complexityNote: string;
 };
 
 export type LabScenarioBase = {

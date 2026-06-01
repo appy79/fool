@@ -9,19 +9,14 @@ import styles from "./labShared.module.css";
 type LabExhibitLayoutProps = {
   id: string;
   programTitle: ReactNode;
-  programDescription: ReactNode;
   moduleSelector: ReactNode;
   moduleTitle: ReactNode;
-  moduleDescription: ReactNode;
   scene: ReactNode;
   controls: ReactNode;
   stepPanel: ReactNode;
   signals?: readonly LabMetric[];
-  moduleSignalsDescription?: ReactNode;
   proof: ReactNode;
-  proofDetail?: ReactNode;
   gridClassName?: string;
-  sidebar?: ReactNode;
 };
 
 export default function LabExhibitLayout({
@@ -35,7 +30,6 @@ export default function LabExhibitLayout({
   signals,
   proof,
   gridClassName = "xl:grid-cols-[1.35fr_0.85fr]",
-  sidebar,
 }: LabExhibitLayoutProps) {
   const programManifest = useLabProgramManifest();
 
@@ -78,16 +72,14 @@ export default function LabExhibitLayout({
         </div>
 
         <div className="grid min-w-0 items-start gap-6 lg:grid-cols-2">
-          {sidebar ?? (
-            signals ? (
-              <section className="min-w-0 border-y border-border/70 py-4">
-                <p className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-primary">metrics</p>
-                <div className="mt-3">
-                  <MetricGrid metrics={signals} />
-                </div>
-              </section>
-            ) : null
-          )}
+          {signals ? (
+            <section className="min-w-0 border-y border-border/70 py-4">
+              <p className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-primary">metrics</p>
+              <div className="mt-3">
+                <MetricGrid metrics={signals} />
+              </div>
+            </section>
+          ) : null}
 
           <div className="min-w-0 space-y-5">
             <section className="min-w-0 border-y border-border/70 py-4">

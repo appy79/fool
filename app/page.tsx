@@ -6,8 +6,6 @@ import PortfolioFooter from "@/components/portfolio/shared/PortfolioFooter";
 import styles from "@/components/portfolio/shared/portfolioTheme.module.css";
 import { resume } from "@/lib/resume";
 
-export const dynamic = "force-dynamic";
-
 const absoluteHrefPattern = /^(?:https?:|mailto:|tel:)/i;
 const domainHrefPattern = /^(?:www\.)?[a-z0-9-]+(?:\.[a-z0-9-]+)+(?:[/?#]|$)/i;
 

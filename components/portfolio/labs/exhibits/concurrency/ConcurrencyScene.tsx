@@ -388,9 +388,8 @@ export default function ConcurrencyScene({
                     : "border-violet-800 bg-gradient-to-br from-[#120d1c] via-[#1c122a] to-black text-violet-300/80"
               }`}
             >
-              {/* Rotating outer dash rings */}
-              <div className="absolute inset-1 rounded-full border border-dashed border-current/10 animate-spin-slow pointer-events-none" style={{ animationDuration: '18s' }} />
-              <div className="absolute inset-4 rounded-full border border-dashed border-current/5 animate-spin-slow pointer-events-none" style={{ animationDuration: '9s', animationDirection: 'reverse' }} />
+              <div className="absolute inset-1 rounded-full border border-dashed border-current/10 pointer-events-none" />
+              <div className="absolute inset-4 rounded-full border border-dashed border-current/5 pointer-events-none" />
               
               <div className="relative z-10">
                 <div className="text-[0.58rem] font-black uppercase tracking-[0.2em] text-slate-400">

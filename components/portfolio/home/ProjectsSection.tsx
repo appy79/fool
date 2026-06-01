@@ -132,7 +132,7 @@ function ProjectVisual({ project }: { project: Project }) {
   return (
     <Link
       href={project.labHref}
-      className={`labs-acceleration-cta project-showcase project-showcase-${visualKind}`}
+      className="labs-acceleration-cta project-showcase"
       aria-label={`Open ${project.labLabel} for ${project.title}`}
     >
       <span className="visual-banner !absolute">click to deep dive</span>

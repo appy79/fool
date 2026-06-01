@@ -15,12 +15,9 @@ export default function TelecomCoreExhibit() {
     <LabExhibitLayout
       id="telecom-lab"
       programTitle="3GPP Telecom Core Simulator."
-      programDescription="Start a subscriber event and watch the packet move through access, core, policy, charging, event streaming, microservices, persistence, and billing without stepping through prompts."
       moduleSelector={<LabModuleSelector items={telecomScenarios} activeId={lab.scenario.id} onSelect={lab.selectScenario} />}
       moduleTitle={lab.scenario.name}
-      moduleDescription={lab.scenario.summary}
       signals={lab.scenario.signals}
-      moduleSignalsDescription="Static characteristics of the loaded telecom flow module."
       proof="Telecom flows are about explicit boundaries: access context, control-plane validation, charging, asynchronous delivery, persistence, and recovery behavior all need to line up."
       scene={
         <TelecomScene
