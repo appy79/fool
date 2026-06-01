@@ -15,12 +15,9 @@ export default function DesignPatternsLab() {
     <LabExhibitLayout
       id="patterns-lab"
       programTitle="Design patterns machine."
-      programDescription="Watch a software problem pass through a pattern and emerge with clearer boundaries, safer dependencies, or more flexible behavior."
       moduleSelector={<LabModuleSelector items={designPatternScenarios} activeId={lab.pattern.id} onSelect={lab.selectPattern} />}
       moduleTitle={lab.pattern.name}
-      moduleDescription={lab.pattern.summary}
       signals={lab.pattern.metrics}
-      moduleSignalsDescription="Static problem, benefit, and tradeoff for the loaded pattern module."
       proof="Patterns are useful when they make a system easier to change, isolate risk, or express a stable boundary. The goal is tradeoff-aware design, not pattern collecting."
       scene={<PatternsScene pattern={lab.pattern} activePart={lab.activePart} />}
       controls={

@@ -93,7 +93,6 @@ export const machinePresets = [
     ],
     explanation:
       "This machine shows state, tape mutation, and carry propagation. It is a tiny executable model of a deterministic state machine.",
-    complexityNote: "Worst case O(n), when the input is all 1s and carry propagates across the whole tape.",
   },
   {
     id: "even-parity",
@@ -178,7 +177,6 @@ export const machinePresets = [
     ],
     explanation:
       "This is a finite automaton expressed on a Turing tape. It demonstrates state minimization and acceptance/rejection behavior.",
-    complexityNote: "O(n) time and O(1) state memory. The tape is read once from left to right.",
   },
   {
     id: "unary-eraser",
@@ -235,7 +233,6 @@ export const machinePresets = [
     ],
     explanation:
       "The simplest possible destructive pass over memory. It is useful for talking about tape as memory and mutation cost.",
-    complexityNote: "O(n) time, one write per symbol, and no need for additional working states.",
   },
 ] satisfies readonly MachinePreset[];
 

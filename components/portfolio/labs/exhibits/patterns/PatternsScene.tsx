@@ -329,7 +329,7 @@ export default function PatternsScene({ pattern, activePart }: PatternSceneProps
         height={canvas.height}
       >
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(245,158,11,0.08)_1px,transparent_1px),linear-gradient(0deg,rgba(14,165,233,0.06)_1px,transparent_1px)] bg-[size:54px_54px]" />
-        <div className="pointer-events-none absolute left-[8%] top-[14%] h-36 w-36 rounded-full border-[10px] border-dashed border-amber-600/10 animate-spin-slow" style={{ animationDuration: "40s" }} />
+        <div className="pointer-events-none absolute left-[8%] top-[14%] h-36 w-36 rounded-full border-[10px] border-dashed border-amber-600/10" />
         <div className="pointer-events-none absolute right-[8%] bottom-[10%] h-44 w-44 rounded-full bg-amber-500/10 blur-3xl" />
 
         <StepStrip parts={pattern.parts} activePart={activePart} />
