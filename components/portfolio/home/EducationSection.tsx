@@ -3,7 +3,7 @@ import { resume } from "@/lib/resume";
 export default function EducationSection() {
   return (
     <section id="education" className="scroll-mt-24 space-y-10">
-      <header className="grid gap-4 border-b border-border/70 pb-7 md:grid-cols-[minmax(12rem,0.38fr)_minmax(0,1fr)]">
+      <header className="section-header-motion grid gap-4 border-b border-border/70 pb-7 md:grid-cols-[minmax(12rem,0.38fr)_minmax(0,1fr)]">
         <div>
           <p className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">education</p>
           <h2 className="mt-2 text-4xl font-semibold tracking-[-0.045em] text-foreground">Background.</h2>

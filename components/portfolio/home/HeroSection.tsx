@@ -85,9 +85,6 @@ export default function HeroSection({ contact }: HeroSectionProps) {
             <h1 className="mt-6 max-w-5xl break-words text-5xl font-semibold leading-[0.96] tracking-[-0.065em] text-foreground [overflow-wrap:anywhere] sm:text-7xl lg:text-8xl">
               {resume.name}
             </h1>
-            <p className="mt-7 max-w-3xl text-xl leading-9 text-foreground sm:text-2xl">
-              Full-stack systems for telecom-scale platforms.
-            </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-3 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.16em]">
               <a href="#work" className="border-b border-foreground px-1 py-2 text-foreground transition hover:border-primary hover:text-primary focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none">
@@ -157,6 +154,7 @@ export default function HeroSection({ contact }: HeroSectionProps) {
               </div>
             ))}
           </div>
+
         </div>
       </div>
     </section>
