@@ -98,7 +98,7 @@ export default function ResumeDownloadMenu({ className }: { className?: string }
       <button
         ref={buttonRef}
         type="button"
-        className="relative block w-full border border-transparent px-4 py-3 pr-10 text-left text-sm text-muted-foreground transition hover:border-primary/60 hover:bg-primary/10 hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none md:inline-flex md:w-auto md:items-center md:gap-2 md:px-0 md:py-0 md:pr-0 md:hover:border-transparent md:hover:bg-transparent"
+        className="relative block w-full border border-transparent px-4 py-3 pr-10 text-left text-sm text-muted-foreground transition hover:border-primary/60 hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none md:inline-flex md:w-auto md:items-center md:gap-2 md:px-0 md:py-0 md:pr-0 md:hover:border-transparent"
         aria-haspopup="true"
         aria-controls={open ? menuId : undefined}
         aria-expanded={open}
@@ -125,7 +125,7 @@ export default function ResumeDownloadMenu({ className }: { className?: string }
           id={menuId}
           ref={panelRef}
           tabIndex={-1}
-          className="static z-50 mt-2 w-full border border-border/70 bg-card/95 p-2 shadow-2xl shadow-slate-900/10 backdrop-blur-xl md:absolute md:left-auto md:right-0 md:top-full md:w-80 dark:bg-background/95 dark:shadow-slate-950/10"
+          className="static z-50 mt-2 w-full border border-border/70 bg-card p-2 md:absolute md:left-auto md:right-0 md:top-full md:w-80 dark:bg-background"
         >
           {resumeOptions.map((option) => (
             <a
@@ -134,7 +134,7 @@ export default function ResumeDownloadMenu({ className }: { className?: string }
               target={option.target}
               rel={option.target ? "noreferrer" : undefined}
               aria-label={option.target ? `${option.label}, opens in a new tab` : option.label}
-              className="block border border-transparent px-3 py-3 transition hover:border-primary/60 hover:bg-primary/10 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+              className="block border border-transparent px-3 py-3 transition hover:border-primary/60 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
               onClick={() => setOpen(false)}
             >
               <span className="block text-sm font-medium text-foreground">{option.label}</span>

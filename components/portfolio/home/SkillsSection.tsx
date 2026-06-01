@@ -4,171 +4,23 @@ import { useMemo, useState } from "react";
 import { resume } from "@/lib/resume";
 import BrandTechnologyIcon from "./BrandTechnologyIcon";
 
-function SkillCategoryIcon({ title }: { title: string }) {
-  const normalizedTitle = title.toLowerCase();
-
-  if (normalizedTitle.includes("data")) {
-    return (
-      <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
-        <ellipse cx="12" cy="6" rx="7" ry="3" />
-        <path d="M5 6v6c0 1.66 3.13 3 7 3s7-1.34 7-3V6" />
-        <path d="M5 12v6c0 1.66 3.13 3 7 3s7-1.34 7-3v-6" />
-      </svg>
-    );
-  }
-
-  if (normalizedTitle.includes("cloud")) {
-    return (
-      <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
-        <path d="M7 18h10a4 4 0 0 0 .6-7.96A6.5 6.5 0 0 0 5.2 8.5 4.8 4.8 0 0 0 7 18Z" />
-        <path d="M9 14h6M12 11v6" />
-      </svg>
-    );
-  }
-
-  if (normalizedTitle.includes("frontend")) {
-    return (
-      <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
-        <rect x="4" y="5" width="16" height="11" rx="2" />
-        <path d="M8 20h8M12 16v4M9 9l-2 2 2 2M15 9l2 2-2 2" />
-      </svg>
-    );
-  }
-
-  if (normalizedTitle.includes("supporting")) {
-    return (
-      <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
-        <path d="m14.7 6.3 3 3M4 20l5.6-1.4L19 9.2a2.1 2.1 0 0 0-3-3L6.6 15.6 4 20Z" />
-        <path d="M13 8 16 11" />
-      </svg>
-    );
-  }
-
-  if (normalizedTitle.includes("fundamentals")) {
-    return (
-      <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
-        <rect x="8" y="8" width="8" height="8" rx="1.5" />
-        <path d="M4 10h4M4 14h4M16 10h4M16 14h4M10 4v4M14 4v4M10 16v4M14 16v4" />
-      </svg>
-    );
-  }
-
-  return (
-    <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
-      <path d="m8 9-3 3 3 3M16 9l3 3-3 3M14 5l-4 14" />
-    </svg>
-  );
-}
-
-const skillCategoryDetails: Record<string, { headline: string; detail: string; archiveNote: string }> = {
-  "Core backend": {
-    headline: "Services, APIs, and testable business logic.",
-    detail:
-      "This is the layer I use to build production service boundaries: Java and Spring Boot for enterprise APIs, Python and Flask for smaller workflow services, and testing tools to keep changes reliable.",
-    archiveNote: "Infrastructure of empire: typed boundaries, durable APIs, and controlled change.",
-  },
-  "Distributed data": {
-    headline: "Event streams, caches, and persistent data paths.",
-    detail:
-      "These tools support high-volume systems where ordering, latency, and data access patterns matter. Kafka moves events, Redis handles hot paths, and the databases cover durable records and read models.",
-    archiveNote: "Psychohistory substrate: events, memory, and records moving through time.",
-  },
-  "Cloud delivery": {
-    headline: "Repeatable deployment and operational handoff.",
-    detail:
-      "This stack keeps services shippable: containers, Kubernetes workloads, CI/CD movement, Jenkins/GitLab automation, and Vault-backed secret handling across environments.",
-    archiveNote: "Terminus network: repeatable deployments across shifting environments.",
-  },
-  Frontend: {
-    headline: "Operator-facing interfaces for system state.",
-    detail:
-      "Frontend work is mostly about making backend and platform state understandable: dashboards, controls, comparison views, and interactive systems labs.",
-    archiveNote: "Encyclopedia interface: making hidden system state readable to the operator.",
-  },
-  "Supporting stack": {
-    headline: "Cloud, API, and validation tools around delivery.",
-    detail:
-      "These tools support the surrounding workflow: cloud deployment targets, API inspection, and test execution for integration-heavy systems.",
-    archiveNote: "Vault utilities: the tools around the plan that keep the work observable.",
-  },
-  "Engineering fundamentals": {
-    headline: "The reasoning layer behind the tools.",
-    detail:
-      "Algorithms, object modeling, databases, operating systems, and networks shape the tradeoffs behind service design, concurrency, storage, and delivery decisions.",
-    archiveNote: "Prime Radiant layer: models, constraints, and the math behind the choices.",
-  },
-};
-
-const shortSkillLabels: Record<string, string> = {
-  "Cloud delivery": "Cloud",
-  "Core backend": "Backend",
-  "Distributed data": "Data",
-  "Engineering fundamentals": "Fundamentals",
-  Frontend: "UI",
-  "Supporting stack": "Tools",
-};
-
-const personalSkillNotes: Record<string, string> = {
-  Java: "The language I reach for when a system needs boring reliability, strong boundaries, and maintenance over years.",
-  "Spring Boot": "My default service shell for turning enterprise rules into APIs that can be tested, deployed, and operated.",
-  Python: "The tool I use when the fastest path is a small workflow service, script, or data-processing bridge.",
-  Flask: "Useful when a service should stay lightweight and expose one clear boundary instead of becoming a platform.",
-  JUnit: "Where I keep backend changes honest before they reach environments shared by other teams.",
-  Mockito: "The testing tool I use when collaborators are noisy, slow, or outside the unit I actually want to reason about.",
-  Kafka: "Where I learned distributed systems are less about moving messages and more about surviving partial truth.",
-  Redis: "My hot-path tool for short-lived state, fast lookups, and keeping expensive systems out of every request.",
-  "Cassandra DB": "A reminder that storage design starts with access patterns, not tables drawn after the fact.",
-  Couchbase: "Useful when document shape and service velocity matter more than pretending every record is relational.",
-  PostgreSQL: "The database I trust when correctness, constraints, and clear queries need to stay close together.",
-  Kubernetes: "Where code stops being just code and starts needing operational discipline.",
-  Docker: "The smallest useful contract between 'works on my machine' and 'can run somewhere else.'",
-  "GitLab CI": "Delivery confidence comes from repeatable paths, not heroic manual releases.",
-  Jenkins: "Old-school, but it taught me how much release systems depend on boring, visible automation.",
-  Vault: "Secrets should be treated like production traffic: controlled, audited, and never casually copied around.",
-  "React.js": "My frontend tool for making backend complexity visible without forcing users to read logs.",
-  "Angular.js": "A legacy UI reminder that maintainability often means improving the system you inherit, not the one you wish you had.",
-  JavaScript: "The browser language that rewards clarity because everyone eventually has to debug it.",
-  TypeScript: "The safety net I want when UI state starts looking like a backend workflow.",
-  "Three.js": "A tool I use when an idea is easier to understand spatially than through another paragraph.",
-  AWS: "Cloud primitives are useful when they are chosen for the workload, not because the diagram needs more icons.",
-  Azure: "Another deployment surface where the real skill is understanding identity, networking, and operational boundaries.",
-  Postman: "Still one of the fastest ways to interrogate an API contract before blaming the code.",
-  TestNG: "A practical test runner for Java systems where integration behavior needs structure.",
-  DSA: "Not interview trivia to me; it is the mental model behind queues, caches, retries, and state.",
-  OOP: "Useful when it creates boundaries people can understand, harmful when it only creates ceremony.",
-  "SQL & NoSQL DBs": "The choice is less about fashion and more about query shape, consistency, and failure recovery.",
-  "Operating Systems": "The foundation behind concurrency, memory, scheduling, and the performance bugs that do not care about frameworks.",
-  "Computer Networks": "The reason distributed systems fail in realistic ways: latency, retries, ordering, and partial reachability.",
-};
-
 export default function SkillsSection() {
   const [activeSkillTitle, setActiveSkillTitle] = useState(resume.skills[0]?.title ?? "");
-  const [activeSkillItem, setActiveSkillItem] = useState<string | null>(null);
   const activeSkill = useMemo(
     () => resume.skills.find((section) => section.title === activeSkillTitle) ?? resume.skills[0],
     [activeSkillTitle]
   );
-  const activeSkillDetails = skillCategoryDetails[activeSkill.title];
-  const activeSkillNote = activeSkillItem ? personalSkillNotes[activeSkillItem] : null;
 
   return (
-    <section id="skills" className="scroll-mt-24 space-y-5">
-      <header className="grid gap-3 border-y border-primary/25 py-3 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.36fr)] lg:items-start">
-        <div className="min-w-0 space-y-2">
-          <p className="font-mono text-[0.86rem] uppercase tracking-[0.24em] text-primary">&gt; section:skills</p>
-          <h2 className="sr-only">
-            Core stack for backend and platform delivery.
-          </h2>
-        </div>
-        <p className="min-w-0 border-t border-border/70 pt-3 text-sm leading-6 text-muted-foreground lg:border-l lg:border-t-0 lg:pl-4 lg:pt-0">
-          Click a category to inspect the working stack.
-        </p>
+    <section id="skills" className="scroll-mt-24 space-y-10">
+      <header className="border-y border-primary/25 py-8">
+        <h2 className="text-3xl font-semibold tracking-tight text-foreground">Stack</h2>
       </header>
 
-      <div className="grid gap-4 lg:grid-cols-[minmax(18rem,1.05fr)_minmax(0,1fr)_minmax(14rem,0.75fr)]">
+      <div className="grid gap-6 lg:grid-cols-[minmax(14rem,0.45fr)_minmax(0,1fr)]">
         <div
-          className="grid grid-cols-2 gap-2 border-y border-border/70 py-3 sm:grid-cols-3 lg:grid-cols-2 lg:border-y-0 lg:py-0"
-          role="group"
+          className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-1"
+          role="tablist"
           aria-label="Skill categories"
         >
           {resume.skills.map((section) => {
@@ -178,79 +30,31 @@ export default function SkillsSection() {
               <button
                 key={section.title}
                 type="button"
-                aria-pressed={active}
-                title={skillCategoryDetails[section.title]?.archiveNote}
-                className={`inline-flex min-w-0 items-center gap-2 border px-2.5 py-2 text-left transition focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 lg:w-full ${
+                role="tab"
+                aria-selected={active}
+                className={`border px-4 py-3 text-left text-sm font-semibold transition focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 ${
                   active
-                    ? "border-primary/70 bg-primary/10 text-foreground"
-                    : "border-border/70 bg-card/45 text-muted-foreground hover:border-primary/45 hover:text-foreground dark:bg-background/35"
+                    ? "border-primary/70 bg-background text-foreground"
+                    : "border-border/70 bg-card text-muted-foreground hover:border-primary/45 hover:text-foreground dark:bg-background"
                 }`}
-                onClick={() => {
-                  setActiveSkillTitle(section.title);
-                  setActiveSkillItem(null);
-                }}
+                onClick={() => setActiveSkillTitle(section.title)}
               >
-                <span className="grid size-7 shrink-0 place-items-center border border-primary/30 bg-primary/10 text-primary">
-                  <SkillCategoryIcon title={section.title} />
-                </span>
-                <span className="min-w-0 truncate font-mono text-[0.64rem] font-semibold uppercase tracking-[0.1em] sm:text-[0.68rem] lg:tracking-[0.13em]">
-                  {shortSkillLabels[section.title] ?? section.title}
-                </span>
+                {section.title}
               </button>
             );
           })}
         </div>
 
-        <div className="min-w-0 border border-primary/25 bg-card/45 p-4 backdrop-blur dark:bg-background/35" aria-live="polite">
-          <div className="flex min-w-0 items-start justify-between gap-4">
-            <div className="min-w-0 space-y-2">
-              <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">psychohistory.substrate</p>
-              <h3 className="text-2xl font-semibold tracking-tight text-foreground">{activeSkill.title}</h3>
-            </div>
-            <span className="grid size-10 shrink-0 place-items-center border border-primary/30 bg-primary/10 text-primary">
-              <SkillCategoryIcon title={activeSkill.title} />
-            </span>
+        <div className="border border-primary/25 bg-card p-6 dark:bg-background" role="tabpanel" aria-live="polite">
+          <h3 className="text-2xl font-semibold tracking-tight text-foreground">{activeSkill.title}</h3>
+          <div className="mt-6 flex flex-wrap gap-3">
+            {activeSkill.items.map((item) => (
+              <span key={item} className="inline-flex items-center gap-2 border border-border/70 bg-card px-3 py-2 font-mono text-[0.72rem] font-semibold uppercase tracking-[0.1em] text-muted-foreground dark:bg-background">
+                <BrandTechnologyIcon name={item} />
+                {item}
+              </span>
+            ))}
           </div>
-
-          <div className="mt-4 flex flex-wrap gap-3">
-            {activeSkill.items.map((item) => {
-              const active = activeSkillItem === item;
-
-              return (
-                <button
-                  key={item}
-                  type="button"
-                  aria-pressed={active}
-                  className={`inline-flex shrink-0 items-center gap-2 border px-3 py-2 font-mono text-[0.74rem] font-semibold uppercase tracking-[0.12em] transition focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 ${
-                    active
-                      ? "border-primary/70 bg-primary/10 text-primary"
-                      : "border-border/70 bg-card/50 text-muted-foreground hover:border-primary/50 hover:text-primary"
-                  }`}
-                  onClick={() => setActiveSkillItem((current) => current === item ? null : item)}
-                >
-                  <BrandTechnologyIcon name={item} />
-                  {item}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="min-w-0 border border-primary/25 bg-card/45 p-4 backdrop-blur dark:bg-background/35" aria-live="polite">
-          <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">
-            {activeSkillItem ? "personal.note" : "archive.annotation"}
-          </p>
-          <p className="mt-2 text-sm font-medium leading-6 text-foreground">
-            {activeSkillItem ?? activeSkillDetails.headline}
-          </p>
-          {activeSkillNote ? (
-            <p className="mt-4 border-t border-border/70 pt-4 text-sm leading-6 text-muted-foreground">
-              {activeSkillNote}
-            </p>
-          ) : null}
-          <p className="mt-4 border-t border-primary/25 pt-4 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-primary">
-            {activeSkillItem ? `tool.record: ${activeSkillItem.toLowerCase()}` : activeSkillDetails.archiveNote}
-          </p>
         </div>
       </div>
     </section>

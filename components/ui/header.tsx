@@ -16,7 +16,7 @@ function Header({ className, ...props }: HeaderProps) {
   return (
     <header
       className={cn(
-        "glass sticky top-0 z-50 flex w-full items-center gap-3 border-b border-border/70 bg-card/75 px-4 py-4 shadow-sm shadow-slate-900/5 backdrop-blur-xl sm:px-6 dark:bg-background/60 dark:shadow-slate-950/10",
+        "sticky top-0 z-50 flex w-full items-center gap-3 border-b border-border/70 bg-card px-4 py-4 sm:px-6 dark:bg-background",
         className
       )}
       {...props}
@@ -125,7 +125,7 @@ function HeaderNav({ className, children, ...props }: HeaderProps) {
           ref={menuButtonRef}
           variant="ghost"
           size="icon"
-          className="relative z-50 rounded-none border border-border/70 bg-card/40 hover:border-primary/60 hover:bg-primary/10"
+          className="relative z-50 rounded-none border border-border/70 bg-card hover:border-primary/60"
           aria-controls={open ? menuId : undefined}
           aria-expanded={open}
           aria-label={open ? "Close navigation menu" : "Open navigation menu"}
@@ -148,7 +148,7 @@ function HeaderNav({ className, children, ...props }: HeaderProps) {
           id={menuId}
           ref={menuPanelRef}
           tabIndex={-1}
-          className="absolute right-0 top-full z-50 mt-3 w-screen max-w-xs border border-border/70 bg-card/95 p-4 shadow-2xl shadow-slate-900/10 backdrop-blur-xl md:hidden dark:bg-background/95 dark:shadow-slate-950/10"
+          className="absolute right-0 top-full z-50 mt-3 w-screen max-w-xs border border-border/70 bg-card p-4 md:hidden dark:bg-background"
         >
           <nav className="flex flex-col gap-2" aria-label="Mobile navigation">
             {mobileLinks.map((child, index) =>
@@ -156,7 +156,7 @@ function HeaderNav({ className, children, ...props }: HeaderProps) {
                 React.cloneElement(child, {
                   key: child.key ?? index,
                   className: cn(
-                    "block border border-transparent px-4 py-3 text-sm text-muted-foreground transition hover:border-primary/60 hover:bg-primary/10 hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none",
+                    "block border border-transparent px-4 py-3 text-sm text-muted-foreground transition hover:border-primary/60 hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none",
                     child.props.className
                   ),
                   onClick: () => setOpen(false),

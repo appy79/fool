@@ -5,9 +5,9 @@ import { cn } from "@/lib/utils";
 const badgeVariants = cva("inline-flex items-center px-3 py-1 text-xs font-semibold transition", {
   variants: {
     variant: {
-      default: "glass border border-border/70 bg-card/70 text-primary shadow-sm shadow-slate-900/5 dark:text-foreground dark:shadow-slate-950/10",
+      default: "border border-border/70 bg-card text-primary dark:bg-background dark:text-foreground",
       secondary: "bg-secondary text-secondary-foreground",
-      outline: "border border-border/70 bg-card/50 text-muted-foreground"
+      outline: "border border-border/70 bg-card text-muted-foreground dark:bg-background"
     }
   },
   defaultVariants: {
