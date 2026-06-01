@@ -26,7 +26,7 @@ export default function ThemeToggle({ className }: { className?: string }) {
         aria-label="Theme toggle"
         disabled
         className={cn(
-          "glass relative z-50 inline-flex size-9 items-center justify-center rounded-md border border-border text-muted-foreground",
+          "relative z-50 inline-flex size-9 items-center justify-center rounded-md border border-border bg-card text-muted-foreground dark:bg-background",
           className
         )}
       >
@@ -41,7 +41,7 @@ export default function ThemeToggle({ className }: { className?: string }) {
       aria-label={`Switch to ${nextTheme} theme`}
       title={`Switch to ${nextTheme} theme`}
       className={cn(
-        "glass relative z-50 inline-flex size-9 items-center justify-center rounded-md border border-border text-foreground transition hover:border-primary/60 hover:bg-primary/10 hover:text-primary focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none",
+        "relative z-50 inline-flex size-9 items-center justify-center rounded-md border border-border bg-card text-foreground transition hover:border-primary/60 hover:text-primary focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none dark:bg-background",
         className
       )}
       onClick={() => setTheme(nextTheme)}

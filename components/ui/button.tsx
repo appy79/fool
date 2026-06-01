@@ -9,11 +9,9 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        glass:
-          "glass border border-border/70 text-foreground hover:bg-accent/70 dark:hover:bg-muted/50",
         default: "bg-primary text-primary-foreground hover:bg-primary/90",
         outline:
-          "border-border/70 bg-card/70 hover:bg-accent hover:text-accent-foreground aria-expanded:bg-accent aria-expanded:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
+          "border-border/70 bg-card hover:border-primary/60 hover:text-accent-foreground aria-expanded:bg-accent aria-expanded:text-accent-foreground dark:border-input dark:bg-background",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80 aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
         ghost:
@@ -37,7 +35,7 @@ const buttonVariants = cva(
       },
     },
     defaultVariants: {
-      variant: "glass",
+      variant: "default",
       size: "default",
     },
   }
