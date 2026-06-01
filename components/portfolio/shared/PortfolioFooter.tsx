@@ -22,11 +22,11 @@ export default function PortfolioFooter({ activeSurface = "home" }: PortfolioFoo
   const linkLabel = activeSurface === "labs" ? "Portfolio archive" : "Crisis simulations";
 
   return (
-    <footer className="grid gap-3 border-t border-primary/25 pt-4 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground md:grid-cols-[auto_minmax(0,1fr)_auto] md:items-center">
+    <footer className="grid gap-3 border-t border-border/70 pt-5 font-mono text-[0.68rem] uppercase tracking-[0.18em] text-muted-foreground md:grid-cols-[auto_minmax(0,1fr)_auto] md:items-center">
       <p className="text-primary">&gt; seldon.signal.persisted</p>
       <p className="min-w-0">{footerSignal}</p>
       <div className="flex flex-wrap gap-3">
-        <Link href={linkHref} className="transition hover:text-primary">
+        <Link href={linkHref} className="underline-offset-4 transition hover:text-primary hover:underline focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none">
           {linkLabel}
         </Link>
         <span>© {currentYear} {resume.name}</span>

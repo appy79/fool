@@ -195,3 +195,179 @@ body::before {
     @apply font-sans;
   }
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  :where(a[href], button:not(:disabled)):not([data-slot="button"]):not([class*="translate"]) {
+    transition-duration: 160ms;
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  :where(a[href], button:not(:disabled)):not([data-slot="button"]):not([class*="translate"]):where(:hover, :focus-visible) {
+    translate: 0 -0.0625rem;
+  }
+
+  :where(a[href], button:not(:disabled)):not([data-slot="button"]):not([class*="translate"]):active {
+    scale: 0.99;
+    translate: 0 0.0625rem;
+    transition-duration: 90ms;
+  }
+
+  :where(a[href]):where(:hover, :focus-visible) {
+    text-shadow: 0 0 10px color-mix(in oklch, var(--primary) 18%, transparent);
+  }
+
+  :where(button:not(:disabled)):where(:hover, :focus-visible) {
+    box-shadow: 0 0 0 1px color-mix(in oklch, var(--primary) 8%, transparent);
+  }
+}
+
+.labs-acceleration-cta {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.labs-acceleration-cta::before,
+.labs-acceleration-cta::after {
+  position: absolute;
+  content: "";
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.labs-acceleration-cta > * {
+  position: relative;
+  z-index: 1;
+}
+
+.labs-acceleration-cta::before {
+  inset: -60% -35%;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    transparent 36%,
+    color-mix(in oklch, var(--primary) 18%, transparent) 45%,
+    color-mix(in oklch, var(--primary) 55%, white) 50%,
+    color-mix(in oklch, var(--primary) 18%, transparent) 55%,
+    transparent 64%,
+    transparent 100%
+  );
+  transform: translateX(-115%) skewX(-18deg);
+}
+
+.labs-acceleration-cta::after {
+  top: 50%;
+  left: -45%;
+  width: 42%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--primary), transparent);
+  box-shadow:
+    -1.4rem -0.7rem 0 color-mix(in oklch, var(--primary) 42%, transparent),
+    -2.8rem 0.75rem 0 color-mix(in oklch, var(--primary) 32%, transparent);
+  transform: translateX(-85%);
+}
+
+.labs-acceleration-cta:hover::before,
+.labs-acceleration-cta:focus-visible::before,
+.labs-acceleration-cta:active::before {
+  animation: labs-acceleration-sweep 680ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.labs-acceleration-cta:hover::after,
+.labs-acceleration-cta:focus-visible::after,
+.labs-acceleration-cta:active::after {
+  animation: labs-acceleration-trails 520ms cubic-bezier(0.12, 0.82, 0.2, 1) forwards;
+}
+
+.labs-acceleration-cta:active::before {
+  animation: labs-acceleration-click-sweep 360ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.labs-acceleration-cta:active::after {
+  animation: labs-acceleration-click-trails 300ms cubic-bezier(0.12, 0.82, 0.2, 1) forwards;
+}
+
+@keyframes labs-acceleration-sweep {
+  0% {
+    opacity: 0;
+    transform: translateX(-115%) skewX(-18deg);
+  }
+
+  18%,
+  72% {
+    opacity: 0.48;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(115%) skewX(-18deg);
+  }
+}
+
+@keyframes labs-acceleration-trails {
+  0% {
+    opacity: 0;
+    transform: translateX(-85%);
+  }
+
+  20%,
+  78% {
+    opacity: 0.38;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(360%);
+  }
+}
+
+@keyframes labs-acceleration-click-sweep {
+  0% {
+    opacity: 0;
+    transform: translateX(-115%) skewX(-18deg);
+  }
+
+  18%,
+  72% {
+    opacity: 0.48;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(115%) skewX(-18deg);
+  }
+}
+
+@keyframes labs-acceleration-click-trails {
+  0% {
+    opacity: 0;
+    transform: translateX(-85%);
+  }
+
+  20%,
+  78% {
+    opacity: 0.38;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(360%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .labs-acceleration-cta:hover::before,
+  .labs-acceleration-cta:focus-visible::before,
+  .labs-acceleration-cta:active::before {
+    animation: none;
+    opacity: 0.2;
+    transform: none;
+  }
+
+  .labs-acceleration-cta:hover::after,
+  .labs-acceleration-cta:focus-visible::after,
+  .labs-acceleration-cta:active::after {
+    animation: none;
+  }
+}

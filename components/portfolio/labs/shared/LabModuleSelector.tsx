@@ -97,7 +97,7 @@ export default function LabModuleSelector<TItem extends LabModuleSelectorItem>({
       <button
         ref={buttonRef}
         type="button"
-        className={`grid w-full min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border border-primary/35 bg-primary/5 px-3 py-2 text-left transition hover:border-primary/65 hover:bg-primary/10 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 ${
+        className={`grid w-full min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border border-border/70 bg-transparent px-3 py-2 text-left transition hover:border-primary/55 hover:bg-accent/30 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 ${
           shouldPulseSelectors ? styles.firstLoadPulse : ""
         }`}
         aria-expanded={isOpen}
@@ -132,8 +132,8 @@ export default function LabModuleSelector<TItem extends LabModuleSelectorItem>({
                 key={item.id}
                 type="button"
                 aria-pressed={active}
-                className={`grid w-full min-w-0 grid-cols-[4.75rem_minmax(0,1fr)_4.5rem] items-center gap-3 py-2 text-left text-xs uppercase tracking-[0.16em] transition focus-visible:ring-3 focus-visible:ring-ring/50 ${
-                  active ? "text-primary" : "text-muted-foreground hover:text-foreground"
+                className={`grid w-full min-w-0 grid-cols-[4.75rem_minmax(0,1fr)_4.5rem] items-center gap-3 px-2 py-2 text-left text-xs uppercase tracking-[0.16em] transition focus-visible:ring-3 focus-visible:ring-ring/50 ${
+                  active ? "bg-primary/5 text-primary" : "text-muted-foreground hover:bg-accent/25 hover:text-foreground"
                 }`}
                 onClick={() => {
                   onSelect(item.id);

@@ -46,12 +46,13 @@ export default function ProjectsSection() {
   }, [activeProjectDetailsOpen, activeProjectRegionId]);
 
   return (
-    <section id="work" className="scroll-mt-24 space-y-10">
-      <header className="border-b border-primary/25 pb-8">
-        <h2 className="text-3xl font-semibold tracking-tight text-foreground">Project archive</h2>
+    <section id="work" className="scroll-mt-24 space-y-8">
+      <header className="border-b border-border/70 pb-6">
+        <p className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">selected work</p>
+        <h2 className="mt-2 text-3xl font-semibold tracking-[-0.03em] text-foreground">Project archive</h2>
       </header>
 
-      <div className="grid gap-5 lg:grid-cols-3" role="tablist" aria-label="Experience roles">
+      <div className="grid gap-3 lg:grid-cols-3" role="tablist" aria-label="Experience roles">
         {resume.experience.map((item) => {
           const active = item.role === activeExperience.role;
 
@@ -63,8 +64,8 @@ export default function ProjectsSection() {
               aria-selected={active}
               className={`border p-5 text-left transition focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 ${
                 active
-                  ? "border-primary/70 bg-background text-foreground"
-                  : "border-border/70 bg-card text-muted-foreground hover:border-primary/45 hover:text-foreground dark:bg-background"
+                  ? "border-primary/60 bg-primary/5 text-foreground"
+                  : "border-border/70 bg-transparent text-muted-foreground hover:border-primary/45 hover:bg-accent/25 hover:text-foreground"
               }`}
               onClick={() => {
                 const projects = getProjectsForExperience(item.role);
@@ -83,7 +84,7 @@ export default function ProjectsSection() {
         })}
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-[minmax(16rem,0.65fr)_minmax(0,1.35fr)]">
+      <div className="grid gap-6 lg:grid-cols-[minmax(16rem,0.65fr)_minmax(0,1.35fr)]">
         <div
           className="grid content-start gap-3"
           role="tablist"
@@ -100,8 +101,8 @@ export default function ProjectsSection() {
                 aria-selected={active}
                 className={`border p-5 text-left transition focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 ${
                   active
-                    ? "border-primary/70 bg-background text-foreground"
-                    : "border-border/70 bg-card text-muted-foreground hover:border-primary/45 hover:text-foreground dark:bg-background"
+                    ? "border-primary/60 bg-primary/5 text-foreground"
+                    : "border-border/70 bg-transparent text-muted-foreground hover:border-primary/45 hover:bg-accent/25 hover:text-foreground"
                 }`}
                 onClick={() => {
                   setActiveProjectTitle(project.title);
@@ -116,49 +117,50 @@ export default function ProjectsSection() {
         </div>
 
         {activeProject ? (
-          <article className="min-w-0 border border-primary/25 bg-card p-7 dark:bg-background" aria-live="polite">
+          <article className="min-w-0 border border-border/70 bg-card/60 p-7 dark:bg-background" aria-live="polite">
             <p className="font-mono text-[0.62rem] uppercase tracking-[0.14em] text-primary">{activeProject.category}</p>
             <h3 className="mt-3 max-w-3xl text-3xl font-semibold tracking-tight text-foreground">{activeProject.title}</h3>
             <p className="mt-5 max-w-3xl text-base font-medium leading-7 text-foreground">{activeProject.impact}</p>
 
             <div className="mt-8 grid gap-3 border-t border-border/70 pt-6 sm:grid-cols-2">
-                <button
-                  type="button"
-                  className="flex min-w-0 items-center justify-between gap-3 border border-primary/35 bg-background px-4 py-3 text-left font-mono text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-primary transition hover:border-primary/70 hover:bg-card hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
-                  aria-expanded={activeProjectDetailsOpen}
-                  aria-controls={activeProjectDetailsOpen ? activeProjectRegionId : undefined}
-                  onClick={() => setIsDetailOpen((open) => !open)}
-                >
-                  <span>{activeProjectDetailsOpen ? "Hide details" : "Read details"}</span>
-                  <span aria-hidden="true">{activeProjectDetailsOpen ? "^" : "v"}</span>
-                </button>
-                <Link
-                  href={activeProject.labHref}
-                  className="min-w-0 border border-border/70 px-4 py-3 text-left font-mono text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-primary transition hover:border-primary/70 hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 sm:text-right"
-                >
-                  {activeProject.labLabel} -&gt;
-                </Link>
-              </div>
+              <button
+                type="button"
+                className="flex min-w-0 items-center justify-between gap-3 border border-border/70 bg-transparent px-4 py-3 text-left font-mono text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-primary transition hover:border-primary/60 hover:bg-accent/30 hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+                aria-expanded={activeProjectDetailsOpen}
+                aria-controls={activeProjectDetailsOpen ? activeProjectRegionId : undefined}
+                onClick={() => setIsDetailOpen((open) => !open)}
+              >
+                <span>{activeProjectDetailsOpen ? "Hide details" : "Read details"}</span>
+                <span aria-hidden="true">{activeProjectDetailsOpen ? "^" : "v"}</span>
+              </button>
+              <Link
+                href={activeProject.labHref}
+                className="labs-acceleration-cta flex min-w-0 items-center justify-between gap-3 border border-border/70 px-4 py-3 text-left font-mono text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-primary transition hover:border-primary/60 hover:bg-accent/30 hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 sm:text-right"
+              >
+                <span className="min-w-0 [overflow-wrap:anywhere]">{activeProject.labLabel}</span>
+                <span aria-hidden="true">-&gt;</span>
+              </Link>
+            </div>
 
-              {activeProjectDetailsOpen ? (
-                <div
-                  id={activeProjectRegionId}
-                  ref={detailRegionRef}
-                  tabIndex={-1}
-                  className="mt-6 space-y-6 border border-primary/25 bg-background p-5 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
-                >
-                  <p className="text-sm leading-6 text-muted-foreground">{activeProject.description}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {activeProject.tags.map((tag) => (
-                      <span key={tag} className="inline-flex shrink-0 items-center gap-1.5 border border-border/70 bg-card px-3 py-1.5 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
-                        <TechnologyIcon name={tag} />
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <p className="border-t border-border/70 pt-5 text-sm leading-6 text-muted-foreground">{activeProject.evidence}</p>
+            {activeProjectDetailsOpen ? (
+              <div
+                id={activeProjectRegionId}
+                ref={detailRegionRef}
+                tabIndex={-1}
+                className="mt-6 space-y-6 border border-border/70 bg-background p-5 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+              >
+                <p className="text-sm leading-6 text-muted-foreground">{activeProject.description}</p>
+                <div className="flex flex-wrap gap-2">
+                  {activeProject.tags.map((tag) => (
+                    <span key={tag} className="inline-flex shrink-0 items-center gap-1.5 border border-border/70 bg-transparent px-3 py-1.5 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+                      <TechnologyIcon name={tag} />
+                      {tag}
+                    </span>
+                  ))}
                 </div>
-              ) : null}
+                <p className="border-t border-border/70 pt-5 text-sm leading-6 text-muted-foreground">{activeProject.evidence}</p>
+              </div>
+            ) : null}
           </article>
         ) : null}
       </div>
