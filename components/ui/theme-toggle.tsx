@@ -23,7 +23,8 @@ export default function ThemeToggle({ className }: { className?: string }) {
     return (
       <button
         type="button"
-        aria-label="Theme toggle"
+        aria-label="Theme toggle loading"
+        aria-busy="true"
         disabled
         className={cn(
           "relative z-50 inline-flex size-9 items-center justify-center rounded-md border border-border bg-transparent text-muted-foreground",

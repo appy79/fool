@@ -49,7 +49,7 @@ export default function HeroPortraitCard() {
             </span>
             <Image
               src="/profile-photo.jpg"
-              alt="Amandeep Yadav portrait"
+              alt=""
               width={1200}
               height={900}
               sizes="(min-width: 1024px) 34vw, calc(100vw - 2.5rem)"

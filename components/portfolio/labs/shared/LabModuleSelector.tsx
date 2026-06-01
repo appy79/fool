@@ -65,10 +65,12 @@ export default function LabModuleSelector<TItem extends LabModuleSelectorItem>({
 
       if (event.shiftKey && document.activeElement === firstElement) {
         event.preventDefault();
-        lastElement.focus();
+        setIsOpen(false);
+        buttonRef.current?.focus();
       } else if (!event.shiftKey && document.activeElement === lastElement) {
         event.preventDefault();
-        firstElement.focus();
+        setIsOpen(false);
+        buttonRef.current?.focus();
       }
     };
 
@@ -101,7 +103,7 @@ export default function LabModuleSelector<TItem extends LabModuleSelectorItem>({
           shouldPulseSelectors ? styles.firstLoadPulse : ""
         }`}
         aria-expanded={isOpen}
-        aria-controls={isOpen ? moduleListId : undefined}
+        aria-controls={moduleListId}
         aria-label={`Select lab module. ${items.length} modules available.`}
         onClick={() => setIsOpen((open) => !open)}
       >
@@ -131,7 +133,7 @@ export default function LabModuleSelector<TItem extends LabModuleSelectorItem>({
               <button
                 key={item.id}
                 type="button"
-                aria-pressed={active}
+                aria-current={active ? "true" : undefined}
                 className={`grid w-full min-w-0 grid-cols-[4.75rem_minmax(0,1fr)_4.5rem] items-center gap-3 px-2 py-2 text-left text-xs uppercase tracking-[0.16em] transition focus-visible:ring-3 focus-visible:ring-ring/50 ${
                   active ? "bg-primary/5 text-primary" : "text-muted-foreground hover:bg-accent/25 hover:text-foreground"
                 }`}

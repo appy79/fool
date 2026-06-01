@@ -1,10 +1,14 @@
 "use client";
 
 import * as React from "react";
+import type { CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 type HeaderProps = React.HTMLAttributes<HTMLElement>;
+type RootHeaderProps = HeaderProps & {
+  compactActions?: React.ReactNode;
+};
 type NavLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
   href?: unknown;
 };
@@ -12,15 +16,92 @@ type NavLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
 const isNavLinkElement = (child: React.ReactNode): child is React.ReactElement<NavLinkProps> =>
   React.isValidElement<NavLinkProps>(child) && "href" in child.props;
 
-function Header({ className, ...props }: HeaderProps) {
+const clamp = (value: number, min = 0, max = 1) => Math.min(Math.max(value, min), max);
+const easeOutCubic = (value: number) => 1 - Math.pow(1 - value, 3);
+
+function Header({ className, compactActions, children, style, ...props }: RootHeaderProps) {
+  const [compactProgress, setCompactProgress] = React.useState(0);
+  const frameRef = React.useRef<number | null>(null);
+
+  React.useEffect(() => {
+    const updateCompactProgress = () => {
+      frameRef.current = null;
+      const currentScrollY = window.scrollY;
+      const compactDistance = clamp((currentScrollY - 32) / 340);
+      const nextProgress = currentScrollY <= 24 ? 0 : easeOutCubic(compactDistance);
+
+      setCompactProgress(nextProgress);
+    };
+
+    const handleScroll = () => {
+      if (frameRef.current !== null) {
+        return;
+      }
+
+      frameRef.current = requestAnimationFrame(updateCompactProgress);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+
+      if (frameRef.current !== null) {
+        cancelAnimationFrame(frameRef.current);
+      }
+    };
+  }, []);
+
+  const hasCompactActions = Boolean(compactActions);
+  const compactInteractive = hasCompactActions && compactProgress > 0.82;
+  const fullOpacity = hasCompactActions ? 1 - compactProgress : 1;
+  const compactOpacity = hasCompactActions ? compactProgress : 0;
+  const fullScale = 1 - compactProgress * 0.035;
+  const compactScale = 0.86 + compactProgress * 0.14;
+
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 flex w-full items-center gap-3 border-b border-border/70 bg-card/90 px-4 py-3 backdrop-blur sm:px-6 dark:bg-background/90",
+        "sticky top-0 z-50 w-full overflow-visible",
         className
       )}
+      style={
+        {
+          ...style,
+          minHeight: `${64 - compactProgress * 10}px`,
+        } as CSSProperties
+      }
       {...props}
-    />
+    >
+      <div
+        className="absolute inset-x-0 top-0 flex items-center justify-between gap-3 border-b border-border/70 bg-card/90 px-4 py-3 backdrop-blur transition-[opacity,transform] duration-700 ease-out sm:px-6 dark:bg-background/90"
+        aria-hidden={compactInteractive}
+        inert={compactInteractive ? true : undefined}
+        style={{
+          opacity: fullOpacity,
+          pointerEvents: compactInteractive ? "none" : undefined,
+          transform: `translateY(${-compactProgress * 14}px) scale(${fullScale})`,
+          transformOrigin: "top center",
+        }}
+      >
+        {children}
+      </div>
+
+      {hasCompactActions ? (
+        <div
+          className="fixed left-1/2 top-2 flex items-center gap-1.5 border border-border/70 bg-card/90 px-2 py-1 shadow-sm backdrop-blur transition-[opacity,transform] duration-700 ease-out dark:bg-background/90"
+          aria-hidden={!compactInteractive}
+          inert={!compactInteractive ? true : undefined}
+          style={{
+            opacity: compactOpacity,
+            pointerEvents: compactInteractive ? undefined : "none",
+            transform: `translateX(-50%) translateY(${(1 - compactProgress) * -16}px) scale(${compactScale})`,
+          }}
+        >
+          {compactActions}
+        </div>
+      ) : null}
+    </header>
   );
 }
 
@@ -85,10 +166,12 @@ function HeaderNav({ className, children, ...props }: HeaderProps) {
 
       if (event.shiftKey && document.activeElement === firstElement) {
         event.preventDefault();
-        lastElement.focus();
+        setOpen(false);
+        menuButtonRef.current?.focus();
       } else if (!event.shiftKey && document.activeElement === lastElement) {
         event.preventDefault();
-        firstElement.focus();
+        setOpen(false);
+        menuButtonRef.current?.focus();
       }
     };
 
@@ -126,7 +209,7 @@ function HeaderNav({ className, children, ...props }: HeaderProps) {
           variant="ghost"
           size="icon"
           className="relative z-50 rounded-none border border-border/70 bg-transparent hover:border-primary/60 hover:bg-accent/35"
-          aria-controls={open ? menuId : undefined}
+          aria-controls={menuId}
           aria-expanded={open}
           aria-label={open ? "Close navigation menu" : "Open navigation menu"}
           onClick={() => setOpen((current) => !current)}

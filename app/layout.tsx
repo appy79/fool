@@ -81,7 +81,37 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           >
             Skip to main content
           </a>
-          <Header>
+          <Header
+            compactActions={
+              <>
+                <Link
+                  href="/"
+                  aria-label="Home"
+                  title="Home"
+                  className="inline-flex size-9 items-center justify-center border border-transparent text-foreground transition hover:border-primary/50 hover:bg-accent/30 hover:text-primary focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="size-4" aria-hidden="true">
+                    <path d="M4.75 11.25 12 5l7.25 6.25" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M6.5 10.5v8.25h11V10.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M10 18.75v-4.5h4v4.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </Link>
+                <ResumeDownloadMenu variant="icon" />
+                <Link
+                  href="/labs"
+                  aria-label="Labs"
+                  title="Labs"
+                  className="inline-flex size-9 items-center justify-center border border-transparent text-foreground transition hover:border-primary/50 hover:bg-accent/30 hover:text-primary focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="size-4" aria-hidden="true">
+                    <path d="M9 3.75v5.5L4.75 17a2.25 2.25 0 0 0 1.97 3.25h10.56A2.25 2.25 0 0 0 19.25 17L15 9.25v-5.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M8 3.75h8M7.2 15.25h9.6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </Link>
+                <ThemeToggle />
+              </>
+            }
+          >
             <HeaderBrand>
               <Link href="/" className="block truncate text-sm font-semibold uppercase tracking-[0.22em] text-foreground transition hover:text-primary focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none">
                 {resume.name}

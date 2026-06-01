@@ -397,9 +397,9 @@ export default function ConcurrencyScene({
                   {isAtomic ? "Atomic Add" : isQueue ? "Queue" : isMultiprocessing ? "IPC Merge" : isSemaphore ? "Permit Pool" : "Sync Gate"}
                 </div>
                 <div className="mt-2 text-[0.68rem] text-slate-300 font-bold">owner: <span className="text-amber-400 font-black">{ownerLabel}</span></div>
-                <div className={`mt-2 text-[0.62rem] leading-snug font-black uppercase tracking-wider ${deadlocked ? "text-red-200 animate-pulse" : "text-slate-400"}`}>{criticalStatus}</div>
+                <div className={`mt-2 text-[0.62rem] leading-snug font-black uppercase tracking-wider ${deadlocked ? "text-red-200 animate-pulse motion-reduce:animate-none" : "text-slate-400"}`}>{criticalStatus}</div>
                 
-                {mode.id === "mutex" && lockHeld ? <div className="mt-2 scale-90 rounded-full border border-violet-400/40 bg-violet-900/90 px-2.5 py-0.5 text-[0.55rem] font-black tracking-widest animate-pulse text-violet-200">LOCKED</div> : null}
+                {mode.id === "mutex" && lockHeld ? <div className="mt-2 scale-90 rounded-full border border-violet-400/40 bg-violet-900/90 px-2.5 py-0.5 text-[0.55rem] font-black tracking-widest animate-pulse text-violet-200 motion-reduce:animate-none">LOCKED</div> : null}
                 {isSemaphore && lockHeld ? <div className="mt-2 scale-90 rounded-full border border-indigo-400/40 bg-indigo-900/90 px-2.5 py-0.5 text-[0.55rem] font-black tracking-widest text-indigo-200">2 PERMITS OUT</div> : null}
                 {isAtomic && phaseIndex > 0 ? <div className="mt-2 scale-90 rounded-full border border-amber-400/40 bg-amber-950 px-2.5 py-0.5 text-[0.55rem] font-black text-amber-200 tracking-widest">LINEARIZED</div> : null}
               </div>
@@ -426,7 +426,7 @@ export default function ConcurrencyScene({
             </div>
             <div className="mt-2 text-[0.62rem] font-bold text-slate-500 uppercase tracking-widest">Expected: {visibleExpectedCounter}</div>
             
-            <div className={`mt-4 text-[0.62rem] font-black leading-snug transition-colors uppercase tracking-wider ${isRace && phaseIndex >= 3 ? "text-rose-400 animate-pulse font-extrabold" : "text-slate-500"}`}>
+            <div className={`mt-4 text-[0.62rem] font-black leading-snug transition-colors uppercase tracking-wider ${isRace && phaseIndex >= 3 ? "text-rose-400 animate-pulse font-extrabold motion-reduce:animate-none" : "text-slate-500"}`}>
               {isRace && phaseIndex >= 3 ? "LOST UPDATES: COLLIDED" : deadlocked ? "BLOCKED: CIRCULAR WAIT" : isSemaphore ? "CAPACITY BOUNDED" : "REGISTERS IN SYNC"}
             </div>
           </div>
@@ -442,11 +442,11 @@ export default function ConcurrencyScene({
                     <span className="text-[0.62rem] text-slate-600 uppercase font-bold tracking-widest pl-2">Queue Empty</span>
                   ) : phaseIndex === 1 ? (
                     ["T4", "T3", "T2", "T1"].map((task) => (
-                      <span key={task} className="flex h-7 w-12 rounded-lg bg-orange-500/20 border border-orange-500/50 text-[0.62rem] font-mono font-black text-orange-200 items-center justify-center animate-pulse">{task}</span>
+                      <span key={task} className="flex h-7 w-12 rounded-lg bg-orange-500/20 border border-orange-500/50 text-[0.62rem] font-mono font-black text-orange-200 items-center justify-center animate-pulse motion-reduce:animate-none">{task}</span>
                     ))
                   ) : phaseIndex === 2 ? (
                     ["T4", "T3"].map((task) => (
-                      <span key={task} className="flex h-7 w-12 rounded-lg bg-orange-500/20 border border-orange-500/50 text-[0.62rem] font-mono font-black text-orange-200 items-center justify-center animate-pulse">{task}</span>
+                      <span key={task} className="flex h-7 w-12 rounded-lg bg-orange-500/20 border border-orange-500/50 text-[0.62rem] font-mono font-black text-orange-200 items-center justify-center animate-pulse motion-reduce:animate-none">{task}</span>
                     ))
                   ) : (
                     <span className="text-[0.62rem] text-slate-600 uppercase font-bold tracking-widest pl-2">Queue Empty</span>
@@ -457,7 +457,7 @@ export default function ConcurrencyScene({
               {/* Conveyor connection arrow */}
               <div className="flex flex-col items-center justify-center text-orange-400/40 font-mono text-[0.62rem]">
                 <span className="uppercase font-bold tracking-wider mb-1">DRAIN</span>
-                <span className="animate-pulse text-sm">➔</span>
+                <span className="animate-pulse text-sm motion-reduce:animate-none">➔</span>
               </div>
 
               <div>
@@ -466,7 +466,7 @@ export default function ConcurrencyScene({
                   {phaseIndex === 0 || phaseIndex >= 4 ? (
                     <span className="text-[0.62rem] text-slate-600 uppercase font-bold tracking-widest pl-2">Idle</span>
                   ) : phaseIndex === 1 ? (
-                    <span className="text-[0.62rem] text-amber-500/80 uppercase font-black tracking-widest pl-2 animate-pulse">Waiting for Drain</span>
+                    <span className="text-[0.62rem] text-amber-500/80 uppercase font-black tracking-widest pl-2 animate-pulse motion-reduce:animate-none">Waiting for Drain</span>
                   ) : phaseIndex === 2 ? (
                     ["T1", "T2"].map((task) => (
                       <span key={task} className="flex h-7 w-14 rounded-lg bg-emerald-500/20 border border-emerald-500 text-[0.62rem] font-mono font-black text-emerald-200 items-center justify-center animate-bounce">{task}</span>

@@ -28,6 +28,7 @@ export default function LiveStepPanel({
   const portalContainer = typeof document === "undefined" ? null : document.body;
   const detailsId = useId();
   const stepListId = useId();
+  const conceptsTitleId = useId();
   const conceptsDescriptionId = useId();
   const overlayRef = useRef<HTMLDivElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -114,12 +115,15 @@ export default function LiveStepPanel({
 
   return (
     <div className="min-w-0 border-y border-border/70 py-4 text-foreground">
+      <p className="sr-only" aria-live="polite">
+        Current lab step: step {activeStepIndex + 1} of {insight.steps.length}, {activeStep.title}. {activeStep.description}
+      </p>
       <div className="flex min-w-0 flex-wrap items-start justify-between gap-4">
         <button
           type="button"
           onClick={() => setIsDetailsOpen((open) => !open)}
           aria-expanded={isDetailsOpen}
-          aria-controls={isDetailsOpen ? detailsId : undefined}
+          aria-controls={detailsId}
           aria-label={`${isDetailsOpen ? "Hide" : "Show"} step details`}
           className="min-w-0 flex-1 text-left focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
         >
@@ -138,15 +142,6 @@ export default function LiveStepPanel({
           >
             Explain Concepts
           </Button>
-          <button
-            type="button"
-            onClick={() => setIsDetailsOpen((open) => !open)}
-            aria-expanded={isDetailsOpen}
-            aria-controls={isDetailsOpen ? detailsId : undefined}
-            className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground transition hover:text-primary focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
-          >
-            {isDetailsOpen ? "Hide Details" : "Show Details"}
-          </button>
         </div>
       </div>
 
@@ -165,7 +160,7 @@ export default function LiveStepPanel({
             size="sm"
             variant="ghost"
             aria-expanded={isStepListOpen}
-            aria-controls={isStepListOpen ? stepListId : undefined}
+            aria-controls={stepListId}
             onClick={() => setIsStepListOpen((open) => !open)}
           >
             {isStepListOpen ? "Hide All Steps" : "Show All Steps"}
@@ -215,7 +210,7 @@ export default function LiveStepPanel({
             ref={dialogRef}
             role="dialog"
             aria-modal="true"
-            aria-labelledby="lab-concepts-title"
+            aria-labelledby={conceptsTitleId}
             aria-describedby={conceptsDescriptionId}
             tabIndex={-1}
             className="max-h-[85vh] min-w-0 w-full max-w-3xl overflow-y-auto border border-border/70 bg-card p-6 text-foreground shadow-xl shadow-slate-900/10 dark:bg-background dark:shadow-slate-950/20"
@@ -225,7 +220,7 @@ export default function LiveStepPanel({
                 <p className="break-words font-mono text-xs font-semibold uppercase tracking-[0.24em] text-primary">
                   Concept Deep Dive
                 </p>
-                <h3 id="lab-concepts-title" className="mt-2 break-words text-2xl font-semibold text-foreground">
+                <h3 id={conceptsTitleId} className="mt-2 break-words text-2xl font-semibold text-foreground">
                   What this lab is teaching
                 </h3>
                 <p id={conceptsDescriptionId} className="sr-only">

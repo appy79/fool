@@ -149,7 +149,7 @@ export default function ComplexityScene({ isRouteSearch, activeDepth }: Complexi
                   {isRouteSearch ? "over budget" : "conflict"}
                 </div>
               ) : success ? (
-                <div className="mt-0.5 text-[0.55rem] font-black text-amber-300 uppercase tracking-widest animate-pulse">
+                <div className="mt-0.5 text-[0.55rem] font-black text-amber-300 uppercase tracking-widest animate-pulse motion-reduce:animate-none">
                   witness path
                 </div>
               ) : null}

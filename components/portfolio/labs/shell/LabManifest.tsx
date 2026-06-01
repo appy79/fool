@@ -69,10 +69,12 @@ export default function LabManifest({ labs, activeLabId, onSelectLab }: LabManif
 
       if (event.shiftKey && document.activeElement === firstElement) {
         event.preventDefault();
-        lastElement.focus();
+        setIsOpen(false);
+        buttonRef.current?.focus();
       } else if (!event.shiftKey && document.activeElement === lastElement) {
         event.preventDefault();
-        firstElement.focus();
+        setIsOpen(false);
+        buttonRef.current?.focus();
       }
     };
 
@@ -105,7 +107,7 @@ export default function LabManifest({ labs, activeLabId, onSelectLab }: LabManif
           shouldPulseSelectors ? styles.firstLoadPulse : ""
         }`}
         aria-expanded={isOpen}
-        aria-controls={isOpen ? manifestListId : undefined}
+        aria-controls={manifestListId}
         aria-label={`Select lab. ${labs.length} labs available.`}
         onClick={() => setIsOpen((open) => !open)}
       >
@@ -135,7 +137,7 @@ export default function LabManifest({ labs, activeLabId, onSelectLab }: LabManif
               <button
                 key={lab.id}
                 type="button"
-                aria-pressed={active}
+                aria-current={active ? "page" : undefined}
                 className={`grid w-full min-w-0 grid-cols-[3.5rem_4.5rem_minmax(0,1fr)_4.5rem] items-center gap-3 px-3 py-2 text-left transition focus-visible:ring-3 focus-visible:ring-ring/50 ${
                   active ? "bg-primary/5 text-primary" : "text-muted-foreground hover:bg-accent/25 hover:text-foreground"
                 }`}

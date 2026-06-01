@@ -7,7 +7,8 @@ type HeroSectionProps = {
 };
 
 function FormattedLocation({ location }: { location: string }) {
-  const indiaIndex = location.indexOf("India");
+  const indiaMatch = /india/i.exec(location);
+  const indiaIndex = indiaMatch?.index ?? -1;
 
   if (indiaIndex === -1) {
     return location;
@@ -16,10 +17,13 @@ function FormattedLocation({ location }: { location: string }) {
   return (
     <>
       {location.slice(0, indiaIndex)}
-      <span className="text-orange-500">In</span>
-      <span className="text-foreground">d</span>
-      <span className="text-green-600">ia</span>
-      {location.slice(indiaIndex + "India".length)}
+      <span className="sr-only">India</span>
+      <span aria-hidden="true">
+        <span className="text-orange-500">In</span>
+        <span className="text-foreground">d</span>
+        <span className="text-green-600">ia</span>
+      </span>
+      {location.slice(indiaIndex + indiaMatch![0].length)}
     </>
   );
 }
@@ -101,6 +105,7 @@ export default function HeroSection({ contact }: HeroSectionProps) {
                   href={contact.locationHref}
                   target="_blank"
                   rel="noreferrer"
+                  aria-label={`${contact.location}, opens in a new tab`}
                   className="font-semibold text-foreground underline-offset-4 transition hover:text-primary hover:underline focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
                 >
                   <FormattedLocation location={contact.location} />
@@ -146,14 +151,14 @@ export default function HeroSection({ contact }: HeroSectionProps) {
         </div>
 
         <div className="mt-14 border-t border-border/70 pt-7">
-          <div className="grid gap-6 md:grid-cols-3" aria-label="Portfolio highlights">
+          <ul className="grid gap-6 md:grid-cols-3" aria-label="Portfolio highlights">
             {resume.proofPoints.map((point) => (
-              <div key={point.label} className="min-w-0">
+              <li key={point.label} className="min-w-0">
                 <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">{point.label}</p>
                 <p className="mt-2 text-xl font-semibold tracking-[-0.025em] text-foreground">{point.value}</p>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
 
         </div>
       </div>
