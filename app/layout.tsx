@@ -83,14 +83,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </a>
           <Header>
             <HeaderBrand>
-              <Link href="/" className="block truncate text-sm font-semibold uppercase tracking-[0.24em] text-primary transition hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none">
+              <Link href="/" className="block truncate text-sm font-semibold uppercase tracking-[0.22em] text-foreground transition hover:text-primary focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none">
                 {resume.name}
               </Link>
             </HeaderBrand>
             <HeaderNav>
               <nav className="hidden items-center gap-4 md:flex" aria-label="Main navigation">
                 <ResumeDownloadMenu />
-                <Link href="/labs" className="text-sm text-muted-foreground transition hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none">Labs</Link>
+                <Link href="/labs" className="border border-transparent px-2 py-1 text-sm text-muted-foreground transition hover:border-primary/40 hover:bg-accent/25 hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none">Labs</Link>
               </nav>
               <ThemeToggle />
             </HeaderNav>

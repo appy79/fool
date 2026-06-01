@@ -71,30 +71,33 @@ export default function HeroSection({ contact }: HeroSectionProps) {
 
   return (
     <section className="scroll-mt-24 text-foreground" id="home">
-      <div className="border-y border-primary/25 py-12 sm:py-16">
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(19rem,0.34fr)] lg:items-start">
-          <div className="flex min-w-0 flex-col gap-10">
-            <div className="max-w-4xl space-y-6">
-              <h1 className="max-w-5xl break-words text-4xl font-semibold tracking-tight text-foreground [overflow-wrap:anywhere] sm:text-5xl lg:text-6xl">
+      <div className="border-b border-border/70 pb-14 pt-4 sm:pb-16">
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(19rem,0.32fr)] lg:items-start">
+          <div className="flex min-w-0 flex-col gap-9">
+            <div className="max-w-4xl space-y-5">
+              <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-primary">
+                backend / distributed systems / platform tooling
+              </p>
+              <h1 className="max-w-5xl break-words text-4xl font-semibold tracking-[-0.045em] text-foreground [overflow-wrap:anywhere] sm:text-5xl lg:text-6xl">
                 Full-stack systems for telecom-scale platforms.
               </h1>
-              <p className="max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg">
+              <p className="max-w-3xl text-base leading-8 text-muted-foreground sm:text-lg">
                 Backend, platform tooling, and readable interfaces for systems that need to stay reliable at scale.
               </p>
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row">
-              <Button asChild className="font-mono uppercase tracking-[0.16em]">
+              <Button asChild size="lg" className="font-mono uppercase tracking-[0.16em]">
                 <a href="#work">View Work</a>
               </Button>
-              <Button asChild variant="outline" className="font-mono uppercase tracking-[0.16em]">
+              <Button asChild size="lg" variant="outline" className="font-mono uppercase tracking-[0.16em]">
                 <a href="/labs">Open Labs</a>
               </Button>
             </div>
 
-            <div className="grid gap-6 border-t border-border/70 pt-8 md:grid-cols-3" aria-label="Portfolio highlights">
+            <div className="grid gap-5 border-t border-border/70 pt-7 md:grid-cols-3" aria-label="Portfolio highlights">
               {resume.proofPoints.map((point) => (
-                <div key={point.label} className="border-l border-primary/40 pl-4">
+                <div key={point.label} className="border-l border-border/70 pl-4">
                   <p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-primary">{point.label}</p>
                   <p className="mt-2 text-sm font-semibold text-foreground">{point.value}</p>
                 </div>
@@ -104,7 +107,7 @@ export default function HeroSection({ contact }: HeroSectionProps) {
 
           <aside className="min-w-0 space-y-6">
             <HeroPortraitCard />
-            <div className="space-y-4 border border-border/70 bg-card p-5 dark:bg-background">
+            <div className="space-y-4 border-t border-border/70 pt-5">
               <div className="min-w-0 text-sm leading-6 text-muted-foreground">
                 {contact.locationHref ? (
                   <a
@@ -136,7 +139,7 @@ export default function HeroSection({ contact }: HeroSectionProps) {
                       target="_blank"
                       rel="noreferrer"
                       aria-label={`${social.label}, opens in a new tab`}
-                      className="inline-flex size-8 items-center justify-center border border-border/70 text-primary transition hover:border-primary/60 hover:bg-card hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+                      className="inline-flex size-8 items-center justify-center border border-border/70 text-primary transition hover:border-primary/60 hover:bg-accent/35 hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
                     >
                       {getSocialIcon(social.label) ?? (
                         <span className="font-mono text-[0.6rem] uppercase tracking-[0.12em]">{social.label}</span>

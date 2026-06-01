@@ -34,7 +34,7 @@ export default function LabExhibitControls({
   return (
     <div className="flex w-full flex-wrap items-center gap-3">
       <Button
-        className="h-auto min-w-0 flex-1 whitespace-normal break-words border-primary/35 bg-primary/10 text-primary shadow-sm shadow-primary/10 hover:bg-primary/15 hover:text-primary"
+        className="h-auto min-w-0 flex-1 whitespace-normal break-words border-primary/30 bg-primary/5 text-primary hover:bg-accent/35 hover:text-foreground"
         onClick={onPlay}
         disabled={playDisabled}
       >

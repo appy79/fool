@@ -101,7 +101,7 @@ export default function LabManifest({ labs, activeLabId, onSelectLab }: LabManif
       <button
         ref={buttonRef}
         type="button"
-        className={`grid w-full min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border border-primary/35 bg-primary/5 px-3 py-2 text-left transition hover:border-primary/65 hover:bg-primary/10 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 ${
+        className={`grid w-full min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border border-border/70 bg-transparent px-3 py-2 text-left transition hover:border-primary/55 hover:bg-accent/30 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 ${
           shouldPulseSelectors ? styles.firstLoadPulse : ""
         }`}
         aria-expanded={isOpen}
@@ -124,7 +124,7 @@ export default function LabManifest({ labs, activeLabId, onSelectLab }: LabManif
       </button>
 
       {isOpen ? (
-        <div id={manifestListId} ref={panelRef} tabIndex={-1} className="mt-2 border-y border-primary/20 py-2">
+        <div id={manifestListId} ref={panelRef} tabIndex={-1} className="mt-2 border-y border-border/70 py-2">
           <p className="px-3 pb-2 text-[0.62rem] uppercase tracking-[0.22em] text-muted-foreground">
             prime.radiant.manifest
           </p>
@@ -136,8 +136,8 @@ export default function LabManifest({ labs, activeLabId, onSelectLab }: LabManif
                 key={lab.id}
                 type="button"
                 aria-pressed={active}
-                className={`grid w-full min-w-0 grid-cols-[3.5rem_4.5rem_minmax(0,1fr)_4.5rem] items-center gap-3 py-2 text-left transition focus-visible:ring-3 focus-visible:ring-ring/50 ${
-                  active ? "text-primary" : "text-muted-foreground hover:text-foreground"
+                className={`grid w-full min-w-0 grid-cols-[3.5rem_4.5rem_minmax(0,1fr)_4.5rem] items-center gap-3 px-3 py-2 text-left transition focus-visible:ring-3 focus-visible:ring-ring/50 ${
+                  active ? "bg-primary/5 text-primary" : "text-muted-foreground hover:bg-accent/25 hover:text-foreground"
                 }`}
                 onClick={() => {
                   onSelectLab(lab.id);

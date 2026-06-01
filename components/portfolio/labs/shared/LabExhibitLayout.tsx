@@ -81,8 +81,8 @@ export default function LabExhibitLayout({
 
   return (
     <section id={id} className="scroll-mt-24 text-foreground">
-      <div className="min-w-0 space-y-4">
-        <header className="grid min-w-0 gap-4 border-y border-primary/25 py-3 md:grid-cols-[minmax(0,1fr)_minmax(18rem,0.55fr)] md:items-start">
+      <div className="min-w-0 space-y-6">
+        <header className="grid min-w-0 gap-5 border-b border-border/70 pb-6 md:grid-cols-[minmax(0,1fr)_minmax(18rem,0.55fr)] md:items-start">
           <div className="min-w-0 font-mono">
             <div className="flex min-w-0 flex-wrap items-center justify-between gap-3 text-[0.65rem] uppercase tracking-[0.22em]">
               {programManifest ?? (
@@ -91,13 +91,13 @@ export default function LabExhibitLayout({
                 </span>
               )}
             </div>
-            <h1 className="mt-2 min-w-0 break-words text-xl font-semibold tracking-tight text-foreground [overflow-wrap:anywhere] sm:text-2xl">
+            <h1 className="mt-3 min-w-0 break-words text-2xl font-semibold tracking-[-0.03em] text-foreground [overflow-wrap:anywhere] sm:text-3xl">
               {programTitle}
             </h1>
             <p className="mt-2 break-words text-sm leading-6 text-muted-foreground">{programDescription}</p>
           </div>
 
-          <div className="min-w-0 border-t border-border/70 pt-3 md:border-l md:border-t-0 md:pl-4 md:pt-0">
+          <div className="min-w-0 border-t border-border/70 pt-4 md:border-l md:border-t-0 md:pl-5 md:pt-0">
             {moduleSelector}
             <div className="mt-3 space-y-1 text-sm leading-6 text-muted-foreground">
               <p className="break-words font-medium text-foreground">loaded module: {moduleTitle}</p>
@@ -106,7 +106,7 @@ export default function LabExhibitLayout({
           </div>
         </header>
 
-        <div className={`grid min-w-0 items-start gap-5 ${gridClassName}`}>
+        <div className={`grid min-w-0 items-start gap-6 ${gridClassName}`}>
           <div className={styles.sceneStage}>
             <div className={styles.sceneVisual}>
               <div className={styles.sceneNode}>{scene}</div>
@@ -119,7 +119,7 @@ export default function LabExhibitLayout({
           </aside>
         </div>
 
-        <div className="grid min-w-0 items-start gap-5 lg:grid-cols-2">
+        <div className="grid min-w-0 items-start gap-6 lg:grid-cols-2">
           {sidebar ?? (
             signals ? (
               <section className="min-w-0 border-y border-border/70 py-4">
