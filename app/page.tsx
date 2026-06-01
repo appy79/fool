@@ -6,6 +6,29 @@ import PortfolioFooter from "@/components/portfolio/shared/PortfolioFooter";
 import styles from "@/components/portfolio/shared/portfolioTheme.module.css";
 import { resume } from "@/lib/resume";
 
+const absoluteHrefPattern = /^(?:https?:|mailto:|tel:)/i;
+const domainHrefPattern = /^(?:www\.)?[a-z0-9-]+(?:\.[a-z0-9-]+)+(?:[/?#]|$)/i;
+
+const normalizeSocialParameter = (value: string) => value.trim().replace(/^@+/, "").replace(/^\/+|\/+$/g, "");
+
+const resolveSocialHref = (value: string, hrefTemplate?: string) => {
+  const trimmedValue = value.trim();
+
+  if (absoluteHrefPattern.test(trimmedValue)) {
+    return trimmedValue;
+  }
+
+  if (domainHrefPattern.test(trimmedValue)) {
+    return `https://${trimmedValue}`;
+  }
+
+  if (hrefTemplate) {
+    return hrefTemplate.replace("{value}", encodeURIComponent(normalizeSocialParameter(trimmedValue)));
+  }
+
+  return trimmedValue;
+};
+
 export default function Home() {
   const contact = {
     ...resume.contact,
@@ -13,8 +36,14 @@ export default function Home() {
     phone: resume.contact.phoneFromEnv ? process.env[resume.contact.phoneFromEnv] : resume.contact.phone,
     socials: resume.contact.socialsFromEnv
       ? resume.contact.socialsFromEnv
-          .map((social) => ({ label: social.label, href: process.env[social.envKey] }))
-          .filter((social): social is { label: string; href: string } => Boolean(social.href))
+          .map((social) => {
+            const envValue = process.env[social.envKey]?.trim();
+
+            return envValue
+              ? { label: social.label, href: resolveSocialHref(envValue, social.hrefTemplate) }
+              : null;
+          })
+          .filter((social): social is { label: string; href: string } => Boolean(social?.href))
       : resume.contact.socials ?? [],
   };
 

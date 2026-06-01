@@ -1,5 +1,33 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
-  <title id="title">Amandeep Yadav portfolio icon</title>
-  <rect width="64" height="64" rx="16" fill="#0f172a"/>
-  <path d="M18 44L30 16h7l12 28h-7l-2.5-6.5h-12L25 44h-7Zm11.5-12h8L33.5 21.5 29.5 32Z" fill="#f8fafc"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Foundation-inspired portfolio icon</title>
+  <desc id="desc">A Prime Radiant style mark with orbit paths, a star field, and a green computational signal.</desc>
+  <defs>
+    <radialGradient id="core" cx="50%" cy="48%" r="58%">
+      <stop offset="0" stop-color="#00ff66" stop-opacity="0.34"/>
+      <stop offset="0.48" stop-color="#0f3d28" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#050807" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="radiant" x1="17" x2="47" y1="49" y2="15" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#052e1a"/>
+      <stop offset="0.55" stop-color="#0b5b32"/>
+      <stop offset="1" stop-color="#b7ffd2"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="64" height="64" rx="14" fill="#050807"/>
+  <path d="M8 16h48M8 32h48M8 48h48M16 8v48M32 8v48M48 8v48" stroke="#123321" stroke-width="0.7" opacity="0.42"/>
+  <circle cx="32" cy="32" r="28" fill="url(#core)"/>
+
+  <ellipse cx="32" cy="32" rx="25" ry="8.5" fill="none" stroke="#00ff66" stroke-width="1.15" opacity="0.72" transform="rotate(-24 32 32)"/>
+  <ellipse cx="32" cy="32" rx="24" ry="7.5" fill="none" stroke="#d8ffe5" stroke-width="0.85" opacity="0.44" transform="rotate(36 32 32)"/>
+
+  <path d="M32 12 48 49H16L32 12Z" fill="#06130d" stroke="#00ff66" stroke-width="1.35"/>
+  <path d="M32 12v37M19 49l13-37 13 37" stroke="#5cff99" stroke-width="0.8" opacity="0.66"/>
+  <path d="M23 39c4.5-7.5 11.5 3.5 18-9" fill="none" stroke="url(#radiant)" stroke-width="3.8" stroke-linecap="square"/>
+  <path d="M23 39c4.5-7.5 11.5 3.5 18-9" fill="none" stroke="#dfffea" stroke-width="1.15" stroke-linecap="square"/>
+
+  <circle cx="17" cy="19" r="1.25" fill="#dfffea"/>
+  <circle cx="48" cy="18" r="1" fill="#00ff66"/>
+  <circle cx="50" cy="43" r="1.1" fill="#dfffea"/>
+  <circle cx="13" cy="45" r="0.9" fill="#00ff66"/>
 </svg>
