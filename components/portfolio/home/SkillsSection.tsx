@@ -1,62 +1,37 @@
-"use client";
-
-import { useMemo, useState } from "react";
 import { resume } from "@/lib/resume";
 import BrandTechnologyIcon from "./BrandTechnologyIcon";
 
 export default function SkillsSection() {
-  const [activeSkillTitle, setActiveSkillTitle] = useState(resume.skills[0]?.title ?? "");
-  const activeSkill = useMemo(
-    () => resume.skills.find((section) => section.title === activeSkillTitle) ?? resume.skills[0],
-    [activeSkillTitle]
-  );
-
   return (
-    <section id="skills" className="scroll-mt-24 space-y-8">
-      <header className="border-b border-border/70 pb-6">
-        <p className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">working stack</p>
-        <h2 className="mt-2 text-3xl font-semibold tracking-[-0.03em] text-foreground">Stack</h2>
+    <section id="skills" className="scroll-mt-24 space-y-10">
+      <header className="section-header-motion grid gap-4 border-b border-border/70 pb-7 md:grid-cols-[minmax(12rem,0.38fr)_minmax(0,1fr)]">
+        <div>
+          <p className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary">capabilities</p>
+          <h2 className="mt-2 text-4xl font-semibold tracking-[-0.045em] text-foreground">Stack in practice.</h2>
+        </div>
       </header>
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(14rem,0.45fr)_minmax(0,1fr)]">
-        <div
-          className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-1"
-          role="tablist"
-          aria-label="Skill categories"
-        >
-          {resume.skills.map((section) => {
-            const active = section.title === activeSkill.title;
-
-            return (
-              <button
-                key={section.title}
-                type="button"
-                role="tab"
-                aria-selected={active}
-                className={`border px-4 py-3 text-left text-sm font-semibold transition focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 ${
-                  active
-                    ? "border-primary/60 bg-primary/5 text-foreground"
-                    : "border-border/70 bg-transparent text-muted-foreground hover:border-primary/45 hover:bg-accent/25 hover:text-foreground"
-                }`}
-                onClick={() => setActiveSkillTitle(section.title)}
-              >
-                {section.title}
-              </button>
-            );
-          })}
-        </div>
-
-        <div className="border border-border/70 bg-card/60 p-6 dark:bg-background" role="tabpanel" aria-live="polite">
-          <h3 className="text-2xl font-semibold tracking-[-0.03em] text-foreground">{activeSkill.title}</h3>
-          <div className="mt-6 flex flex-wrap gap-3">
-            {activeSkill.items.map((item) => (
-              <span key={item} className="inline-flex items-center gap-2 border border-border/70 bg-transparent px-3 py-2 font-mono text-[0.72rem] font-semibold uppercase tracking-[0.1em] text-muted-foreground">
-                <BrandTechnologyIcon name={item} />
-                {item}
-              </span>
-            ))}
-          </div>
-        </div>
+      <div className="grid gap-x-8 gap-y-8 md:grid-cols-2">
+        {resume.skills.map((section, sectionIndex) => (
+          <section key={section.title} className="relative overflow-hidden border border-border/70 bg-background/35 p-5">
+            <div className="relative">
+              <p className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-primary">capability 0{sectionIndex + 1}</p>
+              <h3 className="mt-2 text-xl font-semibold tracking-[-0.03em] text-foreground">{section.title}</h3>
+              <p className="mt-2 max-w-sm text-sm leading-6 text-muted-foreground">{section.summary}</p>
+            </div>
+            <div className="relative mt-5 flex flex-wrap gap-2">
+              {section.items.map((item) => (
+                <span
+                  key={item}
+                  className="inline-flex items-center gap-2 bg-muted/55 px-3 py-2 font-mono text-[0.72rem] font-semibold uppercase tracking-[0.1em] text-muted-foreground dark:bg-accent/20"
+                >
+                  <BrandTechnologyIcon name={item} />
+                  {item}
+                </span>
+              ))}
+            </div>
+          </section>
+        ))}
       </div>
     </section>
   );
