@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import styles from "./HeroSection.module.css";
+import styles from "./HeroPortraitCard.module.css";
 
 export default function HeroPortraitCard() {
   const [isPinnedRevealed, setIsPinnedRevealed] = useState(false);

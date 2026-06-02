@@ -4,6 +4,7 @@ import * as React from "react";
 import type { CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import usePrefersReducedMotion from "@/components/portfolio/hooks/usePrefersReducedMotion";
 
 type HeaderProps = React.HTMLAttributes<HTMLElement>;
 type RootHeaderProps = HeaderProps & {
@@ -22,6 +23,7 @@ const easeOutCubic = (value: number) => 1 - Math.pow(1 - value, 3);
 function Header({ className, compactActions, children, style, ...props }: RootHeaderProps) {
   const [compactProgress, setCompactProgress] = React.useState(0);
   const frameRef = React.useRef<number | null>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   React.useEffect(() => {
     const updateCompactProgress = () => {
@@ -80,8 +82,11 @@ function Header({ className, compactActions, children, style, ...props }: RootHe
         style={{
           opacity: fullOpacity,
           pointerEvents: compactInteractive ? "none" : undefined,
-          transform: `translateY(${-compactProgress * 14}px) scale(${fullScale})`,
+          transform: prefersReducedMotion
+            ? "none"
+            : `translateY(${-compactProgress * 14}px) scale(${fullScale})`,
           transformOrigin: "top center",
+          transition: prefersReducedMotion ? "none" : undefined,
         }}
       >
         {children}
@@ -95,7 +100,10 @@ function Header({ className, compactActions, children, style, ...props }: RootHe
           style={{
             opacity: compactOpacity,
             pointerEvents: compactInteractive ? undefined : "none",
-            transform: `translateX(-50%) translateY(${(1 - compactProgress) * -16}px) scale(${compactScale})`,
+            transform: prefersReducedMotion
+              ? "translateX(-50%)"
+              : `translateX(-50%) translateY(${(1 - compactProgress) * -16}px) scale(${compactScale})`,
+            transition: prefersReducedMotion ? "none" : undefined,
           }}
         >
           {compactActions}

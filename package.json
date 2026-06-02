@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "engines": {
     "node": ">=20.9.0 <25",
@@ -32,6 +35,7 @@
     "eslint": "^9.39.4",
     "eslint-config-next": "16.2.6",
     "postcss": "8.5.14",
+    "prettier": "^3.8.3",
     "shadcn": "^4.7.0",
     "tailwindcss": "4.3.0",
     "typescript": "6.0.3"

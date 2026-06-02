@@ -44,41 +44,49 @@ export const labExhibits = [
   {
     id: "turing",
     label: "Turing Tape Simulator",
+    opcode: "TM",
     component: TuringTapeExhibit,
   },
   {
     id: "telecom",
     label: "Telecom Core Simulator",
+    opcode: "5GC",
     component: TelecomCoreLab,
   },
   {
     id: "distributed",
     label: "Distributed Consensus Lab",
+    opcode: "RAFT",
     component: DistributedConsensusLab,
   },
   {
     id: "database",
     label: "Database Systems Lab",
+    opcode: "DB",
     component: DatabaseSystemsLab,
   },
   {
     id: "concurrency",
     label: "Concurrency Race Visualizer",
+    opcode: "LOCK",
     component: ConcurrencyRaceLab,
   },
   {
     id: "network",
     label: "Network Edge Lab",
+    opcode: "EDGE",
     component: NetworkEdgeLab,
   },
   {
     id: "complexity",
     label: "P vs NP Puzzle Chamber",
+    opcode: "NP",
     component: ComplexityPuzzleLab,
   },
   {
     id: "patterns",
     label: "Design Patterns Machine",
+    opcode: "GOF",
     component: DesignPatternsMachineLab,
   },
 ] satisfies readonly LabExhibit<LabId>[];
