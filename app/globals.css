@@ -39,7 +39,7 @@
 
 html {
   scroll-behavior: smooth;
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--font-inter), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -60,7 +60,7 @@ body {
 }
 
 @theme inline {
-  --font-sans: var(--font-sans);
+  --font-sans: var(--font-inter);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -226,26 +226,6 @@ body {
   text-transform: uppercase;
   white-space: nowrap;
   box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--primary) 34%, transparent);
-}
-
-.scene-mode-label {
-  left: 0.9rem;
-  bottom: 0.9rem;
-  z-index: 3;
-  max-width: calc(100% - 1.8rem);
-  overflow: hidden;
-  padding: 0.4rem 0.6rem;
-  background: color-mix(in oklch, var(--background) 70%, transparent);
-  color: var(--muted-foreground);
-  font-family: var(--font-mono);
-  font-size: clamp(0.52rem, 1.4vw, 0.64rem);
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  line-height: 1.1;
-  text-overflow: ellipsis;
-  text-transform: uppercase;
-  white-space: nowrap;
-  box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--primary) 24%, transparent);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -444,5 +424,76 @@ body {
   .labs-acceleration-cta:focus-visible::after,
   .labs-acceleration-cta:active::after {
     animation: none;
+  }
+}
+
+/* Project flow scene motifs (home "Project reel" animated diagrams). */
+@keyframes project-flow-pulse {
+  0% { opacity: 0; transform: translateX(0) scale(0.55); }
+  12% { opacity: 1; }
+  78% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(var(--project-flow-distance)) scale(1); }
+}
+
+@keyframes project-line-scan {
+  0%, 100% { opacity: 0.5; transform: scaleX(0.64); }
+  50% { opacity: 1; transform: scaleX(1); }
+}
+
+@keyframes project-dot-chase {
+  0%, 100% { opacity: 0.35; transform: translateY(0) scale(0.78); }
+  45% { opacity: 1; transform: translateY(-4px) scale(1); }
+}
+
+@keyframes project-bar-rise {
+  0%, 100% { opacity: 0.5; transform: scaleY(0.42); }
+  55% { opacity: 1; transform: scaleY(1); }
+}
+
+@keyframes project-worker-tick {
+  0%, 100% { opacity: 0.5; transform: translateY(0) scale(0.96); }
+  50% { opacity: 1; transform: translateY(-3px) scale(1); }
+}
+
+@keyframes project-gauge-sweep {
+  0%, 100% { transform: rotate(-26deg); }
+  50% { transform: rotate(26deg); }
+}
+
+@keyframes project-check-draw {
+  from { stroke-dashoffset: 40; }
+  to { stroke-dashoffset: 0; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .project-flow-pulse {
+    animation: project-flow-pulse 1.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  }
+
+  .project-line-scan {
+    animation: project-line-scan 1.7s ease-in-out infinite;
+    transform-origin: left center;
+  }
+
+  .project-dot-chase {
+    animation: project-dot-chase 1.3s ease-in-out infinite;
+  }
+
+  .project-bar-rise {
+    animation: project-bar-rise 1.6s ease-in-out infinite;
+    transform-origin: bottom center;
+  }
+
+  .project-worker-tick {
+    animation: project-worker-tick 1.5s ease-in-out infinite;
+  }
+
+  .project-gauge-sweep {
+    animation: project-gauge-sweep 1.6s ease-in-out infinite;
+    transform-origin: left center;
+  }
+
+  .project-check-draw {
+    animation: project-check-draw 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 }

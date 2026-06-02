@@ -12,17 +12,6 @@ type LabManifestProps = {
   onSelectLab: (labId: LabId) => void;
 };
 
-const programOpcodes: Record<LabId, string> = {
-  turing: "TM",
-  telecom: "5GC",
-  distributed: "RAFT",
-  database: "DB",
-  concurrency: "LOCK",
-  network: "EDGE",
-  complexity: "NP",
-  patterns: "GOF",
-};
-
 export default function LabManifest({ labs, activeLabId, onSelectLab }: LabManifestProps) {
   const [isOpen, setIsOpen] = useState(false);
   const manifestListId = useId();
@@ -108,7 +97,6 @@ export default function LabManifest({ labs, activeLabId, onSelectLab }: LabManif
         }`}
         aria-expanded={isOpen}
         aria-controls={manifestListId}
-        aria-label={`Select lab. ${labs.length} labs available.`}
         onClick={() => setIsOpen((open) => !open)}
       >
         <span className="min-w-0 text-[0.72rem] uppercase tracking-[0.16em]">
@@ -147,7 +135,7 @@ export default function LabManifest({ labs, activeLabId, onSelectLab }: LabManif
                 }}
               >
                 <span>{String(index + 1).padStart(2, "0")}</span>
-                <span>{programOpcodes[lab.id]}</span>
+                <span>{lab.opcode}</span>
                 <span className="min-w-0 break-words [overflow-wrap:anywhere]">{lab.label}</span>
                 <span className="text-right text-[0.65rem] uppercase tracking-[0.18em]">
                   {active ? "observe" : "load"}

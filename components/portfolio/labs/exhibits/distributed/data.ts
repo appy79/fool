@@ -2,7 +2,7 @@ import type { LabInsight, LabScenarioBase } from "../../types";
 
 export type DistributedEdge = readonly [string, string];
 
-export type DistributedPhase = {
+type DistributedPhase = {
   title: string;
   summary: string;
   activeEdges: readonly DistributedEdge[];

@@ -1,5 +1,5 @@
 import { resume } from "@/lib/resume";
-import BrandTechnologyIcon from "./BrandTechnologyIcon";
+import BrandTechnologyIcon from "../icons/BrandTechnologyIcon";
 
 export default function SkillsSection() {
   return (

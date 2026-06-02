@@ -37,11 +37,17 @@ Open `http://localhost:3000` to view the site.
 ## Project Structure
 
 - `app/` contains the Next.js App Router entrypoints, metadata, providers, and global styles.
+- `app/not-found.tsx` and `app/error.tsx` render branded 404 and 500 screens.
 - `app/robots.ts` and `app/sitemap.ts` generate SEO crawler metadata.
 - `components/portfolio/home/` contains the home page sections: hero, projects/experience, skills, and education.
+- `components/portfolio/home/projects/` holds the animated "Project reel" flow scene (data, scene, motifs, and its phase hook).
 - `components/portfolio/labs/` contains the interactive engineering systems lab shell, registry, shared UI, and exhibits.
+- `components/portfolio/icons/` contains shared icon components (tech badges, social links, nav glyphs).
+- `components/portfolio/hooks/` contains shared client hooks such as `usePrefersReducedMotion`.
+- `components/portfolio/shared/` contains the shared page frame (`PageShell`), footer, and theme module.
 - `components/ui/` contains reusable shadcn-style UI primitives currently used by the app.
 - `lib/resume.ts` is the single source of truth for resume content, featured work, education, and contact configuration.
+- `lib/contact.ts` resolves the contact block from environment variables at request time.
 - `public/` contains static assets used by metadata and browsers.
 
 ## Editing Content
@@ -62,6 +68,8 @@ Section-level marketing copy lives in the matching component under `components/p
 - `npm run build` creates a production build.
 - `npm run start` starts the built app.
 - `npm run lint` runs ESLint.
+- `npm run typecheck` runs the TypeScript compiler with no emit.
+- `npm run format` formats the codebase with Prettier (`npm run format:check` verifies formatting).
 
 ## Validation
 
@@ -69,6 +77,7 @@ Before publishing changes, run:
 
 ```bash
 npm run lint
+npm run typecheck
 npm run build
 ```
 

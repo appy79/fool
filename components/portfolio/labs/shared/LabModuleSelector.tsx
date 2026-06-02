@@ -104,7 +104,6 @@ export default function LabModuleSelector<TItem extends LabModuleSelectorItem>({
         }`}
         aria-expanded={isOpen}
         aria-controls={moduleListId}
-        aria-label={`Select lab module. ${items.length} modules available.`}
         onClick={() => setIsOpen((open) => !open)}
       >
         <span className="min-w-0 text-[0.72rem] uppercase tracking-[0.16em]">

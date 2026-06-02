@@ -1,11 +1,15 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import Link from "next/link";
 import { Providers } from "./providers";
+import { HomeGlyph, LabsGlyph } from "@/components/portfolio/icons/NavIcon";
 import { Header, HeaderBrand, HeaderNav } from "@/components/ui/header";
 import ResumeDownloadMenu from "@/components/ui/resume-download-menu";
 import ThemeToggle from "@/components/ui/theme-toggle";
 import { resume } from "@/lib/resume";
+
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 const siteTitle = `${resume.name} | ${resume.title}`;
@@ -72,7 +76,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang="en" data-scroll-behavior="smooth" className={inter.variable} suppressHydrationWarning>
       <body>
         <Providers>
           <a
@@ -90,11 +94,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   title="Home"
                   className="inline-flex size-9 items-center justify-center border border-transparent text-foreground transition hover:border-primary/50 hover:bg-accent/30 hover:text-primary focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
                 >
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="size-4" aria-hidden="true">
-                    <path d="M4.75 11.25 12 5l7.25 6.25" strokeLinecap="round" strokeLinejoin="round" />
-                    <path d="M6.5 10.5v8.25h11V10.5" strokeLinecap="round" strokeLinejoin="round" />
-                    <path d="M10 18.75v-4.5h4v4.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+                  <HomeGlyph />
                 </Link>
                 <ResumeDownloadMenu variant="icon" />
                 <Link
@@ -103,10 +103,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   title="Labs"
                   className="inline-flex size-9 items-center justify-center border border-transparent text-foreground transition hover:border-primary/50 hover:bg-accent/30 hover:text-primary focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
                 >
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="size-4" aria-hidden="true">
-                    <path d="M9 3.75v5.5L4.75 17a2.25 2.25 0 0 0 1.97 3.25h10.56A2.25 2.25 0 0 0 19.25 17L15 9.25v-5.5" strokeLinecap="round" strokeLinejoin="round" />
-                    <path d="M8 3.75h8M7.2 15.25h9.6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+                  <LabsGlyph />
                 </Link>
                 <ThemeToggle />
               </>

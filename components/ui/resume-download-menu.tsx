@@ -111,7 +111,6 @@ export default function ResumeDownloadMenu({
             ? "relative inline-flex size-9 items-center justify-center border border-transparent text-foreground transition hover:border-primary/50 hover:bg-accent/30 hover:text-primary focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
             : "relative block w-full border border-transparent px-4 py-3 pr-10 text-left text-sm text-muted-foreground transition hover:border-primary/50 hover:bg-accent/30 hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none md:inline-flex md:w-auto md:items-center md:gap-2 md:px-2 md:py-1 md:pr-2"
         )}
-        aria-haspopup="menu"
         aria-controls={menuId}
         aria-expanded={open}
         aria-label={variant === "icon" ? "Open resume download menu" : undefined}
@@ -147,7 +146,8 @@ export default function ResumeDownloadMenu({
         <div
           id={menuId}
           ref={panelRef}
-          role="menu"
+          role="group"
+          aria-label="Résumé downloads"
           tabIndex={-1}
           className={cn(
             "z-50 mt-2 border border-border/70 bg-card/95 p-2 backdrop-blur dark:bg-background/95",
@@ -162,13 +162,12 @@ export default function ResumeDownloadMenu({
               href={option.href}
               target={option.target}
               rel={option.target ? "noreferrer" : undefined}
-              role="menuitem"
-              aria-label={option.target ? `${option.label}, opens in a new tab` : option.label}
               className="block border border-transparent px-3 py-3 transition hover:border-primary/50 hover:bg-accent/25 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
               onClick={() => setOpen(false)}
             >
               <span className="block text-sm font-medium text-foreground">{option.label}</span>
               <span className="mt-1 block text-xs leading-5 text-muted-foreground">{option.detail}</span>
+              {option.target ? <span className="sr-only"> (opens in a new tab)</span> : null}
             </a>
           ))}
         </div>
