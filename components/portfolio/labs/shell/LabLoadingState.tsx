@@ -5,7 +5,7 @@ export default function LabLoadingState() {
       aria-busy="true"
       aria-live="polite"
     >
-      <p className="sr-only">Loading lab program.</p>
+      <h1 className="sr-only">Loading lab program…</h1>
       <div className="space-y-3">
         <div className="h-3 w-32 rounded-full bg-muted" />
         <div className="h-8 w-72 max-w-full rounded-full bg-muted" />

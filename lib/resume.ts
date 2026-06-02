@@ -1,3 +1,14 @@
+export type ProjectVisualKind =
+  | "deployment"
+  | "charging"
+  | "telecom"
+  | "billing"
+  | "ordering"
+  | "media"
+  | "pipeline"
+  | "monetization"
+  | "system";
+
 type SkillCategory = {
   title: string;
   summary: string;
@@ -26,6 +37,7 @@ type ProjectItem = {
   tags: string[];
   labHref: string;
   labLabel: string;
+  visualKind: ProjectVisualKind;
 };
 
 type ProjectDefinition = Omit<ProjectItem, "description"> & {
@@ -48,16 +60,15 @@ type EducationItem = {
 type ContactInfo = {
   location: string;
   locationHref?: string;
+  email?: string;
+  phone?: string;
   socials?: { label: string; href: string }[];
   socialsFromEnv?: { label: string; envKey: string; hrefTemplate?: string }[];
   emailFromEnv?: "CONTACT_EMAIL" | string;
   phoneFromEnv?: "CONTACT_PHONE" | string;
 };
 
-export type ResolvedContactInfo = ContactInfo & {
-  email?: string;
-  phone?: string;
-};
+export type ResolvedContactInfo = ContactInfo;
 
 const experience: ExperienceItem[] = [
   {
@@ -136,6 +147,7 @@ const projectDefinitions: ProjectDefinition[] = [
     labHref: "/labs?lab=concurrency",
     labLabel: "Concurrency Race Visualizer",
     impact: "Reduced developer and tester delivery friction by 20% through faster environment comparison and validation.",
+    visualKind: "deployment",
   },
   {
     title: "AT&T Openet Microservices",
@@ -146,6 +158,7 @@ const projectDefinitions: ProjectDefinition[] = [
     labHref: "/labs?lab=distributed",
     labLabel: "Distributed Consensus Lab",
     impact: "Processed charging/accounting events for 100M+ subscribers with 1M+ events/sec throughput targets.",
+    visualKind: "charging",
   },
   {
     title: "Metro By T-Mobile Platform",
@@ -156,6 +169,7 @@ const projectDefinitions: ProjectDefinition[] = [
     labHref: "/labs?lab=telecom",
     labLabel: "Telecom Core Simulator",
     impact: "Improved service adoption and integration speed during a post-acquisition platform migration.",
+    visualKind: "telecom",
   },
   {
     title: "TMO Digital Billing Aggregation",
@@ -166,6 +180,7 @@ const projectDefinitions: ProjectDefinition[] = [
     labHref: "/labs?lab=patterns",
     labLabel: "Design Patterns Machine",
     impact: "Aggregated 5M+ daily billing records for 40M+ subscribers while improving data sync speed by 50%.",
+    visualKind: "billing",
   },
   {
     title: "NorthStar Ordering Modernization",
@@ -176,6 +191,7 @@ const projectDefinitions: ProjectDefinition[] = [
     labHref: "/labs?lab=concurrency",
     labLabel: "Concurrency Race Visualizer",
     impact: "Supported high-volume enterprise ordering, 99.99% uptime goals, and 4x order throughput improvement.",
+    visualKind: "ordering",
   },
   {
     title: "Media Multiprocessing Service",
@@ -186,6 +202,7 @@ const projectDefinitions: ProjectDefinition[] = [
     labHref: "/labs?lab=concurrency",
     labLabel: "Concurrency Race Visualizer",
     impact: "Increased throughput by approx. 300% for high-volume daily media processing workloads.",
+    visualKind: "media",
   },
   {
     title: "ML Training Data Pipeline",
@@ -196,6 +213,7 @@ const projectDefinitions: ProjectDefinition[] = [
     labHref: "/labs?lab=database",
     labLabel: "Database Systems Lab",
     impact: "Automated ingestion for 1000+ daily records and cut model preparation time by 70%.",
+    visualKind: "pipeline",
   },
   {
     title: "Usage-Based Monetization Service",
@@ -206,6 +224,7 @@ const projectDefinitions: ProjectDefinition[] = [
     labHref: "/labs?lab=database",
     labLabel: "Database Systems Lab",
     impact: "Launched an early monetization service that helped drive $200K initial revenue and faster go-to-market.",
+    visualKind: "monetization",
   },
 ];
 
@@ -243,7 +262,7 @@ export const resume = {
       label: "stack",
       value: "Java + React + Kafka + Kubernetes",
     },
-  ] as ProofPoint[],
+  ] satisfies ProofPoint[],
   skills: [
     {
       title: "Backend & testing",
@@ -265,7 +284,7 @@ export const resume = {
       summary: "Readable interfaces for operational systems.",
       items: ["React.js", "Angular.js", "JavaScript", "TypeScript", "Three.js"],
     },
-  ] as SkillCategory[],
+  ] satisfies SkillCategory[],
   experience,
   education: [
     {
@@ -289,7 +308,7 @@ export const resume = {
       period: "04/2010 - 03/2017",
       location: "Ajmer, India",
     },
-  ] as EducationItem[],
+  ] satisfies EducationItem[],
   projects,
   contact: {
     location: "Pune, MH, India",
@@ -301,5 +320,5 @@ export const resume = {
     ],
     emailFromEnv: "CONTACT_EMAIL",
     phoneFromEnv: "CONTACT_PHONE",
-  } as ResolvedContactInfo,
+  } satisfies ContactInfo,
 };

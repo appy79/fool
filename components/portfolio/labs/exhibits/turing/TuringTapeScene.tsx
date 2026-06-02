@@ -97,7 +97,7 @@ export default function TuringTapeScene({
           <div className="flex items-center gap-4 font-mono text-xs uppercase tracking-[0.22em]">
             {/* Glowing Vacuum Tube indicator lamp representing retro state machinery */}
             <div className="flex gap-1.5 items-center">
-              <span className="text-[0.55rem] text-amber-400/40 font-bold uppercase tracking-widest">VACUUM GLOW:</span>
+              <span className="text-[0.55rem] text-amber-400/80 font-bold uppercase tracking-widest">VACUUM GLOW:</span>
               <div 
                 className="h-6 w-3.5 rounded-t-full rounded-b-sm border border-red-500/50 bg-gradient-to-b from-red-500/80 to-stone-900" 
                 style={{ animation: machineVisualActive ? "turing-valve-glow 1.5s infinite" : "none" }}

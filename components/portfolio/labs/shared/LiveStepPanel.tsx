@@ -124,7 +124,6 @@ export default function LiveStepPanel({
           onClick={() => setIsDetailsOpen((open) => !open)}
           aria-expanded={isDetailsOpen}
           aria-controls={detailsId}
-          aria-label={`${isDetailsOpen ? "Hide" : "Show"} step details`}
           className="min-w-0 flex-1 text-left focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
         >
           <div className="min-w-0">
@@ -151,7 +150,7 @@ export default function LiveStepPanel({
             <p className="break-words font-mono text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
               Step {activeStepIndex + 1} of {insight.steps.length}
             </p>
-            <h3 className="mt-2 break-words text-base font-semibold text-foreground">{activeStep.title}</h3>
+            <h2 className="mt-2 break-words text-base font-semibold text-foreground">{activeStep.title}</h2>
             <p className="mt-2 break-words text-sm leading-6 text-muted-foreground">{activeStep.description}</p>
           </div>
 

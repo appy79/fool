@@ -3,6 +3,8 @@ import type { ComponentType } from "react";
 export type LabExhibit<TId extends string = string> = {
   id: TId;
   label: string;
+  /** Short program mnemonic shown in the lab manifest (e.g. "TM", "RAFT"). */
+  opcode: string;
   component: ComponentType;
 };
 
@@ -79,7 +81,7 @@ export type LabInsightStep = {
   description: string;
 };
 
-export type LabConcept = {
+type LabConcept = {
   title: string;
   description: string;
   bullets: readonly string[];

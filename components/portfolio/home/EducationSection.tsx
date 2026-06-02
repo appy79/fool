@@ -19,9 +19,9 @@ export default function EducationSection() {
               target="_blank"
               rel="noreferrer"
               className="min-w-0 text-sm leading-6 text-muted-foreground underline-offset-4 transition hover:text-primary hover:underline focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
-              aria-label={`${item.school}, opens in a new tab`}
             >
               {item.school} / {item.location}
+              <span className="sr-only"> (opens in a new tab)</span>
             </a>
             <p className="font-mono text-[0.68rem] uppercase tracking-[0.14em] text-primary">{item.period}</p>
           </article>
