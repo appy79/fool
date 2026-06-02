@@ -41,14 +41,17 @@ export default function useFlowPhase(stepCount: number) {
 
     const schedule = () => {
       const isFinal = current === stepCount - 1;
-      timer = window.setTimeout(() => {
-        if (cancelled) {
-          return;
-        }
-        current = (current + 1) % stepCount;
-        setPhase(current);
-        schedule();
-      }, isFinal ? FINAL_STEP_INTERVAL_MS : STEP_INTERVAL_MS);
+      timer = window.setTimeout(
+        () => {
+          if (cancelled) {
+            return;
+          }
+          current = (current + 1) % stepCount;
+          setPhase(current);
+          schedule();
+        },
+        isFinal ? FINAL_STEP_INTERVAL_MS : STEP_INTERVAL_MS,
+      );
     };
 
     schedule();

@@ -24,10 +24,17 @@ export default function HeroPortraitCard() {
   };
 
   return (
-    <figure className="relative overflow-hidden">
+    <figure className="relative">
+      <div className={styles.holoFrame} aria-hidden="true">
+        <span className={`${styles.corner} ${styles.cornerTL}`} />
+        <span className={`${styles.corner} ${styles.cornerTR}`} />
+        <span className={`${styles.corner} ${styles.cornerBL}`} />
+        <span className={`${styles.corner} ${styles.cornerBR}`} />
+        <span className={styles.frameLabel}>prime radiant / visual</span>
+      </div>
       <button
         type="button"
-        className={`${styles.portraitCard} relative block aspect-[4/3] w-full overflow-hidden text-left ring-1 ring-border/70 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none`}
+        className={`${styles.portraitCard} relative block aspect-[4/3] w-full overflow-hidden text-left ring-1 ring-primary/30 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none`}
         aria-expanded={isPinnedRevealed}
         aria-controls={identityRecordId}
         aria-label={isPinnedRevealed ? "Hide Foundation identity record" : "Reveal Foundation identity record"}
@@ -58,7 +65,7 @@ export default function HeroPortraitCard() {
               className={`${styles.portraitImage} h-full w-full object-cover transition`}
             />
             <div className={`${styles.nightOverlay} absolute inset-0 transition`} aria-hidden="true" />
-            <div className={`${styles.signalOverlay} absolute inset-0 transition`} aria-hidden="true" />
+            <div className={`${styles.signalOverlay} pointer-events-none absolute left-0 right-0 transition`} aria-hidden="true" />
             <div className={`${styles.gridOverlay} absolute inset-0 transition`} aria-hidden="true" />
             {!hasViewedBack ? (
               <span className={styles.portraitPrompt} aria-hidden="true">
@@ -92,6 +99,10 @@ export default function HeroPortraitCard() {
           </div>
         </div>
       </button>
+      <figcaption className="mt-3 flex items-center justify-between gap-3 font-mono text-[0.58rem] uppercase tracking-[0.2em] text-muted-foreground">
+        <span>identity record</span>
+        <span className="text-primary">encyclopedia.access</span>
+      </figcaption>
     </figure>
   );
 }

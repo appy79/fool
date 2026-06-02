@@ -2,6 +2,64 @@
   perspective: 1200px;
 }
 
+/* Holographic Prime Radiant framing: corner brackets + a floating spec label. */
+.holoFrame {
+  position: absolute;
+  inset: -7px;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.corner {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+}
+
+.cornerTL {
+  top: 0;
+  left: 0;
+  border-top: 1.5px solid var(--primary);
+  border-left: 1.5px solid var(--primary);
+}
+
+.cornerTR {
+  top: 0;
+  right: 0;
+  border-top: 1.5px solid var(--gold);
+  border-right: 1.5px solid var(--gold);
+}
+
+.cornerBL {
+  bottom: 0;
+  left: 0;
+  border-bottom: 1.5px solid var(--gold);
+  border-left: 1.5px solid var(--gold);
+}
+
+.cornerBR {
+  bottom: 0;
+  right: 0;
+  border-bottom: 1.5px solid var(--primary);
+  border-right: 1.5px solid var(--primary);
+}
+
+.frameLabel {
+  position: absolute;
+  top: -0.55rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0 0.4rem;
+  background: var(--background);
+  color: var(--primary);
+  font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
 .portraitCardInner {
   position: absolute;
   inset: 0;
@@ -166,29 +224,84 @@
 }
 
 .portraitImage {
-  filter: none;
+  filter: saturate(0.96) contrast(1.02);
 }
 
-.nightOverlay,
-.signalOverlay,
+/* Cool cyan/navy holo wash to bind the portrait into the Foundation palette. */
+.nightOverlay {
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklch, var(--primary) 14%, transparent),
+    transparent 38%,
+    color-mix(in oklch, var(--background) 30%, transparent)
+  );
+  mix-blend-mode: multiply;
+  opacity: 0.55;
+}
+
+/* Scanline sweep readout. */
+.signalOverlay {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    color-mix(in oklch, var(--primary) 22%, transparent) 50%,
+    transparent 100%
+  );
+  height: 26%;
+  inset: auto 0 auto 0;
+  top: -26%;
+  opacity: 0.4;
+}
+
+/* Star-chart grid lattice over the portrait. */
 .gridOverlay {
-  opacity: 0;
+  background-image:
+    linear-gradient(color-mix(in oklch, var(--primary) 22%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklch, var(--primary) 22%, transparent) 1px, transparent 1px);
+  background-size: 26px 26px;
+  opacity: 0.14;
 }
 
 :global(.dark) .portraitImage {
-  filter: grayscale(0.5) brightness(1.0) saturate(0.82) contrast(1.06);
+  filter: grayscale(0.45) brightness(1.02) saturate(0.85) contrast(1.08);
 }
 
 :global(.dark) .nightOverlay {
-  opacity: 0;
+  opacity: 0.5;
 }
 
 :global(.dark) .signalOverlay {
-  opacity: 0;
+  opacity: 0.5;
 }
 
 :global(.dark) .gridOverlay {
-  opacity: 0.12;
+  opacity: 0.2;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .signalOverlay {
+    animation: portraitScan 5.5s linear infinite;
+  }
+}
+
+@keyframes portraitScan {
+  0% {
+    top: -26%;
+    opacity: 0;
+  }
+
+  12% {
+    opacity: 0.5;
+  }
+
+  88% {
+    opacity: 0.5;
+  }
+
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -198,5 +311,9 @@
 
   .portraitPrompt {
     animation: none;
+  }
+
+  .signalOverlay {
+    opacity: 0;
   }
 }

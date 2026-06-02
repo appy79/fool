@@ -62,7 +62,11 @@ export default function ProjectFlowScene({ flow }: { flow: ProjectFlow }) {
 
       {flow.edges.map((edge) => {
         const key = edgeKey(edge);
-        const state: EdgeState = flowingEdges.has(key) ? "flow" : doneEdges.has(key) ? "done" : "idle";
+        const state: EdgeState = flowingEdges.has(key)
+          ? "flow"
+          : doneEdges.has(key)
+            ? "done"
+            : "idle";
         const from = nodeById[edge[0]]?.point;
         const to = nodeById[edge[1]]?.point;
         if (!from || !to) return null;
@@ -146,9 +150,14 @@ function ProjectFlowNode({ node, state }: { node: FlowNode; state: NodeState }) 
       className={`absolute z-10 -translate-x-1/2 -translate-y-1/2 transition-all duration-500 motion-reduce:transition-none ${
         active ? "scale-[1.05]" : ""
       }`}
-      style={{ ...scenePointStyle(node.point, CANVAS.width, CANVAS.height), width: node.width ?? 156 }}
+      style={{
+        ...scenePointStyle(node.point, CANVAS.width, CANVAS.height),
+        width: node.width ?? 156,
+      }}
     >
-      {active ? <span className="absolute inset-[-0.7rem] animate-ping rounded-[1.7rem] bg-primary/15 motion-reduce:hidden" /> : null}
+      {active ? (
+        <span className="absolute inset-[-0.7rem] animate-ping rounded-[1.7rem] bg-primary/15 motion-reduce:hidden" />
+      ) : null}
       <div
         className={`relative grid min-h-[96px] content-center gap-2 rounded-2xl border px-3 py-3 text-center shadow-xl transition-all duration-500 motion-reduce:transition-none ${
           active
@@ -158,7 +167,9 @@ function ProjectFlowNode({ node, state }: { node: FlowNode; state: NodeState }) 
               : "border-primary/15 bg-background/45 opacity-55 shadow-none"
         }`}
       >
-        <p className={`truncate font-mono text-[0.6rem] font-black uppercase tracking-[0.16em] ${active || done ? "text-primary" : "text-muted-foreground"}`}>
+        <p
+          className={`truncate font-mono text-[0.6rem] font-black uppercase tracking-[0.16em] ${active || done ? "text-primary" : "text-muted-foreground"}`}
+        >
           {node.label}
         </p>
         <NodeMotif active={active} kind={node.motif} />
@@ -211,7 +222,11 @@ function SceneNarration({
           <span
             key={index}
             className={`h-1 rounded-full transition-all duration-500 motion-reduce:transition-none ${
-              index === phase ? "w-7 bg-primary" : index < phase ? "w-4 bg-primary/55" : "w-4 bg-primary/20"
+              index === phase
+                ? "w-7 bg-primary"
+                : index < phase
+                  ? "w-4 bg-primary/55"
+                  : "w-4 bg-primary/20"
             }`}
           />
         ))}

@@ -94,7 +94,7 @@ function Header({ className, compactActions, children, style, ...props }: RootHe
 
       {hasCompactActions ? (
         <div
-          className="fixed left-1/2 top-2 flex items-center gap-1.5 border border-border/70 bg-card/90 px-2 py-1 shadow-sm backdrop-blur transition-[opacity,transform] duration-700 ease-out dark:bg-background/90"
+          className="fixed left-1/2 top-2 flex items-center gap-1.5 border border-primary/25 bg-card/90 px-2 py-1 shadow-sm backdrop-blur transition-[opacity,transform] duration-700 ease-out dark:bg-background/90"
           aria-hidden={!compactInteractive}
           inert={!compactInteractive ? true : undefined}
           style={{

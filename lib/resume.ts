@@ -49,6 +49,12 @@ type ProofPoint = {
   value: string;
 };
 
+type TelemetryReading = {
+  label: string;
+  value: string;
+  note: string;
+};
+
 type EducationItem = {
   degree: string;
   school: string;
@@ -146,7 +152,8 @@ const projectDefinitions: ProjectDefinition[] = [
     tags: ["Java", "Spring Boot", "React.js", "Vault", "GitLab"],
     labHref: "/labs?lab=concurrency",
     labLabel: "Concurrency Race Visualizer",
-    impact: "Reduced developer and tester delivery friction by 20% through faster environment comparison and validation.",
+    impact:
+      "Reduced developer and tester delivery friction by 20% through faster environment comparison and validation.",
     visualKind: "deployment",
   },
   {
@@ -157,7 +164,8 @@ const projectDefinitions: ProjectDefinition[] = [
     tags: ["Java", "Kafka", "Kubernetes", "Cassandra", "Redis"],
     labHref: "/labs?lab=distributed",
     labLabel: "Distributed Consensus Lab",
-    impact: "Processed charging/accounting events for 100M+ subscribers with 1M+ events/sec throughput targets.",
+    impact:
+      "Processed charging/accounting events for 100M+ subscribers with 1M+ events/sec throughput targets.",
     visualKind: "charging",
   },
   {
@@ -168,7 +176,8 @@ const projectDefinitions: ProjectDefinition[] = [
     tags: ["Java", "Angular.js", "Kafka", "Jenkins", "Kubernetes"],
     labHref: "/labs?lab=telecom",
     labLabel: "Telecom Core Simulator",
-    impact: "Improved service adoption and integration speed during a post-acquisition platform migration.",
+    impact:
+      "Improved service adoption and integration speed during a post-acquisition platform migration.",
     visualKind: "telecom",
   },
   {
@@ -179,7 +188,8 @@ const projectDefinitions: ProjectDefinition[] = [
     tags: ["Java", "Spring Boot", "Kafka", "Redis", "GitLab CI", "Kubernetes"],
     labHref: "/labs?lab=patterns",
     labLabel: "Design Patterns Machine",
-    impact: "Aggregated 5M+ daily billing records for 40M+ subscribers while improving data sync speed by 50%.",
+    impact:
+      "Aggregated 5M+ daily billing records for 40M+ subscribers while improving data sync speed by 50%.",
     visualKind: "billing",
   },
   {
@@ -190,7 +200,8 @@ const projectDefinitions: ProjectDefinition[] = [
     tags: ["Java", "Spring Boot", "Kafka", "Camunda", "Couchbase", "PostgreSQL"],
     labHref: "/labs?lab=concurrency",
     labLabel: "Concurrency Race Visualizer",
-    impact: "Supported high-volume enterprise ordering, 99.99% uptime goals, and 4x order throughput improvement.",
+    impact:
+      "Supported high-volume enterprise ordering, 99.99% uptime goals, and 4x order throughput improvement.",
     visualKind: "ordering",
   },
   {
@@ -201,7 +212,8 @@ const projectDefinitions: ProjectDefinition[] = [
     tags: ["Python", "Flask", "FFmpeg", "Multiprocessing"],
     labHref: "/labs?lab=concurrency",
     labLabel: "Concurrency Race Visualizer",
-    impact: "Increased throughput by approx. 300% for high-volume daily media processing workloads.",
+    impact:
+      "Increased throughput by approx. 300% for high-volume daily media processing workloads.",
     visualKind: "media",
   },
   {
@@ -223,15 +235,14 @@ const projectDefinitions: ProjectDefinition[] = [
     tags: ["Python", "Flask", "AWS", "Docker", "ER/UML"],
     labHref: "/labs?lab=database",
     labLabel: "Database Systems Lab",
-    impact: "Launched an early monetization service that helped drive $200K initial revenue and faster go-to-market.",
+    impact:
+      "Launched an early monetization service that helped drive $200K initial revenue and faster go-to-market.",
     visualKind: "monetization",
   },
 ];
 
 const getExperienceProjectDescription = (title: string) => {
-  const project = experience
-    .flatMap((item) => item.projects)
-    .find((item) => item.title === title);
+  const project = experience.flatMap((item) => item.projects).find((item) => item.title === title);
 
   if (!project) {
     throw new Error(`Project source not found: ${title}`);
@@ -263,6 +274,13 @@ export const resume = {
       value: "Java + React + Kafka + Kubernetes",
     },
   ] satisfies ProofPoint[],
+  // Honest career-peak readouts for the operations console telemetry board (not live data).
+  telemetry: [
+    { label: "subscribers served", value: "100M+", note: "carrier-scale charging" },
+    { label: "peak throughput", value: "1M+/s", note: "rated events" },
+    { label: "uptime target", value: "99.99%", note: "ordering + charging" },
+    { label: "records / day", value: "5M+", note: "billing aggregation" },
+  ] satisfies TelemetryReading[],
   skills: [
     {
       title: "Backend & testing",
@@ -272,7 +290,18 @@ export const resume = {
     {
       title: "Data & systems",
       summary: "Event flows, storage tradeoffs, and fundamentals.",
-      items: ["Kafka", "Redis", "Cassandra DB", "Couchbase", "PostgreSQL", "SQL & NoSQL DBs", "DSA", "OOP", "Operating Systems", "Computer Networks"],
+      items: [
+        "Kafka",
+        "Redis",
+        "Cassandra DB",
+        "Couchbase",
+        "PostgreSQL",
+        "SQL & NoSQL DBs",
+        "DSA",
+        "OOP",
+        "Operating Systems",
+        "Computer Networks",
+      ],
     },
     {
       title: "Cloud & delivery",
@@ -315,8 +344,16 @@ export const resume = {
     locationHref: "https://www.google.com/maps/search/?api=1&query=Amdocs%20DVCI%20India",
     socialsFromEnv: [
       { label: "GitHub", envKey: "SOCIAL_GITHUB", hrefTemplate: "https://github.com/{value}" },
-      { label: "LinkedIn", envKey: "SOCIAL_LINKEDIN", hrefTemplate: "https://www.linkedin.com/in/{value}" },
-      { label: "LeetCode", envKey: "SOCIAL_LEETCODE", hrefTemplate: "https://leetcode.com/u/{value}" },
+      {
+        label: "LinkedIn",
+        envKey: "SOCIAL_LINKEDIN",
+        hrefTemplate: "https://www.linkedin.com/in/{value}",
+      },
+      {
+        label: "LeetCode",
+        envKey: "SOCIAL_LEETCODE",
+        hrefTemplate: "https://leetcode.com/u/{value}",
+      },
     ],
     emailFromEnv: "CONTACT_EMAIL",
     phoneFromEnv: "CONTACT_PHONE",

@@ -96,7 +96,14 @@ export default function NodeMotif({ active, kind }: { active: boolean; kind: Mot
   // check
   return (
     <svg className="mx-auto h-10 w-10 text-primary" fill="none" viewBox="0 0 36 36">
-      <circle cx="18" cy="18" r="15" stroke="currentColor" strokeOpacity={active ? 0.5 : 0.3} strokeWidth="2" />
+      <circle
+        cx="18"
+        cy="18"
+        r="15"
+        stroke="currentColor"
+        strokeOpacity={active ? 0.5 : 0.3}
+        strokeWidth="2"
+      />
       <path
         className={active ? "project-check-draw" : ""}
         d="M11 18.5 L16 23.5 L25 13"
