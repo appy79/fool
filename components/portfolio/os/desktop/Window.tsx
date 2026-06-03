@@ -13,8 +13,26 @@ const MENU_H = 40;
 const DOCK_H = 92;
 const MIN_W = 360;
 const MIN_H = 260;
+// Keep at least this much gap from the viewport edges when growing right/down.
+const EDGE_GAP = 8;
 
 const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
+
+type ResizeDir = "n" | "s" | "e" | "w" | "ne" | "nw" | "se" | "sw";
+
+// Eight drag zones: thin edge strips plus larger corner squares. Corners sit above the
+// edges (z-10) so they win where they overlap. Rendered as divs (not buttons) so the
+// global `button { cursor: pointer }` reset doesn't override the resize cursors.
+const RESIZE_HANDLES: { dir: ResizeDir; className: string }[] = [
+  { dir: "n", className: "inset-x-0 top-0 h-2 cursor-ns-resize" },
+  { dir: "s", className: "inset-x-0 bottom-0 h-2 cursor-ns-resize" },
+  { dir: "w", className: "inset-y-0 left-0 w-2 cursor-ew-resize" },
+  { dir: "e", className: "inset-y-0 right-0 w-2 cursor-ew-resize" },
+  { dir: "nw", className: "left-0 top-0 z-10 size-4 cursor-nwse-resize" },
+  { dir: "ne", className: "right-0 top-0 z-10 size-4 cursor-nesw-resize" },
+  { dir: "sw", className: "bottom-0 left-0 z-10 size-4 cursor-nesw-resize" },
+  { dir: "se", className: "bottom-0 right-0 z-10 size-4 cursor-nwse-resize" },
+];
 
 export default function Window({ win, app }: { win: WindowState; app: AppDefinition }) {
   const {
@@ -56,22 +74,44 @@ export default function Window({ win, app }: { win: WindowState; app: AppDefinit
     window.addEventListener("pointerup", onUp);
   };
 
-  const startResize = (event: ReactPointerEvent) => {
+  const startResize = (dir: ResizeDir) => (event: ReactPointerEvent) => {
     if (win.maximized) return;
     event.stopPropagation();
+    event.preventDefault();
     focusWindow(win.key);
     const startX = event.clientX;
     const startY = event.clientY;
+    const origX = win.x;
+    const origY = win.y;
     const origW = win.w;
     const origH = win.h;
+    // Edges opposite the dragged handle stay anchored.
+    const right = origX + origW;
+    const bottom = origY + origH;
+
     const onMove = (ev: PointerEvent) => {
-      const nw = clamp(origW + (ev.clientX - startX), MIN_W, window.innerWidth - win.x - 12);
-      const nh = clamp(
-        origH + (ev.clientY - startY),
-        MIN_H,
-        window.innerHeight - win.y - DOCK_H - 8,
-      );
-      resizeWindow(win.key, nw, nh);
+      const dx = ev.clientX - startX;
+      const dy = ev.clientY - startY;
+      let x = origX;
+      let y = origY;
+      let w = origW;
+      let h = origH;
+
+      if (dir.includes("e")) {
+        w = clamp(origW + dx, MIN_W, window.innerWidth - origX - EDGE_GAP);
+      }
+      if (dir.includes("s")) {
+        h = clamp(origH + dy, MIN_H, window.innerHeight - origY - DOCK_H - EDGE_GAP);
+      }
+      if (dir.includes("w")) {
+        x = clamp(origX + dx, 0, right - MIN_W);
+        w = right - x;
+      }
+      if (dir.includes("n")) {
+        y = clamp(origY + dy, MENU_H, bottom - MIN_H);
+        h = bottom - y;
+      }
+      resizeWindow(win.key, w, h, x, y);
     };
     const onUp = () => {
       window.removeEventListener("pointermove", onMove);
@@ -112,7 +152,7 @@ export default function Window({ win, app }: { win: WindowState; app: AppDefinit
         onDoubleClick={() => toggleMaximize(win.key)}
       >
         <div
-          className={`flex origin-left items-center gap-2.5 transition duration-150 ease-out group-hover/title:scale-[1.18] ${
+          className={`relative z-20 flex origin-left items-center gap-2.5 transition duration-150 ease-out group-hover/title:scale-[1.18] ${
             focused ? "" : "opacity-55"
           }`}
         >
@@ -163,14 +203,20 @@ export default function Window({ win, app }: { win: WindowState; app: AppDefinit
       <div ref={slotRef} className="min-h-0 flex-1 overflow-auto bg-background/40" />
 
       {!win.maximized ? (
-        <button
-          type="button"
-          aria-label={`Resize ${app.title}`}
-          onPointerDown={startResize}
-          className="absolute bottom-0 right-0 size-5 cursor-nwse-resize touch-none rounded-tl focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:outline-none"
-        >
-          <span className="absolute bottom-1 right-1 size-2.5 border-b-2 border-r-2 border-muted-foreground/50" />
-        </button>
+        <>
+          {RESIZE_HANDLES.map((handle) => (
+            <div
+              key={handle.dir}
+              aria-hidden="true"
+              onPointerDown={startResize(handle.dir)}
+              className={`absolute touch-none ${handle.className}`}
+            />
+          ))}
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute bottom-1 right-1 size-2.5 border-b-2 border-r-2 border-muted-foreground/50"
+          />
+        </>
       ) : null}
     </section>
   );

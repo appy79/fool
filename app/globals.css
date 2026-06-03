@@ -577,6 +577,20 @@ body {
   .os-dock-item:hover {
     transform: translateY(-6px) scale(1.12);
   }
+
+  .os-dock-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklab, currentColor 28%, transparent) transparent;
+  }
+
+  .os-dock-scroll::-webkit-scrollbar {
+    height: 5px;
+  }
+
+  .os-dock-scroll::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    background: color-mix(in oklab, currentColor 28%, transparent);
+  }
 }
 
 @keyframes os-enter {

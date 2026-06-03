@@ -90,7 +90,7 @@ function SystemMenu() {
           aria-label="TerminusOS"
           className="os-window-in absolute left-0 top-[calc(100%+0.4rem)] z-[9100] w-56 overflow-hidden rounded-xl border border-border/70 bg-card/95 p-1 shadow-2xl ring-1 ring-primary/10 backdrop-blur-md dark:ring-primary/20"
         >
-          <MenuItem onSelect={() => run(() => openApp("system"))}>About this system</MenuItem>
+          <MenuItem onSelect={() => run(() => openApp("operator"))}>About the operator</MenuItem>
           <MenuItem onSelect={() => run(() => openApp("settings"))}>Settings…</MenuItem>
           <div className="my-1 h-px bg-border/60" role="separator" />
           <MenuItem disabled={!hasWindows} onSelect={() => run(closeAllWindows)}>

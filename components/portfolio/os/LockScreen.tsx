@@ -17,9 +17,9 @@ type LockScreenProps = {
 export default function LockScreen({ contact, onEnter, preloadShells }: LockScreenProps) {
   const { installedApps, hydrated } = useOSSettings();
 
-  // Modules that should be present on entry: the auto-opened System app plus the
+  // Modules that should be present on entry: the auto-opened operator profile plus the
   // visitor's installed user modules (defaults for a first-timer, or their stored set).
-  const bootIds = useMemo(() => ["system", ...installedApps], [installedApps]);
+  const bootIds = useMemo(() => ["operator", ...installedApps], [installedApps]);
   const moduleTotal = bootIds.length;
 
   const [shellReady, setShellReady] = useState(false);

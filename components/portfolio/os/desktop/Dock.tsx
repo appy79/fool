@@ -13,9 +13,11 @@ import { useOSSettings } from "../osSettings";
 import { useOS } from "../osStore";
 
 // macOS-style dock magnification tuning.
-const ICON_BASE = 44; // px — matches the resting icon size (size-11)
+const ICON_BASE = 44; // px — resting icon size when there is room to spare
+const ICON_MIN = 30; // px — smallest the icons shrink to before the dock scrolls
 const MAX_SCALE = 1.7; // peak magnification directly under the cursor
 const RADIUS = 120; // px of influence on either side of the cursor
+const DOCK_GUTTER = 28; // px reserved on the sides so the pill never touches the edge
 
 // Smooth cosine bump: 1 directly under the cursor, easing to 0 at the radius edge.
 function magnify(distance: number) {
@@ -39,6 +41,30 @@ export default function Dock() {
   const [pointer, setPointer] = useState<number | null>(null);
   // Each icon's resting center, so magnification never feeds back into itself.
   const [centers, setCenters] = useState<number[]>([]);
+  // Resting icon size, shrunk so every installed app fits on one row.
+  const [iconSize, setIconSize] = useState(ICON_BASE);
+  const iconSizeRef = useRef(ICON_BASE);
+  // Last-resort horizontal scroll when even the smallest icons overflow.
+  const [scrollable, setScrollable] = useState(false);
+
+  useEffect(() => {
+    iconSizeRef.current = iconSize;
+  }, [iconSize]);
+
+  // Fit the resting dock to the available width. The non-icon width (gaps, padding,
+  // dividers) is invariant of icon size, so one measurement solves the target size.
+  const fit = useCallback(() => {
+    const nav = navRef.current;
+    const count = itemRefs.current.filter(Boolean).length;
+    if (!nav || count === 0) return;
+    const available = (nav.parentElement?.clientWidth ?? window.innerWidth) - DOCK_GUTTER;
+    const overhead = nav.scrollWidth - count * iconSizeRef.current;
+    const fitted = (available - overhead) / count;
+    const needsScroll = fitted < ICON_MIN;
+    const next = needsScroll ? ICON_MIN : Math.min(ICON_BASE, Math.floor(fitted));
+    setScrollable(needsScroll);
+    setIconSize((prev) => (Math.abs(prev - next) >= 1 ? next : prev));
+  }, []);
 
   const measure = useCallback(() => {
     const nav = navRef.current;
@@ -54,11 +80,15 @@ export default function Dock() {
   }, []);
 
   useEffect(() => {
-    if (reduceMotion) return;
+    fit();
+    window.addEventListener("resize", fit);
+    return () => window.removeEventListener("resize", fit);
+  }, [fit, visibleApps.length]);
+
+  // Re-cache icon centers whenever the resting layout changes.
+  useEffect(() => {
     measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, [measure, reduceMotion, visibleApps.length]);
+  }, [measure, iconSize, visibleApps.length]);
 
   useEffect(
     () => () => {
@@ -67,8 +97,10 @@ export default function Dock() {
     [],
   );
 
+  const magnifyOff = reduceMotion || scrollable;
+
   const handleMove = (event: ReactPointerEvent<HTMLElement>) => {
-    if (reduceMotion || event.pointerType !== "mouse") return;
+    if (magnifyOff || event.pointerType !== "mouse") return;
     const nav = navRef.current;
     if (!nav) return;
     const x = event.clientX - nav.getBoundingClientRect().left;
@@ -88,15 +120,16 @@ export default function Dock() {
       onPointerMove={handleMove}
       onPointerLeave={handleLeave}
       onPointerCancel={handleLeave}
-      className="absolute inset-x-0 bottom-3 z-[9000] mx-auto flex w-fit max-w-[calc(100vw-1.5rem)] items-end gap-1.5 rounded-2xl border border-border/60 bg-card/70 px-2.5 py-2 shadow-2xl backdrop-blur-md"
+      className={`os-dock-scroll absolute inset-x-0 bottom-3 z-[9000] mx-auto flex w-fit max-w-[calc(100vw-1.5rem)] items-end gap-1.5 rounded-2xl border border-border/60 bg-card/70 px-2.5 py-2 shadow-2xl backdrop-blur-md ${
+        scrollable ? "overflow-x-auto" : ""
+      }`}
     >
       {visibleApps.map((app, index) => {
         const external = Boolean(app.href && app.external);
         const tooltip = external ? `${app.title} ↗` : app.title;
 
-        const scale =
-          pointer == null || reduceMotion ? 1 : magnify(pointer - (centers[index] ?? 0));
-        const lift = (scale - 1) * ICON_BASE; // how far the icon overflows upward
+        const scale = pointer == null || magnifyOff ? 1 : magnify(pointer - (centers[index] ?? 0));
+        const lift = (scale - 1) * iconSize; // how far the icon overflows upward
         const spread = lift / 2; // margin that pushes neighbours apart symmetrically
 
         const content = (
@@ -108,8 +141,8 @@ export default function Dock() {
               {tooltip}
             </span>
             <span
-              className="grid size-11 origin-bottom place-items-center rounded-2xl border border-border/60 bg-gradient-to-b from-card/85 to-background/40 text-primary shadow-sm transition-[border-color,background-color,box-shadow,transform] duration-150 ease-out group-hover:border-primary/60 group-hover:from-primary/15 group-hover:to-card/60 group-focus-visible:ring-3 group-focus-visible:ring-ring/60"
-              style={{ transform: `scale(${scale})` }}
+              className="grid origin-bottom shrink-0 place-items-center rounded-2xl border border-border/60 bg-gradient-to-b from-card/85 to-background/40 text-primary shadow-sm transition-[border-color,background-color,box-shadow,transform] duration-150 ease-out group-hover:border-primary/60 group-hover:from-primary/15 group-hover:to-card/60 group-focus-visible:ring-3 group-focus-visible:ring-ring/60"
+              style={{ width: iconSize, height: iconSize, transform: `scale(${scale})` }}
             >
               <app.Icon className="size-5" />
             </span>

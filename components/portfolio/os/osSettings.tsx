@@ -32,7 +32,7 @@ export type WallpaperId = (typeof WALLPAPERS)[number]["id"];
 const WALLPAPER_IDS = WALLPAPERS.map((wallpaper) => wallpaper.id);
 
 /** User-app modules installed by default on a first visit. */
-export const DEFAULT_INSTALLED_APPS = ["terminal"] as const;
+export const DEFAULT_INSTALLED_APPS = [] as const;
 
 type Settings = {
   wallpaper: WallpaperId;

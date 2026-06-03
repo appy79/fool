@@ -1,6 +1,5 @@
 import dynamic from "next/dynamic";
 import type { ComponentType } from "react";
-import { PrimeRadiantGlyph } from "../icons/FoundationMotifs";
 import {
   ActivityIcon,
   CasesIcon,
@@ -22,7 +21,6 @@ import type { AppComponentProps, AppDefinition } from "./osStore";
  * initial bundle; only this lightweight metadata + icons load up front.
  */
 const loaders = {
-  system: () => import("./apps/systemApps/SystemApp"),
   operator: () => import("./apps/systemApps/OperatorApp"),
   cases: () => import("./apps/systemApps/CaseFilesApp"),
   activity: () => import("./apps/systemApps/ActivityApp"),
@@ -30,6 +28,7 @@ const loaders = {
   terminal: () => import("./apps/userApps/TerminalApp"),
   colophon: () => import("./apps/userApps/ColophonApp"),
   forecast: () => import("./apps/userApps/PsychohistoryApp"),
+  labs: () => import("./apps/userApps/LabsApp"),
   resume: () => import("./apps/systemApps/ResumeApp"),
   settings: () => import("./apps/systemApps/SettingsApp"),
   appstore: () => import("./apps/systemApps/AppStoreApp"),
@@ -55,15 +54,6 @@ export function preloadApp(id: string): Promise<unknown> | undefined {
 }
 
 export const APPS: AppDefinition[] = [
-  {
-    id: "system",
-    title: "System",
-    shortLabel: "System",
-    kind: "system",
-    Icon: PrimeRadiantGlyph,
-    component: appComponent("system"),
-    defaultSize: { w: 980, h: 660 },
-  },
   {
     id: "operator",
     title: "Operator",
@@ -156,10 +146,11 @@ export const APPS: AppDefinition[] = [
   {
     id: "labs",
     title: "Labs",
-    kind: "system",
+    kind: "user",
+    description: "Interactive engineering-systems exhibits.",
     Icon: LabsAppIcon,
-    href: "/labs",
-    external: true,
+    component: appComponent("labs"),
+    defaultSize: { w: 1000, h: 700 },
   },
   {
     id: "casefile",

@@ -10,11 +10,11 @@ export default function DesktopOS() {
   const { windows, openApp } = useOS();
   const booted = useRef(false);
 
-  // Open the centerpiece System app once on entry so the desktop is never empty.
+  // Open the operator profile once on entry so the desktop is never empty.
   useEffect(() => {
     if (booted.current) return;
     booted.current = true;
-    openApp("system");
+    openApp("operator");
   }, [openApp]);
 
   const hasVisibleWindow = windows.some((win) => !win.minimized);

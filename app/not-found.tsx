@@ -31,12 +31,6 @@ export default function NotFound() {
           >
             Return to Terminus
           </Link>
-          <Link
-            href="/labs"
-            className="border-b border-primary/60 px-1 py-2 text-primary transition hover:border-foreground hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
-          >
-            Open the labs
-          </Link>
         </div>
       </section>
     </PageShell>
