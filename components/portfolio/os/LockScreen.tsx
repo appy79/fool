@@ -3,7 +3,8 @@
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 import { resume, type ResolvedContactInfo } from "@/lib/resume";
 import { OrbitalRing, PrimeRadiantGlyph } from "../icons/FoundationMotifs";
-import SocialIcon from "../icons/SocialIcon";
+import CopyEmailButton from "./CopyEmailButton";
+import SocialLinks from "./SocialLinks";
 import { APPS, preloadApp } from "./appRegistry";
 import { useOSSettings } from "./osSettings";
 
@@ -79,13 +80,6 @@ export default function LockScreen({ contact, onEnter, preloadShells }: LockScre
     };
   }, [hydrated, bootIds, preloadShells]);
 
-  const contactLinks = [
-    contact.email ? { label: contact.email, href: `mailto:${contact.email}` } : null,
-    contact.phone
-      ? { label: contact.phone, href: `tel:${contact.phone.replace(/\s+/g, "")}` }
-      : null,
-  ].filter((item): item is { label: string; href: string } => Boolean(item));
-
   const systemCount = APPS.filter((app) => app.kind === "system" && !app.hidden).length;
   const userInstalled = APPS.filter(
     (app) => app.kind === "user" && installedApps.includes(app.id),
@@ -152,29 +146,17 @@ export default function LockScreen({ contact, onEnter, preloadShells }: LockScre
                 ) : (
                   <span className="font-semibold text-foreground">{contact.location}</span>
                 )}
-                {contactLinks.map((item) => (
+                {contact.email ? <CopyEmailButton email={contact.email} variant="inline" /> : null}
+                {contact.phone ? (
                   <a
-                    key={item.label}
-                    href={item.href}
+                    href={`tel:${contact.phone.replace(/\s+/g, "")}`}
                     className="break-words font-mono underline-offset-4 transition hover:text-primary hover:underline focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
                   >
-                    {item.label}
+                    {contact.phone}
                   </a>
-                ))}
-                {contact.socials?.map((social) => (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={`${social.label}, opens in a new tab`}
-                    className="inline-flex items-center gap-2 underline-offset-4 transition hover:text-primary hover:underline focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
-                  >
-                    <SocialIcon label={social.label} />
-                    <span>{social.label}</span>
-                  </a>
-                ))}
+                ) : null}
               </div>
+              <SocialLinks socials={contact.socials} className="mt-3.5" />
             </div>
           </div>
 

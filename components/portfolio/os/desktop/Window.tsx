@@ -7,14 +7,16 @@ import {
   useRef,
 } from "react";
 import { useAppSlot } from "../AppRuntime";
-import { type AppDefinition, useOS, type WindowState } from "../osStore";
-
-const MENU_H = 40;
-const DOCK_H = 92;
-const MIN_W = 360;
-const MIN_H = 260;
-// Keep at least this much gap from the viewport edges when growing right/down.
-const EDGE_GAP = 8;
+import {
+  type AppDefinition,
+  DOCK_H,
+  EDGE_GAP,
+  MENU_H,
+  MIN_H,
+  MIN_W,
+  useOS,
+  type WindowState,
+} from "../osStore";
 
 const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
 
@@ -200,7 +202,7 @@ export default function Window({ win, app }: { win: WindowState; app: AppDefinit
         </div>
       </header>
 
-      <div ref={slotRef} className="min-h-0 flex-1 overflow-auto bg-background/40" />
+      <div ref={slotRef} className="@container min-h-0 flex-1 overflow-auto bg-background/40" />
 
       {!win.maximized ? (
         <>

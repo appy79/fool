@@ -3,4 +3,6 @@ export const copy = {
   title: "Subsystems",
   layerPrefix: "layer",
   status: "nominal",
+  subsystemsLabel: "subsystems",
+  componentsLabel: "components",
 };

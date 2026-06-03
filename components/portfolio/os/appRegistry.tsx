@@ -32,7 +32,6 @@ const loaders = {
   resume: () => import("./apps/systemApps/ResumeApp"),
   settings: () => import("./apps/systemApps/SettingsApp"),
   appstore: () => import("./apps/systemApps/AppStoreApp"),
-  casefile: () => import("./apps/systemApps/CaseFileApp"),
 };
 
 function AppLoading() {
@@ -69,7 +68,7 @@ export const APPS: AppDefinition[] = [
     kind: "system",
     Icon: CasesIcon,
     component: appComponent("cases"),
-    defaultSize: { w: 780, h: 600 },
+    defaultSize: { w: 820, h: 660 },
   },
   {
     id: "activity",
@@ -151,15 +150,6 @@ export const APPS: AppDefinition[] = [
     Icon: LabsAppIcon,
     component: appComponent("labs"),
     defaultSize: { w: 1000, h: 700 },
-  },
-  {
-    id: "casefile",
-    title: "Case File",
-    kind: "system",
-    Icon: CasesIcon,
-    component: appComponent("casefile"),
-    defaultSize: { w: 800, h: 640 },
-    hidden: true,
   },
 ];
 

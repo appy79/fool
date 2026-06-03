@@ -5,12 +5,12 @@ import { copy } from "./data";
 
 export default function ResumeApp() {
   return (
-    <div className="space-y-5 p-5 sm:p-7">
+    <div className="space-y-5 p-4 @lg:p-7">
       <header>
         <span className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-primary">
           {copy.eyebrow}
         </span>
-        <h1 className="mt-2 font-display text-2xl font-semibold tracking-[-0.03em] text-foreground">
+        <h1 className="mt-2 font-display text-xl font-semibold tracking-[-0.03em] text-foreground @sm:text-2xl">
           {copy.title}
         </h1>
       </header>

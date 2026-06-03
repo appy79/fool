@@ -15,16 +15,24 @@ export const WALLPAPERS = [
   {
     id: "radiant",
     label: "Prime Radiant",
-    description: "Aurora, starfield, and the rotating schematic.",
+    description: "Seldon's turning psychohistory dial.",
   },
-  { id: "deepfield", label: "Deep Field", description: "A quiet, star-dense void." },
   {
-    id: "starchart",
-    label: "Star Chart",
-    description: "Foreground deck grid with a faint radiant.",
+    id: "spiral",
+    label: "Galactic Spiral",
+    description: "The tilted disc of the Seldon Plan.",
   },
-  { id: "aurora", label: "Aurora", description: "Colour-forward nebula wash." },
-  { id: "void", label: "Void", description: "Minimal gradient — no motion." },
+  {
+    id: "trantor",
+    label: "Trantor",
+    description: "The lit limb of the world-city.",
+  },
+  {
+    id: "terminus",
+    label: "Terminus",
+    description: "The lone star at the galaxy's edge.",
+  },
+  { id: "void", label: "Void", description: "Deep space — pure focus, no motion." },
 ] as const;
 
 export type WallpaperId = (typeof WALLPAPERS)[number]["id"];
@@ -48,6 +56,31 @@ const DEFAULTS: Settings = {
   clock24h: false,
   installedApps: [...DEFAULT_INSTALLED_APPS],
 };
+
+/**
+ * Seeds settings from the host system for visitors who haven't chosen otherwise: honor the
+ * OS "reduce motion" preference and the locale's clock format. A stored choice always wins,
+ * and nothing is persisted until the visitor explicitly changes a setting, so until then the
+ * OS keeps tracking the device.
+ */
+function systemDefaults(): Partial<Settings> {
+  if (typeof window === "undefined") return {};
+  const next: Partial<Settings> = {};
+  try {
+    next.reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  } catch {
+    // matchMedia unavailable — keep the static default.
+  }
+  try {
+    const resolved = new Intl.DateTimeFormat(undefined, { hour: "numeric" }).resolvedOptions();
+    next.clock24h = resolved.hourCycle
+      ? resolved.hourCycle === "h23" || resolved.hourCycle === "h24"
+      : resolved.hour12 === false;
+  } catch {
+    // Intl unavailable — keep the static default.
+  }
+  return next;
+}
 
 const STORAGE_KEY = "terminusos.settings.v1";
 /** Bumped when the persisted shape changes; stamped on write so future builds can migrate. */
@@ -97,14 +130,15 @@ function sanitize(raw: unknown): Partial<Settings> {
 export function OSSettingsProvider({ children }: { children: ReactNode }) {
   const [settings, setSettings] = useState<Settings>(DEFAULTS);
   const [hydrated, setHydrated] = useState(false);
-  // Skip writing on the very first render so we never overwrite stored preferences with the
-  // defaults before hydration has had a chance to restore them.
-  const skipFirstPersist = useRef(true);
+  // Stays false until the visitor explicitly changes a setting. Until then we never persist,
+  // so a first-time visitor keeps tracking the system defaults across reloads rather than
+  // freezing a snapshot of them.
+  const dirty = useRef(false);
 
-  // Hydrate from localStorage after mount. setState is deferred to rAF so it never runs
-  // synchronously in the effect body (avoids cascading-render warnings and SSR mismatch).
-  // `hydrated` flips once we've read storage (or confirmed there's none) so the boot screen
-  // knows the installed-app set is final and can warm those modules.
+  // Hydrate after mount: system preferences seed anything the visitor hasn't stored, and a
+  // stored choice overrides that. setState is deferred to rAF so it never runs synchronously
+  // in the effect body (avoids cascading-render warnings and SSR mismatch). `hydrated` flips
+  // once storage has been read so the boot screen knows the installed-app set is final.
   useEffect(() => {
     let parsed: Partial<Settings> = {};
     try {
@@ -114,21 +148,19 @@ export function OSSettingsProvider({ children }: { children: ReactNode }) {
       parsed = {};
     }
 
+    const sys = systemDefaults();
+
     const frame = requestAnimationFrame(() => {
-      if (Object.keys(parsed).length > 0) {
-        setSettings((current) => ({ ...current, ...parsed }));
-      }
+      setSettings((current) => ({ ...current, ...sys, ...parsed }));
       setHydrated(true);
     });
     return () => cancelAnimationFrame(frame);
   }, []);
 
-  // Persist on every change (after the initial mount).
+  // Persist only once the visitor has explicitly changed a setting; hydration and cross-tab
+  // syncs intentionally don't mark the store dirty.
   useEffect(() => {
-    if (skipFirstPersist.current) {
-      skipFirstPersist.current = false;
-      return;
-    }
+    if (!dirty.current) return;
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: SETTINGS_VERSION, ...settings }));
     } catch {
@@ -157,22 +189,37 @@ export function OSSettingsProvider({ children }: { children: ReactNode }) {
     () => ({
       ...settings,
       hydrated,
-      setWallpaper: (wallpaper) => setSettings((current) => ({ ...current, wallpaper })),
-      setReduceMotion: (reduceMotion) => setSettings((current) => ({ ...current, reduceMotion })),
-      setClock24h: (clock24h) => setSettings((current) => ({ ...current, clock24h })),
-      installApp: (id) =>
+      setWallpaper: (wallpaper) => {
+        dirty.current = true;
+        setSettings((current) => ({ ...current, wallpaper }));
+      },
+      setReduceMotion: (reduceMotion) => {
+        dirty.current = true;
+        setSettings((current) => ({ ...current, reduceMotion }));
+      },
+      setClock24h: (clock24h) => {
+        dirty.current = true;
+        setSettings((current) => ({ ...current, clock24h }));
+      },
+      installApp: (id) => {
+        dirty.current = true;
         setSettings((current) =>
           current.installedApps.includes(id)
             ? current
             : { ...current, installedApps: [...current.installedApps, id] },
-        ),
-      uninstallApp: (id) =>
+        );
+      },
+      uninstallApp: (id) => {
+        dirty.current = true;
         setSettings((current) => ({
           ...current,
           installedApps: current.installedApps.filter((value) => value !== id),
-        })),
-      resetApps: () =>
-        setSettings((current) => ({ ...current, installedApps: [...DEFAULT_INSTALLED_APPS] })),
+        }));
+      },
+      resetApps: () => {
+        dirty.current = true;
+        setSettings((current) => ({ ...current, installedApps: [...DEFAULT_INSTALLED_APPS] }));
+      },
       isInstalled: (id) => settings.installedApps.includes(id),
     }),
     [settings, hydrated],

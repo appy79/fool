@@ -24,6 +24,16 @@ function LeetCodeIcon() {
   );
 }
 
+/** Whether `label` maps to a known brand glyph (so callers can choose a text fallback). */
+export function hasSocialIcon(label: string) {
+  const normalizedLabel = label.toLowerCase();
+  return (
+    normalizedLabel.includes("github") ||
+    normalizedLabel.includes("linkedin") ||
+    normalizedLabel.includes("leetcode")
+  );
+}
+
 /**
  * Resolves a social link label (e.g. "GitHub", "LinkedIn", "LeetCode") to its glyph. Returns
  * `null` for unrecognized labels so the caller can render text alone.

@@ -22,13 +22,13 @@ export default function PsychohistoryApp() {
   };
 
   return (
-    <div className="space-y-6 p-5 sm:p-7">
+    <div className="space-y-6 p-4 @lg:p-7">
       <header>
         <span className="inline-flex items-center gap-1.5 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-primary">
           <ForecastIcon className="size-3.5" />
           {copy.eyebrow}
         </span>
-        <h1 className="mt-2 font-display text-2xl font-semibold tracking-[-0.03em] text-foreground">
+        <h1 className="mt-2 font-display text-xl font-semibold tracking-[-0.03em] text-foreground @sm:text-2xl">
           {copy.title}
         </h1>
         <p className="mt-1.5 max-w-md text-sm text-muted-foreground">{copy.intro}</p>
@@ -68,10 +68,10 @@ export default function PsychohistoryApp() {
         {projections.map((projection) => (
           <li key={projection.id} className="instrument-panel">
             <div className="flex items-center justify-between gap-3">
-              <span className="font-mono text-[0.54rem] font-semibold uppercase tracking-[0.18em] text-primary">
+              <span className="min-w-0 truncate font-mono text-[0.54rem] font-semibold uppercase tracking-[0.18em] text-primary">
                 projection // {projection.seed}
               </span>
-              <span className="font-mono text-[0.6rem] font-bold tabular-nums text-gold">
+              <span className="shrink-0 font-mono text-[0.6rem] font-bold tabular-nums text-gold">
                 {projection.confidence}% · {projection.horizon} cyc
               </span>
             </div>

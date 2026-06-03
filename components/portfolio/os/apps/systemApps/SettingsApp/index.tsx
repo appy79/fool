@@ -20,12 +20,12 @@ export default function SettingsApp() {
   }, []);
 
   return (
-    <div className="space-y-6 p-5 sm:p-7">
+    <div className="space-y-6 p-4 @lg:p-7">
       <header>
         <span className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-primary">
           {copy.eyebrow}
         </span>
-        <h1 className="mt-2 font-display text-2xl font-semibold tracking-[-0.03em] text-foreground">
+        <h1 className="mt-2 font-display text-xl font-semibold tracking-[-0.03em] text-foreground @sm:text-2xl">
           {copy.title}
         </h1>
       </header>
@@ -59,7 +59,7 @@ export default function SettingsApp() {
       </Section>
 
       <Section title={copy.wallpaper.title} hint={copy.wallpaper.hint}>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 @xs:grid-cols-2 @lg:grid-cols-3">
           {WALLPAPERS.map((option) => (
             <WallpaperSwatch
               key={option.id}

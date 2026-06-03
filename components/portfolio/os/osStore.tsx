@@ -67,7 +67,7 @@ type State = {
 };
 
 type Action =
-  | { type: "open"; app: AppDefinition; payload?: AppPayload }
+  | { type: "open"; app: AppDefinition; payload?: AppPayload; viewport?: { w: number; h: number } }
   | { type: "close"; key: string }
   | { type: "focus"; key: string }
   | { type: "move"; key: string; x: number; y: number }
@@ -78,6 +78,45 @@ type Action =
 
 const keyFor = (appId: string, payload?: AppPayload) =>
   payload?.projectTitle ? `${appId}:${payload.projectTitle}` : appId;
+
+// Desktop window geometry. Shared with the Window chrome so open/drag/resize all agree
+// on the usable region (below the menu bar, above the dock).
+export const MENU_H = 40; // menu bar reserved at the top
+export const DOCK_H = 92; // dock reserved at the bottom
+export const EDGE_GAP = 8; // gap kept from the viewport edges
+export const MIN_W = 360;
+export const MIN_H = 260;
+
+/**
+ * Clamps a freshly opened window so it always fits within the usable desktop area —
+ * never opening underneath the dock or above the menu bar, regardless of its default
+ * size or the current viewport. Falls back to the raw desired box when no viewport is
+ * known (e.g. server/first paint).
+ */
+function fitWindow(
+  base: { w: number; h: number },
+  viewport: { w: number; h: number } | undefined,
+  offset: number,
+): { x: number; y: number; w: number; h: number } {
+  const desiredX = 90 + offset;
+  const desiredY = 70 + offset;
+  if (!viewport) {
+    return { x: desiredX, y: desiredY, w: base.w, h: base.h };
+  }
+
+  const usableW = viewport.w - 2 * EDGE_GAP;
+  const usableH = viewport.h - MENU_H - DOCK_H - 2 * EDGE_GAP;
+  const w = Math.max(Math.min(base.w, usableW), Math.min(MIN_W, usableW));
+  const h = Math.max(Math.min(base.h, usableH), Math.min(MIN_H, usableH));
+
+  const minX = EDGE_GAP;
+  const minY = MENU_H + EDGE_GAP;
+  const maxX = viewport.w - EDGE_GAP - w;
+  const maxY = viewport.h - DOCK_H - EDGE_GAP - h;
+  const x = Math.min(Math.max(desiredX, minX), Math.max(minX, maxX));
+  const y = Math.min(Math.max(desiredY, minY), Math.max(minY, maxY));
+  return { x, y, w, h };
+}
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
@@ -94,8 +133,9 @@ function reducer(state: State, action: Action): State {
           ),
         };
       }
-      const size = action.app.defaultSize ?? { w: 760, h: 540 };
+      const base = action.app.defaultSize ?? { w: 760, h: 540 };
       const offset = (state.spawnCount % 6) * 30;
+      const geom = fitWindow(base, action.viewport, offset);
       return {
         ...state,
         topZ: nextZ,
@@ -107,10 +147,10 @@ function reducer(state: State, action: Action): State {
             appId: action.app.id,
             title: action.payload?.projectTitle ?? action.app.title,
             payload: action.payload,
-            x: 90 + offset,
-            y: 70 + offset,
-            w: size.w,
-            h: size.h,
+            x: geom.x,
+            y: geom.y,
+            w: geom.w,
+            h: geom.h,
             z: nextZ,
             minimized: false,
             maximized: false,
@@ -235,7 +275,9 @@ export function OSProvider({
     (appId: string, payload?: AppPayload) => {
       const app = appsById.get(appId);
       if (!app) return;
-      dispatch({ type: "open", app, payload });
+      const viewport =
+        typeof window !== "undefined" ? { w: window.innerWidth, h: window.innerHeight } : undefined;
+      dispatch({ type: "open", app, payload, viewport });
     },
     [appsById],
   );

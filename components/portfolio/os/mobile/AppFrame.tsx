@@ -47,7 +47,7 @@ export default function AppFrame({ win, app }: { win: WindowState; app: AppDefin
         </div>
         <span className="w-[4.5rem]" aria-hidden="true" />
       </header>
-      <div ref={slotRef} className="min-h-0 flex-1 overflow-auto" />
+      <div ref={slotRef} className="@container min-h-0 flex-1 overflow-auto" />
     </section>
   );
 }

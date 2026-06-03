@@ -3,4 +3,5 @@ export const copy = {
   title: "Service record",
   experienceLabel: "deployments",
   educationLabel: "origin",
+  rolesLabel: "roles",
 };

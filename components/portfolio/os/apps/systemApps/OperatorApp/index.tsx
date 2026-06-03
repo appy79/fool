@@ -1,142 +1,174 @@
 "use client";
 
 import { resume } from "@/lib/resume";
-import HeroPortraitCard from "../../../../home/HeroPortraitCard";
+import HeroPortraitCard from "./HeroPortraitCard";
 import { OrbitalRing, PrimeRadiantGlyph } from "../../../../icons/FoundationMotifs";
-import SocialIcon from "../../../../icons/SocialIcon";
+import CopyEmailButton from "../../../CopyEmailButton";
+import SocialLinks from "../../../SocialLinks";
 import { useOS } from "../../../osStore";
 import { copy } from "./data";
 
 export default function OperatorApp() {
   const { contact, openApp } = useOS();
 
-  const channels = [
-    contact.email
-      ? { label: copy.emailLabel, value: contact.email, href: `mailto:${contact.email}` }
-      : null,
-    contact.phone
-      ? {
-          label: copy.phoneLabel,
-          value: contact.phone,
-          href: `tel:${contact.phone.replace(/\s+/g, "")}`,
-        }
-      : null,
-  ].filter((item): item is { label: string; value: string; href: string } => Boolean(item));
-
   return (
-    <div className="p-5 sm:p-7">
-      <div className="grid gap-7 lg:grid-cols-[1fr_17rem] lg:items-start">
-        <div className="space-y-7">
-          <header>
-            <span className="inline-flex items-center gap-1.5 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-primary">
-              <PrimeRadiantGlyph className="size-3.5" />
-              {copy.eyebrow}
-            </span>
-            <h1 className="mt-3 font-display text-3xl font-semibold tracking-[-0.04em] text-foreground sm:text-4xl">
-              {resume.name}
-            </h1>
-            <p className="mt-2 font-mono text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-              {resume.title}
-            </p>
-            <p className="mt-3 max-w-xl text-sm leading-7 text-muted-foreground">{resume.focus}.</p>
-          </header>
+    <div className="p-4 @lg:p-6">
+      <div className="mx-auto w-full max-w-5xl space-y-5">
+        {/* Identity banner — portrait + name, status, quick facts, and the primary action */}
+        <section className="overflow-hidden rounded-2xl border border-border/70 bg-card/40">
+          <div className="grid @2xl:grid-cols-[20rem_1fr]">
+            <div className="border-b border-border/60 p-4 @2xl:border-b-0 @2xl:border-r @2xl:p-5">
+              <div className="mx-auto w-full max-w-[20rem]">
+                <HeroPortraitCard />
+              </div>
+            </div>
 
-          <ul className="grid gap-3 sm:grid-cols-3" aria-label="Profile highlights">
-            {resume.proofPoints.map((point) => (
-              <li key={point.label} className="instrument-panel">
-                <span className="flex items-center gap-1.5 font-mono text-[0.54rem] uppercase tracking-[0.18em] text-primary">
-                  <OrbitalRing className="size-3 text-gold" />
-                  {point.label}
+            <div className="min-w-0 p-5 @lg:p-6">
+              <div className="flex items-center justify-between gap-3">
+                <span className="inline-flex items-center gap-1.5 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-primary">
+                  <PrimeRadiantGlyph className="size-3.5" />
+                  {copy.eyebrow}
                 </span>
-                <span className="mt-1.5 block text-sm font-semibold tracking-[-0.01em] text-foreground">
-                  {point.value}
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/5 px-2.5 py-1 font-mono text-[0.52rem] font-semibold uppercase tracking-[0.18em] text-primary">
+                  <span className="status-dot" aria-hidden="true" />
+                  {copy.statusLabel}
                 </span>
-              </li>
-            ))}
-          </ul>
+              </div>
 
-          <section className="border-t border-border/60 pt-6">
+              <h1 className="mt-3 font-display text-2xl font-semibold tracking-[-0.04em] text-foreground @sm:text-3xl @xl:text-4xl">
+                {resume.name}
+              </h1>
+              <div
+                className="mt-3 h-px w-28 bg-gradient-to-r from-primary via-gold to-transparent"
+                aria-hidden="true"
+              />
+              <p className="mt-3 font-mono text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                {resume.title}
+              </p>
+              <p className="mt-2.5 max-w-xl text-sm leading-7 text-muted-foreground">
+                {resume.focus}.
+              </p>
+
+              <ul className="mt-4 flex flex-wrap gap-2" aria-label="Profile highlights">
+                {resume.proofPoints.map((point) => (
+                  <li
+                    key={point.label}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/40 px-2.5 py-1"
+                  >
+                    <span className="font-mono text-[0.52rem] font-semibold uppercase tracking-[0.16em] text-primary">
+                      {point.label}
+                    </span>
+                    <span className="text-xs font-medium text-foreground">{point.value}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-5 flex flex-wrap items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => openApp("resume")}
+                  className="group inline-flex items-center gap-2 rounded-lg border border-primary/45 bg-primary/10 px-4 py-2.5 font-mono text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-foreground transition hover:border-primary hover:bg-primary/15 focus-visible:ring-3 focus-visible:ring-ring/60 focus-visible:outline-none"
+                >
+                  {copy.resumeLabel}
+                  <span
+                    aria-hidden="true"
+                    className="text-primary transition-transform group-hover:translate-x-0.5"
+                  >
+                    &gt;
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Channels — copy-to-clipboard email, phone, and social profiles */}
+        <section className="rounded-2xl border border-border/70 bg-card/40 p-5 @lg:p-6">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             <span className="inline-flex items-center gap-1.5 font-mono text-[0.54rem] font-semibold uppercase tracking-[0.2em] text-primary">
               <span className="status-dot" aria-hidden="true" />
               {copy.channelsEyebrow}
             </span>
-            <p className="mt-2 text-sm text-muted-foreground">
-              {copy.basedLead}{" "}
-              {contact.locationHref ? (
-                <a
-                  href={contact.locationHref}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="font-semibold text-foreground underline-offset-4 transition hover:text-primary hover:underline focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
-                >
-                  {contact.location}
-                </a>
-              ) : (
-                <span className="font-semibold text-foreground">{contact.location}</span>
-              )}
-              {copy.basedTrail}
-            </p>
-
-            {channels.length > 0 ? (
-              <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-                {channels.map((item) => (
-                  <li key={item.label}>
-                    <a
-                      href={item.href}
-                      className="flex items-center justify-between gap-3 border border-border/70 bg-card/50 p-4 transition hover:border-primary/55 hover:bg-card/70 focus-visible:ring-3 focus-visible:ring-ring/60 focus-visible:outline-none"
-                    >
-                      <span className="min-w-0">
-                        <span className="block font-mono text-[0.54rem] font-semibold uppercase tracking-[0.2em] text-primary">
-                          {item.label}
-                        </span>
-                        <span className="mt-1 block break-all font-medium text-foreground">
-                          {item.value}
-                        </span>
-                      </span>
-                      <span aria-hidden="true" className="shrink-0 font-mono text-primary">
-                        &gt;
-                      </span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="mt-4 text-sm text-muted-foreground">{copy.emptyChannels}</p>
-            )}
-
-            {contact.socials && contact.socials.length > 0 ? (
-              <div className="mt-4 flex flex-wrap gap-2">
-                {contact.socials.map((social) => (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={`${social.label}, opens in a new tab`}
-                    className="inline-flex items-center gap-2 border border-border/70 px-3 py-2 text-sm text-foreground transition hover:border-primary/55 hover:text-primary focus-visible:ring-3 focus-visible:ring-ring/60 focus-visible:outline-none"
-                  >
-                    <SocialIcon label={social.label} />
-                    {social.label}
-                  </a>
-                ))}
-              </div>
-            ) : null}
-          </section>
-
-          <div className="flex flex-wrap gap-3">
-            <button
-              type="button"
-              onClick={() => openApp("resume")}
-              className="border border-border/70 px-4 py-2.5 font-mono text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-muted-foreground transition hover:border-primary/50 hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/60 focus-visible:outline-none"
-            >
-              {copy.resumeLabel}
-            </button>
+            <span className="font-mono text-[0.52rem] uppercase tracking-[0.16em] text-muted-foreground/70">
+              {copy.channelsHint}
+            </span>
           </div>
-        </div>
+          <p className="mt-2.5 text-sm text-muted-foreground">
+            {copy.basedLead}{" "}
+            {contact.locationHref ? (
+              <a
+                href={contact.locationHref}
+                target="_blank"
+                rel="noreferrer"
+                className="font-semibold text-foreground underline-offset-4 transition hover:text-primary hover:underline focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+              >
+                {contact.location}
+              </a>
+            ) : (
+              <span className="font-semibold text-foreground">{contact.location}</span>
+            )}
+            {copy.basedTrail}
+          </p>
 
-        <aside className="hidden lg:block">
-          <HeroPortraitCard />
-        </aside>
+          {contact.email || contact.phone ? (
+            <div className="mt-4 grid gap-3 @md:grid-cols-2">
+              {contact.email ? (
+                <CopyEmailButton email={contact.email} label={copy.emailLabel} variant="card" />
+              ) : null}
+              {contact.phone ? (
+                <a
+                  href={`tel:${contact.phone.replace(/\s+/g, "")}`}
+                  className="group flex items-center justify-between gap-3 border border-border/70 bg-card/50 p-4 transition hover:border-primary/55 hover:bg-card/70 focus-visible:ring-3 focus-visible:ring-ring/60 focus-visible:outline-none"
+                >
+                  <span className="min-w-0">
+                    <span className="block font-mono text-[0.54rem] font-semibold uppercase tracking-[0.2em] text-primary">
+                      {copy.phoneLabel}
+                    </span>
+                    <span className="mt-1 block break-all font-medium text-foreground">
+                      {contact.phone}
+                    </span>
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="shrink-0 font-mono text-primary transition-transform group-hover:translate-x-0.5"
+                  >
+                    &gt;
+                  </span>
+                </a>
+              ) : null}
+            </div>
+          ) : (
+            <p className="mt-4 text-sm text-muted-foreground">{copy.emptyChannels}</p>
+          )}
+
+          <SocialLinks socials={contact.socials} className="mt-4" />
+        </section>
+
+        {/* Telemetry board — career-peak readouts presented as an instrument cluster */}
+        <section>
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <span className="inline-flex items-center gap-1.5 font-mono text-[0.54rem] font-semibold uppercase tracking-[0.2em] text-primary">
+              <OrbitalRing className="size-3 text-gold" />
+              {copy.telemetryEyebrow}
+            </span>
+            <span className="font-mono text-[0.52rem] uppercase tracking-[0.16em] text-muted-foreground/70">
+              {copy.telemetryNote}
+            </span>
+          </div>
+          <div className="mt-3 grid gap-3 @sm:grid-cols-2 @3xl:grid-cols-4">
+            {resume.telemetry.map((reading) => (
+              <div key={reading.label} className="instrument-panel">
+                <span className="block font-mono text-[0.52rem] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                  {reading.label}
+                </span>
+                <span className="mt-2 block font-display text-2xl font-semibold tracking-[-0.03em] tabular-nums text-foreground">
+                  {reading.value}
+                </span>
+                <span className="mt-1 block text-xs text-muted-foreground">{reading.note}</span>
+              </div>
+            ))}
+          </div>
+        </section>
       </div>
     </div>
   );

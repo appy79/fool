@@ -23,14 +23,14 @@ export default function AppStoreApp() {
   };
 
   return (
-    <div className="space-y-6 p-5 sm:p-7">
+    <div className="space-y-6 p-4 @lg:p-7">
       <header className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <span className="inline-flex items-center gap-1.5 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-primary">
             <span className="status-dot" aria-hidden="true" />
             {copy.eyebrow}
           </span>
-          <h1 className="mt-2 font-display text-2xl font-semibold tracking-[-0.03em] text-foreground">
+          <h1 className="mt-2 font-display text-xl font-semibold tracking-[-0.03em] text-foreground @sm:text-2xl">
             {copy.title}
           </h1>
           <p className="mt-1.5 max-w-md text-sm text-muted-foreground">{copy.intro}</p>
@@ -72,7 +72,7 @@ export default function AppStoreApp() {
         <h2 className="font-mono text-[0.56rem] font-semibold uppercase tracking-[0.2em] text-foreground">
           {copy.systemHeading}
         </h2>
-        <ul className="grid gap-2 sm:grid-cols-2">
+        <ul className="grid gap-2 @md:grid-cols-2">
           {systemApps.map((app) => (
             <SystemModuleRow key={app.id} app={app} onOpen={launch} />
           ))}

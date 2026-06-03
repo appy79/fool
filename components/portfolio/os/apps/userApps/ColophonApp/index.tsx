@@ -6,13 +6,13 @@ import { copy, notes, stack } from "./data";
 
 export default function ColophonApp() {
   return (
-    <div className="space-y-6 p-5 sm:p-7">
+    <div className="space-y-6 p-4 @lg:p-7">
       <header>
         <span className="inline-flex items-center gap-1.5 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-primary">
           <PrimeRadiantGlyph className="size-3.5" />
           {copy.eyebrow}
         </span>
-        <h1 className="mt-2 font-display text-2xl font-semibold tracking-[-0.03em] text-foreground">
+        <h1 className="mt-2 font-display text-xl font-semibold tracking-[-0.03em] text-foreground @sm:text-2xl">
           {copy.title}
         </h1>
         <p className="mt-1.5 max-w-md text-sm text-muted-foreground">
@@ -28,7 +28,7 @@ export default function ColophonApp() {
         ))}
       </div>
 
-      <dl className="grid gap-2 sm:grid-cols-2">
+      <dl className="grid gap-2 @md:grid-cols-2">
         {stack.map((row) => (
           <div key={row.label} className="border border-border/60 bg-card/40 p-3">
             <dt className="font-mono text-[0.5rem] uppercase tracking-[0.16em] text-muted-foreground">

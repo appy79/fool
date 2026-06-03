@@ -280,12 +280,6 @@ body {
   }
 }
 
-.labs-acceleration-cta {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-}
-
 .project-showcase {
   position: relative;
   display: block;
@@ -309,27 +303,6 @@ body {
       color-mix(in oklch, var(--gold) 9%, transparent)
     );
   box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--primary) 24%, transparent);
-}
-
-.visual-banner {
-  position: absolute;
-  top: 0.8rem;
-  right: 0.8rem;
-  z-index: 3;
-  max-width: calc(100% - 1.6rem);
-  overflow: hidden;
-  padding: 0.35rem 0.55rem;
-  background: color-mix(in oklch, var(--background) 72%, transparent);
-  color: var(--primary);
-  font-family: var(--font-ibm-plex-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: clamp(0.52rem, 1.4vw, 0.66rem);
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  line-height: 1.1;
-  text-overflow: ellipsis;
-  text-transform: uppercase;
-  white-space: nowrap;
-  box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--primary) 34%, transparent);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -383,151 +356,6 @@ body {
   to {
     opacity: 1;
     transform: scaleX(1);
-  }
-}
-
-.labs-acceleration-cta::before,
-.labs-acceleration-cta::after {
-  position: absolute;
-  content: "";
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0;
-}
-
-.labs-acceleration-cta > :not(.visual-banner) {
-  position: relative;
-  z-index: 1;
-}
-
-.labs-acceleration-cta::before {
-  inset: -60% -35%;
-  background: linear-gradient(
-    105deg,
-    transparent 0%,
-    transparent 36%,
-    color-mix(in oklch, var(--primary) 18%, transparent) 45%,
-    color-mix(in oklch, var(--primary) 55%, white) 50%,
-    color-mix(in oklch, var(--primary) 18%, transparent) 55%,
-    transparent 64%,
-    transparent 100%
-  );
-  transform: translateX(-115%) skewX(-18deg);
-}
-
-.labs-acceleration-cta::after {
-  top: 50%;
-  left: -45%;
-  width: 42%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--primary), transparent);
-  box-shadow:
-    -1.4rem -0.7rem 0 color-mix(in oklch, var(--primary) 42%, transparent),
-    -2.8rem 0.75rem 0 color-mix(in oklch, var(--primary) 32%, transparent);
-  transform: translateX(-85%);
-}
-
-.labs-acceleration-cta:hover::before,
-.labs-acceleration-cta:focus-visible::before,
-.labs-acceleration-cta:active::before {
-  animation: labs-acceleration-sweep 680ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.labs-acceleration-cta:hover::after,
-.labs-acceleration-cta:focus-visible::after,
-.labs-acceleration-cta:active::after {
-  animation: labs-acceleration-trails 520ms cubic-bezier(0.12, 0.82, 0.2, 1) forwards;
-}
-
-.labs-acceleration-cta:active::before {
-  animation: labs-acceleration-click-sweep 360ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.labs-acceleration-cta:active::after {
-  animation: labs-acceleration-click-trails 300ms cubic-bezier(0.12, 0.82, 0.2, 1) forwards;
-}
-
-@keyframes labs-acceleration-sweep {
-  0% {
-    opacity: 0;
-    transform: translateX(-115%) skewX(-18deg);
-  }
-
-  18%,
-  72% {
-    opacity: 0.48;
-  }
-
-  100% {
-    opacity: 0;
-    transform: translateX(115%) skewX(-18deg);
-  }
-}
-
-@keyframes labs-acceleration-trails {
-  0% {
-    opacity: 0;
-    transform: translateX(-85%);
-  }
-
-  20%,
-  78% {
-    opacity: 0.38;
-  }
-
-  100% {
-    opacity: 0;
-    transform: translateX(360%);
-  }
-}
-
-@keyframes labs-acceleration-click-sweep {
-  0% {
-    opacity: 0;
-    transform: translateX(-115%) skewX(-18deg);
-  }
-
-  18%,
-  72% {
-    opacity: 0.48;
-  }
-
-  100% {
-    opacity: 0;
-    transform: translateX(115%) skewX(-18deg);
-  }
-}
-
-@keyframes labs-acceleration-click-trails {
-  0% {
-    opacity: 0;
-    transform: translateX(-85%);
-  }
-
-  20%,
-  78% {
-    opacity: 0.38;
-  }
-
-  100% {
-    opacity: 0;
-    transform: translateX(360%);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .labs-acceleration-cta:hover::before,
-  .labs-acceleration-cta:focus-visible::before,
-  .labs-acceleration-cta:active::before {
-    animation: none;
-    opacity: 0.2;
-    transform: none;
-  }
-
-  .labs-acceleration-cta:hover::after,
-  .labs-acceleration-cta:focus-visible::after,
-  .labs-acceleration-cta:active::after {
-    animation: none;
   }
 }
 
