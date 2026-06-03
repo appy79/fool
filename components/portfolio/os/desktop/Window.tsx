@@ -6,6 +6,7 @@ import {
   useEffect,
   useRef,
 } from "react";
+import { useAppSlot } from "../AppRuntime";
 import { type AppDefinition, useOS, type WindowState } from "../osStore";
 
 const MENU_H = 40;
@@ -25,9 +26,10 @@ export default function Window({ win, app }: { win: WindowState; app: AppDefinit
     resizeWindow,
     focusedKey,
   } = useOS();
-  const Body = app.component;
   const focused = focusedKey === win.key;
   const frameRef = useRef<HTMLElement>(null);
+  // The app body is mounted once by the persistent process layer and reparented here.
+  const slotRef = useAppSlot(win.key);
 
   // Move keyboard focus into a freshly opened window so it's immediately operable.
   useEffect(() => {
@@ -110,14 +112,16 @@ export default function Window({ win, app }: { win: WindowState; app: AppDefinit
         onDoubleClick={() => toggleMaximize(win.key)}
       >
         <div
-          className={`flex items-center gap-2 transition-opacity ${focused ? "" : "opacity-55"}`}
+          className={`flex origin-left items-center gap-2.5 transition duration-150 ease-out group-hover/title:scale-[1.18] ${
+            focused ? "" : "opacity-55"
+          }`}
         >
           <button
             type="button"
             aria-label={`Close ${app.title}`}
             onPointerDown={(e) => e.stopPropagation()}
             onClick={() => closeWindow(win.key)}
-            className="grid size-3 place-items-center rounded-full bg-destructive/85 text-[7px] font-black leading-none text-black/55 transition hover:bg-destructive focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:outline-none"
+            className="relative grid size-3.5 place-items-center rounded-full bg-destructive/85 text-[7px] font-black leading-none text-black/55 transition before:absolute before:-inset-x-1 before:-inset-y-2 before:content-[''] hover:bg-destructive focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:outline-none"
           >
             <span className="opacity-0 transition-opacity group-hover/title:opacity-100">✕</span>
           </button>
@@ -126,7 +130,7 @@ export default function Window({ win, app }: { win: WindowState; app: AppDefinit
             aria-label={`Minimize ${app.title}`}
             onPointerDown={(e) => e.stopPropagation()}
             onClick={() => minimizeWindow(win.key)}
-            className="grid size-3 place-items-center rounded-full bg-gold/85 text-[8px] font-black leading-none text-black/55 transition hover:bg-gold focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:outline-none"
+            className="relative grid size-3.5 place-items-center rounded-full bg-gold/85 text-[8px] font-black leading-none text-black/55 transition before:absolute before:-inset-x-1 before:-inset-y-2 before:content-[''] hover:bg-gold focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:outline-none"
           >
             <span className="opacity-0 transition-opacity group-hover/title:opacity-100">–</span>
           </button>
@@ -135,7 +139,7 @@ export default function Window({ win, app }: { win: WindowState; app: AppDefinit
             aria-label={`${win.maximized ? "Restore" : "Maximize"} ${app.title}`}
             onPointerDown={(e) => e.stopPropagation()}
             onClick={() => toggleMaximize(win.key)}
-            className="grid size-3 place-items-center rounded-full bg-primary/80 text-[7px] font-black leading-none text-black/55 transition hover:bg-primary focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:outline-none"
+            className="relative grid size-3.5 place-items-center rounded-full bg-primary/80 text-[7px] font-black leading-none text-black/55 transition before:absolute before:-inset-x-1 before:-inset-y-2 before:content-[''] hover:bg-primary focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:outline-none"
           >
             <span className="opacity-0 transition-opacity group-hover/title:opacity-100">
               {win.maximized ? "❐" : "＋"}
@@ -156,9 +160,7 @@ export default function Window({ win, app }: { win: WindowState; app: AppDefinit
         </div>
       </header>
 
-      <div className="min-h-0 flex-1 overflow-auto bg-background/40">
-        {Body ? <Body payload={win.payload} windowKey={win.key} /> : null}
-      </div>
+      <div ref={slotRef} className="min-h-0 flex-1 overflow-auto bg-background/40" />
 
       {!win.maximized ? (
         <button

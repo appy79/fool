@@ -6,8 +6,10 @@ import {
   type ReactNode,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useReducer,
+  useRef,
 } from "react";
 import type { ResolvedContactInfo } from "@/lib/resume";
 
@@ -24,6 +26,11 @@ export type AppDefinition = {
   title: string;
   shortLabel?: string;
   description?: string;
+  /**
+   * `system` apps are part of the operator's record and cannot be uninstalled.
+   * `user` apps are optional modules installed/removed from the App Store.
+   */
+  kind: "system" | "user";
   Icon: ComponentType<{ className?: string }>;
   /** Default window size (desktop). */
   defaultSize?: { w: number; h: number };
@@ -184,17 +191,45 @@ const OSContext = createContext<OSContextValue | null>(null);
 export function OSProvider({
   apps,
   contact,
+  installedApps = [],
+  preloadApp,
   onLock,
   children,
 }: {
   apps: AppDefinition[];
   contact: ResolvedContactInfo;
+  /** Ids of installed user modules; drives lazy preload + teardown of windows. */
+  installedApps?: string[];
+  /** Warm a module's chunk (called when a user app is installed). */
+  preloadApp?: (id: string) => void;
   onLock?: () => void;
   children: ReactNode;
 }) {
   const [state, dispatch] = useReducer(reducer, { windows: [], topZ: 10, spawnCount: 0 });
 
   const appsById = useMemo(() => new Map(apps.map((app) => [app.id, app])), [apps]);
+
+  // Fetch a user module's chunk the moment it is installed, so it is ready to open.
+  const prevInstalledRef = useRef(installedApps);
+  useEffect(() => {
+    const prev = prevInstalledRef.current;
+    prevInstalledRef.current = installedApps;
+    if (!preloadApp) return;
+    for (const id of installedApps) {
+      if (!prev.includes(id)) preloadApp(id);
+    }
+  }, [installedApps, preloadApp]);
+
+  // When a user module is uninstalled, tear down its open windows so its UI/state clears.
+  useEffect(() => {
+    const installed = new Set(installedApps);
+    for (const win of state.windows) {
+      const app = appsById.get(win.appId);
+      if (app && app.kind === "user" && !installed.has(app.id)) {
+        dispatch({ type: "close", key: win.key });
+      }
+    }
+  }, [installedApps, state.windows, appsById]);
 
   const openApp = useCallback(
     (appId: string, payload?: AppPayload) => {

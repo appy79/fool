@@ -1,7 +1,8 @@
 "use client";
 
 import { resume } from "@/lib/resume";
-import { useOS } from "../osStore";
+import { useOS } from "../../../osStore";
+import { copy } from "./data";
 
 export default function CaseFilesApp() {
   const { openApp } = useOS();
@@ -10,14 +11,12 @@ export default function CaseFilesApp() {
     <div className="space-y-5 p-5 sm:p-7">
       <header>
         <span className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-primary">
-          case files // {resume.projects.length} records
+          {copy.eyebrowLead} {resume.projects.length} {copy.eyebrowTrail}
         </span>
         <h1 className="mt-2 font-display text-2xl font-semibold tracking-[-0.03em] text-foreground">
-          Selected work
+          {copy.title}
         </h1>
-        <p className="mt-1.5 text-sm text-muted-foreground">
-          Open a dossier to read the impact and deep-dive the systems lab.
-        </p>
+        <p className="mt-1.5 text-sm text-muted-foreground">{copy.intro}</p>
       </header>
 
       <ul className="grid gap-3">

@@ -1,22 +1,23 @@
 "use client";
 
 import { resume } from "@/lib/resume";
+import { copy } from "./data";
 
 export default function SystemLogApp() {
   return (
     <div className="space-y-8 p-5 sm:p-7">
       <header>
         <span className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-primary">
-          system log // provenance
+          {copy.eyebrow}
         </span>
         <h1 className="mt-2 font-display text-2xl font-semibold tracking-[-0.03em] text-foreground">
-          Service record
+          {copy.title}
         </h1>
       </header>
 
       <section aria-label="Experience">
         <p className="mb-3 font-mono text-[0.54rem] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-          deployments
+          {copy.experienceLabel}
         </p>
         <ol className="ml-2 border-l border-border/60 pl-5">
           {resume.experience.map((item) => (
@@ -48,7 +49,7 @@ export default function SystemLogApp() {
 
       <section aria-label="Education">
         <p className="mb-3 font-mono text-[0.54rem] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-          origin
+          {copy.educationLabel}
         </p>
         <ol className="ml-2 border-l border-border/60 pl-5">
           {resume.education.map((item) => (

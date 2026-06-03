@@ -1,16 +1,17 @@
 "use client";
 
 import { resumeFiles } from "@/lib/resume-files";
+import { copy } from "./data";
 
 export default function ResumeApp() {
   return (
     <div className="space-y-5 p-5 sm:p-7">
       <header>
         <span className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-primary">
-          resume // records
+          {copy.eyebrow}
         </span>
         <h1 className="mt-2 font-display text-2xl font-semibold tracking-[-0.03em] text-foreground">
-          Download
+          {copy.title}
         </h1>
       </header>
 

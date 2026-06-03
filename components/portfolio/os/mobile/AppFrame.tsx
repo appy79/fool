@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useAppSlot } from "../AppRuntime";
 import { type AppDefinition, useOS, type WindowState } from "../osStore";
 
 export default function AppFrame({ win, app }: { win: WindowState; app: AppDefinition }) {
   const { closeWindow } = useOS();
-  const Body = app.component;
   const frameRef = useRef<HTMLElement>(null);
+  // The app body is mounted once by the persistent process layer and reparented here.
+  const slotRef = useAppSlot(win.key);
 
   useEffect(() => {
     frameRef.current?.focus();
@@ -45,9 +47,7 @@ export default function AppFrame({ win, app }: { win: WindowState; app: AppDefin
         </div>
         <span className="w-[4.5rem]" aria-hidden="true" />
       </header>
-      <div className="min-h-0 flex-1 overflow-auto">
-        {Body ? <Body payload={win.payload} windowKey={win.key} /> : null}
-      </div>
+      <div ref={slotRef} className="min-h-0 flex-1 overflow-auto" />
     </section>
   );
 }

@@ -50,16 +50,6 @@ export function LogIcon({ className }: IconProps) {
   );
 }
 
-export function CommsIcon({ className }: IconProps) {
-  return (
-    <svg {...base(className)}>
-      <circle cx="12" cy="12" r="2.2" />
-      <path d="M8.4 8.4a5 5 0 0 0 0 7.2M15.6 8.4a5 5 0 0 1 0 7.2" />
-      <path d="M6 6a8 8 0 0 0 0 12M18 6a8 8 0 0 1 0 12" opacity={0.6} />
-    </svg>
-  );
-}
-
 export function SettingsIcon({ className }: IconProps) {
   return (
     <svg {...base(className)}>
@@ -88,6 +78,46 @@ export function LabsAppIcon({ className }: IconProps) {
     <svg {...base(className)}>
       <path d="M9.5 3.75v5.2L5.6 16.5a2 2 0 0 0 1.75 3h9.3a2 2 0 0 0 1.75-3L14.5 8.95v-5.2" />
       <path d="M8.5 3.75h7M7.8 14.25h8.4" />
+    </svg>
+  );
+}
+
+export function StoreIcon({ className }: IconProps) {
+  return (
+    <svg {...base(className)}>
+      <path d="M6 7.5h12l-.9 11.2a1.5 1.5 0 0 1-1.5 1.3H8.4a1.5 1.5 0 0 1-1.5-1.3L6 7.5Z" />
+      <path d="M9 7.5a3 3 0 0 1 6 0" />
+      <path d="M12 11.5v4.5M9.75 13.75h4.5" opacity={0.7} />
+    </svg>
+  );
+}
+
+export function TerminalIcon({ className }: IconProps) {
+  return (
+    <svg {...base(className)}>
+      <rect x="3.5" y="5" width="17" height="14" rx="2" />
+      <path d="M7 9.75 10 12.25 7 14.75" />
+      <path d="M12.5 15h4.5" opacity={0.8} />
+    </svg>
+  );
+}
+
+export function ColophonIcon({ className }: IconProps) {
+  return (
+    <svg {...base(className)}>
+      <path d="M12 5.5C10.5 4.4 8.6 4 6.5 4H5v15h1.5c2.1 0 4 .4 5.5 1.5" />
+      <path d="M12 5.5C13.5 4.4 15.4 4 17.5 4H19v15h-1.5c-2.1 0-4 .4-5.5 1.5" />
+      <path d="M12 5.5v15" opacity={0.6} />
+    </svg>
+  );
+}
+
+export function ForecastIcon({ className }: IconProps) {
+  return (
+    <svg {...base(className)}>
+      <ellipse cx="12" cy="12" rx="8" ry="3.4" />
+      <ellipse cx="12" cy="12" rx="3.4" ry="8" />
+      <circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none" />
     </svg>
   );
 }

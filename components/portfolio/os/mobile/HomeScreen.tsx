@@ -3,10 +3,12 @@
 import Link from "next/link";
 import { resume } from "@/lib/resume";
 import { PrimeRadiantGlyph } from "../../icons/FoundationMotifs";
+import { useOSSettings } from "../osSettings";
 import { useOS } from "../osStore";
 
 export default function HomeScreen() {
   const { apps, openApp } = useOS();
+  const { installedApps } = useOSSettings();
 
   return (
     <div className="os-fade-in flex h-full flex-col gap-6 overflow-y-auto px-5 py-6">
@@ -23,7 +25,7 @@ export default function HomeScreen() {
 
       <section aria-label="Apps" className="grid grid-cols-4 gap-x-3 gap-y-5">
         {apps
-          .filter((app) => !app.hidden)
+          .filter((app) => !app.hidden && (app.kind !== "user" || installedApps.includes(app.id)))
           .map((app) => {
             const tile = (
               <>

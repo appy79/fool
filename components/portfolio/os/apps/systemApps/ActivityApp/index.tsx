@@ -1,17 +1,18 @@
 "use client";
 
 import { resume } from "@/lib/resume";
-import BrandTechnologyIcon from "../../icons/BrandTechnologyIcon";
+import BrandTechnologyIcon from "../../../../icons/BrandTechnologyIcon";
+import { copy } from "./data";
 
 export default function ActivityApp() {
   return (
     <div className="space-y-5 p-5 sm:p-7">
       <header>
         <span className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-primary">
-          activity // stack health
+          {copy.eyebrow}
         </span>
         <h1 className="mt-2 font-display text-2xl font-semibold tracking-[-0.03em] text-foreground">
-          Subsystems
+          {copy.title}
         </h1>
       </header>
 
@@ -20,11 +21,11 @@ export default function ActivityApp() {
           <article key={section.title} className="glass-panel flex flex-col gap-3 p-4">
             <div className="flex items-center justify-between gap-2">
               <span className="font-mono text-[0.54rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                layer {String(index + 1).padStart(2, "0")}
+                {copy.layerPrefix} {String(index + 1).padStart(2, "0")}
               </span>
               <span className="inline-flex items-center gap-1.5 font-mono text-[0.52rem] font-semibold uppercase tracking-[0.16em] text-primary">
                 <span className="status-dot" aria-hidden="true" />
-                nominal
+                {copy.status}
               </span>
             </div>
             <div>
