@@ -51,6 +51,15 @@ type ProofPoint = {
   value: string;
 };
 
+type Availability = {
+  /** When true, the "open to roles" banner is shown across the OS. Flip to hide it. */
+  open: boolean;
+  /** Short status line, e.g. "Open to new roles". */
+  label: string;
+  /** Supporting detail: the kind of role and where, e.g. "Backend · Remote or Pune". */
+  detail: string;
+};
+
 type TelemetryReading = {
   label: string;
   value: string;
@@ -262,6 +271,12 @@ export const resume = {
   name: "Amandeep Yadav",
   title: "Software Developer",
   focus: "Backend, Frontend, and platform tooling for distributed systems",
+  // Recruiter-facing signal of intent. Edit `open` to false to hide the banner everywhere.
+  availability: {
+    open: true,
+    label: "Open to new roles",
+    detail: "Backend & platform engineering · Remote or Pune, India",
+  } satisfies Availability,
   proofPoints: [
     {
       label: "current",

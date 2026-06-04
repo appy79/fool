@@ -3,6 +3,7 @@
 import { resume } from "@/lib/resume";
 import HeroPortraitCard from "./HeroPortraitCard";
 import { OrbitalRing, PrimeRadiantGlyph } from "../../../../icons/FoundationMotifs";
+import AvailabilityBadge from "../../../AvailabilityBadge";
 import CopyEmailButton from "../../../CopyEmailButton";
 import SocialLinks from "../../../SocialLinks";
 import { useOS } from "../../../osStore";
@@ -62,6 +63,8 @@ export default function OperatorApp() {
                   </li>
                 ))}
               </ul>
+
+              <AvailabilityBadge className="mt-4" />
 
               <div className="mt-5 flex flex-wrap items-center gap-3">
                 <button

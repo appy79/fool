@@ -1,5 +1,5 @@
 import "./globals.css";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, Inter, Space_Grotesk } from "next/font/google";
 import { Providers } from "./providers";
 import CosmicBackground from "@/components/portfolio/shared/background/CosmicBackground";
@@ -26,6 +26,15 @@ const ogImage = {
   width: 1200,
   height: 630,
   alt: `${resume.name} software developer portfolio preview`,
+};
+
+// Ask the browser to resize the layout (Android) when the on-screen keyboard
+// opens. Pinch-zoom is intentionally left enabled for accessibility — the
+// auto-zoom-on-focus issue is handled by sizing inputs to 16px on touch.
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  interactiveWidget: "resizes-content",
 };
 
 export const metadata: Metadata = {

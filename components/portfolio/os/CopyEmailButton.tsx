@@ -1,5 +1,6 @@
 "use client";
 
+import { trackEvent } from "@/lib/analytics";
 import { useClipboard } from "./useClipboard";
 
 function CopyGlyph({ className }: { className?: string }) {
@@ -57,7 +58,10 @@ export default function CopyEmailButton({
   className = "",
 }: CopyEmailButtonProps) {
   const { copied, copy } = useClipboard();
-  const onClick = () => void copy(email);
+  const onClick = () => {
+    trackEvent("copy_email");
+    void copy(email);
+  };
   const a11yLabel = copied ? "Email address copied to clipboard" : `Copy email address ${email}`;
 
   if (variant === "card") {

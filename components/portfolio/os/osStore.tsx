@@ -11,7 +11,9 @@ import {
   useReducer,
   useRef,
 } from "react";
+import { trackEvent } from "@/lib/analytics";
 import type { ResolvedContactInfo } from "@/lib/resume";
+import { readDeepLink, writeDeepLink } from "./urlState";
 
 export type AppPayload = { projectTitle?: string };
 
@@ -381,10 +383,27 @@ export function OSProvider({
   children: ReactNode;
 }) {
   // Restore the windows the visitor left open (entry/unlock), validated against the apps
-  // and modules available right now. Reads localStorage once, at mount.
-  const [state, dispatch] = useReducer(reducer, null, () =>
-    loadSession(new Map(apps.map((app) => [app.id, app])), new Set(installedApps), dockPosition),
-  );
+  // and modules available right now. Reads localStorage once, at mount. If the URL carries
+  // a deep link (?app=…&project=…), that app is opened on top of the restored set so a
+  // shared link lands directly on its target.
+  const [state, dispatch] = useReducer(reducer, null, () => {
+    const map = new Map(apps.map((app) => [app.id, app]));
+    const restored = loadSession(map, new Set(installedApps), dockPosition);
+    const link = readDeepLink();
+    if (!link) return restored;
+    const app = map.get(link.appId);
+    if (!app) return restored;
+    // User modules must actually be installed before a link can open them.
+    if (app.kind === "user" && !installedApps.includes(app.id)) return restored;
+    const payload = link.projectTitle ? { projectTitle: link.projectTitle } : undefined;
+    return reducer(restored, {
+      type: "open",
+      app,
+      payload,
+      viewport: currentViewport(),
+      dock: dockPosition,
+    });
+  });
 
   const appsById = useMemo(() => new Map(apps.map((app) => [app.id, app])), [apps]);
 
@@ -436,6 +455,8 @@ export function OSProvider({
     (appId: string, payload?: AppPayload) => {
       const app = appsById.get(appId);
       if (!app) return;
+      if (payload?.projectTitle) trackEvent("open_project", { project: payload.projectTitle });
+      else trackEvent("open_app", { app: appId });
       const viewport =
         typeof window !== "undefined" ? { w: window.innerWidth, h: window.innerHeight } : undefined;
       dispatch({ type: "open", app, payload, viewport, dock: dockPosition });
@@ -448,6 +469,14 @@ export function OSProvider({
     if (visible.length === 0) return null;
     return visible.reduce((top, w) => (w.z > top.z ? w : top)).key;
   }, [state.windows]);
+
+  // Mirror the foreground window into the URL (replaceState — no history spam) so the
+  // address bar is always a shareable link to whatever is on top. Clears when nothing is open.
+  useEffect(() => {
+    const win = focusedKey ? state.windows.find((w) => w.key === focusedKey) : null;
+    if (win) writeDeepLink(win.appId, win.payload?.projectTitle);
+    else writeDeepLink(null);
+  }, [focusedKey, state.windows]);
 
   const value = useMemo<OSContextValue>(
     () => ({
@@ -464,7 +493,12 @@ export function OSProvider({
       resizeWindow: (key, w, h, x, y) => dispatch({ type: "resize", key, w, h, x, y }),
       minimizeWindow: (key) => dispatch({ type: "minimize", key }),
       toggleMaximize: (key) => dispatch({ type: "toggleMax", key }),
-      lock: () => onLock?.(),
+      lock: () => {
+        // Locking is an explicit "take me back" — drop the deep link so a reload from the
+        // lock screen doesn't immediately re-enter the last app.
+        writeDeepLink(null);
+        onLock?.();
+      },
     }),
     [apps, appsById, contact, state.windows, focusedKey, openApp, onLock],
   );

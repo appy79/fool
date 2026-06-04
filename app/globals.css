@@ -367,8 +367,22 @@ body {
 --------------------------------------------------------------------------- */
 .os-root {
   position: fixed;
-  inset: 0;
+  left: 0;
+  right: 0;
+  /* Track the visual viewport (set by JS from the VisualViewport API) so the
+     mobile on-screen keyboard shrinks the OS instead of hiding app content
+     behind it. Falls back to the full layout viewport when unavailable. */
+  top: var(--os-viewport-top, 0px);
+  height: var(--os-viewport-height, 100%);
   overflow: hidden;
+}
+
+/* iOS auto-zooms when a focused input's font-size is below 16px. Bump the
+   terminal input row on touch devices so focusing it never triggers a zoom. */
+@media (pointer: coarse) {
+  .terminal-input-row {
+    font-size: 16px;
+  }
 }
 
 /* User-selectable "reduce motion" from Settings: neutralizes OS animations/transitions
