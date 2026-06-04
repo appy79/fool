@@ -1,12 +1,15 @@
 "use client";
 
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react";
+import { trackEvent } from "@/lib/analytics";
 import { resume, type ResolvedContactInfo } from "@/lib/resume";
 import { OrbitalRing, PrimeRadiantGlyph } from "../icons/FoundationMotifs";
+import AvailabilityBadge from "./AvailabilityBadge";
 import CopyEmailButton from "./CopyEmailButton";
 import SocialLinks from "./SocialLinks";
 import { APPS, preloadApp } from "./appRegistry";
 import { useOSSettings } from "./osSettings";
+import { writeDeepLink } from "./urlState";
 
 type LockScreenProps = {
   contact: ResolvedContactInfo;
@@ -82,6 +85,13 @@ export default function LockScreen({ contact, onEnter, preloadShells }: LockScre
     };
   }, [hydrated, bootIds, preloadShells]);
 
+  // Fast path for recruiters: enter straight into the condensed Dossier via a deep link.
+  const quickGlance = () => {
+    trackEvent("quick_glance");
+    writeDeepLink("dossier");
+    onEnter();
+  };
+
   const systemCount = APPS.filter((app) => app.kind === "system" && !app.hidden).length;
   const userInstalled = APPS.filter(
     (app) => app.kind === "user" && installedApps.includes(app.id),
@@ -133,6 +143,8 @@ export default function LockScreen({ contact, onEnter, preloadShells }: LockScre
               <p className="mt-4 max-w-md text-sm leading-7 text-muted-foreground">
                 {resume.focus}.
               </p>
+
+              <AvailabilityBadge className="mt-5" />
 
               <div className="mt-auto pt-7">
                 <p className="font-mono text-[0.52rem] font-semibold uppercase tracking-[0.2em] text-muted-foreground/70">
@@ -274,6 +286,23 @@ export default function LockScreen({ contact, onEnter, preloadShells }: LockScre
               ? "press enter or click to launch"
               : `preparing ${systemCount + userInstalled} modules…`}
           </p>
+
+          <div className="mt-4 flex justify-center border-t border-border/50 pt-4">
+            <button
+              type="button"
+              onClick={quickGlance}
+              disabled={!ready}
+              className="group inline-flex items-center gap-2 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-muted-foreground transition hover:text-primary focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              Short on time? Open the 30-second brief
+              <span
+                aria-hidden="true"
+                className="text-primary transition-transform group-hover:translate-x-0.5"
+              >
+                {">_"}
+              </span>
+            </button>
+          </div>
         </div>
       </div>
     </div>

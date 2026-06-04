@@ -27,7 +27,7 @@ export default function TerminalApp() {
           </p>
         ))}
       </div>
-      <div className="mt-1 flex items-center gap-2">
+      <div className="terminal-input-row mt-1 flex items-center gap-2">
         <span aria-hidden="true" className="shrink-0 text-primary">
           {PROMPT}:~$
         </span>

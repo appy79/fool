@@ -1,14 +1,17 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { trackEvent } from "@/lib/analytics";
 import type { ResolvedContactInfo } from "@/lib/resume";
 import { APPS, preloadApp } from "./appRegistry";
 import { AppRuntimeProvider } from "./AppRuntime";
+import FirstRunGuide from "./FirstRunGuide";
 import LockScreen from "./LockScreen";
 import { NotificationProvider } from "./notifications";
 import { OSSettingsProvider, useOSSettings } from "./osSettings";
 import { OSProvider } from "./osStore";
+import { readDeepLink } from "./urlState";
 import useMediaQuery from "./useMediaQuery";
 import OSWallpaper from "./wallpaper/OSWallpaper";
 
@@ -44,9 +47,42 @@ export default function TerminusOS({ contact }: { contact: ResolvedContactInfo }
 }
 
 function OSShell({ contact }: { contact: ResolvedContactInfo }) {
-  const [entered, setEntered] = useState(false);
+  // A shared deep link (?app=…) lands the visitor straight inside the system, skipping the
+  // boot screen — the link's intent is the content, not the intro. A bare URL still boots.
+  const [entered, setEntered] = useState(
+    () => typeof window !== "undefined" && readDeepLink() !== null,
+  );
   const isDesktop = useMediaQuery("(min-width: 820px)");
   const { reduceMotion, installedApps, dockPosition } = useOSSettings();
+
+  // Record each entry (boot, deep link, or re-entry after a lock) exactly once per transition.
+  const wasEntered = useRef(false);
+  useEffect(() => {
+    if (entered && !wasEntered.current) trackEvent("enter_system");
+    wasEntered.current = entered;
+  }, [entered]);
+
+  // Mirror the visual viewport into CSS vars so `.os-root` shrinks to the area
+  // above the mobile on-screen keyboard (instead of staying full-height and
+  // hiding app content — e.g. the terminal input — behind it).
+  useEffect(() => {
+    const vv = window.visualViewport;
+    if (!vv) return;
+    const root = document.documentElement;
+    const apply = () => {
+      root.style.setProperty("--os-viewport-height", `${Math.round(vv.height)}px`);
+      root.style.setProperty("--os-viewport-top", `${Math.round(vv.offsetTop)}px`);
+    };
+    apply();
+    vv.addEventListener("resize", apply);
+    vv.addEventListener("scroll", apply);
+    return () => {
+      vv.removeEventListener("resize", apply);
+      vv.removeEventListener("scroll", apply);
+      root.style.removeProperty("--os-viewport-height");
+      root.style.removeProperty("--os-viewport-top");
+    };
+  }, []);
 
   return (
     <div className={`os-root text-foreground ${reduceMotion ? "os-reduce-motion" : ""}`}>
@@ -66,6 +102,7 @@ function OSShell({ contact }: { contact: ResolvedContactInfo }) {
                 <div className="os-enter h-full w-full">
                   {isDesktop ? <DesktopOS /> : <MobileOS />}
                 </div>
+                <FirstRunGuide />
               </AppRuntimeProvider>
             </NotificationProvider>
           </OSProvider>

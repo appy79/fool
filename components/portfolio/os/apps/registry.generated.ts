@@ -9,6 +9,7 @@ import type { GeneratedApp } from "./appManifest";
 import { manifest as systemApps_ActivityAppManifest } from "./systemApps/ActivityApp/manifest";
 import { manifest as systemApps_AppStoreAppManifest } from "./systemApps/AppStoreApp/manifest";
 import { manifest as systemApps_CaseFilesAppManifest } from "./systemApps/CaseFilesApp/manifest";
+import { manifest as systemApps_DossierAppManifest } from "./systemApps/DossierApp/manifest";
 import { manifest as systemApps_OperatorAppManifest } from "./systemApps/OperatorApp/manifest";
 import { manifest as systemApps_ResumeAppManifest } from "./systemApps/ResumeApp/manifest";
 import { manifest as systemApps_SettingsAppManifest } from "./systemApps/SettingsApp/manifest";
@@ -29,6 +30,7 @@ export const GENERATED_APPS: GeneratedApp[] = [
   { kind: "system", manifest: systemApps_ActivityAppManifest, load: () => import("./systemApps/ActivityApp") },
   { kind: "system", manifest: systemApps_AppStoreAppManifest, load: () => import("./systemApps/AppStoreApp") },
   { kind: "system", manifest: systemApps_CaseFilesAppManifest, load: () => import("./systemApps/CaseFilesApp") },
+  { kind: "system", manifest: systemApps_DossierAppManifest, load: () => import("./systemApps/DossierApp") },
   { kind: "system", manifest: systemApps_OperatorAppManifest, load: () => import("./systemApps/OperatorApp") },
   { kind: "system", manifest: systemApps_ResumeAppManifest, load: () => import("./systemApps/ResumeApp") },
   { kind: "system", manifest: systemApps_SettingsAppManifest, load: () => import("./systemApps/SettingsApp") },

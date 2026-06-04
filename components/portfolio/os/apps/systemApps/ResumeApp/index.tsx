@@ -1,5 +1,6 @@
 "use client";
 
+import { trackEvent } from "@/lib/analytics";
 import { resumeFiles } from "@/lib/resume-files";
 import { copy } from "./data";
 
@@ -22,6 +23,7 @@ export default function ResumeApp() {
               href={file.href}
               target="_blank"
               rel="noreferrer"
+              onClick={() => trackEvent("open_resume", { file: file.label })}
               className="block border border-border/70 bg-card/50 p-4 transition hover:border-primary/55 hover:bg-card/70 focus-visible:ring-3 focus-visible:ring-ring/60 focus-visible:outline-none"
             >
               <span className="block font-semibold text-foreground">{file.label}</span>
