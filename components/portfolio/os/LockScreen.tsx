@@ -43,9 +43,11 @@ export default function LockScreen({ contact, onEnter, preloadShells }: LockScre
     return () => window.removeEventListener("keydown", handler);
   }, [onEnter, ready]);
 
-  // Move focus to the CTA the moment the system check completes.
+  // Move focus to the CTA the moment the system check completes. `preventScroll` keeps the
+  // scroll position at the top — the button sits near the bottom, so a scrolling focus would
+  // strand a tall (mobile) lock screen scrolled past its header.
   useEffect(() => {
-    if (ready) enterRef.current?.focus();
+    if (ready) enterRef.current?.focus({ preventScroll: true });
   }, [ready]);
 
   // Spend the time on the boot screen fetching the shells and the modules that should be
@@ -101,172 +103,178 @@ export default function LockScreen({ contact, onEnter, preloadShells }: LockScre
   const checksPassed = checks.filter((check) => check.done).length;
 
   return (
-    <div className="os-fade-in flex h-full w-full items-center justify-center overflow-y-auto px-4 py-8 sm:py-10">
-      <div className="glass-panel w-full max-w-4xl rounded-2xl p-6 shadow-[0_30px_90px_-30px_color-mix(in_oklch,var(--primary)_45%,transparent)] ring-1 ring-primary/10 sm:p-9 dark:ring-primary/20">
-        <div className="flex items-center justify-between gap-3 border-b border-border/60 pb-4">
-          <span className="inline-flex items-center gap-2 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-            <PrimeRadiantGlyph className="size-3.5 text-primary" />
-            TerminusOS <span className="text-primary/70">v1.2</span>
-          </span>
-          <span className="inline-flex items-center gap-1.5 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-primary">
-            <span className="status-dot" aria-hidden="true" />
-            online
-          </span>
-        </div>
-
-        <div className="mt-7 grid gap-8 md:grid-cols-[1.5fr_1fr]">
-          {/* Identity — contact channels anchored to the bottom so the column fills its height */}
-          <div className="flex flex-col">
-            <p className="font-mono text-[0.66rem] font-semibold uppercase tracking-[0.22em] text-primary">
-              {resume.title}
-            </p>
-            <h1 className="mt-2 font-display text-5xl font-semibold leading-[0.95] tracking-[-0.05em] text-foreground sm:text-6xl dark:[text-shadow:0_0_36px_color-mix(in_oklch,var(--primary)_30%,transparent)]">
-              {resume.name}
-            </h1>
-            <div
-              className="mt-4 h-px w-40 bg-gradient-to-r from-primary via-gold to-transparent"
-              aria-hidden="true"
-            />
-            <p className="mt-4 max-w-md text-sm leading-7 text-muted-foreground">{resume.focus}.</p>
-
-            <div className="mt-auto pt-7">
-              <p className="font-mono text-[0.52rem] font-semibold uppercase tracking-[0.2em] text-muted-foreground/70">
-                channels
-              </p>
-              <div className="mt-2.5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted-foreground">
-                {contact.locationHref ? (
-                  <a
-                    href={contact.locationHref}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="font-semibold text-foreground underline-offset-4 transition hover:text-primary hover:underline focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
-                  >
-                    {contact.location}
-                  </a>
-                ) : (
-                  <span className="font-semibold text-foreground">{contact.location}</span>
-                )}
-                {contact.email ? <CopyEmailButton email={contact.email} variant="inline" /> : null}
-                {contact.phone ? (
-                  <a
-                    href={`tel:${contact.phone.replace(/\s+/g, "")}`}
-                    className="break-words font-mono underline-offset-4 transition hover:text-primary hover:underline focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
-                  >
-                    {contact.phone}
-                  </a>
-                ) : null}
-              </div>
-              <SocialLinks socials={contact.socials} className="mt-3.5" />
-            </div>
-          </div>
-
-          {/* System check — a self-contained instrument that also acts as the loader */}
-          <div className="flex flex-col rounded-xl border border-border/60 bg-card/40 p-4 backdrop-blur-sm">
-            <div className="flex items-center justify-between gap-3">
-              <p className="font-mono text-[0.54rem] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                system check
-              </p>
-              <span className="inline-flex items-center gap-1.5 font-mono text-[0.54rem] uppercase tracking-[0.18em] text-primary">
-                {ready ? (
-                  <span aria-hidden="true">✓</span>
-                ) : (
-                  <span
-                    className="inline-block size-2.5 animate-spin rounded-full border border-muted-foreground/40 border-t-primary"
-                    aria-hidden="true"
-                  />
-                )}
-                {ready ? "ready" : "checking"}
-              </span>
-            </div>
-            <ul
-              className="mt-3 space-y-2 font-mono text-[0.66rem]"
-              aria-live="polite"
-              aria-busy={!ready}
-            >
-              {checks.map((check, index) => (
-                <li
-                  key={check.k}
-                  className="os-fade-in flex items-center justify-between gap-3"
-                  style={{ animationDelay: `${120 + index * 90}ms` } as CSSProperties}
-                >
-                  <span className="inline-flex items-center gap-2 text-muted-foreground">
-                    {check.done ? (
-                      <span className="text-primary" aria-hidden="true">
-                        ✓
-                      </span>
-                    ) : (
-                      <span
-                        className="inline-block size-2.5 animate-spin rounded-full border border-muted-foreground/40 border-t-primary"
-                        aria-hidden="true"
-                      />
-                    )}
-                    {check.k}
-                  </span>
-                  <span className="text-right tabular-nums text-foreground">{check.v}</span>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-auto flex items-center justify-between gap-3 border-t border-border/50 pt-3 font-mono text-[0.54rem] uppercase tracking-[0.16em] text-muted-foreground">
-              <span>{ready ? "all systems nominal" : "warming modules"}</span>
-              <span className="tabular-nums text-foreground">
-                {checksPassed}/{checks.length}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Highlights — promoted to a full-width band so the cards have room to breathe */}
-        <ul className="mt-8 grid gap-3 sm:grid-cols-3" aria-label="Highlights">
-          {resume.proofPoints.map((point) => (
-            <li
-              key={point.label}
-              className="rounded-lg border border-border/60 bg-card/40 p-3.5 backdrop-blur-sm"
-            >
-              <span className="flex items-center gap-1.5 font-mono text-[0.54rem] uppercase tracking-[0.18em] text-primary">
-                <OrbitalRing className="size-3 text-gold" />
-                {point.label}
-              </span>
-              <span className="mt-1.5 block text-base font-semibold tracking-[-0.01em] text-foreground">
-                {point.value}
-              </span>
-            </li>
-          ))}
-        </ul>
-
-        <button
-          type="button"
-          ref={enterRef}
-          disabled={!ready}
-          aria-disabled={!ready}
-          onClick={onEnter}
-          className={`group mt-8 inline-flex w-full items-center justify-between gap-4 rounded-lg border px-5 py-4 text-left transition focus-visible:ring-3 focus-visible:ring-ring/60 focus-visible:outline-none ${
-            ready
-              ? "border-primary/50 bg-primary/10 hover:border-primary hover:bg-primary/15"
-              : "cursor-not-allowed border-border/60 bg-card/30 opacity-60"
-          }`}
-        >
-          <span className="font-mono text-sm font-semibold uppercase tracking-[0.18em] text-foreground">
-            {ready ? "Enter the system" : "Running system check…"}
-          </span>
-          {ready ? (
-            <span
-              aria-hidden="true"
-              className="font-mono text-primary transition-transform group-hover:translate-x-1"
-            >
-              {">_"}
+    <div className="os-fade-in h-full w-full overflow-y-auto">
+      <div className="flex min-h-full w-full items-center justify-center px-4 py-8 sm:py-10">
+        <div className="glass-panel w-full max-w-4xl rounded-2xl p-6 shadow-[0_30px_90px_-30px_color-mix(in_oklch,var(--primary)_45%,transparent)] ring-1 ring-primary/10 sm:p-9 dark:ring-primary/20">
+          <div className="flex items-center justify-between gap-3 border-b border-border/60 pb-4">
+            <span className="inline-flex items-center gap-2 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+              <PrimeRadiantGlyph className="size-3.5 text-primary" />
+              TerminusOS <span className="text-primary/70">v1.2</span>
             </span>
-          ) : (
-            <span
-              aria-hidden="true"
-              className="inline-block size-3.5 animate-spin rounded-full border-2 border-primary/30 border-t-primary"
-            />
-          )}
-        </button>
-        <p className="mt-3 text-center font-mono text-[0.56rem] uppercase tracking-[0.16em] text-muted-foreground">
-          {ready
-            ? "press enter or click to launch"
-            : `preparing ${systemCount + userInstalled} modules…`}
-        </p>
+            <span className="inline-flex items-center gap-1.5 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-primary">
+              <span className="status-dot" aria-hidden="true" />
+              online
+            </span>
+          </div>
+
+          <div className="mt-7 grid gap-8 md:grid-cols-[1.5fr_1fr]">
+            {/* Identity — contact channels anchored to the bottom so the column fills its height */}
+            <div className="flex flex-col">
+              <p className="font-mono text-[0.66rem] font-semibold uppercase tracking-[0.22em] text-primary">
+                {resume.title}
+              </p>
+              <h1 className="mt-2 font-display text-5xl font-semibold leading-[0.95] tracking-[-0.05em] text-foreground sm:text-6xl dark:[text-shadow:0_0_36px_color-mix(in_oklch,var(--primary)_30%,transparent)]">
+                {resume.name}
+              </h1>
+              <div
+                className="mt-4 h-px w-40 bg-gradient-to-r from-primary via-gold to-transparent"
+                aria-hidden="true"
+              />
+              <p className="mt-4 max-w-md text-sm leading-7 text-muted-foreground">
+                {resume.focus}.
+              </p>
+
+              <div className="mt-auto pt-7">
+                <p className="font-mono text-[0.52rem] font-semibold uppercase tracking-[0.2em] text-muted-foreground/70">
+                  channels
+                </p>
+                <div className="mt-2.5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted-foreground">
+                  {contact.locationHref ? (
+                    <a
+                      href={contact.locationHref}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="font-semibold text-foreground underline-offset-4 transition hover:text-primary hover:underline focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+                    >
+                      {contact.location}
+                    </a>
+                  ) : (
+                    <span className="font-semibold text-foreground">{contact.location}</span>
+                  )}
+                  {contact.email ? (
+                    <CopyEmailButton email={contact.email} variant="inline" />
+                  ) : null}
+                  {contact.phone ? (
+                    <a
+                      href={`tel:${contact.phone.replace(/\s+/g, "")}`}
+                      className="break-words font-mono underline-offset-4 transition hover:text-primary hover:underline focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+                    >
+                      {contact.phone}
+                    </a>
+                  ) : null}
+                </div>
+                <SocialLinks socials={contact.socials} className="mt-3.5" />
+              </div>
+            </div>
+
+            {/* System check — a self-contained instrument that also acts as the loader */}
+            <div className="flex flex-col rounded-xl border border-border/60 bg-card/40 p-4 backdrop-blur-sm">
+              <div className="flex items-center justify-between gap-3">
+                <p className="font-mono text-[0.54rem] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                  system check
+                </p>
+                <span className="inline-flex items-center gap-1.5 font-mono text-[0.54rem] uppercase tracking-[0.18em] text-primary">
+                  {ready ? (
+                    <span aria-hidden="true">✓</span>
+                  ) : (
+                    <span
+                      className="inline-block size-2.5 animate-spin rounded-full border border-muted-foreground/40 border-t-primary"
+                      aria-hidden="true"
+                    />
+                  )}
+                  {ready ? "ready" : "checking"}
+                </span>
+              </div>
+              <ul
+                className="mt-3 space-y-2 font-mono text-[0.66rem]"
+                aria-live="polite"
+                aria-busy={!ready}
+              >
+                {checks.map((check, index) => (
+                  <li
+                    key={check.k}
+                    className="os-fade-in flex items-center justify-between gap-3"
+                    style={{ animationDelay: `${120 + index * 90}ms` } as CSSProperties}
+                  >
+                    <span className="inline-flex items-center gap-2 text-muted-foreground">
+                      {check.done ? (
+                        <span className="text-primary" aria-hidden="true">
+                          ✓
+                        </span>
+                      ) : (
+                        <span
+                          className="inline-block size-2.5 animate-spin rounded-full border border-muted-foreground/40 border-t-primary"
+                          aria-hidden="true"
+                        />
+                      )}
+                      {check.k}
+                    </span>
+                    <span className="text-right tabular-nums text-foreground">{check.v}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-auto flex items-center justify-between gap-3 border-t border-border/50 pt-3 font-mono text-[0.54rem] uppercase tracking-[0.16em] text-muted-foreground">
+                <span>{ready ? "all systems nominal" : "warming modules"}</span>
+                <span className="tabular-nums text-foreground">
+                  {checksPassed}/{checks.length}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Highlights — promoted to a full-width band so the cards have room to breathe */}
+          <ul className="mt-8 grid gap-3 sm:grid-cols-3" aria-label="Highlights">
+            {resume.proofPoints.map((point) => (
+              <li
+                key={point.label}
+                className="rounded-lg border border-border/60 bg-card/40 p-3.5 backdrop-blur-sm"
+              >
+                <span className="flex items-center gap-1.5 font-mono text-[0.54rem] uppercase tracking-[0.18em] text-primary">
+                  <OrbitalRing className="size-3 text-gold" />
+                  {point.label}
+                </span>
+                <span className="mt-1.5 block text-base font-semibold tracking-[-0.01em] text-foreground">
+                  {point.value}
+                </span>
+              </li>
+            ))}
+          </ul>
+
+          <button
+            type="button"
+            ref={enterRef}
+            disabled={!ready}
+            aria-disabled={!ready}
+            onClick={onEnter}
+            className={`group mt-8 inline-flex w-full items-center justify-between gap-4 rounded-lg border px-5 py-4 text-left transition focus-visible:ring-3 focus-visible:ring-ring/60 focus-visible:outline-none ${
+              ready
+                ? "border-primary/50 bg-primary/10 hover:border-primary hover:bg-primary/15"
+                : "cursor-not-allowed border-border/60 bg-card/30 opacity-60"
+            }`}
+          >
+            <span className="font-mono text-sm font-semibold uppercase tracking-[0.18em] text-foreground">
+              {ready ? "Enter the system" : "Running system check…"}
+            </span>
+            {ready ? (
+              <span
+                aria-hidden="true"
+                className="font-mono text-primary transition-transform group-hover:translate-x-1"
+              >
+                {">_"}
+              </span>
+            ) : (
+              <span
+                aria-hidden="true"
+                className="inline-block size-3.5 animate-spin rounded-full border-2 border-primary/30 border-t-primary"
+              />
+            )}
+          </button>
+          <p className="mt-3 text-center font-mono text-[0.56rem] uppercase tracking-[0.16em] text-muted-foreground">
+            {ready
+              ? "press enter or click to launch"
+              : `preparing ${systemCount + userInstalled} modules…`}
+          </p>
+        </div>
       </div>
     </div>
   );

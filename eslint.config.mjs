@@ -9,5 +9,6 @@ export default defineConfig([
     ".next/**",
     "next-env.d.ts",
     "node_modules/**",
+    "components/portfolio/os/apps/registry.generated.ts",
   ]),
 ]);

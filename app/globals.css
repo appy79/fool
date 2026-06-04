@@ -283,7 +283,8 @@ body {
 .project-showcase {
   position: relative;
   display: block;
-  min-height: clamp(17rem, 38vw, 28rem);
+  /* Height is driven entirely by the scaled scene's aspect ratio (see ScaledSceneCanvas),
+     so the wrapper hugs the visual instead of leaving dead space beneath it on narrow widths. */
   overflow: hidden;
   color: inherit;
   background:
@@ -394,8 +395,20 @@ body {
     animation: os-app-in 360ms cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
+  .os-toast-in {
+    animation: os-toast-in 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .os-snap-preview {
+    animation: os-snap-in 140ms ease both;
+  }
+
   .os-fade-in {
     animation: os-fade-in 420ms ease both;
+  }
+
+  .cipher-shake {
+    animation: cipher-shake 360ms ease both;
   }
 
   .os-dock-item {
@@ -453,6 +466,49 @@ body {
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@keyframes os-toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes os-snap-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes cipher-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-5px);
+  }
+  40%,
+  80% {
+    transform: translateX(5px);
+  }
+}
+
+/* The snap preview is portalled to <body>, outside the .os-reduce-motion scope, so honor
+   the system preference here too. */
+@media (prefers-reduced-motion: reduce) {
+  .os-snap-preview {
+    animation: none;
   }
 }
 

@@ -42,6 +42,8 @@ type CopyEmailButtonProps = {
   /** Eyebrow label shown above the address in the card variant. */
   label?: string;
   variant?: "inline" | "card";
+  /** Extra classes merged onto the root (e.g. grid span for the card variant). */
+  className?: string;
 };
 
 /**
@@ -52,6 +54,7 @@ export default function CopyEmailButton({
   email,
   label,
   variant = "inline",
+  className = "",
 }: CopyEmailButtonProps) {
   const { copied, copy } = useClipboard();
   const onClick = () => void copy(email);
@@ -63,7 +66,7 @@ export default function CopyEmailButton({
         type="button"
         onClick={onClick}
         aria-label={a11yLabel}
-        className="group flex w-full items-center justify-between gap-3 border border-border/70 bg-card/50 p-4 text-left transition hover:border-primary/55 hover:bg-card/70 focus-visible:ring-3 focus-visible:ring-ring/60 focus-visible:outline-none"
+        className={`group flex w-full items-center justify-between gap-3 border border-border/70 bg-card/50 p-4 text-left transition hover:border-primary/55 hover:bg-card/70 focus-visible:ring-3 focus-visible:ring-ring/60 focus-visible:outline-none ${className}`}
       >
         <span className="min-w-0">
           {label ? (
@@ -89,7 +92,7 @@ export default function CopyEmailButton({
       type="button"
       onClick={onClick}
       aria-label={a11yLabel}
-      className="group inline-flex items-center gap-1.5 font-mono underline-offset-4 transition hover:text-primary focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+      className={`group inline-flex items-center gap-1.5 font-mono underline-offset-4 transition hover:text-primary focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none ${className}`}
     >
       <span className="group-hover:underline">{email}</span>
       <span aria-live="polite" className="inline-flex items-center gap-1 text-primary">

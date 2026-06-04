@@ -1,5 +1,6 @@
 "use client";
 
+import { useNotifications } from "../../../notifications";
 import { type AppDefinition, useOS } from "../../../osStore";
 import { useOSSettings } from "../../../osSettings";
 import { copy } from "./data";
@@ -7,12 +8,25 @@ import { SystemModuleRow } from "./SystemModuleRow";
 import { UserModuleRow } from "./UserModuleRow";
 
 export default function AppStoreApp() {
-  const { apps, openApp } = useOS();
+  const { apps, appsById, openApp } = useOS();
   const { installedApps, installApp, uninstallApp, resetApps } = useOSSettings();
+  const { notify } = useNotifications();
 
   const userApps = apps.filter((app) => app.kind === "user" && !app.hidden);
   const systemApps = apps.filter((app) => app.kind === "system" && !app.hidden);
   const installedCount = userApps.filter((app) => installedApps.includes(app.id)).length;
+
+  const titleFor = (id: string) => appsById.get(id)?.title ?? id;
+
+  const install = (id: string) => {
+    installApp(id);
+    notify(`${titleFor(id)} installed — added to dock`, { tone: "success" });
+  };
+
+  const uninstall = (id: string) => {
+    uninstallApp(id);
+    notify(`${titleFor(id)} removed`, { tone: "warn" });
+  };
 
   const launch = (app: AppDefinition) => {
     if (app.href) {
@@ -54,15 +68,15 @@ export default function AppStoreApp() {
           </button>
         </div>
 
-        <ul className="grid gap-2.5">
+        <ul className="grid grid-cols-[minmax(0,1fr)] gap-2.5">
           {userApps.map((app) => (
             <UserModuleRow
               key={app.id}
               app={app}
               installed={installedApps.includes(app.id)}
               onOpen={openApp}
-              onInstall={installApp}
-              onUninstall={uninstallApp}
+              onInstall={install}
+              onUninstall={uninstall}
             />
           ))}
         </ul>
@@ -72,7 +86,7 @@ export default function AppStoreApp() {
         <h2 className="font-mono text-[0.56rem] font-semibold uppercase tracking-[0.2em] text-foreground">
           {copy.systemHeading}
         </h2>
-        <ul className="grid gap-2 @md:grid-cols-2">
+        <ul className="grid grid-cols-[minmax(0,1fr)] gap-2 @md:grid-cols-[repeat(2,minmax(0,1fr))]">
           {systemApps.map((app) => (
             <SystemModuleRow key={app.id} app={app} onOpen={launch} />
           ))}

@@ -14,26 +14,29 @@ export function UserModuleRow({
   onUninstall: (id: string) => void;
 }) {
   return (
-    <li className="flex flex-wrap items-center gap-3 border border-border/70 bg-card/50 p-3.5">
-      <span className="flex min-w-[11rem] flex-1 items-center gap-3">
+    <li className="flex min-w-0 flex-col gap-3 border border-border/70 bg-card/50 p-3.5 @md:flex-row @md:items-center @md:gap-4">
+      {/* Identity — min-w-0 at every level so a long title/description truncates instead of
+          pushing the row wider than its column. */}
+      <div className="flex min-w-0 flex-1 items-center gap-3">
         <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-border/60 bg-gradient-to-b from-card/85 to-background/40 text-primary">
           <app.Icon className="size-5" />
         </span>
-        <span className="min-w-0 flex-1">
-          <span className="flex items-center gap-2">
+        <div className="min-w-0 flex-1">
+          <div className="flex min-w-0 items-center gap-2">
             <span className="truncate font-semibold text-foreground">{app.title}</span>
             {installed ? (
               <span className="shrink-0 rounded-full bg-primary/15 px-2 py-0.5 font-mono text-[0.5rem] font-semibold uppercase tracking-[0.12em] text-primary">
                 Installed
               </span>
             ) : null}
-          </span>
-          <span className="mt-0.5 block truncate text-sm text-muted-foreground">
+          </div>
+          <p className="mt-0.5 text-sm break-words text-muted-foreground">
             {app.description ?? "User module"}
-          </span>
-        </span>
-      </span>
-      <div className="flex shrink-0 items-center gap-2">
+          </p>
+        </div>
+      </div>
+
+      <div className="flex shrink-0 flex-wrap gap-2 @md:justify-end">
         {installed ? (
           <>
             <button

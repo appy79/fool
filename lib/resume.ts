@@ -11,6 +11,8 @@ export type ProjectVisualKind =
 
 type SkillCategory = {
   title: string;
+  /** Short label for compact UIs (e.g. the Activity app's tab strip). */
+  short?: string;
   summary: string;
   items: string[];
 };
@@ -284,11 +286,13 @@ export const resume = {
   skills: [
     {
       title: "Backend & testing",
+      short: "Backend",
       summary: "Service code, API edges, and confidence checks.",
       items: ["Java", "Spring Boot", "Python", "Flask", "JUnit", "Mockito", "Test NG", "Postman"],
     },
     {
       title: "Data & systems",
+      short: "Data",
       summary: "Event flows, storage tradeoffs, and fundamentals.",
       items: [
         "Kafka",
@@ -305,11 +309,13 @@ export const resume = {
     },
     {
       title: "Cloud & delivery",
+      short: "Cloud",
       summary: "Containers, pipelines, secrets, and release paths.",
       items: ["Kubernetes", "Docker", "GitLab CI", "Jenkins", "Vault", "AWS", "Azure"],
     },
     {
       title: "Frontend",
+      short: "Frontend",
       summary: "Readable interfaces for operational systems.",
       items: ["React.js", "Angular.js", "JavaScript", "TypeScript", "Three.js"],
     },

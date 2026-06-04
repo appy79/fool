@@ -6,6 +6,7 @@ import type { ResolvedContactInfo } from "@/lib/resume";
 import { APPS, preloadApp } from "./appRegistry";
 import { AppRuntimeProvider } from "./AppRuntime";
 import LockScreen from "./LockScreen";
+import { NotificationProvider } from "./notifications";
 import { OSSettingsProvider, useOSSettings } from "./osSettings";
 import { OSProvider } from "./osStore";
 import useMediaQuery from "./useMediaQuery";
@@ -45,7 +46,7 @@ export default function TerminusOS({ contact }: { contact: ResolvedContactInfo }
 function OSShell({ contact }: { contact: ResolvedContactInfo }) {
   const [entered, setEntered] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 820px)");
-  const { reduceMotion, installedApps } = useOSSettings();
+  const { reduceMotion, installedApps, dockPosition } = useOSSettings();
 
   return (
     <div className={`os-root text-foreground ${reduceMotion ? "os-reduce-motion" : ""}`}>
@@ -56,14 +57,17 @@ function OSShell({ contact }: { contact: ResolvedContactInfo }) {
             apps={APPS}
             contact={contact}
             installedApps={installedApps}
+            dockPosition={dockPosition}
             preloadApp={preloadApp}
             onLock={() => setEntered(false)}
           >
-            <AppRuntimeProvider>
-              <div className="os-enter h-full w-full">
-                {isDesktop ? <DesktopOS /> : <MobileOS />}
-              </div>
-            </AppRuntimeProvider>
+            <NotificationProvider>
+              <AppRuntimeProvider>
+                <div className="os-enter h-full w-full">
+                  {isDesktop ? <DesktopOS /> : <MobileOS />}
+                </div>
+              </AppRuntimeProvider>
+            </NotificationProvider>
           </OSProvider>
         ) : (
           <LockScreen

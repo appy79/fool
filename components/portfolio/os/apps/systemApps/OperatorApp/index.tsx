@@ -113,7 +113,12 @@ export default function OperatorApp() {
           {contact.email || contact.phone ? (
             <div className="mt-4 grid gap-3 @md:grid-cols-2">
               {contact.email ? (
-                <CopyEmailButton email={contact.email} label={copy.emailLabel} variant="card" />
+                <CopyEmailButton
+                  email={contact.email}
+                  label={copy.emailLabel}
+                  variant="card"
+                  className="@md:col-span-2"
+                />
               ) : null}
               {contact.phone ? (
                 <a

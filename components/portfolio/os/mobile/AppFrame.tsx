@@ -2,10 +2,12 @@
 
 import { useEffect, useRef } from "react";
 import { useAppSlot } from "../AppRuntime";
+import { useOSSettings } from "../osSettings";
 import { type AppDefinition, useOS, type WindowState } from "../osStore";
 
 export default function AppFrame({ win, app }: { win: WindowState; app: AppDefinition }) {
   const { closeWindow } = useOS();
+  const { allowHorizontalScroll } = useOSSettings();
   const frameRef = useRef<HTMLElement>(null);
   // The app body is mounted once by the persistent process layer and reparented here.
   const slotRef = useAppSlot(win.key);
@@ -47,7 +49,12 @@ export default function AppFrame({ win, app }: { win: WindowState; app: AppDefin
         </div>
         <span className="w-[4.5rem]" aria-hidden="true" />
       </header>
-      <div ref={slotRef} className="@container min-h-0 flex-1 overflow-auto" />
+      <div
+        ref={slotRef}
+        className={`@container min-h-0 flex-1 overflow-y-auto ${
+          allowHorizontalScroll ? "overflow-x-auto" : "overflow-x-hidden"
+        }`}
+      />
     </section>
   );
 }

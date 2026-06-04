@@ -8,7 +8,7 @@ export function SystemModuleRow({
   onOpen: (app: AppDefinition) => void;
 }) {
   return (
-    <li className="flex items-center gap-3 border border-border/60 bg-card/40 p-3">
+    <li className="flex min-w-0 items-center gap-3 border border-border/60 bg-card/40 p-3">
       <span className="grid size-9 shrink-0 place-items-center rounded-lg border border-border/60 bg-card/50 text-primary">
         <app.Icon className="size-4" />
       </span>

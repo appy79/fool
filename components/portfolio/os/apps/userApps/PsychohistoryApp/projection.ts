@@ -9,25 +9,29 @@ export type Projection = {
   horizon: number;
 };
 
-function hash(input: string) {
-  let h = 2166136261;
-  for (let i = 0; i < input.length; i += 1) {
-    h ^= input.charCodeAt(i);
-    h = Math.imul(h, 16777619);
+/** Fisher-Yates: returns the indices [0..length) in a random order (the draw queue). */
+export function shuffledQueue(length: number): number[] {
+  const order = Array.from({ length }, (_, index) => index);
+  for (let i = order.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [order[i], order[j]] = [order[j], order[i]];
   }
-  return Math.abs(h);
+  return order;
 }
 
-/** Deterministic "forecast": same seed always yields the same projection. */
-export function project(seedRaw: string, id: number): Projection {
+const pick = <T>(items: readonly T[]): T => items[Math.floor(Math.random() * items.length)];
+
+const capitalize = (text: string) => (text ? text.charAt(0).toUpperCase() + text.slice(1) : text);
+
+/** Builds one projection from a specific (already-dequeued) outcome line. */
+export function buildProjection(seedRaw: string, outcomeIndex: number, id: number): Projection {
   const seed = seedRaw.trim() || "the unknown";
-  const h = hash(seed.toLowerCase());
   return {
     id,
     seed,
-    opener: OPENERS[h % OPENERS.length],
-    outcome: OUTCOMES[(h >> 3) % OUTCOMES.length].replace("{s}", seed),
-    confidence: 60 + ((h >> 5) % 39),
-    horizon: 1 + ((h >> 7) % 6),
+    opener: pick(OPENERS),
+    outcome: capitalize(OUTCOMES[outcomeIndex].replace(/\{s\}/g, seed)),
+    confidence: 61 + Math.floor(Math.random() * 38),
+    horizon: 1 + Math.floor(Math.random() * 6),
   };
 }
