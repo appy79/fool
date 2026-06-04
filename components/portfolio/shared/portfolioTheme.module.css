@@ -1,15 +1,7 @@
+/*
+ * Scoped frame for the portfolio content column. The Foundation palette now lives in the
+ * global :root / .dark tokens (app/globals.css) so the header and content stay in lockstep,
+ * so this class is intentionally a no-op hook kept for layout/structure scoping.
+ */
 .theme {
-}
-
-:global(.dark) .theme {
-  --primary: oklch(0.84 0.2 145);
-  --primary-foreground: oklch(0.14 0.04 145);
-  --secondary: oklch(0.24 0.03 145);
-  --secondary-foreground: oklch(0.92 0.024 145);
-  --muted-foreground: oklch(0.84 0.018 145);
-  --accent: oklch(0.22 0.035 145);
-  --accent-foreground: oklch(0.94 0.026 145);
-  --border: oklch(0.72 0.035 145 / 0.44);
-  --input: oklch(0.5 0.03 145 / 0.42);
-  --ring: oklch(0.84 0.2 145);
 }

@@ -1,0 +1,407 @@
+.wallpaper {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  /* Light theme = printed star-chart ink on parchment. */
+  --wp-ink: color-mix(in oklch, var(--primary) 64%, oklch(0.26 0.07 264));
+  --wp-accent: color-mix(in oklch, var(--gold) 70%, oklch(0.34 0.09 64));
+  --wp-star: color-mix(in oklch, var(--primary) 50%, oklch(0.3 0.05 264));
+  --wp-city: color-mix(in oklch, var(--primary) 60%, oklch(0.3 0.06 264));
+  color: var(--wp-ink);
+}
+
+:global(.dark) .wallpaper {
+  /* Dark theme = glowing holographic deep space. */
+  --wp-ink: var(--primary);
+  --wp-accent: var(--gold);
+  --wp-star: color-mix(in oklch, white 70%, var(--primary));
+  --wp-city: color-mix(in oklch, var(--gold) 76%, white);
+}
+
+.wallpaper > * {
+  position: absolute;
+  inset: 0;
+}
+
+/* ----------------------------- Shared layers ----------------------------- */
+
+.base {
+  background:
+    radial-gradient(
+      120% 78% at 50% 2%,
+      color-mix(in oklch, var(--primary) 6%, transparent),
+      transparent 60%
+    ),
+    linear-gradient(
+      180deg,
+      oklch(0.972 0.012 88) 0%,
+      oklch(0.95 0.016 80) 58%,
+      oklch(0.928 0.022 70) 100%
+    );
+}
+
+:global(.dark) .base {
+  background:
+    radial-gradient(
+      132% 92% at 50% -14%,
+      color-mix(in oklch, var(--primary) 26%, transparent),
+      transparent 56%
+    ),
+    radial-gradient(
+      82% 60% at 84% 116%,
+      color-mix(in oklch, var(--gold) 12%, transparent),
+      transparent 60%
+    ),
+    linear-gradient(
+      180deg,
+      oklch(0.13 0.045 270) 0%,
+      oklch(0.082 0.03 268) 56%,
+      oklch(0.06 0.025 264) 100%
+    );
+}
+
+.stars {
+  background-image:
+    radial-gradient(
+      1.3px 1.3px at 18% 24%,
+      color-mix(in oklch, var(--wp-star) 80%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      1px 1px at 64% 16%,
+      color-mix(in oklch, var(--wp-star) 70%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      1px 1px at 82% 60%,
+      color-mix(in oklch, var(--wp-accent) 60%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      1px 1px at 34% 78%,
+      color-mix(in oklch, var(--wp-star) 60%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      0.8px 0.8px at 50% 42%,
+      color-mix(in oklch, var(--wp-star) 50%, transparent),
+      transparent 60%
+    );
+  background-size:
+    320px 340px,
+    380px 420px,
+    300px 360px,
+    260px 300px,
+    200px 240px;
+  opacity: 0.12;
+}
+
+:global(.dark) .stars {
+  opacity: 0.4;
+}
+
+.vignette {
+  background: radial-gradient(
+    circle at 50% 42%,
+    transparent 52%,
+    color-mix(in oklch, var(--background) 72%, black) 100%
+  );
+  opacity: 0.12;
+}
+
+:global(.dark) .vignette {
+  opacity: 0.5;
+}
+
+.wallpaper[data-variant="void"] .vignette {
+  opacity: 0.22;
+}
+
+:global(.dark) .wallpaper[data-variant="void"] .vignette {
+  opacity: 0.56;
+}
+
+/* --------------------------- Prime Radiant ------------------------------- */
+
+.radiantGlow {
+  background: radial-gradient(
+    26% 26% at 50% 49%,
+    color-mix(in oklch, var(--wp-accent) 16%, transparent),
+    transparent 70%
+  );
+  opacity: 0.45;
+}
+
+:global(.dark) .radiantGlow {
+  background: radial-gradient(
+    30% 30% at 50% 49%,
+    color-mix(in oklch, var(--primary) 26%, transparent),
+    transparent 72%
+  );
+  opacity: 0.9;
+}
+
+.radiantSvg {
+  /* Replaced <svg> elements don't reliably stretch from `inset: 0` alone, so pin the box to
+     the full viewport; preserveAspectRatio="xMidYMid" then keeps the dial centered. */
+  width: 100%;
+  height: 100%;
+  color: var(--wp-ink);
+  opacity: 0.5;
+}
+
+:global(.dark) .radiantSvg {
+  opacity: 0.62;
+  filter: drop-shadow(0 0 4px color-mix(in oklch, var(--primary) 45%, transparent));
+}
+
+.glyph {
+  font-family: ui-monospace, "SF Mono", "JetBrains Mono", "Fira Code", monospace;
+  font-size: 18px;
+  letter-spacing: 0.04em;
+  fill: var(--wp-accent);
+  opacity: 0.55;
+}
+
+.accent {
+  color: var(--wp-accent);
+}
+
+/* --------------------------- Galactic Spiral ----------------------------- */
+
+.galaxyCore {
+  background:
+    radial-gradient(
+      10% 7% at 50% 50%,
+      color-mix(in oklch, var(--wp-accent) 26%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      30% 20% at 50% 50%,
+      color-mix(in oklch, var(--primary) 14%, transparent),
+      transparent 72%
+    );
+  opacity: 0.5;
+}
+
+:global(.dark) .galaxyCore {
+  background:
+    radial-gradient(9% 6% at 50% 50%, color-mix(in oklch, white 70%, var(--gold)), transparent 70%),
+    radial-gradient(
+      34% 23% at 50% 50%,
+      color-mix(in oklch, var(--primary) 30%, transparent),
+      transparent 72%
+    );
+  opacity: 0.85;
+}
+
+.galaxySvg {
+  /* Fill the viewport so preserveAspectRatio="xMidYMid slice" centers the galaxy core. */
+  width: 100%;
+  height: 100%;
+  color: var(--wp-ink);
+  opacity: 0.6;
+}
+
+:global(.dark) .galaxySvg {
+  opacity: 0.85;
+  filter: drop-shadow(0 0 5px color-mix(in oklch, var(--primary) 40%, transparent));
+}
+
+.arm {
+  color: var(--wp-ink);
+}
+
+.dust {
+  stroke: color-mix(in oklch, var(--primary) 55%, oklch(0.62 0.2 318));
+}
+
+.star {
+  color: var(--wp-star);
+}
+
+/* ------------------------------- Trantor --------------------------------- */
+
+.trantorPlanet {
+  inset: 56% -46% -56% -46%;
+  border-radius: 50%;
+  background-color: oklch(0.9 0.02 84);
+  background-image:
+    radial-gradient(
+      120% 90% at 50% 8%,
+      color-mix(in oklch, var(--primary) 10%, transparent),
+      transparent 52%
+    ),
+    radial-gradient(var(--wp-city) 0.6px, transparent 1.5px);
+  background-size:
+    auto,
+    23px 23px;
+  background-position: center, center;
+  box-shadow: inset 0 0 0 1.5px color-mix(in oklch, var(--wp-ink) 45%, transparent);
+  opacity: 0.5;
+}
+
+:global(.dark) .trantorPlanet {
+  background-color: oklch(0.12 0.04 268);
+  background-image:
+    radial-gradient(
+      120% 90% at 50% 6%,
+      color-mix(in oklch, var(--primary) 30%, transparent),
+      transparent 50%
+    ),
+    radial-gradient(var(--wp-city) 0.7px, transparent 1.7px);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklch, var(--primary) 55%, transparent),
+    inset 0 14px 60px color-mix(in oklch, var(--primary) 35%, transparent),
+    0 -8px 90px color-mix(in oklch, var(--primary) 24%, transparent);
+  opacity: 0.85;
+}
+
+.trantorGlow {
+  background: radial-gradient(
+    120% 42% at 50% 56%,
+    color-mix(in oklch, var(--primary) 12%, transparent),
+    transparent 62%
+  );
+  opacity: 0.5;
+}
+
+:global(.dark) .trantorGlow {
+  background: radial-gradient(
+    120% 46% at 50% 56%,
+    color-mix(in oklch, var(--primary) 30%, transparent),
+    transparent 64%
+  );
+  opacity: 0.8;
+}
+
+/* ------------------------------ Terminus --------------------------------- */
+
+.terminusBand {
+  background: linear-gradient(
+    116deg,
+    transparent 28%,
+    color-mix(in oklch, var(--primary) 9%, transparent) 44%,
+    color-mix(in oklch, var(--wp-accent) 7%, transparent) 52%,
+    transparent 70%
+  );
+  filter: blur(2px);
+  opacity: 0.6;
+}
+
+:global(.dark) .terminusBand {
+  background: linear-gradient(
+    116deg,
+    transparent 26%,
+    color-mix(in oklch, var(--primary) 20%, transparent) 44%,
+    color-mix(in oklch, var(--gold) 12%, transparent) 52%,
+    transparent 72%
+  );
+  opacity: 0.7;
+}
+
+.terminusPlanet {
+  inset: 72% 58% -42% -34%;
+  border-radius: 50%;
+  background: radial-gradient(
+    120% 120% at 22% 18%,
+    color-mix(in oklch, var(--primary) 12%, transparent),
+    color-mix(in oklch, var(--background) 88%, var(--primary)) 70%
+  );
+  box-shadow: inset 0 0 0 1.5px color-mix(in oklch, var(--wp-ink) 40%, transparent);
+  opacity: 0.55;
+}
+
+:global(.dark) .terminusPlanet {
+  background: radial-gradient(
+    120% 120% at 22% 18%,
+    color-mix(in oklch, var(--primary) 24%, transparent),
+    oklch(0.1 0.035 266) 72%
+  );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklch, var(--primary) 45%, transparent),
+    inset 18px 18px 70px color-mix(in oklch, var(--primary) 22%, transparent),
+    0 0 70px color-mix(in oklch, var(--primary) 18%, transparent);
+  opacity: 0.9;
+}
+
+.terminusGlow {
+  inset: auto;
+  left: 68%;
+  top: 22%;
+  width: min(34%, 460px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    closest-side,
+    color-mix(in oklch, var(--wp-accent) 20%, transparent),
+    transparent 72%
+  );
+  opacity: 0.7;
+}
+
+:global(.dark) .terminusGlow {
+  background: radial-gradient(
+    closest-side,
+    color-mix(in oklch, var(--gold) 32%, transparent),
+    transparent 72%
+  );
+  opacity: 0.95;
+}
+
+.terminusStar {
+  inset: auto;
+  left: 68%;
+  top: 22%;
+  width: min(15%, 210px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  color: var(--wp-accent);
+}
+
+:global(.dark) .terminusStar {
+  filter: drop-shadow(0 0 6px color-mix(in oklch, var(--gold) 55%, transparent));
+}
+
+/* --------------------------------- Motion -------------------------------- */
+
+.spinSlow,
+.spinReverse {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .spinSlow {
+    animation: os-wp-spin 240s linear infinite;
+  }
+
+  .spinReverse {
+    animation: os-wp-spin 180s linear infinite reverse;
+  }
+
+  .radiantGlow,
+  .galaxyCore,
+  .terminusGlow {
+    animation: os-wp-breathe 16s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes os-wp-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes os-wp-breathe {
+  from {
+    opacity: 0.55;
+  }
+  to {
+    opacity: 0.95;
+  }
+}
