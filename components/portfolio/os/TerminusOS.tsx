@@ -11,7 +11,6 @@ import LockScreen from "./LockScreen";
 import { NotificationProvider } from "./notifications";
 import { OSSettingsProvider, useOSSettings } from "./osSettings";
 import { OSProvider } from "./osStore";
-import { readDeepLink } from "./urlState";
 import useMediaQuery from "./useMediaQuery";
 import OSWallpaper from "./wallpaper/OSWallpaper";
 
@@ -47,11 +46,11 @@ export default function TerminusOS({ contact }: { contact: ResolvedContactInfo }
 }
 
 function OSShell({ contact }: { contact: ResolvedContactInfo }) {
-  // A shared deep link (?app=…) lands the visitor straight inside the system, skipping the
-  // boot screen — the link's intent is the content, not the intro. A bare URL still boots.
-  const [entered, setEntered] = useState(
-    () => typeof window !== "undefined" && readDeepLink() !== null,
-  );
+  // Always boot to the lock screen first. This MUST NOT branch on `window`/the URL during
+  // the initial render — the server always renders this as `false`, so doing so would make
+  // the first client render disagree and trip a hydration mismatch (React error #418). A
+  // shared deep link (?app=…) still resolves: the OS store opens the linked app on entry.
+  const [entered, setEntered] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 820px)");
   const { reduceMotion, installedApps, dockPosition } = useOSSettings();
 

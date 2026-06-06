@@ -64,7 +64,10 @@ export default function HeroPortraitCard() {
               alt=""
               width={1200}
               height={900}
-              sizes="(min-width: 1024px) 34vw, calc(100vw - 2.5rem)"
+              // The card is capped at max-w-[20rem] everywhere it renders, so the image is
+              // never wider than ~320px (CSS). Declaring that lets the browser pick a small
+              // srcset candidate instead of the full-size source (fixes Lighthouse oversize).
+              sizes="20rem"
               fetchPriority="high"
               loading="eager"
               className={`${styles.portraitImage} h-full w-full object-cover transition`}
