@@ -383,6 +383,19 @@ body {
   .terminal-input-row {
     font-size: 16px;
   }
+
+  /* Window resize handles are tuned thin for a mouse; widen the (transparent) hit
+     areas for fingers so windows are resizable on tablets / touchscreen laptops. */
+  .os-resize-edge-h {
+    height: 1rem;
+  }
+  .os-resize-edge-v {
+    width: 1rem;
+  }
+  .os-resize-corner {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
 }
 
 /* User-selectable "reduce motion" from Settings: neutralizes OS animations/transitions
