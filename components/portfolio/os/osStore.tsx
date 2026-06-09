@@ -472,11 +472,16 @@ export function OSProvider({
 
   // Mirror the foreground window into the URL (replaceState — no history spam) so the
   // address bar is always a shareable link to whatever is on top. Clears when nothing is open.
+  // The effect is keyed on the window's *identity* (app + optional project) ONLY — never its
+  // geometry. Dragging/resizing mutates state.windows on every pointermove, so depending on the
+  // whole array here would fire replaceState ~60×/s and trip the browser's history rate limit
+  // (WebKit throws a SecurityError past ~100 calls/30s, which previously crashed the OS).
+  const focusedWin = focusedKey ? state.windows.find((w) => w.key === focusedKey) : null;
+  const linkAppId = focusedWin?.appId ?? null;
+  const linkProject = focusedWin?.payload?.projectTitle;
   useEffect(() => {
-    const win = focusedKey ? state.windows.find((w) => w.key === focusedKey) : null;
-    if (win) writeDeepLink(win.appId, win.payload?.projectTitle);
-    else writeDeepLink(null);
-  }, [focusedKey, state.windows]);
+    writeDeepLink(linkAppId, linkProject);
+  }, [linkAppId, linkProject]);
 
   const value = useMemo<OSContextValue>(
     () => ({
