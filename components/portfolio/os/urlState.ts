@@ -51,5 +51,10 @@ export function writeDeepLink(appId: string | null, projectTitle?: string): void
   }
   const query = searchParams.toString();
   const next = `${url.pathname}${query ? `?${query}` : ""}${url.hash}`;
-  window.history.replaceState(window.history.state, "", next);
+  try {
+    window.history.replaceState(window.history.state, "", next);
+  } catch {
+    // Browsers (notably WebKit) rate-limit history changes and throw once the limit is hit.
+    // The shareable URL is a nicety, not core to the OS, so swallow it rather than crash.
+  }
 }

@@ -55,15 +55,17 @@ type ResizeDir = "n" | "s" | "e" | "w" | "ne" | "nw" | "se" | "sw";
 // Eight drag zones: thin edge strips plus larger corner squares. Corners sit above the
 // edges (z-10) so they win where they overlap. Rendered as divs (not buttons) so the
 // global `button { cursor: pointer }` reset doesn't override the resize cursors.
+// The os-resize-* marker classes let touch devices grow these (invisible) hit areas via a
+// coarse-pointer media query in globals.css, without affecting mouse precision/visuals.
 const RESIZE_HANDLES: { dir: ResizeDir; className: string }[] = [
-  { dir: "n", className: "inset-x-0 top-0 h-2 cursor-ns-resize" },
-  { dir: "s", className: "inset-x-0 bottom-0 h-2 cursor-ns-resize" },
-  { dir: "w", className: "inset-y-0 left-0 w-2 cursor-ew-resize" },
-  { dir: "e", className: "inset-y-0 right-0 w-2 cursor-ew-resize" },
-  { dir: "nw", className: "left-0 top-0 z-10 size-4 cursor-nwse-resize" },
-  { dir: "ne", className: "right-0 top-0 z-10 size-4 cursor-nesw-resize" },
-  { dir: "sw", className: "bottom-0 left-0 z-10 size-4 cursor-nesw-resize" },
-  { dir: "se", className: "bottom-0 right-0 z-10 size-4 cursor-nwse-resize" },
+  { dir: "n", className: "os-resize-edge-h inset-x-0 top-0 h-2 cursor-ns-resize" },
+  { dir: "s", className: "os-resize-edge-h inset-x-0 bottom-0 h-2 cursor-ns-resize" },
+  { dir: "w", className: "os-resize-edge-v inset-y-0 left-0 w-2 cursor-ew-resize" },
+  { dir: "e", className: "os-resize-edge-v inset-y-0 right-0 w-2 cursor-ew-resize" },
+  { dir: "nw", className: "os-resize-corner left-0 top-0 z-10 size-4 cursor-nwse-resize" },
+  { dir: "ne", className: "os-resize-corner right-0 top-0 z-10 size-4 cursor-nesw-resize" },
+  { dir: "sw", className: "os-resize-corner bottom-0 left-0 z-10 size-4 cursor-nesw-resize" },
+  { dir: "se", className: "os-resize-corner bottom-0 right-0 z-10 size-4 cursor-nwse-resize" },
 ];
 
 export default function Window({ win, app }: { win: WindowState; app: AppDefinition }) {
@@ -102,8 +104,18 @@ export default function Window({ win, app }: { win: WindowState; app: AppDefinit
 
   const startDrag = (event: ReactPointerEvent) => {
     if (win.maximized) return;
-    if (event.button !== 0) return;
+    // Touch/pen report button 0 on first contact; ignore secondary mouse buttons only.
+    if (event.pointerType === "mouse" && event.button !== 0) return;
     focusWindow(win.key);
+    // Capture so the drag follows the finger/cursor even past the window or viewport edge,
+    // and so a touch gesture isn't reinterpreted as a scroll midway.
+    const target = event.currentTarget as HTMLElement;
+    const { pointerId } = event;
+    try {
+      target.setPointerCapture(pointerId);
+    } catch {
+      // Capture is best-effort; dragging still works via the window listeners below.
+    }
     const startX = event.clientX;
     const startY = event.clientY;
     const origX = win.x;
@@ -111,6 +123,7 @@ export default function Window({ win, app }: { win: WindowState; app: AppDefinit
     let zone: SnapZone | null = null;
 
     const onMove = (ev: PointerEvent) => {
+      if (ev.pointerId !== pointerId) return;
       const area = workArea(viewportNow(), dockPosition);
       const nx = clamp(origX + (ev.clientX - startX), area.x, area.x + area.w - win.w);
       const ny = clamp(origY + (ev.clientY - startY), area.y, area.y + area.h - win.h);
@@ -122,21 +135,45 @@ export default function Window({ win, app }: { win: WindowState; app: AppDefinit
         setSnapPreview(next ? snapRect(next, dockPosition) : null);
       }
     };
-    const onUp = () => {
+    const cleanup = () => {
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onCancel);
+      try {
+        target.releasePointerCapture(pointerId);
+      } catch {
+        // Already released (e.g. on cancel) — nothing to do.
+      }
+    };
+    const onUp = (ev: PointerEvent) => {
+      if (ev.pointerId !== pointerId) return;
+      cleanup();
       setSnapPreview(null);
       if (zone) applySnap(zone);
     };
+    const onCancel = (ev: PointerEvent) => {
+      if (ev.pointerId !== pointerId) return;
+      cleanup();
+      setSnapPreview(null);
+    };
     window.addEventListener("pointermove", onMove);
     window.addEventListener("pointerup", onUp);
+    window.addEventListener("pointercancel", onCancel);
   };
 
   const startResize = (dir: ResizeDir) => (event: ReactPointerEvent) => {
     if (win.maximized) return;
+    if (event.pointerType === "mouse" && event.button !== 0) return;
     event.stopPropagation();
     event.preventDefault();
     focusWindow(win.key);
+    const target = event.currentTarget as HTMLElement;
+    const { pointerId } = event;
+    try {
+      target.setPointerCapture(pointerId);
+    } catch {
+      // Best-effort capture; window listeners below still drive the resize.
+    }
     const startX = event.clientX;
     const startY = event.clientY;
     const origX = win.x;
@@ -148,6 +185,7 @@ export default function Window({ win, app }: { win: WindowState; app: AppDefinit
     const bottom = origY + origH;
 
     const onMove = (ev: PointerEvent) => {
+      if (ev.pointerId !== pointerId) return;
       const area = workArea(viewportNow(), dockPosition);
       const dx = ev.clientX - startX;
       const dy = ev.clientY - startY;
@@ -172,12 +210,23 @@ export default function Window({ win, app }: { win: WindowState; app: AppDefinit
       }
       resizeWindow(win.key, w, h, x, y);
     };
-    const onUp = () => {
+    const cleanup = () => {
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onUp);
+      try {
+        target.releasePointerCapture(pointerId);
+      } catch {
+        // Already released — nothing to do.
+      }
+    };
+    const onUp = (ev: PointerEvent) => {
+      if (ev.pointerId !== pointerId) return;
+      cleanup();
     };
     window.addEventListener("pointermove", onMove);
     window.addEventListener("pointerup", onUp);
+    window.addEventListener("pointercancel", onUp);
   };
 
   const onTitleContextMenu = (event: ReactMouseEvent) => {
@@ -233,7 +282,7 @@ export default function Window({ win, app }: { win: WindowState; app: AppDefinit
         onPointerDown={() => focusWindow(win.key)}
       >
         <header
-          className={`group/title flex shrink-0 cursor-grab items-center gap-3 border-b px-3 py-2 transition-colors active:cursor-grabbing ${
+          className={`group/title flex shrink-0 touch-none cursor-grab items-center gap-3 border-b px-3 py-2 transition-colors active:cursor-grabbing ${
             focused ? "border-border/60 bg-card/85" : "border-border/40 bg-card/60"
           }`}
           onPointerDown={startDrag}
