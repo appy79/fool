@@ -21,6 +21,13 @@ const ICON_MIN = 30; // px — smallest the icons shrink to before the dock scro
 const MAX_SCALE = 1.7; // peak magnification directly under the cursor
 const RADIUS = 120; // px of influence on either side of the cursor
 const DOCK_GUTTER = 28; // px reserved on the sides so the pill never touches the edge
+const MENU_BAR = 40; // px — height of the fixed top status bar (h-10) the left dock must clear
+
+// Magnification pushes neighbours outward, growing the dock along its main axis by a bounded
+// amount — the area under the cosine bump, which is independent of icon count. Reserving that
+// much headroom when fitting keeps a fully-magnified dock inside its pill instead of spilling
+// the end icons out past its rounded edge. (4·RADIUS/π is the integral of the bump.)
+const MAGNIFY_HEADROOM = Math.round((MAX_SCALE - 1) * ((4 * RADIUS) / Math.PI)); // ≈ 107px
 
 // Smooth cosine bump: 1 directly under the cursor, easing to 0 at the radius edge.
 function magnify(distance: number) {
@@ -65,10 +72,13 @@ export default function Dock() {
     const count = itemRefs.current.filter(Boolean).length;
     if (!nav || count === 0) return;
     const parent = nav.parentElement;
-    const available =
-      (vertical
-        ? (parent?.clientHeight ?? window.innerHeight)
-        : (parent?.clientWidth ?? window.innerWidth)) - DOCK_GUTTER;
+    const extent = vertical
+      ? (parent?.clientHeight ?? window.innerHeight)
+      : (parent?.clientWidth ?? window.innerWidth);
+    // Reserve the side gutter, room for the magnification bump (unless motion is reduced), and —
+    // for the left dock — the top status bar it must sit below.
+    const headroom = reduceMotion ? 0 : MAGNIFY_HEADROOM;
+    const available = extent - DOCK_GUTTER - headroom - (vertical ? MENU_BAR : 0);
     const content = vertical ? nav.scrollHeight : nav.scrollWidth;
     const overhead = content - count * iconSizeRef.current;
     const fitted = (available - overhead) / count;
@@ -76,7 +86,7 @@ export default function Dock() {
     const next = needsScroll ? ICON_MIN : Math.min(ICON_BASE, Math.floor(fitted));
     setScrollable(needsScroll);
     setIconSize((prev) => (Math.abs(prev - next) >= 1 ? next : prev));
-  }, [vertical]);
+  }, [vertical, reduceMotion]);
 
   const measure = useCallback(() => {
     const nav = navRef.current;
@@ -166,7 +176,8 @@ export default function Dock() {
   };
 
   const navClass = vertical
-    ? `os-dock-scroll absolute inset-y-0 left-3 z-[9000] my-auto flex h-fit max-h-[calc(100vh-1.5rem)] flex-col items-center gap-1.5 rounded-2xl border border-border/60 bg-card/70 px-2 py-2.5 shadow-2xl backdrop-blur-md ${
+    ? // top-10 clears the fixed menu bar; my-auto then centres the dock in the space beneath it.
+      `os-dock-scroll absolute left-3 top-10 bottom-3 z-[9000] my-auto flex h-fit max-h-[calc(100vh-3.25rem)] flex-col items-center gap-1.5 rounded-2xl border border-border/60 bg-card/70 px-2 py-2.5 shadow-2xl backdrop-blur-md ${
         scrollable ? "overflow-y-auto" : ""
       }`
     : `os-dock-scroll absolute inset-x-0 bottom-3 z-[9000] mx-auto flex w-fit max-w-[calc(100vw-1.5rem)] items-end gap-1.5 rounded-2xl border border-border/60 bg-card/70 px-2.5 py-2 shadow-2xl backdrop-blur-md ${

@@ -34,9 +34,6 @@ function personJsonLd(contact: ResolvedContactInfo) {
   if (contact.email) data.email = `mailto:${contact.email}`;
   if (contact.phone) data.telephone = contact.phone;
   if (current) data.worksFor = { "@type": "Organization", name: current.company };
-  if (resume.availability.open) {
-    data.seeks = { "@type": "Demand", name: resume.availability.label };
-  }
 
   return data;
 }
@@ -58,11 +55,6 @@ export default function SeoDossier({ contact }: { contact: ResolvedContactInfo }
           {resume.name} — {resume.title}
         </h1>
         <p>{resume.focus}.</p>
-        {resume.availability.open ? (
-          <p>
-            {resume.availability.label}: {resume.availability.detail}
-          </p>
-        ) : null}
 
         <h2>Highlights</h2>
         <ul>
@@ -137,11 +129,6 @@ export default function SeoDossier({ contact }: { contact: ResolvedContactInfo }
             {resume.name} — {resume.title}
           </h1>
           <p>{resume.focus}.</p>
-          {resume.availability.open ? (
-            <p>
-              <strong>{resume.availability.label}:</strong> {resume.availability.detail}
-            </p>
-          ) : null}
           <p>
             This portfolio is an interactive app that needs JavaScript. Key links:
             {contact.email ? <> Email {contact.email}.</> : null}

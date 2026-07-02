@@ -1,4 +1,7 @@
 export const copy = {
-  eyebrow: "resume // records",
-  title: "Download",
+  eyebrow: "resume // record",
+  downloadLabel: "Download PDF",
+  experienceEyebrow: "Experience",
+  skillsEyebrow: "Skills",
+  educationEyebrow: "Education",
 };

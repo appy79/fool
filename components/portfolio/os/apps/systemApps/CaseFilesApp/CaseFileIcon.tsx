@@ -74,6 +74,15 @@ const GLYPHS: Record<ProjectVisualKind, ReactNode> = {
       <path d="M9 3v3.5M15 3v3.5M9 17.5V21M15 17.5V21M3 9h3.5M3 15h3.5M17.5 9H21M17.5 15H21" />
     </>
   ),
+  // Reporting — a bar chart on a baseline.
+  reporting: (
+    <>
+      <path d="M4 20h16" />
+      <path d="M7 20v-6" />
+      <path d="M12 20V8" />
+      <path d="M17 20v-9" />
+    </>
+  ),
 };
 
 export default function CaseFileIcon({

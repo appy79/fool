@@ -4,7 +4,6 @@ import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react"
 import { trackEvent } from "@/lib/analytics";
 import { resume, type ResolvedContactInfo } from "@/lib/resume";
 import { OrbitalRing, PrimeRadiantGlyph } from "../icons/FoundationMotifs";
-import AvailabilityBadge from "./AvailabilityBadge";
 import CopyEmailButton from "./CopyEmailButton";
 import SocialLinks from "./SocialLinks";
 import { APPS, preloadApp } from "./appRegistry";
@@ -143,8 +142,6 @@ export default function LockScreen({ contact, onEnter, preloadShells }: LockScre
               <p className="mt-4 max-w-md text-sm leading-7 text-muted-foreground">
                 {resume.focus}.
               </p>
-
-              <AvailabilityBadge className="mt-5" />
 
               <div className="mt-auto pt-7">
                 <p className="font-mono text-[0.52rem] font-semibold uppercase tracking-[0.2em] text-muted-foreground/70">
