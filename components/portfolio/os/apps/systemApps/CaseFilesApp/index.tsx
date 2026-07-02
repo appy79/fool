@@ -26,7 +26,7 @@ export default function CaseFilesApp({ payload }: AppComponentProps) {
 
 function CaseFilesList({ onSelect }: { onSelect: (title: string) => void }) {
   return (
-    <div className="space-y-6 p-4 @lg:p-7">
+    <div className="space-y-6 p-6 @lg:p-8">
       <header className="flex flex-wrap items-end justify-between gap-x-4 gap-y-2">
         <div className="min-w-0">
           <span className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-primary">
@@ -92,7 +92,7 @@ function CaseFilesList({ onSelect }: { onSelect: (title: string) => void }) {
 
 function CaseFileDetail({ project, onBack }: { project: Project; onBack: () => void }) {
   return (
-    <div className="space-y-6 p-4 @lg:p-7">
+    <div className="space-y-6 p-6 @lg:p-8">
       <button
         type="button"
         onClick={onBack}

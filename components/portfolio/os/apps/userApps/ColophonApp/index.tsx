@@ -6,7 +6,7 @@ import { copy, notes, stack } from "./data";
 
 export default function ColophonApp() {
   return (
-    <div className="space-y-6 p-4 @lg:p-7">
+    <div className="space-y-6 p-6 @lg:p-8">
       <header>
         <span className="inline-flex items-center gap-1.5 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-primary">
           <PrimeRadiantGlyph className="size-3.5" />

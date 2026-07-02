@@ -2,7 +2,6 @@
 
 import { resume } from "@/lib/resume";
 import { OrbitalRing, PrimeRadiantGlyph } from "../../../../icons/FoundationMotifs";
-import AvailabilityBadge from "../../../AvailabilityBadge";
 import CopyEmailButton from "../../../CopyEmailButton";
 import SocialLinks from "../../../SocialLinks";
 import { useOS } from "../../../osStore";
@@ -23,8 +22,8 @@ export default function DossierApp() {
   const { contact, openApp } = useOS();
 
   return (
-    <div className="p-4 @lg:p-6">
-      <div className="mx-auto w-full max-w-3xl space-y-5">
+    <div className="p-6 @lg:p-8">
+      <div className="mx-auto w-full max-w-3xl space-y-7">
         {/* Identity — the one-line answer to "who is this?" */}
         <section>
           <span className="inline-flex items-center gap-1.5 font-mono text-[0.56rem] font-semibold uppercase tracking-[0.2em] text-primary">
@@ -38,7 +37,6 @@ export default function DossierApp() {
             {resume.title}
           </p>
           <p className="mt-2.5 max-w-xl text-sm leading-7 text-muted-foreground">{resume.focus}.</p>
-          <AvailabilityBadge className="mt-4" />
         </section>
 
         {/* Primary actions — the things a recruiter actually wants to do */}

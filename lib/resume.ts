@@ -7,7 +7,8 @@ export type ProjectVisualKind =
   | "media"
   | "pipeline"
   | "monetization"
-  | "system";
+  | "system"
+  | "reporting";
 
 type SkillCategory = {
   title: string;
@@ -51,15 +52,6 @@ type ProofPoint = {
   value: string;
 };
 
-type Availability = {
-  /** When true, the "open to roles" banner is shown across the OS. Flip to hide it. */
-  open: boolean;
-  /** Short status line, e.g. "Open to new roles". */
-  label: string;
-  /** Supporting detail: the kind of role and where, e.g. "Backend · Remote or Pune". */
-  detail: string;
-};
-
 type TelemetryReading = {
   label: string;
   value: string;
@@ -94,6 +86,11 @@ const experience: ExperienceItem[] = [
     period: "07/2025 - Current",
     location: "Pune, MH, India",
     projects: [
+      {
+        title: "ADS Reporting",
+        description:
+          "Built ADS (Active Data Store) Reporting to turn write-optimized DataStax Enterprise Cassandra data into read-ready business and monitoring reports. Apache Spark—wrapped in Java and driven by YAML query/resource configs—runs on Kubernetes cron schedules, aggregating ~5TB/day (COUNT, LATERAL VIEW, max_by, rank) into report tables served through Grafana. Now extending it across AT&T charging and usage tables to surface daily and weekly KPIs for 100M+ subscribers without hammering the write-optimized store.",
+      },
       {
         title: "Production Deployment Tool",
         description:
@@ -155,6 +152,18 @@ const experience: ExperienceItem[] = [
 ];
 
 const projectDefinitions: ProjectDefinition[] = [
+  {
+    title: "ADS (Active Data Store) Reporting",
+    sourceTitle: "ADS Reporting",
+    source: "Amdocs / Experienced Software Developer",
+    category: "Data & Analytics",
+    tags: ["Java", "Apache Spark", "Spark SQL", "Cassandra", "Grafana"],
+    labHref: "/labs?lab=database",
+    labLabel: "Database Systems Lab",
+    impact:
+      "Turns write-optimized ~5TB/day Cassandra data into read-ready daily and weekly reports in Grafana—now extending to AT&T charging and usage tables for 100M+ subscribers.",
+    visualKind: "reporting",
+  },
   {
     title: "Production Deployment Tool",
     sourceTitle: "Production Deployment Tool",
@@ -271,12 +280,10 @@ export const resume = {
   name: "Amandeep Yadav",
   title: "Software Developer",
   focus: "Backend, Frontend, and platform tooling for distributed systems",
-  // Recruiter-facing signal of intent. Edit `open` to false to hide the banner everywhere.
-  availability: {
-    open: true,
-    label: "Open to new roles",
-    detail: "Backend & platform engineering · Remote or Pune, India",
-  } satisfies Availability,
+  // Keyword-rich professional summary. Leads the résumé PDF and the in-OS Resume app; written
+  // to read naturally while surfacing the terms ATS keyword scans look for.
+  summary:
+    "Software developer with 3+ years building backend and platform services for distributed, carrier-scale systems. At Amdocs, ships Java and Spring Boot microservices with Kafka, Kubernetes, Cassandra, Redis, and Apache Spark — powering charging, billing, ordering, and reporting for 100M+ subscribers at up to 1M+ events/sec with 99.99% uptime targets. Comfortable across the stack with React and TypeScript, focused on reliability, throughput, and clean CI/CD delivery.",
   proofPoints: [
     {
       label: "current",
@@ -296,43 +303,78 @@ export const resume = {
     { label: "subscribers served", value: "100M+", note: "carrier-scale charging" },
     { label: "peak throughput", value: "1M+/s", note: "rated events" },
     { label: "uptime target", value: "99.99%", note: "ordering + charging" },
-    { label: "records / day", value: "5M+", note: "billing aggregation" },
+    { label: "usage records", value: "5B+", note: "charging & usage events" },
   ] satisfies TelemetryReading[],
   skills: [
     {
-      title: "Backend & testing",
-      short: "Backend",
-      summary: "Service code, API edges, and confidence checks.",
-      items: ["Java", "Spring Boot", "Python", "Flask", "JUnit", "Mockito", "Test NG", "Postman"],
+      title: "Application",
+      short: "App",
+      summary: "Backend services, the interfaces on top, and the tests that keep them honest.",
+      items: [
+        "Java",
+        "Spring Boot",
+        "Python",
+        "Flask",
+        "React.js",
+        "Angular.js",
+        "JavaScript",
+        "TypeScript",
+        "Three.js",
+        "JUnit",
+        "Mockito",
+        "Test NG",
+        "Postman",
+      ],
     },
     {
-      title: "Data & systems",
+      title: "Data Systems",
       short: "Data",
-      summary: "Event flows, storage tradeoffs, and fundamentals.",
+      summary: "Event flows, storage tradeoffs, and read/write paths at scale.",
       items: [
         "Kafka",
+        "Apache Spark",
+        "Spark SQL",
         "Redis",
         "Cassandra DB",
         "Couchbase",
         "PostgreSQL",
         "SQL & NoSQL DBs",
-        "DSA",
-        "OOP",
-        "Operating Systems",
-        "Computer Networks",
+        "Grafana",
       ],
     },
     {
       title: "Cloud & delivery",
       short: "Cloud",
-      summary: "Containers, pipelines, secrets, and release paths.",
-      items: ["Kubernetes", "Docker", "GitLab CI", "Jenkins", "Vault", "AWS", "Azure"],
+      summary: "Containers, pipelines, secrets, and how bytes reach the edge.",
+      items: [
+        "Kubernetes",
+        "Docker",
+        "GitLab CI",
+        "Jenkins",
+        "Vault",
+        "AWS",
+        "Azure",
+        "CDN",
+        "Edge",
+        "DNS",
+      ],
     },
     {
-      title: "Frontend",
-      short: "Frontend",
-      summary: "Readable interfaces for operational systems.",
-      items: ["React.js", "Angular.js", "JavaScript", "TypeScript", "Three.js"],
+      title: "Foundation",
+      short: "Core",
+      summary: "The coursework fundamentals under the tooling.",
+      items: [
+        "DSA",
+        "Design & Analysis of Algorithms",
+        "OOP",
+        "DBMS",
+        "Operating Systems",
+        "Computer Networks",
+        "Computer Architecture",
+        "Distributed Systems",
+        "Theory of Computation",
+        "Software Engineering",
+      ],
     },
   ] satisfies SkillCategory[],
   experience,

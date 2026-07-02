@@ -46,7 +46,7 @@ export default function SettingsApp() {
   }, []);
 
   return (
-    <div className="space-y-6 p-4 @lg:p-7">
+    <div className="space-y-6 p-6 @lg:p-8">
       <header>
         <span className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-primary">
           {copy.eyebrow}

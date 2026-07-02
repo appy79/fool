@@ -5,7 +5,7 @@ export const manifest: AppManifest = {
   id: "resume",
   title: "Resume",
   Icon,
-  defaultSize: { w: 560, h: 440 },
+  defaultSize: { w: 640, h: 720 },
   order: 90,
   dividerBefore: true,
 };

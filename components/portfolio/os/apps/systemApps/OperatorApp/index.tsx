@@ -3,7 +3,6 @@
 import { resume } from "@/lib/resume";
 import HeroPortraitCard from "./HeroPortraitCard";
 import { OrbitalRing, PrimeRadiantGlyph } from "../../../../icons/FoundationMotifs";
-import AvailabilityBadge from "../../../AvailabilityBadge";
 import CopyEmailButton from "../../../CopyEmailButton";
 import SocialLinks from "../../../SocialLinks";
 import { useOS } from "../../../osStore";
@@ -13,8 +12,8 @@ export default function OperatorApp() {
   const { contact, openApp } = useOS();
 
   return (
-    <div className="p-4 @lg:p-6">
-      <div className="mx-auto w-full max-w-5xl space-y-5">
+    <div className="p-6 @lg:p-8">
+      <div className="mx-auto w-full max-w-5xl space-y-6">
         {/* Identity banner — portrait + name, status, quick facts, and the primary action */}
         <section className="overflow-hidden rounded-2xl border border-border/70 bg-card/40">
           <div className="grid @2xl:grid-cols-[20rem_1fr]">
@@ -63,8 +62,6 @@ export default function OperatorApp() {
                   </li>
                 ))}
               </ul>
-
-              <AvailabilityBadge className="mt-4" />
 
               <div className="mt-5 flex flex-wrap items-center gap-3">
                 <button

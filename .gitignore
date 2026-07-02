@@ -9,3 +9,6 @@ npm-debug.log*
 yarn-debug.log*
 pnpm-debug.log*
 tsconfig.tsbuildinfo
+
+# Résumé PDF is generated from lib/resume.ts (npm run gen:resume, also runs on predev/prebuild)
+public/Amandeep_Yadav_Resume.pdf

@@ -67,17 +67,18 @@ Open `http://localhost:3000` to view the site.
 - `components/portfolio/icons/` — shared icon and motif components (Foundation motifs, tech/brand badges, social glyphs).
 - `components/portfolio/shared/` — the `PageShell` frame (used by 404/500) and the cosmic background.
 - `components/ui/` — shadcn-style UI primitives.
-- `lib/resume.ts` — single source of truth for profile, skills, education, experience, and featured work.
-- `lib/resume-files.ts` — downloadable résumé file metadata used by the Résumé app.
+- `lib/resume.ts` — single source of truth for profile, summary, skills, education, experience, and featured work.
+- `lib/resume-files.ts` — metadata for the single downloadable résumé PDF used by the Résumé app.
 - `lib/contact.ts` — resolves the contact/social block from environment variables at request time.
 - `scripts/generate-app-registry.mjs` — scans the app folders and writes `apps/registry.generated.ts`.
+- `scripts/generate-resume.tsx` — renders the downloadable ATS PDF from `lib/resume.ts` (runs before `dev`/`build`).
 - `public/` — static assets used by metadata and browsers.
 
 ## Editing Content
 
 Most portfolio copy and structured content lives in `lib/resume.ts`. Update that file first when changing:
 
-- Name, title, intro, focus, and highlights
+- Name, title, focus, professional summary, and highlights
 - Skills and education
 - Experience history and project descriptions
 - Featured project cards
@@ -162,10 +163,12 @@ This writes `components/portfolio/os/apps/registry.generated.ts` — a generated
 - **Two shells, one state:** desktop and mobile are distinct UIs, but `AppRuntime` reparents live app DOM via portals so state survives crossing the breakpoint.
 - **Persistence:** user settings and the open-window session are stored in `localStorage` and re-validated against the current build (stale or unknown app ids are dropped).
 - **Accessibility:** the OS honors `prefers-reduced-motion`, and interactive surfaces support keyboard navigation.
+- **Résumé, one source:** `lib/resume.ts` feeds both a fully styled in-OS résumé (the Résumé app renders summary, highlights, experience, skills, and education in-window) and a single ATS-friendly PDF generated at build time (`scripts/generate-resume.tsx` → `public/Amandeep_Yadav_Resume.pdf`), which the app offers as a download. Contact details come from env, so the app and the PDF always match.
 
 ## Available Scripts
 
 - `npm run gen:apps` regenerates the app registry from the `apps/` folder structure (runs automatically before `dev` and `build`).
+- `npm run gen:resume` regenerates the downloadable ATS résumé PDF from `lib/resume.ts` (also runs automatically before `dev` and `build`).
 - `npm run dev` starts the local development server.
 - `npm run build` creates a production build.
 - `npm run start` starts the built app.

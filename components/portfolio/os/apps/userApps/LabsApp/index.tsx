@@ -11,7 +11,7 @@ export default function LabsApp() {
   const ActiveLab = activeLab.component;
 
   return (
-    <div className="p-4 @lg:p-7">
+    <div className="p-6 @lg:p-8">
       <LabProgramManifestProvider
         manifest={
           <LabManifest
