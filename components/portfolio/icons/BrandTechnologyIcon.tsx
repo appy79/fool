@@ -42,18 +42,25 @@ type FallbackIcon =
   | "aws-smile"
   | "azure-a"
   | "binary-tree"
+  | "chat"
   | "chip"
   | "cloud"
   | "cloud-bolt"
   | "code"
+  | "compass"
+  | "cycle"
   | "database"
+  | "flag"
   | "globe"
   | "layers"
+  | "lightbulb"
   | "network"
   | "nodes"
   | "objects"
+  | "people"
   | "s3-bucket"
   | "service-mesh"
+  | "shield"
   | "test-check"
   | "test-tube"
   | "workflow";
@@ -95,11 +102,14 @@ const brandIcons: Record<string, SimpleIconShape> = {
 };
 
 const fallbackBrands: Record<string, FallbackBrand> = {
+  agile: { background: "#0D9488", color: "#FFFFFF", icon: "cycle", title: "Agile" },
   aws: { background: "#232F3E", color: "#FF9900", icon: "aws-smile", title: "AWS" },
   awsec2: { background: "#ED7100", color: "#FFFFFF", icon: "chip", title: "AWS EC2" },
   awss3: { background: "#569A31", color: "#FFFFFF", icon: "s3-bucket", title: "AWS S3" },
   azure: { background: "#0078D4", color: "#FFFFFF", icon: "azure-a", title: "Azure" },
   cdn: { background: "#2563EB", color: "#FFFFFF", icon: "globe", title: "CDN" },
+  collaboration: { background: "#0891B2", color: "#FFFFFF", icon: "people", title: "Collaboration" },
+  communication: { background: "#0EA5E9", color: "#0F172A", icon: "chat", title: "Communication" },
   computerarchitecture: {
     background: "#B45309",
     color: "#FFFFFF",
@@ -136,6 +146,7 @@ const fallbackBrands: Record<string, FallbackBrand> = {
     title: "Google API",
   },
   javascript: { background: "#F7DF1E", color: "#111827", icon: "code", title: "JavaScript" },
+  mentoring: { background: "#7C3AED", color: "#FFFFFF", icon: "compass", title: "Mentoring" },
   microservices: {
     background: "#14B8A6",
     color: "#0F172A",
@@ -156,7 +167,10 @@ const fallbackBrands: Record<string, FallbackBrand> = {
     icon: "chip",
     title: "Operating Systems",
   },
+  ownership: { background: "#B45309", color: "#FFFFFF", icon: "shield", title: "Ownership" },
+  problemsolving: { background: "#BE185D", color: "#FFFFFF", icon: "lightbulb", title: "Problem-solving" },
   restapis: { background: "#06B6D4", color: "#0F172A", icon: "api-route", title: "REST APIs" },
+  scrum: { background: "#6366F1", color: "#FFFFFF", icon: "flag", title: "Scrum" },
   softwareengineering: {
     background: "#0D9488",
     color: "#FFFFFF",
@@ -521,6 +535,130 @@ function FallbackTechnologyIcon({ icon }: { icon: FallbackIcon }) {
           <path d="M10 2h4" />
           <path d="M11 2v6.5L6.5 17a3.5 3.5 0 0 0 3.1 5h4.8a3.5 3.5 0 0 0 3.1-5L13 8.5V2" />
           <path d="M8.5 15h7" />
+        </svg>
+      );
+    case "chat":
+      // Speech bubble with a tail — communication.
+      return (
+        <svg
+          viewBox="0 0 24 24"
+          className="size-[1.05rem]"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M5 5.5h14A1.5 1.5 0 0 1 20.5 7v7a1.5 1.5 0 0 1-1.5 1.5h-8L7 19.5v-3H5A1.5 1.5 0 0 1 3.5 15V7A1.5 1.5 0 0 1 5 5.5Z" />
+          <path d="M7.5 9.5h9M7.5 12.5h5" />
+        </svg>
+      );
+    case "compass":
+      // Compass with a needle — guidance / mentoring.
+      return (
+        <svg
+          viewBox="0 0 24 24"
+          className="size-[1.05rem]"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="8.5" />
+          <path d="m15.5 8.5-2.2 4.8-4.8 2.2 2.2-4.8Z" />
+        </svg>
+      );
+    case "cycle":
+      // Two curved arrows in a loop — iterative / Agile cadence.
+      return (
+        <svg
+          viewBox="0 0 24 24"
+          className="size-[1.05rem]"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M4.8 10.5a7 7 0 0 1 12-4" />
+          <path d="M17 3v3.8h-3.8" />
+          <path d="M19.2 13.5a7 7 0 0 1-12 4" />
+          <path d="M7 21v-3.8h3.8" />
+        </svg>
+      );
+    case "flag":
+      // Pennant on a pole — a sprint marker / goal.
+      return (
+        <svg
+          viewBox="0 0 24 24"
+          className="size-[1.05rem]"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M6 21V4" />
+          <path d="M6 4.5h11l-2.4 3.5L17 11.5H6" />
+        </svg>
+      );
+    case "lightbulb":
+      // Bulb with a screw base — an idea / problem solved.
+      return (
+        <svg
+          viewBox="0 0 24 24"
+          className="size-[1.05rem]"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M9.2 16.5a6 6 0 1 1 5.6 0" />
+          <path d="M9.5 16.5h5" />
+          <path d="M10 19.5h4" />
+        </svg>
+      );
+    case "people":
+      // Two figures — collaboration.
+      return (
+        <svg
+          viewBox="0 0 24 24"
+          className="size-[1.05rem]"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="9" cy="8" r="3.2" />
+          <path d="M3.2 19a5.8 5.8 0 0 1 11.6 0" />
+          <path d="M16.2 5.4a3.2 3.2 0 0 1 0 5.9" />
+          <path d="M17.5 13.4a5.8 5.8 0 0 1 3.3 5.6" />
+        </svg>
+      );
+    case "shield":
+      // Shield with a check — ownership / accountability.
+      return (
+        <svg
+          viewBox="0 0 24 24"
+          className="size-[1.05rem]"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M12 3.5 19 6v5.2c0 4.3-3 7.4-7 8.8-4-1.4-7-4.5-7-8.8V6Z" />
+          <path d="m9.2 12 2 2 3.6-4" />
         </svg>
       );
     case "workflow":

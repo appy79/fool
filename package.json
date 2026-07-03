@@ -33,7 +33,6 @@
     "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
-    "@fontsource/ibm-plex-mono": "^5.2.7",
     "@fontsource/inter": "^5.2.8",
     "@fontsource/space-grotesk": "^5.2.10",
     "@react-pdf/renderer": "^4.5.1",
