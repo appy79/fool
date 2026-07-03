@@ -2,10 +2,21 @@
  * Generates the résumé PDF in `public/` straight from `lib/resume.ts`, so the downloadable file
  * never drifts from the site. A single ATS-optimized document is produced:
  *
- *   - Amandeep_Yadav_Resume.pdf — single-column, standard fonts, selectable text, standard section
- *     headings (Summary / Experience / Skills / Education) and document metadata, so applicant
- *     tracking systems parse it cleanly. A restrained accent keeps it readable for humans too
- *     (color is ignored by parsers). The richly styled view lives in the in-OS Resume app.
+ *   - Amandeep_Yadav_Resume.pdf — single-column, selectable text, standard section headings
+ *     (Summary / Work Experience / Skills / Education) and document metadata, so applicant
+ *     tracking systems parse it cleanly.
+ *
+ * Visually it speaks the site's "Foundation" language: Space Grotesk display type, Inter body,
+ * IBM Plex Mono instrument labels, a deep-navy ink, Prime-Radiant cyan + imperial-gold accents,
+ * and the signature cyan→gold section underline. @react-pdf/renderer writes a ToUnicode CMap
+ * (with ligature decomposition), so text stays fully extractable — color and typography only
+ * affect human readers, never the parser.
+ *
+ * Font sourcing note: @react-pdf's bundled fontkit subsetter cannot embed @fontsource's `woff2`
+ * builds (it throws while subsetting), so Inter/Space Grotesk are loaded from their `woff` builds.
+ * IBM Plex Mono's fontsource build additionally crashes the subsetter because its (empty) space
+ * glyph sits at the tail of the glyf table — computing its bounding box reads past the buffer — so
+ * the full upstream IBM Plex Mono TTFs are vendored in `assets/fonts/` instead.
  *
  * Run with `npm run gen:resume` (also runs automatically before `next build`). Contact details
  * (email/phone/socials) resolve from env exactly like the site; local `.env.local` / `.env` files
@@ -13,19 +24,83 @@
  * transform config, and @react-pdf/renderer so no headless browser is required.
  */
 import fs from "node:fs";
+import { createRequire } from "node:module";
 import path from "node:path";
 import React from "react";
-import { Document, Link, Page, renderToFile, StyleSheet, Text, View } from "@react-pdf/renderer";
+import {
+  Circle,
+  Defs,
+  Document,
+  Font,
+  LinearGradient,
+  Link,
+  Page,
+  Path,
+  Rect,
+  renderToFile,
+  Stop,
+  StyleSheet,
+  Svg,
+  Text,
+  View,
+} from "@react-pdf/renderer";
 import { getResolvedContact } from "../lib/contact";
 import { resume } from "../lib/resume";
 
 const e = React.createElement;
+const requireFrom = createRequire(import.meta.url);
+
+// ---------------------------------------------------------------------------
+// Fonts — the exact three families the site loads, so the PDF matches the on-screen identity.
+// Inter/Space Grotesk come from @fontsource's `woff` builds (resolved via the package root, not
+// cwd); IBM Plex Mono comes from the vendored upstream TTFs. See the font sourcing note above.
+// ---------------------------------------------------------------------------
+const DISPLAY = "Space Grotesk";
+const SANS = "Inter";
+const MONO = "IBM Plex Mono";
+
+function fontsourceFile(pkg: string, file: string): string {
+  const root = path.dirname(requireFrom.resolve(`${pkg}/package.json`));
+  return path.join(root, "files", file);
+}
+function vendoredFont(file: string): string {
+  return path.resolve(process.cwd(), "assets/fonts", file);
+}
+
+Font.register({
+  family: DISPLAY,
+  fonts: [
+    { src: fontsourceFile("@fontsource/space-grotesk", "space-grotesk-latin-600-normal.woff"), fontWeight: 600 },
+  ],
+});
+Font.register({
+  family: SANS,
+  fonts: [
+    { src: fontsourceFile("@fontsource/inter", "inter-latin-400-normal.woff"), fontWeight: 400 },
+    { src: fontsourceFile("@fontsource/inter", "inter-latin-600-normal.woff"), fontWeight: 600 },
+  ],
+});
+Font.register({
+  family: MONO,
+  fonts: [
+    { src: vendoredFont("IBMPlexMono-Medium.ttf"), fontWeight: 500 },
+    { src: vendoredFont("IBMPlexMono-SemiBold.ttf"), fontWeight: 600 },
+  ],
+});
+
+// Never hyphenate: react-pdf's default breaks long tokens mid-word (e.g. "leetcode.com/ex-plorer79"),
+// which reads badly and splits URL/keyword tokens for ATS parsers. Wrap whole words instead.
+Font.registerHyphenationCallback((word) => [word]);
 
 const OUTPUT_FILENAME = "Amandeep_Yadav_Resume.pdf";
 
-// Load KEY=VALUE lines from a dotenv file into process.env without adding a dotenv dependency,
-// so the generated PDF includes the same contact details the site renders. Never overwrites a
-// value already in the environment, so real env vars win.
+// Letter geometry. Section rules are drawn at a fixed width (deterministic, no % ambiguity in SVG).
+const PAGE_PAD_H = 40;
+const CONTENT_W = 612 - PAGE_PAD_H * 2;
+
+// ---------------------------------------------------------------------------
+// Environment — load contact details exactly like the site (real env > .env.local > .env).
+// ---------------------------------------------------------------------------
 function loadEnvFile(relativePath: string): void {
   const file = path.resolve(process.cwd(), relativePath);
   if (!fs.existsSync(file)) return;
@@ -46,119 +121,286 @@ function loadEnvFile(relativePath: string): void {
   }
 }
 
-// Precedence: real env > .env.local > .env (matches Next.js). getResolvedContact() then simply
-// omits any field whose env var is absent, so missing vars are skipped automatically.
 loadEnvFile(".env.local");
 loadEnvFile(".env");
 const contact = getResolvedContact();
 
-type Theme = {
-  accent: string;
-  ink: string;
-  text: string;
-  muted: string;
-  rule: string;
-  nameSize: number;
+// ---------------------------------------------------------------------------
+// Palette — the "Foundation" system tokens (globals.css) converted from OKLCH to hex: cool
+// star-chart paper, deep-navy ink, Prime-Radiant cyan, imperial gold.
+// ---------------------------------------------------------------------------
+const C = {
+  ink: "#0F1828", // headings, name, emphasis
+  body: "#33405A", // body copy
+  muted: "#5B6675", // periods, notes, secondary lines
+  cyan: "#00779E", // primary accent — eyebrows, labels, dots
+  cyanDeep: "#00658D", // links
+  gold: "#AC7D1B", // secondary accent — gradient tail
+  rule: "#CBD6E0", // hairlines / dividers
+  ruleSoft: "#E6ECF2", // faint hairlines
+  panel: "#F1F6FA", // instrument-panel fill
 };
 
-// One restrained, consistent palette. `accent` (teal) is the ONLY color used for structure —
-// section headings, links, and bullets — so the document reads as one system rather than a mix.
-// `ink` is the near-black for headings/name, `text` the body, `muted` every secondary line.
-// Structure (single column, standard headings, selectable text) is what keeps it ATS-friendly;
-// color only affects human readers.
-const THEME: Theme = {
-  accent: "#0F766E",
-  ink: "#111827",
-  text: "#374151",
-  muted: "#6B7280",
-  rule: "#D1D5DB",
-  nameSize: 17,
-};
-
-// Sizes are tuned so all sections fit on a single Letter page while filling the full width.
-function makeStyles(t: Theme) {
+function makeStyles() {
   return StyleSheet.create({
     page: {
-      paddingTop: 26,
-      paddingBottom: 26,
-      paddingHorizontal: 44,
-      fontFamily: "Helvetica",
-      fontSize: 8.5,
-      color: t.text,
-      lineHeight: 1.26,
+      paddingTop: 22,
+      paddingBottom: 20,
+      paddingHorizontal: PAGE_PAD_H,
+      fontFamily: SANS,
+      fontSize: 8.2,
+      color: C.body,
+      lineHeight: 1.3,
     },
-    // Own tight line box + generous gap to the title so the two never crowd each other.
-    name: { fontSize: t.nameSize, fontFamily: "Helvetica-Bold", color: t.ink, lineHeight: 1.1 },
-    title: { marginTop: 4, fontSize: 9, color: t.muted },
-    contact: { marginTop: 4, fontSize: 8.2, color: t.muted },
-    link: { color: t.accent, textDecoration: "none" },
-    headerRule: { marginTop: 7, borderBottomWidth: 1, borderBottomColor: t.rule },
-    section: { marginTop: 6 },
-    sectionTitle: {
-      fontSize: 8.6,
-      fontFamily: "Helvetica-Bold",
-      color: t.accent,
+
+    // Masthead ---------------------------------------------------------------
+    eyebrow: { flexDirection: "row", alignItems: "center", marginBottom: 3.5 },
+    eyebrowGlyph: { marginRight: 5 },
+    eyebrowText: {
+      fontFamily: MONO,
+      fontWeight: 600,
+      fontSize: 7.8,
+      color: C.cyan,
       textTransform: "uppercase",
-      letterSpacing: 0.9,
     },
-    sectionRule: {
-      marginTop: 2.5,
-      marginBottom: 4,
-      borderBottomWidth: 0.8,
-      borderBottomColor: t.rule,
+    name: {
+      fontFamily: DISPLAY,
+      fontWeight: 600,
+      fontSize: 21,
+      color: C.ink,
+      letterSpacing: -0.5,
+      lineHeight: 1.05,
     },
-    summary: { fontSize: 8.5, color: t.text },
-    rowBetween: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-end" },
-    itemTitle: { flex: 1, fontSize: 9.4, fontFamily: "Helvetica-Bold", color: t.ink },
-    period: { flexShrink: 0, marginLeft: 10, fontSize: 8, color: t.muted },
-    subLine: { marginTop: 1, marginBottom: 2, fontSize: 8, color: t.muted },
-    bulletRow: { flexDirection: "row", marginBottom: 1.5 },
-    bulletDot: { width: 9, fontSize: 8, color: t.accent },
-    bulletText: { flex: 1, fontSize: 8 },
-    bold: { fontFamily: "Helvetica-Bold", color: t.ink },
-    highlights: { fontSize: 8 },
-    skillRow: { marginBottom: 1.5, fontSize: 8 },
-    expItem: { marginBottom: 4.5 },
-    eduRow: { marginBottom: 2, fontSize: 8 },
+    focus: { marginTop: 2, fontSize: 8.6, color: C.muted },
+
+    // Contact — two grouped rows; atomic "sep + item" groups so wraps only fall between whole
+    // items and a URL never splits mid-token.
+    contactBlock: { marginTop: 6 },
+    contactRow: { flexDirection: "row", flexWrap: "wrap", alignItems: "center" },
+    contactRowSpaced: { marginTop: 3 },
+    contactGroup: { flexDirection: "row", alignItems: "center" },
+    contactItem: { fontFamily: MONO, fontWeight: 500, fontSize: 7.4, color: C.muted },
+    contactLink: { fontFamily: MONO, fontWeight: 500, fontSize: 7.4, color: C.cyanDeep, textDecoration: "none" },
+    contactSep: { fontFamily: MONO, fontWeight: 500, fontSize: 7.4, color: C.rule, marginHorizontal: 5 },
+
+    // Section header ---------------------------------------------------------
+    section: { marginTop: 7 },
+    sectionLabel: {
+      fontFamily: MONO,
+      fontWeight: 600,
+      fontSize: 7.8,
+      color: C.cyan,
+      textTransform: "uppercase",
+      marginBottom: 2.5,
+    },
+    ruleSvg: { marginBottom: 4 },
+
+    // Summary ----------------------------------------------------------------
+    summary: { fontSize: 8.3, color: C.body, lineHeight: 1.28 },
+
+    // Key achievements — an instrument panel of stat readouts.
+    statPanel: {
+      flexDirection: "row",
+      borderWidth: 0.7,
+      borderColor: C.rule,
+      borderTopWidth: 1.6,
+      borderTopColor: C.cyan,
+      backgroundColor: C.panel,
+      paddingVertical: 5.5,
+    },
+    statCol: { flex: 1, paddingHorizontal: 10 },
+    statColDivided: { borderLeftWidth: 0.6, borderLeftColor: C.rule },
+    statValue: {
+      fontFamily: DISPLAY,
+      fontWeight: 600,
+      fontSize: 12.5,
+      color: C.ink,
+      letterSpacing: -0.3,
+    },
+    statLabel: {
+      marginTop: 2,
+      fontFamily: MONO,
+      fontWeight: 500,
+      fontSize: 5.4,
+      color: C.muted,
+      textTransform: "uppercase",
+    },
+
+    // Experience -------------------------------------------------------------
+    expItem: { marginBottom: 3.5 },
+    expHead: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-end" },
+    role: { flex: 1, fontFamily: SANS, fontWeight: 600, fontSize: 9.2, color: C.ink },
+    period: {
+      flexShrink: 0,
+      marginLeft: 12,
+      fontFamily: MONO,
+      fontWeight: 500,
+      fontSize: 6.4,
+      color: C.muted,
+      textTransform: "uppercase",
+    },
+    company: {
+      marginTop: 1,
+      marginBottom: 2.5,
+      fontFamily: MONO,
+      fontWeight: 500,
+      fontSize: 6.4,
+      color: C.cyan,
+      textTransform: "uppercase",
+    },
+    bulletRow: { flexDirection: "row", marginBottom: 1 },
+    bulletDot: {
+      width: 2.4,
+      height: 2.4,
+      borderRadius: 1.2,
+      backgroundColor: C.cyan,
+      marginTop: 2.7,
+      marginRight: 6,
+    },
+    bulletText: { flex: 1, fontSize: 8, lineHeight: 1.3, color: C.body },
+    bold: { fontFamily: SANS, fontWeight: 600, color: C.ink },
+
+    // Skills -----------------------------------------------------------------
+    skillRow: { flexDirection: "row", marginBottom: 2.2 },
+    skillLabel: {
+      width: 92,
+      flexShrink: 0,
+      fontFamily: MONO,
+      fontWeight: 600,
+      fontSize: 6.6,
+      color: C.cyan,
+      textTransform: "uppercase",
+      marginTop: 0.8,
+    },
+    skillItems: { flex: 1, fontSize: 8.1, lineHeight: 1.34, color: C.body },
+
+    // Education --------------------------------------------------------------
+    eduRow: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "flex-end",
+      marginBottom: 2.2,
+    },
+    eduMain: { flex: 1, fontSize: 8.2, color: C.body },
   });
 }
 
 type Styles = ReturnType<typeof makeStyles>;
 
-function sectionHeader(styles: Styles, title: string): React.ReactNode {
+// The Prime-Radiant polyhedron glyph, mirrored from FoundationMotifs.tsx — the site's brand mark.
+function primeGlyph(size: number): React.ReactNode {
   return e(
-    View,
-    null,
-    e(Text, { style: styles.sectionTitle }, title),
-    e(View, { style: styles.sectionRule }),
+    Svg,
+    { width: size, height: size, viewBox: "0 0 24 24" },
+    e(Path, {
+      d: "M12 2.5 19.5 6.75v10.5L12 21.5 4.5 17.25V6.75Z",
+      stroke: C.cyan,
+      strokeWidth: 1.6,
+      fill: "none",
+    }),
+    e(Path, {
+      d: "M12 2.5V21.5M4.5 6.75 19.5 17.25M19.5 6.75 4.5 17.25",
+      stroke: C.cyan,
+      strokeWidth: 1.1,
+      fill: "none",
+      opacity: 0.5,
+    }),
+    e(Circle, { cx: 12, cy: 12, r: 2.4, stroke: C.cyan, strokeWidth: 1.6, fill: "none" }),
   );
 }
 
-function contactPieces(styles: Styles): React.ReactNode[] {
-  const parts: React.ReactNode[] = [];
-  if (contact.location) parts.push(contact.location);
-  if (contact.phone) parts.push(contact.phone);
-  if (contact.email)
-    parts.push(e(Link, { src: `mailto:${contact.email}`, style: styles.link }, contact.email));
-  for (const social of contact.socials ?? [])
-    parts.push(e(Link, { src: social.href, style: styles.link }, social.label));
-
-  const out: React.ReactNode[] = [];
-  parts.forEach((part, index) => {
-    if (index > 0) out.push(e(Text, { key: `sep-${index}` }, "  ·  "));
-    out.push(e(React.Fragment, { key: `part-${index}` }, part));
-  });
-  return out;
+// The signature cyan→gold→transparent underline (globals.css `.section-header-motion::after`),
+// over a faint full-width baseline so sections still read as separated.
+function gradientRule(id: string, style?: Styles[keyof Styles]): React.ReactNode {
+  return e(
+    Svg,
+    { width: CONTENT_W, height: 3, style },
+    e(
+      Defs,
+      null,
+      e(
+        LinearGradient,
+        { id, x1: "0", y1: "0", x2: "1", y2: "0" },
+        e(Stop, { offset: "0", stopColor: C.cyan }),
+        e(Stop, { offset: "0.5", stopColor: C.gold }),
+        e(Stop, { offset: "1", stopColor: C.gold, stopOpacity: 0 }),
+      ),
+    ),
+    e(Rect, { x: 0, y: 1.9, width: CONTENT_W, height: 0.5, fill: C.ruleSoft }),
+    e(Rect, { x: 0, y: 0.6, width: CONTENT_W * 0.58, height: 1.5, fill: `url(#${id})` }),
+  );
 }
 
-function header(styles: Styles): React.ReactNode {
+function sectionHeader(styles: Styles, id: string, label: string): React.ReactNode {
   return e(
     View,
     null,
+    e(Text, { style: styles.sectionLabel }, label),
+    gradientRule(id, styles.ruleSvg),
+  );
+}
+
+// Strip scheme/host noise so a link's *visible* text is the bare URL (e.g. "linkedin.com/in/handle").
+function readableUrl(href: string): string {
+  return href
+    .replace(/^https?:\/\//i, "")
+    .replace(/^www\./i, "")
+    .replace(/\/$/, "");
+}
+
+// Group a bare "+91XXXXXXXXXX" into readable "+91 XXXXX XXXXX"; anything else is left as-is.
+function formatPhone(raw: string): string {
+  const digits = raw.replace(/[^\d+]/g, "");
+  const india = digits.match(/^\+?91(\d{10})$/);
+  if (india) return `+91 ${india[1].slice(0, 5)} ${india[1].slice(5)}`;
+  return raw.trim();
+}
+
+function contactLine(styles: Styles, items: React.ReactNode[], spaced: boolean): React.ReactNode {
+  return e(
+    View,
+    { style: spaced ? [styles.contactRow, styles.contactRowSpaced] : styles.contactRow },
+    ...items.map((item, index) =>
+      e(
+        View,
+        { key: `c-${index}`, style: styles.contactGroup },
+        index > 0 ? e(Text, { key: "sep", style: styles.contactSep }, "·") : null,
+        item,
+      ),
+    ),
+  );
+}
+
+function header(styles: Styles): React.ReactNode {
+  const personal: React.ReactNode[] = [];
+  if (contact.location) personal.push(e(Text, { style: styles.contactItem }, contact.location));
+  if (contact.phone)
+    personal.push(e(Text, { style: styles.contactItem }, formatPhone(contact.phone)));
+  if (contact.email)
+    personal.push(e(Link, { src: `mailto:${contact.email}`, style: styles.contactLink }, contact.email));
+
+  const links = (contact.socials ?? []).map((social) =>
+    e(Link, { src: social.href, style: styles.contactLink }, readableUrl(social.href)),
+  );
+
+  return e(
+    View,
+    null,
+    e(
+      View,
+      { key: "eyebrow", style: styles.eyebrow },
+      e(View, { style: styles.eyebrowGlyph }, primeGlyph(9)),
+      e(Text, { style: styles.eyebrowText }, resume.title),
+    ),
     e(Text, { key: "name", style: styles.name }, resume.name),
-    e(Text, { key: "title", style: styles.title }, `${resume.title} — ${resume.focus}`),
-    e(Text, { key: "contact", style: styles.contact }, contactPieces(styles)),
-    e(View, { key: "rule", style: styles.headerRule }),
+    e(Text, { key: "focus", style: styles.focus }, resume.focus),
+    e(View, { key: "rule", style: { marginTop: 8 } }, gradientRule("grad-head")),
+    e(
+      View,
+      { key: "contact", style: styles.contactBlock },
+      personal.length ? contactLine(styles, personal, false) : null,
+      links.length ? contactLine(styles, links, personal.length > 0) : null,
+    ),
   );
 }
 
@@ -166,20 +408,31 @@ function summarySection(styles: Styles): React.ReactNode {
   return e(
     View,
     { style: styles.section },
-    sectionHeader(styles, "Summary"),
+    sectionHeader(styles, "grad-summary", "Summary"),
     e(Text, { style: styles.summary }, resume.summary),
   );
 }
 
-function highlightsSection(styles: Styles): React.ReactNode {
-  const line = resume.telemetry
-    .map((reading) => `${reading.value} ${reading.label}`)
-    .join("   ·   ");
+function achievementsSection(styles: Styles): React.ReactNode {
   return e(
     View,
     { style: styles.section },
-    sectionHeader(styles, "Highlights"),
-    e(Text, { style: styles.highlights }, line),
+    sectionHeader(styles, "grad-metrics", "Key Achievements"),
+    e(
+      View,
+      { style: styles.statPanel },
+      ...resume.telemetry.map((reading, index) =>
+        e(
+          View,
+          {
+            key: `stat-${index}`,
+            style: index === 0 ? styles.statCol : [styles.statCol, styles.statColDivided],
+          },
+          e(Text, { style: styles.statValue }, reading.value),
+          e(Text, { style: styles.statLabel }, reading.label),
+        ),
+      ),
+    ),
   );
 }
 
@@ -187,23 +440,23 @@ function experienceSection(styles: Styles): React.ReactNode {
   return e(
     View,
     { style: styles.section },
-    sectionHeader(styles, "Experience"),
+    sectionHeader(styles, "grad-exp", "Work Experience"),
     ...resume.experience.map((item, index) =>
       e(
         View,
         { key: `exp-${index}`, style: styles.expItem },
         e(
           View,
-          { style: styles.rowBetween },
-          e(Text, { style: styles.itemTitle }, item.role),
+          { style: styles.expHead },
+          e(Text, { style: styles.role }, item.role),
           e(Text, { style: styles.period }, item.period),
         ),
-        e(Text, { style: styles.subLine }, `${item.company}   ·   ${item.location}`),
+        e(Text, { style: styles.company }, `${item.company}  ·  ${item.location}`),
         ...item.projects.map((project, projectIndex) =>
           e(
             View,
             { key: `proj-${projectIndex}`, style: styles.bulletRow },
-            e(Text, { style: styles.bulletDot }, "•"),
+            e(View, { style: styles.bulletDot }),
             e(
               Text,
               { style: styles.bulletText },
@@ -221,13 +474,13 @@ function skillsSection(styles: Styles): React.ReactNode {
   return e(
     View,
     { style: styles.section },
-    sectionHeader(styles, "Skills"),
+    sectionHeader(styles, "grad-skills", "Skills"),
     ...resume.skills.map((category, index) =>
       e(
-        Text,
+        View,
         { key: `skill-${index}`, style: styles.skillRow },
-        e(Text, { style: styles.bold }, `${category.title}: `),
-        category.items.join(", "),
+        e(Text, { style: styles.skillLabel }, category.title),
+        e(Text, { style: styles.skillItems }, category.items.join(", ")),
       ),
     ),
   );
@@ -237,20 +490,25 @@ function educationSection(styles: Styles): React.ReactNode {
   return e(
     View,
     { style: styles.section },
-    sectionHeader(styles, "Education"),
+    sectionHeader(styles, "grad-edu", "Education"),
     ...resume.education.map((entry, index) =>
       e(
-        Text,
+        View,
         { key: `edu-${index}`, style: styles.eduRow },
-        e(Text, { style: styles.bold }, entry.degree),
-        `   —   ${entry.school}   ·   ${entry.location}   ·   ${entry.period}`,
+        e(
+          Text,
+          { style: styles.eduMain },
+          e(Text, { style: styles.bold }, entry.degree),
+          `  —  ${entry.school}  ·  ${entry.location}`,
+        ),
+        e(Text, { style: styles.period }, entry.period),
       ),
     ),
   );
 }
 
 function resumeDoc() {
-  const styles = makeStyles(THEME);
+  const styles = makeStyles();
   return e(
     Document,
     {
@@ -266,7 +524,7 @@ function resumeDoc() {
       { size: "LETTER", style: styles.page },
       header(styles),
       summarySection(styles),
-      highlightsSection(styles),
+      achievementsSection(styles),
       experienceSection(styles),
       skillsSection(styles),
       educationSection(styles),
