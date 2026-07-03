@@ -37,6 +37,18 @@ function SectionEyebrow({ children }: { children: React.ReactNode }) {
   );
 }
 
+// Skills grid order tuned for a symmetric 2-column layout: the two tallest cards (Application,
+// Foundation) share the top row, the two mid-sized cards the next, and the short soft-skills card
+// runs full width as a footer. Titles not listed keep their original order at the end.
+const SKILLS_GRID_ORDER = ["Application", "Foundation", "Data Systems", "Cloud & Delivery", "Ways of Working"];
+const WIDE_SKILL_CARD = "Ways of Working";
+
+const rankSkill = (title: string) => {
+  const index = SKILLS_GRID_ORDER.indexOf(title);
+  return index === -1 ? SKILLS_GRID_ORDER.length : index;
+};
+const orderedSkills = [...resume.skills].sort((a, b) => rankSkill(a.title) - rankSkill(b.title));
+
 export default function ResumeApp() {
   const { contact } = useOS();
 
@@ -138,8 +150,13 @@ export default function ResumeApp() {
         <section>
           <SectionEyebrow>{copy.skillsEyebrow}</SectionEyebrow>
           <div className="mt-4 grid gap-4 @xl:grid-cols-2">
-            {resume.skills.map((group) => (
-              <div key={group.title} className="rounded-lg border border-border/70 bg-card/40 p-5">
+            {orderedSkills.map((group) => (
+              <div
+                key={group.title}
+                className={`rounded-lg border border-border/70 bg-card/40 p-5 ${
+                  group.title === WIDE_SKILL_CARD ? "@xl:col-span-2" : ""
+                }`}
+              >
                 <h3 className="font-semibold tracking-[-0.01em] text-foreground">{group.title}</h3>
                 <p className="mt-1 text-[0.78rem] leading-6 text-muted-foreground">
                   {group.summary}

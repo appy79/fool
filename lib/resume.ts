@@ -89,22 +89,22 @@ const experience: ExperienceItem[] = [
       {
         title: "ADS Reporting",
         description:
-          "Engineered ADS (Active Data Store) Reporting — a YAML-configured Apache Spark job in Java on Kubernetes cron — that transforms ~5TB/day of write-optimized DataStax Enterprise Cassandra data into read-ready Grafana reports, now expanding across AT&T charging and usage tables for 100M+ subscribers.",
+          "Engineered a YAML-configured Apache Spark job (Java, Kubernetes cron) that turns ~5TB/day of DataStax Cassandra data into read-ready Grafana reports, now expanding across AT&T charging and usage tables for 100M+ subscribers.",
       },
       {
         title: "Production Deployment Tool",
         description:
-          "Created an internal dashboard (Java Spring Boot, Fabric8, GitLab REST API, React.js, Vault) for feature testing, handling environment comparisons, changes, and caching across ~500 concurrent API calls and cutting testing and delivery time 20%.",
+          "Built an internal Java Spring Boot and React.js dashboard (Fabric8, GitLab REST API, Vault) for feature testing — comparing environments and caching across ~500 concurrent API calls to reduce testing and release time 20%.",
       },
       {
         title: "AT&T Openet",
         description:
-          "Shipped Openet CHF-CGF services (Java Spring Boot, Kafka, Redis, Cassandra DB, Kubernetes) that process accounting events from AT&T Network Access Servers, powering real-time charging for 100M+ subscribers' data and talk usage at 1M+ events/sec with 99.99% accuracy.",
+          "Shipped Openet CHF-CGF services and RESTful APIs (Java Spring Boot, Kafka, Redis, Cassandra, Kubernetes) that process AT&T Network Access Server events for real-time charging — 100M+ subscribers, 1M+ events/sec, 99.99% accuracy.",
       },
       {
         title: "Metro By T-Mobile",
         description:
-          "Delivered web-app services (Java Spring Boot, Kafka, Angular.js, Jenkins, Kubernetes) to 20M+ Metro brand users after the T-Mobile post-acquisition migration, lifting adoption 15% and cutting service-integration time 40%.",
+          "Rolled out web-app services (Java Spring Boot, Kafka, Angular.js, Jenkins, Kubernetes) to 20M+ Metro users in a cross-functional Scrum team after the T-Mobile migration, lifting adoption 15% and reducing integration time 40%.",
       },
     ],
   },
@@ -117,12 +117,12 @@ const experience: ExperienceItem[] = [
       {
         title: "TMO DGB",
         description:
-          "Bridged T-Mobile's legacy SOA to new digital-billing systems with Java Spring Boot, Kafka, Redis, Vault, GitLab CI/CD, and Kubernetes, aggregating 5M+ daily records for 40M+ subscribers at 99.9% reliability and 50% faster data sync.",
+          "Bridged T-Mobile's legacy SOA to digital-billing systems (Java Spring Boot, Kafka, Redis, Vault, GitLab CI/CD, Kubernetes), aggregating 5M+ daily records for 40M+ subscribers at 99.9% reliability and 50% faster data sync.",
       },
       {
         title: "NorthStar",
         description:
-          "Modernized T-Mobile's ordering platform, replacing legacy SOA with Java Spring Boot, Kafka, Camunda, Couchbase, PostgreSQL, and Kubernetes services for 5M+ enterprise subscribers; delivered 99.99% uptime with async processing, shipped 100+ features/fixes, cut deployment time 30%, and raised order throughput 4x.",
+          "Modernized T-Mobile's ordering platform from legacy SOA to Java Spring Boot, Kafka, Camunda, Couchbase, PostgreSQL, and Kubernetes for 5M+ enterprise subscribers — 99.99% uptime via async processing, 100+ features behind JUnit/Mockito test automation, 30% faster deploys, and 4x order throughput.",
       },
     ],
   },
@@ -135,12 +135,12 @@ const experience: ExperienceItem[] = [
       {
         title: "Multiprocessing",
         description:
-          "Optimized a core media service with Python multiprocessing across Flask/FFmpeg, partitioning tasks over threads to scale throughput ~300% for 10K+ daily media jobs.",
+          "Scaled a core media service ~300% with Python multiprocessing across Flask/FFmpeg, partitioning tasks over threads for 10K+ daily media jobs.",
       },
       {
         title: "Training Pipeline",
         description:
-          "Automated an ML data pipeline (Python Flask, Google API client, AWS S3/EC2, Docker) that ingests 1000+ records daily from Google Sheets, cutting data-prep time 70% and speeding model-training cycles 50%.",
+          "Automated an ML data pipeline (Python Flask, Google API, AWS S3/EC2, Docker) that ingests 1000+ records/day from Google Sheets, reducing data-prep time 70% and speeding model-training cycles 50%.",
       },
       {
         title: "Gamify",
@@ -283,7 +283,7 @@ export const resume = {
   // Keyword-rich professional summary. Leads the résumé PDF and the in-OS Resume app; written
   // to read naturally while surfacing the terms ATS keyword scans look for.
   summary:
-    "Software developer with 3+ years building backend and platform services for distributed, carrier-scale systems. At Amdocs, ships Java and Spring Boot microservices with Kafka, Kubernetes, Cassandra, Redis, and Apache Spark — powering charging, billing, ordering, and reporting for 100M+ subscribers at up to 1M+ events/sec with 99.99% uptime targets. Comfortable across the stack with React and TypeScript, focused on reliability, throughput, and clean CI/CD delivery.",
+    "Software developer with 3+ years building backend and platform services for distributed, carrier-scale systems. At Amdocs, builds Java and Spring Boot microservices and RESTful APIs with Kafka, Kubernetes, Cassandra, Redis, and Apache Spark — powering charging, billing, ordering, and reporting for 100M+ subscribers at up to 1M+ events/sec with 99.99% uptime targets. Works in Agile teams across the stack with React and TypeScript, applying object-oriented design and clean CI/CD to keep services reliable and fast.",
   proofPoints: [
     {
       label: "current",
@@ -313,6 +313,7 @@ export const resume = {
       items: [
         "Java",
         "Spring Boot",
+        "REST APIs",
         "Python",
         "Flask",
         "React.js",
@@ -323,6 +324,7 @@ export const resume = {
         "JUnit",
         "Mockito",
         "Test NG",
+        "Test Automation",
         "Postman",
       ],
     },
@@ -366,7 +368,7 @@ export const resume = {
       items: [
         "DSA",
         "Design & Analysis of Algorithms",
-        "OOP",
+        "Object-Oriented Design (OOP)",
         "DBMS",
         "Operating Systems",
         "Computer Networks",
@@ -380,7 +382,7 @@ export const resume = {
       title: "Ways of Working",
       short: "Team",
       summary: "How I partner across teams and keep delivery reliable.",
-      items: ["Collaboration", "Communication", "Ownership", "Mentoring", "Problem-solving"],
+      items: ["Agile", "Scrum", "Collaboration", "Communication", "Ownership", "Mentoring", "Problem-solving"],
     },
   ] satisfies SkillCategory[],
   experience,
