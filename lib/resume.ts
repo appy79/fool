@@ -83,28 +83,28 @@ const experience: ExperienceItem[] = [
   {
     role: "Experienced Software Developer",
     company: "Amdocs",
-    period: "07/2025 - Current",
+    period: "07/2025 - Present",
     location: "Pune, MH, India",
     projects: [
       {
         title: "ADS Reporting",
         description:
-          "Built ADS (Active Data Store) Reporting to turn write-optimized DataStax Enterprise Cassandra data into read-ready business and monitoring reports. Apache Spark—wrapped in Java and driven by YAML query/resource configs—runs on Kubernetes cron schedules, aggregating ~5TB/day (COUNT, LATERAL VIEW, max_by, rank) into report tables served through Grafana. Now extending it across AT&T charging and usage tables to surface daily and weekly KPIs for 100M+ subscribers without hammering the write-optimized store.",
+          "Engineered ADS (Active Data Store) Reporting — a YAML-configured Apache Spark job in Java on Kubernetes cron — that transforms ~5TB/day of write-optimized DataStax Enterprise Cassandra data into read-ready Grafana reports, now expanding across AT&T charging and usage tables for 100M+ subscribers.",
       },
       {
         title: "Production Deployment Tool",
         description:
-          "Developed internal dashboard tool using Java Spring Boot, Fabric8, GitLab REST API, React.js, and Vault to streamline feature testing. Enabled environment comparisons, changes, and caching for ~500 concurrent API calls—saving developers and testers 20% of testing/delivery time.",
+          "Created an internal dashboard (Java Spring Boot, Fabric8, GitLab REST API, React.js, Vault) for feature testing, handling environment comparisons, changes, and caching across ~500 concurrent API calls and cutting testing and delivery time 20%.",
       },
       {
         title: "AT&T Openet",
         description:
-          "Developed Openet CHF-CGF microservices using Java Spring Boot, Redis, Cassandra DB, Kubernetes, and Kafka to process accounting events from AT&T Network Access Servers. Enabled real-time charging for 100M+ subscribers' data/talk time usage—scaling to 1M+ events/sec with 99.99% accuracy.",
+          "Shipped Openet CHF-CGF services (Java Spring Boot, Kafka, Redis, Cassandra DB, Kubernetes) that process accounting events from AT&T Network Access Servers, powering real-time charging for 100M+ subscribers' data and talk usage at 1M+ events/sec with 99.99% accuracy.",
       },
       {
         title: "Metro By T-Mobile",
         description:
-          "Built microservices web apps using Java Spring Boot, Kafka, Angular.js, Git, Jenkins, and Kubernetes to deliver existing services to 20M+ Metro brand users post-acquisition. Orchestrated seamless, user-friendly access—boosting adoption by 15% and cutting service integration time by 40%.",
+          "Delivered web-app services (Java Spring Boot, Kafka, Angular.js, Jenkins, Kubernetes) to 20M+ Metro brand users after the T-Mobile post-acquisition migration, lifting adoption 15% and cutting service-integration time 40%.",
       },
     ],
   },
@@ -117,12 +117,12 @@ const experience: ExperienceItem[] = [
       {
         title: "TMO DGB",
         description:
-          "Built Digital Billing aggregation microservices for T-Mobile using Java Spring Boot, Kafka, Redis, Vault, Git, GitLab CI/CD, and Kubernetes. Bridged legacy SOA to new billing systems for 40M+ subscribers—aggregating 5M+ daily records with 99.9% reliability and 50% faster data sync.",
+          "Bridged T-Mobile's legacy SOA to new digital-billing systems with Java Spring Boot, Kafka, Redis, Vault, GitLab CI/CD, and Kubernetes, aggregating 5M+ daily records for 40M+ subscribers at 99.9% reliability and 50% faster data sync.",
       },
       {
         title: "NorthStar",
         description:
-          "T-Mobile modernization project replaced legacy SOA with Java Spring Boot, Kafka, Camunda, Couchbase, PostgreSQL, Git, Jenkins, and Kubernetes microservices—adding high-volume ordering for 5M+ enterprise subscribers. Delivered 99.99% uptime, rolling updates, and async processing; contributed to 100+ features/fixes, cutting deployment time 30% and boosting order throughput 4x.",
+          "Modernized T-Mobile's ordering platform, replacing legacy SOA with Java Spring Boot, Kafka, Camunda, Couchbase, PostgreSQL, and Kubernetes services for 5M+ enterprise subscribers; delivered 99.99% uptime with async processing, shipped 100+ features/fixes, cut deployment time 30%, and raised order throughput 4x.",
       },
     ],
   },
@@ -135,17 +135,17 @@ const experience: ExperienceItem[] = [
       {
         title: "Multiprocessing",
         description:
-          "Optimized core platform service with Python multiprocessing in Flask/FFmpeg—strategically partitioning tasks across threads. Accelerated processing proportional to compute resources enabling approx. 300% higher throughput for 10K+ daily media tasks.",
+          "Optimized a core media service with Python multiprocessing across Flask/FFmpeg, partitioning tasks over threads to scale throughput ~300% for 10K+ daily media jobs.",
       },
       {
         title: "Training Pipeline",
         description:
-          "Built data processing pipeline microservice using Python Flask, Google API client, and AWS S3/EC2, Docker for ML algorithm training. Automated ingestion from Google Sheets—processing 1000+ records daily, cutting prep time 70% and accelerating model training cycles by 50%.",
+          "Automated an ML data pipeline (Python Flask, Google API client, AWS S3/EC2, Docker) that ingests 1000+ records daily from Google Sheets, cutting data-prep time 70% and speeding model-training cycles 50%.",
       },
       {
         title: "Gamify",
         description:
-          "Designed and launched inaugural monetization microservice using Python Flask on AWS Docker. Created ER/UML diagrams; enabled usage-based billing for early adopters—driving $200K initial revenue and 35% faster go-to-market.",
+          "Launched the company's first usage-based monetization service (Python Flask on AWS/Docker), modeling the schema with ER/UML diagrams and billing early adopters to drive $200K initial revenue and 35% faster go-to-market.",
       },
     ],
   },
@@ -343,7 +343,7 @@ export const resume = {
       ],
     },
     {
-      title: "Cloud & delivery",
+      title: "Cloud & Delivery",
       short: "Cloud",
       summary: "Containers, pipelines, secrets, and how bytes reach the edge.",
       items: [
@@ -375,6 +375,12 @@ export const resume = {
         "Theory of Computation",
         "Software Engineering",
       ],
+    },
+    {
+      title: "Ways of Working",
+      short: "Team",
+      summary: "How I partner across teams and keep delivery reliable.",
+      items: ["Collaboration", "Communication", "Ownership", "Mentoring", "Problem-solving"],
     },
   ] satisfies SkillCategory[],
   experience,
