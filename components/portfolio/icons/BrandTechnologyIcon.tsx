@@ -2,15 +2,20 @@ import {
   siAngular,
   siApachecassandra,
   siApachekafka,
+  siApachemaven,
   siApachespark,
   siCamunda,
   siCouchbase,
+  siCss,
   siDocker,
   siFfmpeg,
   siFlask,
+  siGit,
   siGitlab,
   siGoogle,
   siGrafana,
+  siHibernate,
+  siHtml5,
   siJenkins,
   siJunit5,
   siKubernetes,
@@ -42,6 +47,7 @@ type FallbackIcon =
   | "aws-smile"
   | "azure-a"
   | "binary-tree"
+  | "cache"
   | "chat"
   | "chip"
   | "cloud"
@@ -51,14 +57,18 @@ type FallbackIcon =
   | "cycle"
   | "database"
   | "flag"
+  | "gauge"
   | "globe"
   | "layers"
   | "lightbulb"
   | "network"
   | "nodes"
   | "objects"
+  | "parallel"
   | "people"
+  | "pulse"
   | "s3-bucket"
+  | "scale-out"
   | "service-mesh"
   | "shield"
   | "test-check"
@@ -79,17 +89,22 @@ const brandIcons: Record<string, SimpleIconShape> = {
   cassandra: siApachecassandra,
   cassandradb: siApachecassandra,
   couchbase: siCouchbase,
+  css: siCss,
   docker: siDocker,
   ffmpeg: siFfmpeg,
   flask: siFlask,
+  git: siGit,
   gitlab: siGitlab,
   gitlabci: siGitlab,
   grafana: siGrafana,
+  hibernate: siHibernate,
+  html: siHtml5,
   java: siOpenjdk,
   jenkins: siJenkins,
   junit: siJunit5,
   kafka: siApachekafka,
   kubernetes: siKubernetes,
+  maven: siApachemaven,
   postgresql: siPostgresql,
   postman: siPostman,
   python: siPython,
@@ -107,8 +122,17 @@ const fallbackBrands: Record<string, FallbackBrand> = {
   awsec2: { background: "#ED7100", color: "#FFFFFF", icon: "chip", title: "AWS EC2" },
   awss3: { background: "#569A31", color: "#FFFFFF", icon: "s3-bucket", title: "AWS S3" },
   azure: { background: "#0078D4", color: "#FFFFFF", icon: "azure-a", title: "Azure" },
+  asynceventdriven: {
+    background: "#0891B2",
+    color: "#FFFFFF",
+    icon: "pulse",
+    title: "Async / Event-Driven",
+  },
+  caching: { background: "#D97706", color: "#FFFFFF", icon: "cache", title: "Caching" },
   cdn: { background: "#2563EB", color: "#FFFFFF", icon: "globe", title: "CDN" },
+  cicd: { background: "#1F6FEB", color: "#FFFFFF", icon: "workflow", title: "CI/CD" },
   collaboration: { background: "#0891B2", color: "#FFFFFF", icon: "people", title: "Collaboration" },
+  concurrency: { background: "#4338CA", color: "#FFFFFF", icon: "parallel", title: "Concurrency" },
   communication: { background: "#0EA5E9", color: "#0F172A", icon: "chat", title: "Communication" },
   computerarchitecture: {
     background: "#B45309",
@@ -171,6 +195,12 @@ const fallbackBrands: Record<string, FallbackBrand> = {
   problemsolving: { background: "#BE185D", color: "#FFFFFF", icon: "lightbulb", title: "Problem-solving" },
   restapis: { background: "#06B6D4", color: "#0F172A", icon: "api-route", title: "REST APIs" },
   scrum: { background: "#6366F1", color: "#FFFFFF", icon: "flag", title: "Scrum" },
+  horizontalscaling: {
+    background: "#7C3AED",
+    color: "#FFFFFF",
+    icon: "scale-out",
+    title: "Horizontal Scaling",
+  },
   softwareengineering: {
     background: "#0D9488",
     color: "#FFFFFF",
@@ -178,11 +208,18 @@ const fallbackBrands: Record<string, FallbackBrand> = {
     title: "Software Engineering",
   },
   sparksql: { background: "#E25A1C", color: "#FFFFFF", icon: "database", title: "Spark SQL" },
+  sql: { background: "#336791", color: "#FFFFFF", icon: "database", title: "SQL" },
   "sql&nosqldbs": {
     background: "#336791",
     color: "#FFFFFF",
     icon: "database",
     title: "SQL & NoSQL DBs",
+  },
+  throughputoptimization: {
+    background: "#059669",
+    color: "#FFFFFF",
+    icon: "gauge",
+    title: "Throughput Optimization",
   },
   testng: { background: "#DC2626", color: "#FFFFFF", icon: "test-check", title: "TestNG" },
   theoryofcomputation: {
@@ -659,6 +696,94 @@ function FallbackTechnologyIcon({ icon }: { icon: FallbackIcon }) {
         >
           <path d="M12 3.5 19 6v5.2c0 4.3-3 7.4-7 8.8-4-1.4-7-4.5-7-8.8V6Z" />
           <path d="m9.2 12 2 2 3.6-4" />
+        </svg>
+      );
+    case "cache":
+      // A store box with a lightning bolt — fast, hot-path memory.
+      return (
+        <svg
+          viewBox="0 0 24 24"
+          className="size-[1.05rem]"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <rect x="4" y="6" width="16" height="12" rx="2" />
+          <path d="m13 8.5-3.2 4.5H12l-1 3 3.4-4.6H11.8l1.2-2.9" />
+        </svg>
+      );
+    case "gauge":
+      // A speedometer arc with a needle — throughput / performance.
+      return (
+        <svg
+          viewBox="0 0 24 24"
+          className="size-[1.05rem]"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M4.5 16.5a7.5 7.5 0 0 1 15 0" />
+          <path d="M12 16.5 16 13" />
+          <circle cx="12" cy="16.5" r="1.1" fill="currentColor" stroke="none" />
+        </svg>
+      );
+    case "parallel":
+      // Two parallel arrows running the same way — concurrency.
+      return (
+        <svg
+          viewBox="0 0 24 24"
+          className="size-[1.05rem]"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M4 8.5h11" />
+          <path d="m12 5.5 3 3-3 3" />
+          <path d="M4 15.5h11" />
+          <path d="m12 12.5 3 3-3 3" />
+        </svg>
+      );
+    case "pulse":
+      // An event/signal waveform — async, event-driven flow.
+      return (
+        <svg
+          viewBox="0 0 24 24"
+          className="size-[1.05rem]"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M3 12h3.6l2-6 3.6 12 2.4-6H21" />
+        </svg>
+      );
+    case "scale-out":
+      // Three replicas side by side — horizontal scaling.
+      return (
+        <svg
+          viewBox="0 0 24 24"
+          className="size-[1.05rem]"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <rect x="2.5" y="8" width="5" height="8" rx="1.2" />
+          <rect x="9.5" y="8" width="5" height="8" rx="1.2" />
+          <rect x="16.5" y="8" width="5" height="8" rx="1.2" />
         </svg>
       );
     case "workflow":

@@ -37,11 +37,17 @@ function SectionEyebrow({ children }: { children: React.ReactNode }) {
   );
 }
 
-// Skills grid order tuned for a symmetric 2-column layout: the two tallest cards (Application,
-// Foundation) share the top row, the two mid-sized cards the next, and the short soft-skills card
-// runs full width as a footer. Titles not listed keep their original order at the end.
-const SKILLS_GRID_ORDER = ["Application", "Foundation", "Data Systems", "Cloud & Delivery", "Ways of Working"];
-const WIDE_SKILL_CARD = "Ways of Working";
+// Skills grid order tuned for a balanced 2-column layout across the six categories: each row pairs
+// cards of similar height (tallest first) so neither column is left with a lopsided gap. Titles not
+// listed keep their original order at the end.
+const SKILLS_GRID_ORDER = [
+  "Application",
+  "Cloud & Delivery",
+  "Data Systems",
+  "Performance & Scale",
+  "Foundation",
+  "Ways of Working",
+];
 
 const rankSkill = (title: string) => {
   const index = SKILLS_GRID_ORDER.indexOf(title);
@@ -153,9 +159,7 @@ export default function ResumeApp() {
             {orderedSkills.map((group) => (
               <div
                 key={group.title}
-                className={`rounded-lg border border-border/70 bg-card/40 p-5 ${
-                  group.title === WIDE_SKILL_CARD ? "@xl:col-span-2" : ""
-                }`}
+                className="rounded-lg border border-border/70 bg-card/40 p-5"
               >
                 <h3 className="font-semibold tracking-[-0.01em] text-foreground">{group.title}</h3>
                 <p className="mt-1 text-[0.78rem] leading-6 text-muted-foreground">

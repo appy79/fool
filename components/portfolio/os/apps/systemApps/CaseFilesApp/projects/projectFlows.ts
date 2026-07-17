@@ -129,7 +129,7 @@ export const projectFlows: Record<ProjectVisualKind, ProjectFlow> = {
     steps: [
       { caption: "Ingest the carrier event firehose", lit: ["s1", "s2", "s3"], edges: [] },
       {
-        caption: "Rate & order 1M+ events/sec",
+        caption: "Rate & charge 600K+ records/sec",
         lit: ["rate"],
         edges: [
           ["s1", "rate"],
@@ -138,7 +138,7 @@ export const projectFlows: Record<ProjectVisualKind, ProjectFlow> = {
         ],
       },
       { caption: "Commit to the subscriber ledger", lit: ["led"], edges: [["rate", "led"]] },
-      { caption: "1M+ events/sec, 100M+ subscribers", lit: ["led"], edges: [], metric: "1M+/s" },
+      { caption: "600K+ records/sec, 100M+ subscribers", lit: ["led"], edges: [], metric: "600K/s" },
     ],
   },
   telecom: {
@@ -330,7 +330,7 @@ export const projectFlows: Record<ProjectVisualKind, ProjectFlow> = {
         ],
       },
       {
-        caption: "4x throughput, 99.99% uptime",
+        caption: "4x throughput, 99.999% uptime",
         lit: ["done"],
         edges: [
           ["w1", "done"],

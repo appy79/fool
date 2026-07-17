@@ -158,11 +158,11 @@ const styles = StyleSheet.create({
     fontFamily: SANS,
     fontSize: 8.2,
     color: C.body,
-    lineHeight: 1.3,
+    lineHeight: 1.32,
   },
 
   // Masthead -----------------------------------------------------------------
-  eyebrow: { flexDirection: "row", alignItems: "center", marginBottom: 3.5 },
+  eyebrow: { flexDirection: "row", alignItems: "center", marginBottom: 2 },
   eyebrowGlyph: { marginRight: 5 },
   eyebrowText: {
     fontFamily: MONO,
@@ -179,11 +179,11 @@ const styles = StyleSheet.create({
     letterSpacing: -0.5,
     lineHeight: 1.05,
   },
-  focus: { marginTop: 2, fontSize: 8.6, color: C.muted },
+  focus: { marginTop: 1, fontSize: 8.6, color: C.muted },
 
   // Contact — two grouped rows; atomic "sep + item" groups so wraps only fall between whole
   // items and a URL never splits mid-token.
-  contactBlock: { marginTop: 6 },
+  contactBlock: { marginTop: 3.5 },
   contactRow: { flexDirection: "row", flexWrap: "wrap", alignItems: "center" },
   contactRowSpaced: { marginTop: 3 },
   contactGroup: { flexDirection: "row", alignItems: "center" },
@@ -199,48 +199,41 @@ const styles = StyleSheet.create({
     fontSize: 7.8,
     color: C.cyan,
     textTransform: "uppercase",
-    marginBottom: 2.5,
+    marginBottom: 3,
   },
-  ruleSvg: { marginBottom: 4 },
+  ruleSvg: { marginBottom: 5 },
 
   // Summary ------------------------------------------------------------------
-  summary: { fontSize: 8.3, color: C.body, lineHeight: 1.28 },
+  summary: { fontSize: 8.3, color: C.body, lineHeight: 1.36 },
 
-  // Key achievements — an instrument panel of stat readouts.
+  // Key achievements — a single-line instrument-panel readout. Kept single-column (one text run,
+  // no side-by-side cells) so ATS parsers read it in order instead of scrambling the columns.
   statPanel: {
-    flexDirection: "row",
     borderWidth: 0.7,
     borderColor: C.rule,
     borderTopWidth: 1.6,
     borderTopColor: C.cyan,
     backgroundColor: C.panel,
-    paddingVertical: 5.5,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
   },
-  statCol: { flex: 1, paddingHorizontal: 10 },
-  statColDivided: { borderLeftWidth: 0.6, borderLeftColor: C.rule },
+  statLine: { fontSize: 8.3, lineHeight: 1.4, color: C.body },
   statValue: {
     fontFamily: DISPLAY,
     fontWeight: 600,
-    fontSize: 12.5,
+    fontSize: 9.5,
     color: C.ink,
     letterSpacing: -0.3,
   },
-  statLabel: {
-    marginTop: 2,
-    fontFamily: MONO,
-    fontWeight: 500,
-    fontSize: 5.4,
-    color: C.muted,
-    textTransform: "uppercase",
-  },
+  statSep: { color: C.rule },
 
   // Experience ---------------------------------------------------------------
-  expItem: { marginBottom: 3.5 },
-  expHead: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-end" },
-  role: { flex: 1, fontFamily: SANS, fontWeight: 600, fontSize: 9.2, color: C.ink },
+  // Every entry is a single-column block (role line, then a company·location·dates meta line,
+  // then bullets) — no right-aligned date column, which is what makes Workday/Taleo reassign
+  // dates and companies to the wrong job.
+  expItem: { marginBottom: 3.8 },
+  role: { fontFamily: SANS, fontWeight: 600, fontSize: 9.2, color: C.ink },
   period: {
-    flexShrink: 0,
-    marginLeft: 12,
     fontFamily: MONO,
     fontWeight: 500,
     fontSize: 6.4,
@@ -248,48 +241,35 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
   company: {
-    marginTop: 1,
-    marginBottom: 2.5,
+    marginTop: 1.5,
+    marginBottom: 3,
     fontFamily: MONO,
     fontWeight: 500,
     fontSize: 6.4,
     color: C.cyan,
     textTransform: "uppercase",
   },
-  bulletRow: { flexDirection: "row", marginBottom: 1 },
+  bulletRow: { flexDirection: "row", marginBottom: 2 },
   bulletDot: {
     width: 2.4,
     height: 2.4,
     borderRadius: 1.2,
     backgroundColor: C.cyan,
-    marginTop: 2.7,
+    marginTop: 2.9,
     marginRight: 6,
   },
-  bulletText: { flex: 1, fontSize: 8, lineHeight: 1.3, color: C.body },
+  bulletText: { flex: 1, fontSize: 8.1, lineHeight: 1.34, color: C.body },
   bold: { fontFamily: SANS, fontWeight: 600, color: C.ink },
 
   // Skills -------------------------------------------------------------------
-  skillRow: { flexDirection: "row", marginBottom: 2.2 },
-  skillLabel: {
-    width: 92,
-    flexShrink: 0,
-    fontFamily: MONO,
-    fontWeight: 600,
-    fontSize: 6.6,
-    color: C.cyan,
-    textTransform: "uppercase",
-    marginTop: 0.8,
-  },
-  skillItems: { flex: 1, fontSize: 8.1, lineHeight: 1.34, color: C.body },
+  // One wrapping line per category ("Category: item, item, ...") — a single text run, so the
+  // parser keeps each category's label attached to its own items instead of splitting the
+  // labels and values into two mis-aligned columns.
+  skillLine: { marginBottom: 3, fontSize: 8.1, lineHeight: 1.38, color: C.body },
+  skillCat: { fontFamily: SANS, fontWeight: 600, color: C.cyan },
 
   // Education ----------------------------------------------------------------
-  eduRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-end",
-    marginBottom: 2.2,
-  },
-  eduMain: { flex: 1, fontSize: 8.2, color: C.body },
+  eduMain: { marginBottom: 3.2, fontSize: 8.1, lineHeight: 1.38, color: C.body },
 
   // Colophon — pinned to the foot of the page, drawn as vector outlines (see outlineSvg).
   footer: { position: "absolute", left: PAGE_PAD_H, right: PAGE_PAD_H, bottom: 15 },
@@ -517,23 +497,15 @@ function summarySection(): React.ReactNode {
 }
 
 function achievementsSection(): React.ReactNode {
+  const parts: React.ReactNode[] = [];
+  resume.telemetry.forEach((reading, index) => {
+    if (index > 0) parts.push(e(Text, { key: `sep-${index}`, style: styles.statSep }, "    ·    "));
+    parts.push(e(Text, { key: `val-${index}`, style: styles.statValue }, `${reading.value} `));
+    parts.push(reading.label);
+  });
   return section(
-    "Key Achievements",
-    e(
-      View,
-      { style: styles.statPanel },
-      ...resume.telemetry.map((reading, index) =>
-        e(
-          View,
-          {
-            key: `stat-${index}`,
-            style: index === 0 ? styles.statCol : [styles.statCol, styles.statColDivided],
-          },
-          e(Text, { style: styles.statValue }, reading.value),
-          e(Text, { style: styles.statLabel }, reading.label),
-        ),
-      ),
-    ),
+    "Systems at Scale",
+    e(View, { style: styles.statPanel }, e(Text, { style: styles.statLine }, ...parts)),
   );
 }
 
@@ -544,13 +516,13 @@ function experienceSection(): React.ReactNode {
       e(
         View,
         { key: `exp-${index}`, style: styles.expItem },
+        e(Text, { style: styles.role }, item.role),
         e(
-          View,
-          { style: styles.expHead },
-          e(Text, { style: styles.role }, item.role),
+          Text,
+          { style: styles.company },
+          `${item.company}  ·  ${item.location}  ·  `,
           e(Text, { style: styles.period }, item.period),
         ),
-        e(Text, { style: styles.company }, `${item.company}  ·  ${item.location}`),
         ...item.projects.map((project, projectIndex) =>
           e(
             View,
@@ -574,10 +546,10 @@ function skillsSection(): React.ReactNode {
     "Skills",
     ...resume.skills.map((category, index) =>
       e(
-        View,
-        { key: `skill-${index}`, style: styles.skillRow },
-        e(Text, { style: styles.skillLabel }, category.title),
-        e(Text, { style: styles.skillItems }, category.items.join(", ")),
+        Text,
+        { key: `skill-${index}`, style: styles.skillLine },
+        e(Text, { style: styles.skillCat }, `${category.title}: `),
+        category.items.join(", "),
       ),
     ),
   );
@@ -588,14 +560,10 @@ function educationSection(): React.ReactNode {
     "Education",
     ...resume.education.map((entry, index) =>
       e(
-        View,
-        { key: `edu-${index}`, style: styles.eduRow },
-        e(
-          Text,
-          { style: styles.eduMain },
-          e(Text, { style: styles.bold }, entry.degree),
-          `  —  ${entry.school}  ·  ${entry.location}`,
-        ),
+        Text,
+        { key: `edu-${index}`, style: styles.eduMain },
+        e(Text, { style: styles.bold }, entry.degree),
+        `  —  ${entry.school}  ·  ${entry.location}  ·  `,
         e(Text, { style: styles.period }, entry.period),
       ),
     ),

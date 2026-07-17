@@ -25,7 +25,7 @@ const ogImage = {
   url: "/og.svg",
   width: 1200,
   height: 630,
-  alt: `${resume.name} software developer portfolio preview`,
+  alt: `${resume.name} software engineer portfolio preview`,
 };
 
 // Ask the browser to resize the layout (Android) when the on-screen keyboard
@@ -47,8 +47,8 @@ export const metadata: Metadata = {
   publisher: resume.name,
   keywords: [
     resume.name,
-    "software developer",
-    "backend engineer",
+    "software engineer",
+    "full stack engineer",
     "full-stack developer",
     "distributed systems",
     "telecom systems",

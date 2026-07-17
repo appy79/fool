@@ -81,53 +81,53 @@ export type ResolvedContactInfo = ContactInfo;
 
 const experience: ExperienceItem[] = [
   {
-    role: "Experienced Software Developer",
+    role: "Software Engineer II",
     company: "Amdocs",
     period: "07/2025 - Present",
     location: "Pune, MH, India",
     projects: [
       {
-        title: "ADS Reporting",
-        description:
-          "Engineered a YAML-configured Apache Spark job (Java, Kubernetes cron) that turns ~5TB/day of DataStax Cassandra data into read-ready Grafana reports, now expanding across AT&T charging and usage tables for 100M+ subscribers.",
-      },
-      {
-        title: "Production Deployment Tool",
-        description:
-          "Built an internal Java Spring Boot and React.js dashboard (Fabric8, GitLab REST API, Vault) for feature testing — comparing environments and caching across ~500 concurrent API calls to reduce testing and release time 20%.",
-      },
-      {
         title: "AT&T Openet",
         description:
-          "Shipped Openet CHF-CGF services and RESTful APIs (Java Spring Boot, Kafka, Redis, Cassandra, Kubernetes) that process AT&T Network Access Server events for real-time charging — 100M+ subscribers, 1M+ events/sec, 99.99% accuracy.",
+          "Shipped & maintained charging microservices and REST APIs (Java, Spring Boot, Kafka, Cassandra, Redis) on Azure that meter and rate AT&T network usage in real time — part of a 5G charging platform (Openet CHF/CGF) that processes 600K+ records/sec for 100M+ subscribers.",
+      },
+      {
+        title: "ADS Reporting",
+        description:
+          "Architected & implemented a config-driven Apache Spark job (scheduled on Kubernetes) that turns ~5TB/day of Cassandra data into read-ready Grafana reports, giving support and ops teams daily visibility into AT&T charging and usage.",
       },
       {
         title: "Metro By T-Mobile",
         description:
-          "Rolled out web-app services (Java Spring Boot, Kafka, Angular.js, Jenkins, Kubernetes) to 20M+ Metro users in a cross-functional Scrum team after the T-Mobile migration, lifting adoption 15% and reducing integration time 40%.",
+          "Maintained & enhanced web-app services (Angular.js, HTML, CSS, Jenkins) that kept 20M+ Metro users on full service through T-Mobile's post-acquisition platform migration.",
+      },
+      {
+        title: "Production Deployment Tool",
+        description:
+          "Created an internal Spring Boot + React.js dashboard (Fabric8, GitLab API, Vault) that compares, upgrades and monitors the QA environments, cutting release time by ~20%.",
       },
     ],
   },
   {
-    role: "Software Developer",
+    role: "Software Engineer",
     company: "Amdocs",
     period: "07/2023 - 06/2025",
     location: "Pune, MH, India",
     projects: [
       {
-        title: "TMO DGB",
-        description:
-          "Bridged T-Mobile's legacy SOA to digital-billing systems (Java Spring Boot, Kafka, Redis, Vault, GitLab CI/CD, Kubernetes), aggregating 5M+ daily records for 40M+ subscribers at 99.9% reliability and 50% faster data sync.",
-      },
-      {
         title: "NorthStar",
         description:
-          "Modernized T-Mobile's ordering platform from legacy SOA to Java Spring Boot, Kafka, Camunda, Couchbase, PostgreSQL, and Kubernetes for 5M+ enterprise subscribers — 99.99% uptime via async processing, 100+ features behind JUnit/Mockito test automation, 30% faster deploys, and 4x order throughput.",
+          "Built async, event-driven ordering services (Spring Boot, Kafka, Camunda, Couchbase) with JUnit/Mockito test coverage as T-Mobile's 5G provisioning platform moved off legacy SOA — increasing throughput 4x for 5M+ enterprise subscribers.",
+      },
+      {
+        title: "TMO DGB",
+        description:
+          "Developed integration services (Spring Boot, Kafka, Redis, GitLab CI/CD) that connect T-Mobile's legacy SOA to the new digital billing platform, helping aggregate 5M+ records a day for 40M+ subscribers.",
       },
     ],
   },
   {
-    role: "Backend Intern",
+    role: "Software Engineer Intern",
     company: "Dubdub.ai",
     period: "10/2021 - 01/2022",
     location: "Remote",
@@ -135,17 +135,17 @@ const experience: ExperienceItem[] = [
       {
         title: "Multiprocessing",
         description:
-          "Scaled a core media service ~300% with Python multiprocessing across Flask/FFmpeg, partitioning tasks over threads for 10K+ daily media jobs.",
+          "Parallelized the core media service (Python, Flask, FFmpeg) across processes with multiprocessing, speeding up real-time dubbing turnaround and clearing the job backlog that capped throughput.",
       },
       {
         title: "Training Pipeline",
         description:
-          "Automated an ML data pipeline (Python Flask, Google API, AWS S3/EC2, Docker) that ingests 1000+ records/day from Google Sheets, reducing data-prep time 70% and speeding model-training cycles 50%.",
+          "Automated an ML data pipeline (Python, Flask, Google API, AWS, Docker) that pulls 1K+ records/day from Google Sheets and stages source content in an S3 bucket for model training, cutting data-prep time 70%.",
       },
       {
         title: "Gamify",
         description:
-          "Launched the company's first usage-based monetization service (Python Flask on AWS/Docker), modeling the schema with ER/UML diagrams and billing early adopters to drive $200K initial revenue and 35% faster go-to-market.",
+          "Launched the company's first usage-based monetization service (Python, Flask, AWS, Docker), designing the billing schema with ER/UML and charging early adopters to drive $200K in initial revenue.",
       },
     ],
   },
@@ -155,108 +155,108 @@ const projectDefinitions: ProjectDefinition[] = [
   {
     title: "ADS (Active Data Store) Reporting",
     sourceTitle: "ADS Reporting",
-    source: "Amdocs / Experienced Software Developer",
+    source: "Amdocs / Software Engineer II",
     category: "Data & Analytics",
     tags: ["Java", "Apache Spark", "Spark SQL", "Cassandra", "Grafana"],
     labHref: "/labs?lab=database",
     labLabel: "Database Systems Lab",
     impact:
-      "Turns write-optimized ~5TB/day Cassandra data into read-ready daily and weekly reports in Grafana—now extending to AT&T charging and usage tables for 100M+ subscribers.",
+      "Turns a write-optimized charging store into analytics the business can actually query, without slowing the production write path.",
     visualKind: "reporting",
   },
   {
     title: "Production Deployment Tool",
     sourceTitle: "Production Deployment Tool",
-    source: "Amdocs / Experienced Software Developer",
+    source: "Amdocs / Software Engineer II",
     category: "Internal Tooling",
     tags: ["Java", "Spring Boot", "React.js", "Vault", "GitLab"],
     labHref: "/labs?lab=concurrency",
     labLabel: "Concurrency Race Visualizer",
     impact:
-      "Reduced developer and tester delivery friction by 20% through faster environment comparison and validation.",
+      "Gave developers and testers one place to compare environments and validate features before release.",
     visualKind: "deployment",
   },
   {
     title: "AT&T Openet Microservices",
     sourceTitle: "AT&T Openet",
-    source: "Amdocs / Experienced Software Developer",
+    source: "Amdocs / Software Engineer II",
     category: "Charging",
     tags: ["Java", "Kafka", "Kubernetes", "Cassandra", "Redis"],
     labHref: "/labs?lab=distributed",
     labLabel: "Distributed Consensus Lab",
     impact:
-      "Processed charging/accounting events for 100M+ subscribers with 1M+ events/sec throughput targets.",
+      "Real-time 5G charging that feeds AT&T's downstream billing — the revenue-critical path for its subscriber base.",
     visualKind: "charging",
   },
   {
     title: "Metro By T-Mobile Platform",
     sourceTitle: "Metro By T-Mobile",
-    source: "Amdocs / Experienced Software Developer",
+    source: "Amdocs / Software Engineer II",
     category: "Telecom Enterprise",
     tags: ["Java", "Angular.js", "Kafka", "Jenkins", "Kubernetes"],
     labHref: "/labs?lab=telecom",
     labLabel: "Telecom Core Simulator",
     impact:
-      "Improved service adoption and integration speed during a post-acquisition platform migration.",
+      "Protected the Metro customer experience during a risky post-acquisition migration onto T-Mobile's platform.",
     visualKind: "telecom",
   },
   {
     title: "TMO Digital Billing Aggregation",
     sourceTitle: "TMO DGB",
-    source: "Amdocs / Software Developer",
+    source: "Amdocs / Software Engineer",
     category: "Telecom Enterprise",
     tags: ["Java", "Spring Boot", "Kafka", "Redis", "GitLab CI", "Kubernetes"],
     labHref: "/labs?lab=patterns",
     labLabel: "Design Patterns Machine",
     impact:
-      "Aggregated 5M+ daily billing records for 40M+ subscribers while improving data sync speed by 50%.",
+      "Kept T-Mobile's legacy SOA and modern billing systems in sync so digital billing could go live.",
     visualKind: "billing",
   },
   {
     title: "NorthStar Ordering Modernization",
     sourceTitle: "NorthStar",
-    source: "Amdocs / Software Developer",
+    source: "Amdocs / Software Engineer",
     category: "Performance Engineering",
     tags: ["Java", "Spring Boot", "Kafka", "Camunda", "Couchbase", "PostgreSQL"],
     labHref: "/labs?lab=concurrency",
     labLabel: "Concurrency Race Visualizer",
     impact:
-      "Supported high-volume enterprise ordering, 99.99% uptime goals, and 4x order throughput improvement.",
+      "Moved enterprise ordering off brittle legacy SOA so high-value orders stop stalling under load.",
     visualKind: "ordering",
   },
   {
     title: "Media Multiprocessing Service",
     sourceTitle: "Multiprocessing",
-    source: "Dubdub.ai / Backend Intern",
+    source: "Dubdub.ai / Software Engineer Intern",
     category: "Performance Engineering",
     tags: ["Python", "Flask", "FFmpeg", "Multiprocessing"],
     labHref: "/labs?lab=concurrency",
     labLabel: "Concurrency Race Visualizer",
     impact:
-      "Increased throughput by approx. 300% for high-volume daily media processing workloads.",
+      "Let the product take on far more customer media jobs a day without the processing backlog that capped growth.",
     visualKind: "media",
   },
   {
     title: "ML Training Data Pipeline",
     sourceTitle: "Training Pipeline",
-    source: "Dubdub.ai / Backend Intern",
+    source: "Dubdub.ai / Software Engineer Intern",
     category: "Internal Tooling",
     tags: ["Python", "Flask", "Google API", "AWS S3", "AWS EC2", "Docker"],
     labHref: "/labs?lab=database",
     labLabel: "Database Systems Lab",
-    impact: "Automated ingestion for 1000+ daily records and cut model preparation time by 70%.",
+    impact: "Freed the ML team from manual data prep by automating ingestion end-to-end.",
     visualKind: "pipeline",
   },
   {
     title: "Usage-Based Monetization Service",
     sourceTitle: "Gamify",
-    source: "Dubdub.ai / Backend Intern",
+    source: "Dubdub.ai / Software Engineer Intern",
     category: "Charging",
     tags: ["Python", "Flask", "AWS", "Docker", "ER/UML"],
     labHref: "/labs?lab=database",
     labLabel: "Database Systems Lab",
     impact:
-      "Launched an early monetization service that helped drive $200K initial revenue and faster go-to-market.",
+      "The company's first revenue-generating product line, from billing schema to charging early adopters.",
     visualKind: "monetization",
   },
 ];
@@ -278,54 +278,66 @@ const projects: ProjectItem[] = projectDefinitions.map(({ sourceTitle, ...projec
 
 export const resume = {
   name: "Amandeep Yadav",
-  title: "Software Developer",
-  focus: "Backend, Frontend, and platform tooling for distributed systems",
+  title: "Software Engineer",
+  focus: "Performance engineering for distributed, carrier-scale telecom systems",
   // Keyword-rich professional summary. Leads the résumé PDF and the in-OS Resume app; written
   // to read naturally while surfacing the terms ATS keyword scans look for.
   summary:
-    "Software developer with 3+ years building backend and platform services for distributed, carrier-scale systems. At Amdocs, builds Java and Spring Boot microservices and RESTful APIs with Kafka, Kubernetes, Cassandra, Redis, and Apache Spark — powering charging, billing, ordering, and reporting for 100M+ subscribers at up to 1M+ events/sec with 99.99% uptime targets. Works in Agile teams across the stack with React and TypeScript, applying object-oriented design and clean CI/CD to keep services reliable and fast.",
+    "Software engineer with 3+ years building services and platforms end-to-end in Java, Spring Boot, and REST APIs for distributed, carrier-scale telecom systems. At Amdocs, builds services across 5G charging, billing, ordering, and reporting on Kafka, Kubernetes, Cassandra, Redis, and Apache Spark — high-throughput systems that sustain 600K+ charging records/sec, engineered for low latency and reliability. Works full-stack with React and TypeScript in Agile teams, applying object-oriented design and clean CI/CD.",
   proofPoints: [
-    {
-      label: "current",
-      value: "Amdocs, India",
-    },
     {
       label: "scale",
       value: "100M+ subscribers",
     },
     {
+      label: "throughput",
+      value: "600K+ records/sec",
+    },
+    {
       label: "stack",
-      value: "Java + React + Kafka + Kubernetes",
+      value: "Java + Spring Boot + React + Kafka",
     },
   ] satisfies ProofPoint[],
   // Honest career-peak readouts for the operations console telemetry board (not live data).
   telemetry: [
-    { label: "subscribers served", value: "100M+", note: "carrier-scale charging" },
-    { label: "peak throughput", value: "1M+/s", note: "rated events" },
-    { label: "uptime target", value: "99.99%", note: "ordering + charging" },
-    { label: "usage records", value: "5B+", note: "charging & usage events" },
+    { label: "subscribers served", value: "100M+", note: "5G charging scale" },
+    { label: "charging records/sec", value: "600K/s", note: "real-time rating" },
+    { label: "uptime target", value: "99.999%", note: "ordering + charging" },
+    { label: "usage records", value: "~5B/day", note: "charging & usage" },
   ] satisfies TelemetryReading[],
   skills: [
     {
       title: "Application",
       short: "App",
-      summary: "Backend services, the interfaces on top, and the tests that keep them honest.",
+      summary: "Services, the interfaces on top of them, and the tests that keep them honest.",
       items: [
         "Java",
         "Spring Boot",
+        "Microservices",
         "REST APIs",
+        "Hibernate",
         "Python",
         "Flask",
-        "React.js",
-        "Angular.js",
-        "JavaScript",
-        "TypeScript",
-        "Three.js",
         "JUnit",
         "Mockito",
-        "Test NG",
-        "Test Automation",
-        "Postman",
+        "React.js",
+        "Angular.js",
+        "TypeScript",
+        "JavaScript",
+        "HTML",
+        "CSS",
+      ],
+    },
+    {
+      title: "Performance & Scale",
+      short: "Perf",
+      summary: "Making services fast and keeping them up under carrier-scale load.",
+      items: [
+        "Concurrency",
+        "Async / Event-Driven",
+        "Caching",
+        "Throughput Optimization",
+        "Horizontal Scaling",
       ],
     },
     {
@@ -335,12 +347,11 @@ export const resume = {
       items: [
         "Kafka",
         "Apache Spark",
-        "Spark SQL",
         "Redis",
         "Cassandra DB",
         "Couchbase",
         "PostgreSQL",
-        "SQL & NoSQL DBs",
+        "SQL",
         "Grafana",
       ],
     },
@@ -351,14 +362,14 @@ export const resume = {
       items: [
         "Kubernetes",
         "Docker",
+        "Git",
+        "Maven",
         "GitLab CI",
         "Jenkins",
+        "CI/CD",
         "Vault",
         "AWS",
         "Azure",
-        "CDN",
-        "Edge",
-        "DNS",
       ],
     },
     {
@@ -367,22 +378,17 @@ export const resume = {
       summary: "The coursework fundamentals under the tooling.",
       items: [
         "DSA",
-        "Design & Analysis of Algorithms",
         "Object-Oriented Design (OOP)",
+        "Distributed Systems",
         "DBMS",
         "Operating Systems",
-        "Computer Networks",
-        "Computer Architecture",
-        "Distributed Systems",
-        "Theory of Computation",
-        "Software Engineering",
       ],
     },
     {
       title: "Ways of Working",
       short: "Team",
       summary: "How I partner across teams and keep delivery reliable.",
-      items: ["Agile", "Scrum", "Collaboration", "Communication", "Ownership", "Mentoring", "Problem-solving"],
+      items: ["Agile", "Scrum", "Collaboration", "Ownership", "Mentoring"],
     },
   ] satisfies SkillCategory[],
   experience,
@@ -400,13 +406,6 @@ export const resume = {
       schoolHref: "https://en.wikipedia.org/wiki/University_of_Rajasthan",
       period: "07/2017 - 06/2020",
       location: "Jaipur, India",
-    },
-    {
-      degree: "Schooling",
-      school: "Rashtriya Military School",
-      schoolHref: "https://en.wikipedia.org/wiki/Ajmer_Military_School",
-      period: "04/2010 - 03/2017",
-      location: "Ajmer, India",
     },
   ] satisfies EducationItem[],
   projects,
