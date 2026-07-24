@@ -278,12 +278,12 @@ const projects: ProjectItem[] = projectDefinitions.map(({ sourceTitle, ...projec
 
 export const resume = {
   name: "Amandeep Yadav",
-  title: "Software Engineer",
+  title: "Backend Software Engineer",
   focus: "Performance engineering for distributed, carrier-scale telecom systems",
   // Keyword-rich professional summary. Leads the résumé PDF and the in-OS Resume app; written
   // to read naturally while surfacing the terms ATS keyword scans look for.
   summary:
-    "Software engineer with 3+ years building services and platforms end-to-end in Java, Spring Boot, and REST APIs for distributed, carrier-scale telecom systems. At Amdocs, builds services across 5G charging, billing, ordering, and reporting on Kafka, Kubernetes, Cassandra, Redis, and Apache Spark — high-throughput systems that sustain 600K+ charging records/sec, engineered for low latency and reliability. Works full-stack with React and TypeScript in Agile teams, applying object-oriented design and clean CI/CD.",
+    "Software engineer with 3+ years building backend and platform services in Java, Spring Boot, and REST APIs for distributed, carrier-scale telecom systems. At Amdocs, builds services across 5G charging, billing, ordering, and reporting on Kafka, Kubernetes, Cassandra, Redis, and Apache Spark — high-throughput systems that sustain 600K+ charging records/sec, engineered for low latency and reliability. Works full-stack with React and TypeScript in Agile teams, applying object-oriented design and clean CI/CD.",
   proofPoints: [
     {
       label: "scale",
@@ -295,7 +295,7 @@ export const resume = {
     },
     {
       label: "stack",
-      value: "Java + Spring Boot + React + Kafka",
+      value: "Java + Spring Boot + Kafka + Spark",
     },
   ] satisfies ProofPoint[],
   // Honest career-peak readouts for the operations console telemetry board (not live data).
@@ -309,7 +309,7 @@ export const resume = {
     {
       title: "Application",
       short: "App",
-      summary: "Services, the interfaces on top of them, and the tests that keep them honest.",
+      summary: "Backend services, the interfaces on top, and the tests that keep them honest.",
       items: [
         "Java",
         "Spring Boot",
@@ -321,11 +321,7 @@ export const resume = {
         "JUnit",
         "Mockito",
         "React.js",
-        "Angular.js",
         "TypeScript",
-        "JavaScript",
-        "HTML",
-        "CSS",
       ],
     },
     {
