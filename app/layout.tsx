@@ -48,8 +48,8 @@ export const metadata: Metadata = {
   keywords: [
     resume.name,
     "software engineer",
-    "full stack engineer",
-    "full-stack developer",
+    "backend engineer",
+    "backend developer",
     "distributed systems",
     "telecom systems",
     "platform tooling",
